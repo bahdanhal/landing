@@ -4,7 +4,7 @@ document.querySelectorAll('[data-contact-form]').forEach(form => {
     const button = form.querySelector('button[type="submit"]');
     const status = form.querySelector('[data-contact-status]');
     button.disabled = true;
-    status.textContent = 'Saving…';
+    status.textContent = form.dataset.saving || 'Saving…';
 
     try {
       const response = await fetch(form.action, {
@@ -13,7 +13,7 @@ document.querySelectorAll('[data-contact-form]').forEach(form => {
         headers: {'Accept': 'application/json'},
       });
       const result = await response.json();
-      status.textContent = result.message || result.error || 'Something went wrong. Please use one of the direct contact links.';
+      status.textContent = result.message || result.error || form.dataset.fallback;
       status.classList.toggle('lead-success', response.ok);
       if (response.ok) {
         form.querySelector('input[name="email"]').disabled = true;
@@ -22,7 +22,7 @@ document.querySelectorAll('[data-contact-form]').forEach(form => {
         button.disabled = false;
       }
     } catch (_) {
-      status.textContent = 'Could not save right now. Please use email, LinkedIn, or Upwork.';
+      status.textContent = form.dataset.fallback;
       button.disabled = false;
     }
   });

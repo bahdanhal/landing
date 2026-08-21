@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ 'vat.meta.title'|trans }}{% endblock %}
+{% block robots %}<meta name="robots" content="index,follow">{% endblock %}
+{% block description %}<meta name="description" content="{{ 'vat.meta.description'|trans }}">{% endblock %}
+{% block canonical %}
+  <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdan-hal.ovh/pl/narzedzia/kalkulator-vat' : 'https://bahdan-hal.ovh/tools/polish-vat-calculator' }}">
+  <link rel="alternate" hreflang="en" href="https://bahdan-hal.ovh/tools/polish-vat-calculator">
+  <link rel="alternate" hreflang="pl" href="https://bahdan-hal.ovh/pl/narzedzia/kalkulator-vat">
+  <link rel="alternate" hreflang="x-default" href="https://bahdan-hal.ovh/tools/polish-vat-calculator">
+{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="/tools.css"><style>.field select:disabled{opacity:.45;cursor:not-allowed}</style>{% endblock %}
+{% block language_switch %}<a class="language-switch" href="{{ path('vat_calculator', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
+
+{% block body %}
+<section class="tool-shell">
+  <a class="back" href="{{ path('home', {_locale: app.request.locale}) }}">← {{ 'common.all_tools'|trans }}</a>
+  <div class="tool-intro">
+    <div><div class="eyebrow">{{ 'vat.eyebrow'|trans }}</div><h1>{{ 'vat.heading'|trans }}</h1><p class="lede">{{ 'vat.lede'|trans }}</p></div>
+    <div class="verified-badge"><span>{{ 'vat.verified'|trans }}</span><strong>{{ verified_at|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y') }}</strong></div>
+  </div>
+
+  <div class="calculator" data-vat-calculator data-locale="{{ app.request.locale }}"
+       data-current-note="{{ 'vat.scenario.current_note'|trans }}"
+       data-future-note="{{ 'vat.scenario.future_note'|trans }}"
+       data-copy-label="{{ 'vat.copy'|trans }}" data-copied-label="{{ 'vat.copied'|trans }}">
+    <div class="calculator-controls">
+      <div class="field full-field">
+        <label for="vat-amount">{{ 'vat.amount'|trans }}</label>
+        <div class="money-input"><input id="vat-amount" inputmode="decimal" value="1000,00" autocomplete="off"><span>PLN</span></div>
+      </div>
+      <div class="field">
+        <label for="vat-direction">{{ 'vat.direction.label'|trans }}</label>
+        <select id="vat-direction">
+          <option value="net">{{ 'vat.direction.net_to_gross'|trans }}</option>
+          <option value="gross">{{ 'vat.direction.gross_to_net'|trans }}</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="vat-rate">{{ 'vat.rate'|trans }}</label>
+        <select id="vat-rate">
+          {% for rate in current_rates %}<option value="{{ rate }}" {{ rate == 23 ? 'selected' : '' }}>{{ rate }}%</option>{% endfor %}
+          <option value="exempt">{{ 'vat.exempt'|trans }}</option>
+        </select>
+      </div>
+      <div class="field full-field">
+        <label for="vat-scenario">{{ 'vat.scenario.label'|trans }}</label>
+        <select id="vat-scenario">
+          <option value="current">{{ 'vat.scenario.current'|trans }}</option>
+          <option value="future">{{ 'vat.scenario.future'|trans }}</option>
+        </select>
+      </div>
+      <div class="future-fields full-field" data-future-fields hidden>
+        <div class="field"><label for="future-rate">{{ 'vat.future.rate'|trans }}</label><div class="percent-input"><input id="future-rate" type="number" min="0" max="100" step="0.01" value="22"><span>%</span></div></div>
+        <div class="field"><label for="future-date">{{ 'vat.future.date'|trans }}</label><input id="future-date" type="date" value="{{ future_estimate_date }}"></div>
+        <p>{{ 'vat.future.warning'|trans }}</p>
+      </div>
+      <p class="scenario-note full-field" data-scenario-note>{{ 'vat.scenario.current_note'|trans }}</p>
+    </div>
+
+    <div class="calculator-results" aria-live="polite">
+      <div><span>{{ 'vat.result.net'|trans }}</span><strong data-result-net>—</strong></div>
+      <div class="vat-result"><span>{{ 'vat.result.tax'|trans }} <small data-result-rate>23%</small></span><strong data-result-tax>—</strong></div>
+      <div><span>{{ 'vat.result.gross'|trans }}</span><strong data-result-gross>—</strong></div>
+      <button type="button" class="copy-result" data-copy-result>{{ 'vat.copy'|trans }}</button>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <section class="content-card">
+      <h2>{{ 'vat.how.title'|trans }}</h2>
+      <p>{{ 'vat.how.text'|trans }}</p>
+      <div class="formula"><code>{{ 'vat.how.gross_formula'|trans }}</code><code>{{ 'vat.how.net_formula'|trans }}</code></div>
+      <p class="source-note">{{ 'vat.source_intro'|trans }} <a href="https://www.podatki.gov.pl/podatki-firmowe/vat/informacje-podstawowe" target="_blank" rel="noopener noreferrer">podatki.gov.pl</a>.</p>
+    </section>
+    <section class="content-card proposal-card">
+      <h2>{{ 'vat.future_info.title'|trans }}</h2>
+      <p>{{ 'vat.future_info.text'|trans }}</p>
+      <p>{{ 'vat.future_info.vida'|trans }} <a href="https://www.gov.pl/web/premier/projekt-ustawy-o-zmianie-ustawy-o-podatku-od-towarow-i-uslug13" target="_blank" rel="noopener noreferrer">{{ 'vat.future_info.source'|trans }}</a>.</p>
+      <strong>{{ 'vat.future_info.no_rate_change'|trans }}</strong>
+    </section>
+  </div>
+
+  <section class="tool-faq">
+    <h2>{{ 'vat.faq.title'|trans }}</h2>
+    <details><summary>{{ 'vat.faq.q1'|trans }}</summary><p>{{ 'vat.faq.a1'|trans }}</p></details>
+    <details><summary>{{ 'vat.faq.q2'|trans }}</summary><p>{{ 'vat.faq.a2'|trans }}</p></details>
+    <details><summary>{{ 'vat.faq.q3'|trans }}</summary><p>{{ 'vat.faq.a3'|trans }}</p></details>
+  </section>
+  <p class="legal-note">{{ 'vat.disclaimer'|trans }}</p>
+</section>
+<script type="application/ld+json">{{ {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebApplication', 'name': 'vat.schema_name'|trans,
+      'applicationCategory': 'FinanceApplication', 'operatingSystem': 'Any',
+      'url': app.request.locale == 'pl' ? 'https://bahdan-hal.ovh/pl/narzedzia/kalkulator-vat' : 'https://bahdan-hal.ovh/tools/polish-vat-calculator',
+      'inLanguage': app.request.locale,
+      'author': {'@type': 'Person', 'name': 'Bahdan Hal', 'url': 'https://www.linkedin.com/in/bahdan-hal/'},
+      'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'PLN'}
+    },
+    {
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {'@type': 'Question', 'name': 'vat.faq.q1'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'vat.faq.a1'|trans}},
+        {'@type': 'Question', 'name': 'vat.faq.q2'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'vat.faq.a2'|trans}},
+        {'@type': 'Question', 'name': 'vat.faq.q3'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'vat.faq.a3'|trans}}
+      ]
+    }
+  ]
+}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+{% endblock %}
+{% block scripts %}<script src="/vat-math.js"></script><script src="/vat-calculator.js"></script>{% endblock %}

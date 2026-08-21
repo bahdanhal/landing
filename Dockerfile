@@ -7,7 +7,13 @@ FROM php-base AS app
 COPY composer.json composer.lock* ./
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --prefer-dist --no-interaction --no-progress --no-scripts
 
-COPY . .
+COPY .env.example .env
+COPY bin ./bin
+COPY config ./config
+COPY public ./public
+COPY src ./src
+COPY templates ./templates
+COPY translations ./translations
 RUN composer dump-autoload --classmap-authoritative --no-dev \
     && APP_ENV=prod APP_DEBUG=0 php bin/console cache:warmup \
     && mkdir -p var/audit-cache var/audit-logs var/contact-leads var/rate-limits \
@@ -19,7 +25,15 @@ EXPOSE 9000
 FROM php-base AS test
 COPY composer.json composer.lock ./
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --prefer-dist --no-interaction --no-progress --no-scripts
-COPY . .
+COPY .env.example .env
+COPY bin ./bin
+COPY config ./config
+COPY public ./public
+COPY src ./src
+COPY templates ./templates
+COPY translations ./translations
+COPY tests ./tests
+COPY phpunit.xml.dist ./phpunit.xml.dist
 RUN composer dump-autoload --classmap-authoritative
 CMD ["vendor/bin/phpunit"]
 

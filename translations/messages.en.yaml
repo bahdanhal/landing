@@ -1,0 +1,290 @@
+base:
+  default_title: "Bahdan’s Toolbox"
+  home_label: "Bahdan’s Toolbox home"
+  brand: "Bahdan’s Toolbox"
+  by: "by Bahdan Hal"
+  navigation: "Tools and language"
+  nav:
+    vat: "VAT"
+  footer: "Useful, transparent tools · No signup · No tracking pixel"
+
+common:
+  all_tools: "All tools"
+
+home:
+  meta:
+    title: "Bahdan’s Toolbox · Useful web and business tools"
+    description: "Free, fast and transparent tools for Polish business calculations, GEO readiness and technical SEO. No signup or tracking pixel."
+  eyebrow: "SMALL TOOLS, REAL ANSWERS"
+  heading_start: "Useful things,"
+  heading_emphasis: "built properly."
+  lede: "A growing set of focused tools for calculations, websites, and the awkward practical questions that should not require an account or a sales call."
+  available: "READY"
+  open: "Open tool"
+  vat:
+    title: "Polish VAT calculator"
+    text: "Convert net and gross amounts using current Polish VAT rates, or model a clearly labelled future rate scenario."
+  geo:
+    title: "GEO readiness audit"
+    text: "Check whether a page is accessible, structured, attributable, and easy for answer engines to understand and cite."
+  seo:
+    title: "Technical SEO audit"
+    text: "Find redirect mistakes, crawler traps, duplicate URL spaces, canonical problems, and sitemap gaps."
+  principles:
+    private:
+      title: "Private by default"
+      text: "Calculations stay in your browser. Crawled reports are cached to avoid repeatedly hitting a site."
+    clear:
+      title: "Show the reasoning"
+      text: "Formulas, evidence, dates, and limitations appear next to the result instead of hiding behind a score."
+    fast:
+      title: "One job at a time"
+      text: "Each tool is designed around one concrete task, with no signup wall and no artificial waiting."
+
+vat:
+  meta:
+    title: "Polish VAT Calculator 2026 · Net to Gross and Gross to Net"
+    description: "Calculate Polish VAT from net to gross or gross to net with 23%, 8%, 5% and 0% rates. Simulate a clearly labelled proposed future rate and start date."
+  eyebrow: "POLAND · VAT · 2026"
+  heading: "Net / gross VAT calculator"
+  lede: "Convert an invoice amount in either direction. The calculator uses grosz-level rounding, runs entirely in your browser, and keeps future assumptions visibly separate from current law."
+  verified: "Rules checked"
+  amount: "Amount"
+  direction:
+    label: "Calculate from"
+    net_to_gross: "Net → gross"
+    gross_to_net: "Gross → net"
+  rate: "VAT rate"
+  exempt: "Exempt (zw.)"
+  scenario:
+    label: "Rules scenario"
+    current: "Current Polish rates"
+    future: "Simulate a proposed future rate"
+    current_note: "Current-rate calculation. Standard Polish VAT rates available here are 23%, 8%, 5%, and 0%."
+    future_note: "Future simulation — this assumed rate is not law. Verify the proposal and effective date before using it commercially."
+  future:
+    rate: "Assumed future rate"
+    date: "Estimated start date"
+    warning: "Planning scenario only. The entered rate and date are your assumptions, not a prediction or tax advice."
+  result:
+    net: "Net"
+    tax: "VAT"
+    gross: "Gross"
+  copy: "Copy result"
+  copied: "Copied"
+  how:
+    title: "How the calculation works"
+    text: "For net amounts, VAT is added to the base. For gross amounts, the tax included in the total is extracted using the official relationship between the gross value and the rate. Each monetary result is rounded to two decimal places."
+    gross_formula: "gross = net + round(net × rate / 100)"
+    net_formula: "VAT from gross = round(gross × rate / (100 + rate))"
+  source_intro: "Formula and rate reference:"
+  future_info:
+    title: "Future-change mode"
+    text: "Because tax proposals can change or fail, the simulator makes you provide both the assumed rate and expected start date. That prevents an unconfirmed proposal from silently replacing current law."
+    vida: "The government’s VAT in the Digital Age implementation is expected principally from 1 January 2027, but it concerns VAT administration rather than a general headline-rate change."
+    source: "Official proposal UC147"
+    no_rate_change: "No verified general 23% → new-rate proposal is preloaded as of 21 August 2026."
+  faq:
+    title: "Questions"
+    q1: "What VAT rates does the calculator support?"
+    a1: "It supports the commonly used 23%, 8%, 5%, and 0% Polish rates, plus exempt sales. The correct rate depends on the specific goods or services."
+    q2: "Is a 0% rate the same as VAT exemption?"
+    a2: "No. Both produce zero VAT in this arithmetic, but their legal treatment and deduction rights differ. The calculator keeps them as separate choices."
+    q3: "Can I calculate a proposed future rate?"
+    a3: "Yes. Choose the future scenario, enter the proposed percentage and an estimated start date. The result remains clearly marked as a simulation."
+  disclaimer: "Informational calculator, not tax advice. Confirm the applicable rate, classification, rounding method, and effective date with official guidance or a qualified adviser."
+  schema_name: "Polish net and gross VAT calculator"
+
+audit:
+  meta:
+    title: "Free Technical SEO Audit · Bahdan’s Toolbox"
+    description: "Run a fast technical SEO audit for redirects, canonical URLs, crawler traps, parameters, robots.txt, sitemaps and indexability issues."
+  eyebrow: "FAST TECHNICAL SEO AUDIT"
+  heading_start: "Find where Googlebot"
+  heading_emphasis: "loses the plot."
+  lede: "Test redirects, canonicals, crawl traps, parameters, pagination, robots.txt and sitemaps. Results come directly from observable HTTP evidence."
+  form:
+    label: "Website URL"
+    submit: "Run audit"
+    loading: "Crawling…"
+    note: "10 crawl audits per IP each day · Polite, robots-aware crawling · Reports cached for six hours."
+  limit:
+    message: "You have used today’s 10 free crawl audits. Leave your email or contact Bahdan directly for help."
+    title: "Need another audit—or help fixing it?"
+    text: "Leave your email privately on this server, or use a direct contact option."
+  features:
+    redirect:
+      title: "Redirect matrix"
+      text: "HTTP, HTTPS, www, non-www, slash variants and redirect chains."
+    crawl:
+      title: "Crawl-space scan"
+      text: "Internal links, parameters, GET forms, duplicate paths and pagination traps."
+    index:
+      title: "Index signals"
+      text: "Canonical tags, robots directives, sitemap coverage, status codes, titles and H1s."
+  report:
+    title: "SEO audit"
+    new: "New audit"
+    cached: "CACHED REPORT"
+    complete: "AUDIT COMPLETE"
+    generated: "Generated"
+    refresh: "Refresh crawl"
+    score: "crawl health"
+    pages: "pages crawled"
+    urls: "URLs discovered"
+    sitemap_urls: "sitemap URLs"
+    critical: "critical"
+    warnings: "warnings"
+    truncated: "The crawl reached its page limit. Results are a representative sample, not a complete inventory."
+    executive: "Executive summary"
+    ai_note: "AI explanation · deterministic evidence"
+    findings: "Findings"
+    finding_types: "finding types"
+    empty: "No material issues were detected in the sampled crawl."
+    found_in: "Found in %count% places. Open an occurrence to see its URL and evidence."
+    redirect_matrix: "Host & redirect matrix"
+    variants: "variants"
+    crawled_pages: "Crawled pages"
+    sampled: "sampled"
+    sitemaps: "Sitemaps"
+    no_robots: "No robots.txt content returned."
+    sitemap_summary: "%urls% URLs across %files% file(s)"
+    no_sitemap: "No sitemap found."
+  issues:
+    host-canonicalization: "Protocol or hostname variants do not converge"
+    redirect-chain: "Redirect chain detected"
+    fetch-error: "Page could not be fetched"
+    broken-internal-url: "Internal URL returns an error"
+    missing-canonical: "Canonical tag is missing"
+    multiple-canonicals: "Multiple canonical tags found"
+    canonical-mismatch: "Canonical points elsewhere"
+    missing-title: "Page title is missing"
+    h1-count: "Page should have one clear H1"
+    missing-description: "Meta description is missing"
+    thin-page: "Very little indexable text"
+    duplicate-title: "Duplicate page title"
+    duplicate-content: "Duplicate page bodies found"
+    parameter-space: "Parameter-generated URL space detected"
+    parameter-entry-points: "GET forms create parameter entry points"
+    robots-missing: "robots.txt is unavailable"
+    sitemap-error: "Sitemap problem"
+    sitemap-broken-url: "Sitemap URL is not crawlable"
+    sitemap-redirect: "Sitemap URL redirects"
+    sitemap-parameters: "Sitemap contains parameter URLs"
+    sitemap-coverage: "Crawlable pages are absent from the sitemap"
+    crawler-trap-probe: "Unbounded URL variant returns indexable content"
+
+contact:
+  email: "Your email"
+  submit: "Ask Bahdan"
+  company: "Company"
+  note: "Stored privately on this server so Bahdan can follow up. No mailing list."
+  invalid_origin: "Invalid form origin."
+  saved: "Thanks — your email is saved. Bahdan will follow up."
+  too_many: "Too many contact requests today. Please use a direct contact link instead."
+  invalid_email: "Please enter a valid email address."
+  failed: "Could not save your email right now. Please use a direct contact link."
+  saving: "Saving…"
+
+geo:
+  meta:
+    title: "Free GEO Readiness Audit · Generative Engine Optimization"
+    description: "Audit a page for generative engine readiness using transparent checks for access, direct answers, structure, schema, provenance, citations and entity clarity."
+  eyebrow: "GENERATIVE ENGINE OPTIMIZATION"
+  heading_start: "Can answer engines"
+  heading_emphasis: "understand and cite you?"
+  lede: "Inspect one page for the technical and editorial signals that make content easier to retrieve, interpret, attribute, and quote. Every point is tied to visible evidence—not a promise of AI visibility."
+  form:
+    label: "Page URL"
+    submit: "Run GEO audit"
+    loading: "Analysing…"
+    note: "One page · Cached for six hours · Shares the 10 daily crawl-audit allowance · No ranking guarantee."
+  limit:
+    title: "Need another audit?"
+    text: "Leave your email privately on this server and Bahdan can follow up."
+  features:
+    access:
+      title: "Retrieval"
+      text: "HTTP status, indexability, canonical URL, language and crawler controls."
+    answer:
+      title: "Answerability"
+      text: "Direct opening answers, useful headings, lists, tables and question coverage."
+    trust:
+      title: "Attribution"
+      text: "Structured data, author and publisher signals, dates, citations and entity identity."
+  method:
+    title: "What this score means"
+    text: "GEO has no universal standard and no tool can confirm inclusion in a generated answer. This audit measures observable readiness signals that also improve accessibility and content clarity. AI-crawler choices are reported separately and never penalized."
+  report:
+    title: "GEO readiness report"
+    new: "New GEO audit"
+    cached: "CACHED REPORT"
+    complete: "AUDIT COMPLETE"
+    generated: "Generated"
+    refresh: "Refresh analysis"
+    score: "GEO readiness"
+    passed: "checks passed"
+    partial: "partially met"
+    failed: "missing"
+    schema_types: "schema types"
+    checks: "Evidence-based checks"
+    explain: "Open a check to see its evidence"
+  status:
+    pass: "Pass"
+    warning: "Partial"
+    fail: "Missing"
+  check:
+    access:
+      title: "The page returns HTTP 200"
+      help: "Answer engines need a stable, successful HTML response before they can process the content."
+    indexability:
+      title: "Search retrieval is permitted"
+      help: "The page should not be blocked by robots.txt or noindex directives when public discovery is intended."
+    canonical:
+      title: "The canonical identifies this page"
+      help: "A self-referencing canonical helps consolidate the page’s identity and avoid ambiguous URL variants."
+    metadata:
+      title: "Title, description and H1 are explicit"
+      help: "Clear primary metadata gives retrieval systems a compact description of the page and its subject."
+    language:
+      title: "Document language is declared"
+      help: "A valid HTML lang attribute helps systems select and interpret the correct language."
+    direct_answer:
+      title: "The opening provides a concise answer"
+      help: "A focused first paragraph makes the central answer easier to extract without forcing a model to reconstruct it from the entire page."
+    structure:
+      title: "The content has useful semantic structure"
+      help: "Main/article landmarks, descriptive subheadings, paragraphs, lists and tables make sections easier to retrieve independently."
+    schema:
+      title: "Structured data describes content and entities"
+      help: "Valid JSON-LD can disambiguate the page type, publisher, author and other named entities. It supports understanding but does not guarantee citation."
+    provenance:
+      title: "Authorship, publisher and dates are attributable"
+      help: "Named responsibility and publication history make claims easier to evaluate and attribute."
+    citations:
+      title: "Claims can point to external sources"
+      help: "Relevant outbound references provide a visible evidence trail. Link count is only a proxy; source quality still requires human review."
+    faq:
+      title: "Important questions receive explicit answers"
+      help: "Question-led sections can align well with conversational retrieval when they add real information rather than repetitive SEO text."
+    freshness:
+      title: "Publication or update date is machine-readable"
+      help: "A datePublished/dateModified property or time element helps systems judge whether information may still be current."
+    entity:
+      title: "The publisher or author has a clear identity"
+      help: "Entity schema, site naming and About/Contact paths help connect the content to a responsible person or organization."
+  crawlers:
+    title: "Published AI crawler controls"
+    not_scored: "Policy visibility · not scored"
+    intro: "This is a simplified reading of robots.txt for named agents. Training, search retrieval and user-triggered browsing can use different controls."
+    blocked: "Blocked at /"
+    allowed: "Explicitly allowed"
+    not-addressed: "No specific rule"
+    present: "Present"
+    absent: "Not found"
+    caveat: "llms.txt is an experimental convention, not an official requirement of major answer engines. A robots.txt permission does not mean a service will crawl or cite the page, and blocking a training crawler may be an intentional choice."
+  next:
+    title: "Best order of work"
+    one: "Fix failed retrieval and indexability checks first."
+    two: "Make the core answer, author, date and supporting sources unmistakable on the page."
+    three: "Add accurate structured data that matches visible content, then monitor real referrals and citations rather than relying on this score alone."

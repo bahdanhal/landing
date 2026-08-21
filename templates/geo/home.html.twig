@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ 'geo.meta.title'|trans }}{% endblock %}
+{% block robots %}<meta name="robots" content="index,follow">{% endblock %}
+{% block description %}<meta name="description" content="{{ 'geo.meta.description'|trans }}">{% endblock %}
+{% block canonical %}
+  <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdan-hal.ovh/pl/narzedzia/audyt-geo' : 'https://bahdan-hal.ovh/tools/geo-audit' }}">
+  <link rel="alternate" hreflang="en" href="https://bahdan-hal.ovh/tools/geo-audit">
+  <link rel="alternate" hreflang="pl" href="https://bahdan-hal.ovh/pl/narzedzia/audyt-geo">
+  <link rel="alternate" hreflang="x-default" href="https://bahdan-hal.ovh/tools/geo-audit">
+{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="/tools.css"><link rel="stylesheet" href="/geo.css">{% endblock %}
+{% block language_switch %}<a class="language-switch" href="{{ path('geo_home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
+
+{% block body %}
+<section class="tool-shell geo-home">
+  <a class="back" href="{{ path('home', {_locale: app.request.locale}) }}">← {{ 'common.all_tools'|trans }}</a>
+  <div class="eyebrow">{{ 'geo.eyebrow'|trans }}</div>
+  <h1>{{ 'geo.heading_start'|trans }}<br><em>{{ 'geo.heading_emphasis'|trans }}</em></h1>
+  <p class="lede">{{ 'geo.lede'|trans }}</p>
+
+  <form class="audit-form" method="post" action="{{ path('geo_audit') }}" onsubmit="this.classList.add('loading')">
+    <label for="geo-url">{{ 'geo.form.label'|trans }}</label>
+    <div class="input-row">
+      <input id="geo-url" name="url" type="text" inputmode="url" placeholder="https://example.com/article" value="{{ url|default('') }}" required>
+      <button type="submit"><span class="idle">{{ 'geo.form.submit'|trans }}</span><span class="busy">{{ 'geo.form.loading'|trans }}</span></button>
+    </div>
+    {% if error is defined %}<p class="form-error">{{ error }}</p>{% endif %}
+    <small>{{ 'geo.form.note'|trans }}</small>
+  </form>
+
+  {% if limit_exhausted|default(false) %}
+  <section class="limit-contact">
+    <h2>{{ 'geo.limit.title'|trans }}</h2><p>{{ 'geo.limit.text'|trans }}</p>
+    {% include 'audit/_contact_form.html.twig' with {source: 'geo-daily-limit'} %}
+  </section>
+  {% endif %}
+
+  <div class="geo-explainer">
+    <article><b>01</b><h2>{{ 'geo.features.access.title'|trans }}</h2><p>{{ 'geo.features.access.text'|trans }}</p></article>
+    <article><b>02</b><h2>{{ 'geo.features.answer.title'|trans }}</h2><p>{{ 'geo.features.answer.text'|trans }}</p></article>
+    <article><b>03</b><h2>{{ 'geo.features.trust.title'|trans }}</h2><p>{{ 'geo.features.trust.text'|trans }}</p></article>
+  </div>
+  <aside class="method-note"><strong>{{ 'geo.method.title'|trans }}</strong><p>{{ 'geo.method.text'|trans }}</p></aside>
+</section>
+{% endblock %}

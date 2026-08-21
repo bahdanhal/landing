@@ -28,6 +28,11 @@ services:
       $cacheTtl: '%audit.cache_ttl%'
       $auditCache: '@app.audit_cache'
 
+  App\Service\GeoAnalyzer:
+    arguments:
+      $cacheTtl: '%audit.cache_ttl%'
+      $auditCache: '@app.audit_cache'
+
   App\Service\AiSummaryService:
     arguments:
       $apiKey: '%anthropic.api_key%'
@@ -52,6 +57,10 @@ services:
     arguments:
       $auditLimiter: '@limiter.audit'
       $contactLimiter: '@limiter.contact'
+
+  App\Controller\GeoController:
+    arguments:
+      $auditLimiter: '@limiter.audit'
 
   app.audit_cache:
     class: Symfony\Component\Cache\Adapter\FilesystemAdapter

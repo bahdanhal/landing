@@ -1,42 +1,44 @@
 {% extends 'base.html.twig' %}
-{% block title %}Free Technical SEO Audit Tool · Open SEO Audit{% endblock %}
+{% block title %}{{ 'audit.meta.title'|trans }}{% endblock %}
 {% block robots %}<meta name="robots" content="index,follow">{% endblock %}
-{% block description %}<meta name="description" content="Run a fast, free technical SEO audit for redirects, canonical URLs, crawler traps, parameters, robots.txt, sitemaps, and indexability issues.">{% endblock %}
-{% block canonical %}<link rel="canonical" href="https://bahdan-hal.ovh/">{% endblock %}
+{% block description %}<meta name="description" content="{{ 'audit.meta.description'|trans }}">{% endblock %}
+{% block canonical %}
+  <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdan-hal.ovh/pl/narzedzia/audyt-seo' : 'https://bahdan-hal.ovh/tools/seo-audit' }}">
+  <link rel="alternate" hreflang="en" href="https://bahdan-hal.ovh/tools/seo-audit">
+  <link rel="alternate" hreflang="pl" href="https://bahdan-hal.ovh/pl/narzedzia/audyt-seo">
+  <link rel="alternate" hreflang="x-default" href="https://bahdan-hal.ovh/tools/seo-audit">
+{% endblock %}
+{% block language_switch %}<a class="language-switch" href="{{ path('seo_audit_home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
 
 {% block body %}
 <section class="hero">
-  <div class="eyebrow">FAST TECHNICAL SEO AUDIT</div>
-  <h1>Find where Googlebot<br><em>loses the plot.</em></h1>
-  <p class="lede">Test redirects, canonicals, crawl traps, parameters, pagination, robots.txt, and sitemaps. Results are generated immediately from observable HTTP evidence.</p>
+  <a class="back" href="{{ path('home', {_locale: app.request.locale}) }}">← {{ 'common.all_tools'|trans }}</a>
+  <div class="eyebrow">{{ 'audit.eyebrow'|trans }}</div>
+  <h1>{{ 'audit.heading_start'|trans }}<br><em>{{ 'audit.heading_emphasis'|trans }}</em></h1>
+  <p class="lede">{{ 'audit.lede'|trans }}</p>
 
   <form class="audit-form" method="post" action="{{ path('audit') }}" onsubmit="this.classList.add('loading')">
-    <label for="url">Website URL</label>
+    <label for="url">{{ 'audit.form.label'|trans }}</label>
     <div class="input-row">
-      <input id="url" name="url" type="text" inputmode="url" placeholder="https://example.com" value="{{ url|default('') }}" required autofocus>
-      <button type="submit"><span class="idle">Run audit</span><span class="busy">Crawling…</span></button>
+      <input id="url" name="url" type="text" inputmode="url" placeholder="https://example.com" value="{{ url|default('') }}" required>
+      <button type="submit"><span class="idle">{{ 'audit.form.submit'|trans }}</span><span class="busy">{{ 'audit.form.loading'|trans }}</span></button>
     </div>
     {% if error is defined %}<p class="form-error">{{ error }}</p>{% endif %}
-    <small>10 free audits per IP each day · Polite, robots-aware crawling · Reports cached for six hours.</small>
+    <small>{{ 'audit.form.note'|trans }}</small>
   </form>
 
   {% if limit_exhausted|default(false) %}
   <section class="limit-contact">
-    <h2>Need another audit—or help fixing it?</h2>
-    <p>Leave your email privately on this server and Bahdan will follow up, or use a direct contact option.</p>
+    <h2>{{ 'audit.limit.title'|trans }}</h2><p>{{ 'audit.limit.text'|trans }}</p>
     {% include 'audit/_contact_form.html.twig' with {source: 'daily-limit'} %}
-    <div class="direct-contact">
-      <a href="mailto:bahdan.hal@hotmail.com?subject=Help%20with%20my%20SEO%20audit">Email</a>
-      <a href="https://www.linkedin.com/in/bahdan-hal/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="https://www.upwork.com/freelancers/~014111a2d384da6af9" target="_blank" rel="noopener noreferrer">Upwork</a>
-    </div>
+    <div class="direct-contact"><a href="mailto:bahdan.hal@hotmail.com">E-mail</a><a href="https://www.linkedin.com/in/bahdan-hal/" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="https://www.upwork.com/freelancers/~014111a2d384da6af9" target="_blank" rel="noopener noreferrer">Upwork</a></div>
   </section>
   {% endif %}
 
   <div class="feature-grid">
-    <article><b>01</b><h2>Redirect matrix</h2><p>HTTP, HTTPS, www, non-www, slash variants, and redirect chains.</p></article>
-    <article><b>02</b><h2>Crawl-space scan</h2><p>Internal links, parameters, GET forms, duplicate paths, and pagination traps.</p></article>
-    <article><b>03</b><h2>Index signals</h2><p>Canonical tags, robots directives, sitemap coverage, status codes, titles, and H1s.</p></article>
+    <article><b>01</b><h2>{{ 'audit.features.redirect.title'|trans }}</h2><p>{{ 'audit.features.redirect.text'|trans }}</p></article>
+    <article><b>02</b><h2>{{ 'audit.features.crawl.title'|trans }}</h2><p>{{ 'audit.features.crawl.text'|trans }}</p></article>
+    <article><b>03</b><h2>{{ 'audit.features.index.title'|trans }}</h2><p>{{ 'audit.features.index.text'|trans }}</p></article>
   </div>
 </section>
 {% endblock %}

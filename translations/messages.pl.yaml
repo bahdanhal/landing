@@ -1,0 +1,290 @@
+base:
+  default_title: "Narzędzia Bahdana"
+  home_label: "Strona główna Narzędzi Bahdana"
+  brand: "Narzędzia Bahdana"
+  by: "Bahdan Hal"
+  navigation: "Narzędzia i język"
+  nav:
+    vat: "VAT"
+  footer: "Przydatne i przejrzyste narzędzia · Bez rejestracji · Bez pikseli śledzących"
+
+common:
+  all_tools: "Wszystkie narzędzia"
+
+home:
+  meta:
+    title: "Narzędzia Bahdana · Przydatne narzędzia internetowe i biznesowe"
+    description: "Darmowe, szybkie i przejrzyste narzędzia do polskich obliczeń biznesowych, analizy GEO i technicznego SEO. Bez rejestracji i śledzenia."
+  eyebrow: "MAŁE NARZĘDZIA, KONKRETNE ODPOWIEDZI"
+  heading_start: "Przydatne rzeczy,"
+  heading_emphasis: "zrobione porządnie."
+  lede: "Rosnący zestaw konkretnych narzędzi do obliczeń, stron internetowych i praktycznych pytań, które nie powinny wymagać konta ani rozmowy sprzedażowej."
+  available: "GOTOWE"
+  open: "Otwórz narzędzie"
+  vat:
+    title: "Polski kalkulator VAT"
+    text: "Przeliczaj kwoty netto i brutto według aktualnych polskich stawek VAT albo zasymuluj wyraźnie oznaczony przyszły scenariusz."
+  geo:
+    title: "Audyt gotowości GEO"
+    text: "Sprawdź, czy strona jest dostępna, uporządkowana, wiarygodna i łatwa do zrozumienia oraz cytowania przez silniki odpowiedzi."
+  seo:
+    title: "Techniczny audyt SEO"
+    text: "Znajdź błędy przekierowań, pułapki crawlerów, duplikaty adresów, problemy canonical i luki w mapie witryny."
+  principles:
+    private:
+      title: "Prywatność domyślnie"
+      text: "Obliczenia pozostają w przeglądarce. Raporty z crawlowania są buforowane, aby nie obciążać wielokrotnie badanej strony."
+    clear:
+      title: "Widoczne uzasadnienie"
+      text: "Wzory, dowody, daty i ograniczenia są obok wyniku, a nie ukryte za samą punktacją."
+    fast:
+      title: "Jedno konkretne zadanie"
+      text: "Każde narzędzie rozwiązuje jeden problem — bez rejestracji i sztucznego oczekiwania."
+
+vat:
+  meta:
+    title: "Kalkulator VAT 2026 · Netto brutto i brutto netto"
+    description: "Oblicz polski VAT netto-brutto lub brutto-netto dla stawek 23%, 8%, 5% i 0%. Zasymuluj planowaną przyszłą stawkę z datą wejścia."
+  eyebrow: "POLSKA · VAT · 2026"
+  heading: "Kalkulator VAT netto / brutto"
+  lede: "Przelicz kwotę faktury w obu kierunkach. Kalkulator zaokrągla do groszy, działa wyłącznie w przeglądarce i wyraźnie oddziela przyszłe założenia od obowiązujących przepisów."
+  verified: "Przepisy sprawdzone"
+  amount: "Kwota"
+  direction:
+    label: "Kierunek obliczeń"
+    net_to_gross: "Netto → brutto"
+    gross_to_net: "Brutto → netto"
+  rate: "Stawka VAT"
+  exempt: "Zwolnione (zw.)"
+  scenario:
+    label: "Scenariusz przepisów"
+    current: "Aktualne polskie stawki"
+    future: "Symulacja proponowanej przyszłej stawki"
+    current_note: "Obliczenie według aktualnych stawek. Dostępne podstawowe polskie stawki VAT: 23%, 8%, 5% i 0%."
+    future_note: "Symulacja przyszłości — przyjęta stawka nie jest prawem. Przed użyciem biznesowym sprawdź projekt i datę wejścia w życie."
+  future:
+    rate: "Zakładana przyszła stawka"
+    date: "Szacowana data wejścia"
+    warning: "To wyłącznie scenariusz planistyczny. Podana stawka i data są Twoimi założeniami, a nie prognozą ani poradą podatkową."
+  result:
+    net: "Netto"
+    tax: "VAT"
+    gross: "Brutto"
+  copy: "Kopiuj wynik"
+  copied: "Skopiowano"
+  how:
+    title: "Jak działa obliczenie"
+    text: "Dla kwoty netto podatek jest dodawany do podstawy. Z kwoty brutto podatek zawarty w sumie jest wyodrębniany według oficjalnej zależności między wartością brutto a stawką. Każdy wynik pieniężny jest zaokrąglany do dwóch miejsc."
+    gross_formula: "brutto = netto + zaokrąglij(netto × stawka / 100)"
+    net_formula: "VAT z brutto = zaokrąglij(brutto × stawka / (100 + stawka))"
+  source_intro: "Źródło wzoru i stawek:"
+  future_info:
+    title: "Tryb przyszłych zmian"
+    text: "Projekty podatkowe mogą się zmienić albo nie wejść w życie, dlatego symulator wymaga podania zakładanej stawki i oczekiwanej daty. Niepotwierdzony projekt nie zastąpi po cichu aktualnych zasad."
+    vida: "Rządowy projekt wdrażający VAT in the Digital Age ma obowiązywać zasadniczo od 1 stycznia 2027 r., ale dotyczy administracji VAT, a nie ogólnej zmiany podstawowej stawki."
+    source: "Oficjalny projekt UC147"
+    no_rate_change: "Na 21 sierpnia 2026 r. nie wczytano żadnego potwierdzonego projektu ogólnej zmiany stawki 23%."
+  faq:
+    title: "Pytania"
+    q1: "Jakie stawki VAT obsługuje kalkulator?"
+    a1: "Obsługuje powszechnie stosowane polskie stawki 23%, 8%, 5% i 0% oraz sprzedaż zwolnioną. Właściwa stawka zależy od konkretnych towarów lub usług."
+    q2: "Czy stawka 0% oznacza to samo co zwolnienie z VAT?"
+    a2: "Nie. W tym obliczeniu oba warianty dają VAT równy zero, ale różnią się skutkami prawnymi i prawem do odliczenia. Dlatego są osobnymi opcjami."
+    q3: "Czy mogę obliczyć proponowaną przyszłą stawkę?"
+    a3: "Tak. Wybierz scenariusz przyszły, wpisz proponowany procent i szacowaną datę wejścia. Wynik pozostanie jednoznacznie oznaczony jako symulacja."
+  disclaimer: "Kalkulator informacyjny, nie porada podatkowa. Potwierdź właściwą stawkę, klasyfikację, sposób zaokrąglenia i datę obowiązywania w oficjalnych źródłach lub u doradcy."
+  schema_name: "Polski kalkulator VAT netto brutto"
+
+audit:
+  meta:
+    title: "Darmowy techniczny audyt SEO · Narzędzia Bahdana"
+    description: "Szybki audyt technicznego SEO: przekierowania, canonical, pułapki crawlerów, parametry, robots.txt, mapy witryny i indeksowalność."
+  eyebrow: "SZYBKI TECHNICZNY AUDYT SEO"
+  heading_start: "Znajdź miejsce, w którym Googlebot"
+  heading_emphasis: "gubi wątek."
+  lede: "Sprawdź przekierowania, canonical, pułapki crawlowania, parametry, paginację, robots.txt i mapy witryny. Wyniki powstają bezpośrednio z obserwowalnych danych HTTP."
+  form:
+    label: "Adres witryny"
+    submit: "Uruchom audyt"
+    loading: "Crawlowanie…"
+    note: "10 audytów z crawlowaniem na IP dziennie · Crawlowanie zgodne z robots.txt · Raporty buforowane przez sześć godzin."
+  limit:
+    message: "Wykorzystano dzisiejszy limit 10 bezpłatnych audytów z crawlowaniem. Zostaw e-mail lub skontaktuj się bezpośrednio z Bahdanem."
+    title: "Potrzebujesz kolejnego audytu lub pomocy?"
+    text: "Zostaw e-mail prywatnie na tym serwerze albo wybierz kontakt bezpośredni."
+  features:
+    redirect:
+      title: "Macierz przekierowań"
+      text: "HTTP, HTTPS, www, bez www, warianty z ukośnikiem i łańcuchy przekierowań."
+    crawl:
+      title: "Skan przestrzeni URL"
+      text: "Linki wewnętrzne, parametry, formularze GET, zduplikowane ścieżki i pułapki paginacji."
+    index:
+      title: "Sygnały indeksowania"
+      text: "Canonical, dyrektywy robots, pokrycie mapy witryny, statusy, tytuły i nagłówki H1."
+  report:
+    title: "Audyt SEO"
+    new: "Nowy audyt"
+    cached: "RAPORT Z PAMIĘCI PODRĘCZNEJ"
+    complete: "AUDYT ZAKOŃCZONY"
+    generated: "Wygenerowano"
+    refresh: "Odśwież crawl"
+    score: "kondycja crawlowania"
+    pages: "przecrawlowane strony"
+    urls: "odkryte adresy URL"
+    sitemap_urls: "adresy w mapie"
+    critical: "krytyczne"
+    warnings: "ostrzeżenia"
+    truncated: "Crawl osiągnął limit stron. Wyniki są reprezentatywną próbką, a nie pełnym spisem."
+    executive: "Podsumowanie"
+    ai_note: "Wyjaśnienie AI · deterministyczne dowody"
+    findings: "Ustalenia"
+    finding_types: "typów ustaleń"
+    empty: "W próbce nie wykryto istotnych problemów."
+    found_in: "Znaleziono w %count% miejscach. Otwórz wystąpienie, aby zobaczyć adres i dowody."
+    redirect_matrix: "Macierz hostów i przekierowań"
+    variants: "wariantów"
+    crawled_pages: "Przecrawlowane strony"
+    sampled: "w próbce"
+    sitemaps: "Mapy witryny"
+    no_robots: "Brak treści robots.txt."
+    sitemap_summary: "%urls% adresów URL w %files% plikach"
+    no_sitemap: "Nie znaleziono mapy witryny."
+  issues:
+    host-canonicalization: "Warianty protokołu lub hosta nie prowadzą do jednego adresu"
+    redirect-chain: "Wykryto łańcuch przekierowań"
+    fetch-error: "Nie udało się pobrać strony"
+    broken-internal-url: "Wewnętrzny adres zwraca błąd"
+    missing-canonical: "Brak znacznika canonical"
+    multiple-canonicals: "Znaleziono wiele znaczników canonical"
+    canonical-mismatch: "Canonical wskazuje inny adres"
+    missing-title: "Brak tytułu strony"
+    h1-count: "Strona powinna mieć jeden jasny nagłówek H1"
+    missing-description: "Brak meta description"
+    thin-page: "Bardzo mało indeksowalnego tekstu"
+    duplicate-title: "Zduplikowany tytuł strony"
+    duplicate-content: "Znaleziono zduplikowaną treść stron"
+    parameter-space: "Wykryto przestrzeń adresów generowanych przez parametry"
+    parameter-entry-points: "Formularze GET tworzą wejścia z parametrami"
+    robots-missing: "robots.txt jest niedostępny"
+    sitemap-error: "Problem z mapą witryny"
+    sitemap-broken-url: "Adres w mapie witryny nie jest dostępny"
+    sitemap-redirect: "Adres w mapie witryny przekierowuje"
+    sitemap-parameters: "Mapa witryny zawiera adresy z parametrami"
+    sitemap-coverage: "Dostępnych stron brakuje w mapie witryny"
+    crawler-trap-probe: "Nieograniczony wariant URL zwraca indeksowalną treść"
+
+contact:
+  email: "Twój e-mail"
+  submit: "Poproś Bahdana"
+  company: "Firma"
+  note: "Adres zostanie zapisany prywatnie na tym serwerze, aby Bahdan mógł się odezwać. Bez listy mailingowej."
+  invalid_origin: "Nieprawidłowe źródło formularza."
+  saved: "Dziękuję — adres e-mail został zapisany. Bahdan się odezwie."
+  too_many: "Zbyt wiele zgłoszeń kontaktowych dzisiaj. Użyj kontaktu bezpośredniego."
+  invalid_email: "Wpisz poprawny adres e-mail."
+  failed: "Nie udało się teraz zapisać adresu. Użyj kontaktu bezpośredniego."
+  saving: "Zapisywanie…"
+
+geo:
+  meta:
+    title: "Darmowy audyt GEO · Optymalizacja pod silniki generatywne"
+    description: "Sprawdź gotowość strony do GEO: dostępność, bezpośrednie odpowiedzi, strukturę, dane uporządkowane, autorstwo, źródła i tożsamość podmiotu."
+  eyebrow: "GENERATIVE ENGINE OPTIMIZATION"
+  heading_start: "Czy silniki odpowiedzi"
+  heading_emphasis: "zrozumieją i zacytują stronę?"
+  lede: "Sprawdź jedną stronę pod kątem sygnałów technicznych i redakcyjnych, które ułatwiają odnalezienie, interpretację, przypisanie i cytowanie treści. Każdy punkt wynika z widocznych dowodów — nie z obietnicy widoczności w AI."
+  form:
+    label: "Adres strony"
+    submit: "Uruchom audyt GEO"
+    loading: "Analizowanie…"
+    note: "Jedna strona · Buforowanie przez sześć godzin · Wspólny limit 10 audytów dziennie · Bez gwarancji pozycji."
+  limit:
+    title: "Potrzebujesz kolejnego audytu?"
+    text: "Zostaw e-mail prywatnie na tym serwerze, a Bahdan będzie mógł się odezwać."
+  features:
+    access:
+      title: "Pobieranie"
+      text: "Status HTTP, indeksowalność, canonical, język i reguły dla crawlerów."
+    answer:
+      title: "Odpowiedzi"
+      text: "Bezpośredni wstęp, przydatne nagłówki, listy, tabele i pokrycie pytań."
+    trust:
+      title: "Atrybucja"
+      text: "Dane uporządkowane, autor, wydawca, daty, źródła i tożsamość podmiotu."
+  method:
+    title: "Co oznacza ta punktacja"
+    text: "GEO nie ma jednego standardu, a żadne narzędzie nie potwierdzi obecności w wygenerowanej odpowiedzi. Audyt mierzy obserwowalne sygnały gotowości, które poprawiają też dostępność i jasność treści. Decyzje dotyczące crawlerów AI są raportowane osobno i nigdy nie obniżają wyniku."
+  report:
+    title: "Raport gotowości GEO"
+    new: "Nowy audyt GEO"
+    cached: "RAPORT Z PAMIĘCI PODRĘCZNEJ"
+    complete: "AUDYT ZAKOŃCZONY"
+    generated: "Wygenerowano"
+    refresh: "Odśwież analizę"
+    score: "gotowość GEO"
+    passed: "zaliczone"
+    partial: "częściowe"
+    failed: "braki"
+    schema_types: "typy schema"
+    checks: "Kontrole oparte na dowodach"
+    explain: "Otwórz kontrolę, aby zobaczyć dowody"
+  status:
+    pass: "Zaliczone"
+    warning: "Częściowo"
+    fail: "Brak"
+  check:
+    access:
+      title: "Strona zwraca HTTP 200"
+      help: "Silnik odpowiedzi potrzebuje stabilnej, poprawnej odpowiedzi HTML, zanim przetworzy treść."
+    indexability:
+      title: "Publiczne pobieranie jest dozwolone"
+      help: "Jeśli strona ma być publicznie odnajdywana, robots.txt ani dyrektywy noindex nie powinny jej blokować."
+    canonical:
+      title: "Canonical wskazuje tę stronę"
+      help: "Canonical wskazujący bieżący adres pomaga ustalić tożsamość strony i scalić warianty URL."
+    metadata:
+      title: "Tytuł, opis i H1 są jednoznaczne"
+      help: "Jasne metadane dają systemom pobierania zwięzły opis strony i jej tematu."
+    language:
+      title: "Język dokumentu jest zadeklarowany"
+      help: "Poprawny atrybut HTML lang pomaga wybrać i zinterpretować właściwy język."
+    direct_answer:
+      title: "Wstęp zawiera zwięzłą odpowiedź"
+      help: "Skoncentrowany pierwszy akapit ułatwia wyodrębnienie głównej odpowiedzi bez rekonstruowania jej z całej strony."
+    structure:
+      title: "Treść ma użyteczną strukturę semantyczną"
+      help: "Elementy main/article, opisowe śródtytuły, akapity, listy i tabele ułatwiają niezależne pobieranie sekcji."
+    schema:
+      title: "Dane uporządkowane opisują treść i podmioty"
+      help: "Poprawny JSON-LD może ujednoznacznić typ strony, wydawcę, autora i inne podmioty. Pomaga w zrozumieniu, ale nie gwarantuje cytowania."
+    provenance:
+      title: "Autor, wydawca i daty są możliwe do przypisania"
+      help: "Wskazanie odpowiedzialności i historii publikacji ułatwia ocenę oraz przypisanie twierdzeń."
+    citations:
+      title: "Twierdzenia mogą prowadzić do zewnętrznych źródeł"
+      help: "Trafne odnośniki tworzą widoczny ślad dowodowy. Liczba linków jest tylko przybliżeniem — jakość źródeł wymaga oceny człowieka."
+    faq:
+      title: "Ważne pytania mają wyraźne odpowiedzi"
+      help: "Sekcje oparte na pytaniach pasują do wyszukiwania konwersacyjnego, jeśli wnoszą informacje, a nie powtarzalny tekst SEO."
+    freshness:
+      title: "Data publikacji lub aktualizacji jest czytelna maszynowo"
+      help: "datePublished, dateModified albo element time pomaga ocenić aktualność informacji."
+    entity:
+      title: "Wydawca lub autor ma jasną tożsamość"
+      help: "Schema podmiotu, nazwa witryny oraz strony O nas/Kontakt pomagają połączyć treść z odpowiedzialną osobą lub organizacją."
+  crawlers:
+    title: "Opublikowane reguły dla crawlerów AI"
+    not_scored: "Widoczność polityki · bez wpływu na wynik"
+    intro: "To uproszczony odczyt robots.txt dla nazwanych agentów. Trenowanie, wyszukiwanie i przeglądanie na żądanie użytkownika mogą używać innych reguł."
+    blocked: "Zablokowany dla /"
+    allowed: "Wyraźnie dozwolony"
+    not-addressed: "Brak osobnej reguły"
+    present: "Obecny"
+    absent: "Nie znaleziono"
+    caveat: "llms.txt jest eksperymentalną konwencją, a nie oficjalnym wymaganiem głównych silników odpowiedzi. Zgoda w robots.txt nie oznacza, że usługa odwiedzi lub zacytuje stronę. Blokada crawlera treningowego może być świadomą decyzją."
+  next:
+    title: "Najlepsza kolejność prac"
+    one: "Najpierw napraw niezaliczone kontrole pobierania i indeksowalności."
+    two: "Jednoznacznie pokaż główną odpowiedź, autora, datę i źródła wspierające."
+    three: "Dodaj poprawne dane uporządkowane zgodne z widoczną treścią, a potem mierz rzeczywiste odesłania i cytowania zamiast polegać wyłącznie na punktacji."

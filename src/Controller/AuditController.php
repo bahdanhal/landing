@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class AuditController extends AbstractController
 {
@@ -19,16 +20,17 @@ final class AuditController extends AbstractController
         private readonly ContactLeadStore $contactLeadStore,
         private readonly RateLimiterFactory $auditLimiter,
         private readonly RateLimiterFactory $contactLimiter,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 
-    #[Route('/', name: 'home', methods: ['GET'])]
+    #[Route(path: ['en' => '/tools/seo-audit', 'pl' => '/pl/narzedzia/audyt-seo'], name: 'seo_audit_home', methods: ['GET'])]
     public function home(): Response
     {
         return $this->render('audit/home.html.twig');
     }
 
-    #[Route('/audit', name: 'audit', methods: ['POST'])]
+    #[Route(path: ['en' => '/audit', 'pl' => '/pl/audyt'], name: 'audit', methods: ['POST'])]
     public function audit(Request $request): Response
     {
         if (($limited = $this->limitExceeded($request)) !== null) {
@@ -50,7 +52,7 @@ final class AuditController extends AbstractController
         }
     }
 
-    #[Route('/api/audit', name: 'api_audit', methods: ['POST'])]
+    #[Route('/api/audit', name: 'api_audit', defaults: ['_locale' => 'en'], methods: ['POST'])]
     public function api(Request $request): JsonResponse
     {
         if (($limited = $this->limitExceeded($request, true)) !== null) {
@@ -66,31 +68,31 @@ final class AuditController extends AbstractController
         }
     }
 
-    #[Route('/healthz', name: 'health', methods: ['GET'])]
+    #[Route('/healthz', name: 'health', defaults: ['_locale' => 'en'], methods: ['GET'])]
     public function health(): JsonResponse
     {
         return $this->json(['status' => 'ok']);
     }
 
-    #[Route('/contact', name: 'contact', methods: ['POST'])]
+    #[Route(path: ['en' => '/contact', 'pl' => '/pl/kontakt'], name: 'contact', methods: ['POST'])]
     public function contact(Request $request): JsonResponse
     {
         $origin = $request->headers->get('Origin');
         if ($origin !== null && parse_url($origin, PHP_URL_HOST) !== $request->getHost()) {
-            return $this->json(['error' => 'Invalid form origin.'], 403);
+            return $this->json(['error' => $this->translator->trans('contact.invalid_origin')], 403);
         }
         if (trim((string) $request->request->get('company')) !== '') {
-            return $this->json(['ok' => true, 'message' => 'Thanks — your request has been saved.']);
+            return $this->json(['ok' => true, 'message' => $this->translator->trans('contact.saved')]);
         }
 
         $limit = $this->contactLimiter->create($this->dailyKey($request))->consume();
         if (!$limit->isAccepted()) {
-            return $this->json(['error' => 'Too many contact requests today. Please use a direct contact link instead.'], 429);
+            return $this->json(['error' => $this->translator->trans('contact.too_many')], 429);
         }
 
         $email = strtolower(trim((string) $request->request->get('email')));
         if (strlen($email) > 254 || filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-            return $this->json(['error' => 'Please enter a valid email address.'], 422);
+            return $this->json(['error' => $this->translator->trans('contact.invalid_email')], 422);
         }
 
         try {
@@ -100,10 +102,10 @@ final class AuditController extends AbstractController
                 (string) $request->request->get('source', 'website'),
             );
         } catch (\RuntimeException) {
-            return $this->json(['error' => 'Could not save your email right now. Please use a direct contact link.'], 503);
+            return $this->json(['error' => $this->translator->trans('contact.failed')], 503);
         }
 
-        return $this->json(['ok' => true, 'message' => 'Thanks — your email is saved. Bahdan will follow up.']);
+        return $this->json(['ok' => true, 'message' => $this->translator->trans('contact.saved')]);
     }
 
     private function limitExceeded(Request $request, bool $json = false): ?Response
@@ -114,7 +116,7 @@ final class AuditController extends AbstractController
         }
 
         $retryAfter = max(1, (new \DateTimeImmutable('tomorrow', new \DateTimeZone('UTC')))->getTimestamp() - time());
-        $message = 'You have used today’s 10 free audits. Leave your email or contact Bahdan directly for help.';
+        $message = $this->translator->trans('audit.limit.message');
         $response = $json
             ? $this->json([
                 'error' => $message,

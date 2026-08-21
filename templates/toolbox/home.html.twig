@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ 'home.meta.title'|trans }}{% endblock %}
+{% block robots %}<meta name="robots" content="index,follow">{% endblock %}
+{% block description %}<meta name="description" content="{{ 'home.meta.description'|trans }}">{% endblock %}
+{% block canonical %}
+  <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdan-hal.ovh/pl/' : 'https://bahdan-hal.ovh/' }}">
+  <link rel="alternate" hreflang="en" href="https://bahdan-hal.ovh/">
+  <link rel="alternate" hreflang="pl" href="https://bahdan-hal.ovh/pl/">
+  <link rel="alternate" hreflang="x-default" href="https://bahdan-hal.ovh/">
+{% endblock %}
+{% block language_switch %}<a class="language-switch" href="{{ path('home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
+
+{% block body %}
+<section class="hero toolbox-hero">
+  <div class="eyebrow">{{ 'home.eyebrow'|trans }}</div>
+  <h1>{{ 'home.heading_start'|trans }}<br><em>{{ 'home.heading_emphasis'|trans }}</em></h1>
+  <p class="lede">{{ 'home.lede'|trans }}</p>
+
+  <div class="tool-grid">
+    <a class="tool-card tool-card-primary" href="{{ path('vat_calculator', {_locale: app.request.locale}) }}">
+      <span class="tool-number">01</span><span class="tool-state">{{ 'home.available'|trans }}</span>
+      <h2>{{ 'home.vat.title'|trans }}</h2><p>{{ 'home.vat.text'|trans }}</p><strong>{{ 'home.open'|trans }} →</strong>
+    </a>
+    <a class="tool-card" href="{{ path('geo_home', {_locale: app.request.locale}) }}">
+      <span class="tool-number">02</span><span class="tool-state">{{ 'home.available'|trans }}</span>
+      <h2>{{ 'home.geo.title'|trans }}</h2><p>{{ 'home.geo.text'|trans }}</p><strong>{{ 'home.open'|trans }} →</strong>
+    </a>
+    <a class="tool-card" href="{{ path('seo_audit_home', {_locale: app.request.locale}) }}">
+      <span class="tool-number">03</span><span class="tool-state">{{ 'home.available'|trans }}</span>
+      <h2>{{ 'home.seo.title'|trans }}</h2><p>{{ 'home.seo.text'|trans }}</p><strong>{{ 'home.open'|trans }} →</strong>
+    </a>
+  </div>
+
+  <section class="toolbox-principles">
+    <div><b>01</b><h2>{{ 'home.principles.private.title'|trans }}</h2><p>{{ 'home.principles.private.text'|trans }}</p></div>
+    <div><b>02</b><h2>{{ 'home.principles.clear.title'|trans }}</h2><p>{{ 'home.principles.clear.text'|trans }}</p></div>
+    <div><b>03</b><h2>{{ 'home.principles.fast.title'|trans }}</h2><p>{{ 'home.principles.fast.text'|trans }}</p></div>
+  </section>
+</section>
+{% endblock %}

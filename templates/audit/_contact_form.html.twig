@@ -1,11 +1,11 @@
-<form class="lead-form" method="post" action="{{ path('contact') }}" data-contact-form>
-  <label for="contact-email-{{ source }}">Your email</label>
+<form class="lead-form" method="post" action="{{ path('contact') }}" data-contact-form data-saving="{{ 'contact.saving'|trans }}" data-fallback="{{ 'contact.failed'|trans }}">
+  <label for="contact-email-{{ source }}">{{ 'contact.email'|trans }}</label>
   <div class="lead-row">
     <input id="contact-email-{{ source }}" name="email" type="email" autocomplete="email" maxlength="254" placeholder="you@example.com" required>
-    <button type="submit">Ask Bahdan</button>
+    <button type="submit">{{ 'contact.submit'|trans }}</button>
   </div>
   <input type="hidden" name="source" value="{{ source }}">
-  <label class="lead-trap" aria-hidden="true">Company<input name="company" tabindex="-1" autocomplete="off"></label>
-  <small>Stored privately on this server so Bahdan can follow up. No mailing list.</small>
+  <label class="lead-trap" aria-hidden="true">{{ 'contact.company'|trans }}<input name="company" tabindex="-1" autocomplete="off"></label>
+  <small>{{ 'contact.note'|trans }}</small>
   <p class="lead-status" data-contact-status aria-live="polite"></p>
 </form>

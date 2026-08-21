@@ -1,6 +1,6 @@
 {
-  "name": "bahdanhal/seo",
-  "description": "Fast deterministic technical SEO auditor",
+  "name": "bahdanhal/bahdan-landing",
+  "description": "Bilingual practical toolbox with VAT, GEO and technical SEO tools",
   "type": "project",
   "license": "proprietary",
   "require": {
@@ -19,6 +19,7 @@
     "symfony/http-client": "8.1.*",
     "symfony/rate-limiter": "8.1.*",
     "symfony/runtime": "8.1.*",
+    "symfony/translation": "8.1.*",
     "symfony/twig-bundle": "8.1.*",
     "symfony/yaml": "8.1.*",
     "twig/twig": "^3.21"

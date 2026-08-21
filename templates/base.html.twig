@@ -1,30 +1,41 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ app.request.locale }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% block robots %}<meta name="robots" content="noindex,nofollow">{% endblock %}
   {% block description %}{% endblock %}
   {% block canonical %}{% endblock %}
-  <title>{% block title %}Open SEO Audit{% endblock %}</title>
+  <title>{% block title %}{{ 'base.default_title'|trans }}{% endblock %}</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="/toolbox.css">
   <link rel="stylesheet" href="/grouped-findings.css">
   <link rel="stylesheet" href="/contact.css">
+  {% block stylesheets %}{% endblock %}
   <script src="/contact.js" defer></script>
+  {% block head_scripts %}{% endblock %}
 </head>
 <body>
   <header class="topbar">
     <div class="brand-lockup">
-      <a class="brand" href="/" aria-label="Open SEO Audit home">
+      <a class="brand" href="{{ path('home', {_locale: app.request.locale}) }}" aria-label="{{ 'base.home_label'|trans }}">
         <span class="brand-mark">↗</span>
-        <span>Open SEO Audit</span>
+        <span>{{ 'base.brand'|trans }}</span>
       </a>
-      <a class="brand-credit" href="https://www.linkedin.com/in/bahdan-hal/" target="_blank" rel="noopener noreferrer">by Bahdan Hal</a>
+      <span class="brand-credit">{{ 'base.by'|trans }}</span>
     </div>
-    <span class="tagline">Evidence, not vibes.</span>
+    <nav class="tool-nav" aria-label="{{ 'base.navigation'|trans }}">
+      <a href="{{ path('vat_calculator', {_locale: app.request.locale}) }}">{{ 'base.nav.vat'|trans }}</a>
+      <a href="{{ path('geo_home', {_locale: app.request.locale}) }}">GEO</a>
+      <a href="{{ path('seo_audit_home', {_locale: app.request.locale}) }}">SEO</a>
+      {% block language_switch %}
+        <a class="language-switch" href="{{ path('home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
+      {% endblock %}
+    </nav>
   </header>
   <main>{% block body %}{% endblock %}</main>
-  <footer>Deterministic technical SEO checks · No signup · No tracking pixel<br><span class="copyright">© {{ "now"|date("Y") }} Bahdan Hal</span></footer>
+  <footer>{{ 'base.footer'|trans }}<br><span class="copyright">© {{ "now"|date("Y") }} Bahdan Hal</span></footer>
+  {% block scripts %}{% endblock %}
 </body>
 </html>

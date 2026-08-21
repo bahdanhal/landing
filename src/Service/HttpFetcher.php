@@ -6,7 +6,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class HttpFetcher
 {
-    private const USER_AGENT = 'OpenSEOAudit/1.0 (+https://github.com/bahdanhal/seo)';
+    private const USER_AGENT = 'BahdanToolbox/1.0 (+https://bahdan-hal.ovh/)';
 
     public function __construct(
         private readonly HttpClientInterface $httpClient,
