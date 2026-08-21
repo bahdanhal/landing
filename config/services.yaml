@@ -1,0 +1,68 @@
+parameters:
+  audit.max_pages: '%env(int:AUDIT_MAX_PAGES)%'
+  audit.concurrency: '%env(int:AUDIT_CONCURRENCY)%'
+  audit.batch_delay_ms: '%env(int:AUDIT_BATCH_DELAY_MS)%'
+  audit.timeout_seconds: '%env(int:AUDIT_TIMEOUT_SECONDS)%'
+  audit.max_body_bytes: '%env(int:AUDIT_MAX_BODY_BYTES)%'
+  audit.cache_ttl: '%env(int:AUDIT_CACHE_TTL)%'
+  audit.log_directory: '%env(AUDIT_LOG_DIRECTORY)%'
+  audit.log_retention_days: '%env(int:AUDIT_LOG_RETENTION_DAYS)%'
+  contact.lead_directory: '%env(CONTACT_LEAD_DIRECTORY)%'
+  anthropic.api_key: '%env(ANTHROPIC_API_KEY)%'
+  anthropic.model: '%env(ANTHROPIC_MODEL)%'
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\:
+    resource: '../src/'
+    exclude: '../src/{DependencyInjection,Entity,Kernel.php}'
+
+  App\Service\SiteAuditor:
+    arguments:
+      $maxPages: '%audit.max_pages%'
+      $concurrency: '%audit.concurrency%'
+      $batchDelayMs: '%audit.batch_delay_ms%'
+      $cacheTtl: '%audit.cache_ttl%'
+      $auditCache: '@app.audit_cache'
+
+  App\Service\AiSummaryService:
+    arguments:
+      $apiKey: '%anthropic.api_key%'
+      $model: '%anthropic.model%'
+
+  App\Service\HttpFetcher:
+    arguments:
+      $timeoutSeconds: '%audit.timeout_seconds%'
+      $maxBodyBytes: '%audit.max_body_bytes%'
+
+  App\Service\AuditLogger:
+    arguments:
+      $directory: '%audit.log_directory%'
+      $retentionDays: '%audit.log_retention_days%'
+
+  App\Service\ContactLeadStore:
+    arguments:
+      $directory: '%contact.lead_directory%'
+      $secret: '%env(APP_SECRET)%'
+
+  App\Controller\AuditController:
+    arguments:
+      $auditLimiter: '@limiter.audit'
+      $contactLimiter: '@limiter.contact'
+
+  app.audit_cache:
+    class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+    arguments:
+      $namespace: 'seo-audit-v2'
+      $defaultLifetime: '%audit.cache_ttl%'
+      $directory: '/app/var/audit-cache'
+
+  app.rate_limit_cache:
+    class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+    arguments:
+      $namespace: 'seo-rate-limits-v1'
+      $defaultLifetime: 172800
+      $directory: '/app/var/rate-limits'

@@ -1,0 +1,8 @@
+/.env
+/.env.local
+/production.env
+/.phpunit.cache
+/certbot-webroot/
+.DS_Store
+/vendor/
+/var/

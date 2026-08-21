@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% block robots %}<meta name="robots" content="noindex,nofollow">{% endblock %}
+  {% block description %}{% endblock %}
+  {% block canonical %}{% endblock %}
+  <title>{% block title %}Open SEO Audit{% endblock %}</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="/grouped-findings.css">
+  <link rel="stylesheet" href="/contact.css">
+  <script src="/contact.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-lockup">
+      <a class="brand" href="/" aria-label="Open SEO Audit home">
+        <span class="brand-mark">↗</span>
+        <span>Open SEO Audit</span>
+      </a>
+      <a class="brand-credit" href="https://www.linkedin.com/in/bahdan-hal/" target="_blank" rel="noopener noreferrer">by Bahdan Hal</a>
+    </div>
+    <span class="tagline">Evidence, not vibes.</span>
+  </header>
+  <main>{% block body %}{% endblock %}</main>
+  <footer>Deterministic technical SEO checks · No signup · No tracking pixel<br><span class="copyright">© {{ "now"|date("Y") }} Bahdan Hal</span></footer>
+</body>
+</html>

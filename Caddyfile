@@ -1,0 +1,42 @@
+{
+    auto_https off
+    admin off
+}
+
+http://bahdan-hal.ovh, http://www.bahdan-hal.ovh {
+    handle /.well-known/acme-challenge/* {
+        root * /srv/certbot
+        file_server
+    }
+    handle {
+        redir https://bahdan-hal.ovh{uri} permanent
+    }
+}
+
+https://www.bahdan-hal.ovh {
+    tls /etc/letsencrypt/live/bahdan-hal.ovh/fullchain.pem /etc/letsencrypt/live/bahdan-hal.ovh/privkey.pem
+    redir https://bahdan-hal.ovh{uri} permanent
+}
+
+https://bahdan-hal.ovh {
+    tls /etc/letsencrypt/live/bahdan-hal.ovh/fullchain.pem /etc/letsencrypt/live/bahdan-hal.ovh/privkey.pem
+    root * /app/public
+    encode zstd gzip
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy strict-origin-when-cross-origin
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    }
+    @static file
+    handle @static {
+        file_server
+    }
+    handle {
+        php_fastcgi app:9000
+    }
+    log {
+        output stdout
+        format json
+    }
+}

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /audit
+Disallow: /healthz
+
+Sitemap: https://bahdan-hal.ovh/sitemap.xml

@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+{% block title %}Audit · {{ report.origin }}{% endblock %}
+
+{% block body %}
+<section class="report-shell">
+  <div class="report-head">
+    <div>
+      <a class="back" href="/">← New audit</a>
+      <div class="eyebrow">{{ report.cache.hit ? 'CACHED REPORT' : 'AUDIT COMPLETE' }} · {{ report.duration_ms }} MS</div>
+      <h1>{{ report.origin }}</h1>
+      <p>Generated {{ report.generated_at|date('M j, Y H:i') }} UTC</p>
+      <form class="refresh-form" method="post" action="{{ path('audit') }}">
+        <input type="hidden" name="url" value="{{ report.target }}">
+        <input type="hidden" name="refresh" value="1">
+        <button type="submit">Refresh crawl</button>
+      </form>
+    </div>
+    <div class="score score-{{ report.score >= 80 ? 'good' : (report.score >= 55 ? 'fair' : 'poor') }}">
+      <strong>{{ report.score }}</strong><span>/100</span><small>crawl health</small>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div><strong>{{ report.summary.pages_crawled }}</strong><span>pages crawled</span></div>
+    <div><strong>{{ report.summary.urls_discovered }}</strong><span>URLs discovered</span></div>
+    <div><strong>{{ report.summary.sitemap_urls }}</strong><span>sitemap URLs</span></div>
+    <div><strong>{{ report.counts.critical }}</strong><span>critical</span></div>
+    <div><strong>{{ report.counts.warning }}</strong><span>warnings</span></div>
+  </div>
+
+  {% if report.summary.crawl_truncated %}<div class="notice">The crawl reached its page limit. Results are a representative sample, not a complete inventory.</div>{% endif %}
+
+  {% if report.ai_summary %}
+  <section class="section ai-summary">
+    <div class="section-title"><h2>Executive summary</h2><span>AI explanation · deterministic evidence</span></div>
+    <p class="ai-overview">{{ report.ai_summary.overview }}</p>
+    {% if report.ai_summary.priorities is not empty %}
+    <div class="priority-grid">
+      {% for priority in report.ai_summary.priorities %}
+      <article><b>{{ loop.index < 10 ? '0' ~ loop.index : loop.index }}</b><h3>{{ priority.title }}</h3><p>{{ priority.why }}</p><strong>Next: {{ priority.action }}</strong></article>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  <section class="section">
+    <div class="section-title"><h2>Findings</h2><span>{{ issueGroups|length }} finding types</span></div>
+    {% if report.issues is empty %}
+      <div class="empty">No material issues were detected in the sampled crawl.</div>
+    {% else %}
+      <div class="issues">
+      {% for group in issueGroups %}
+        <details class="issue severity-{{ group.severity }}" {{ loop.index <= 6 ? 'open' : '' }}>
+          <summary>
+            <span class="pill">{{ group.severity }}</span>
+            <strong>{{ group.title }}</strong>
+            {% if group.occurrences|length > 1 %}<span class="finding-count">{{ group.occurrences|length }}</span>{% endif %}
+            <code>{{ group.code }}</code>
+          </summary>
+          <div class="issue-body">
+            {% if group.occurrences|length > 1 %}<p class="group-intro">Found in {{ group.occurrences|length }} places. Open an occurrence to see its URL and evidence.</p>{% endif %}
+            <div class="occurrences">
+            {% for occurrence in group.occurrences %}
+              <details class="occurrence" {{ group.occurrences|length == 1 ? 'open' : '' }}>
+                <summary><b>#{{ loop.index }}</b><span>{{ occurrence.detail }}</span></summary>
+                {% if occurrence.evidence is not empty %}<pre>{{ occurrence.evidence|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_SLASHES')) }}</pre>{% endif %}
+              </details>
+            {% endfor %}
+            </div>
+          </div>
+        </details>
+      {% endfor %}
+      </div>
+    {% endif %}
+  </section>
+
+  <section class="section">
+    <div class="section-title"><h2>Host & redirect matrix</h2><span>{{ report.redirect_matrix|length }} variants</span></div>
+    <div class="table-wrap"><table><thead><tr><th>Requested</th><th>Status</th><th>Hops</th><th>Final URL</th><th>Time</th></tr></thead><tbody>
+    {% for item in report.redirect_matrix %}<tr><td class="url">{{ item.requested_url }}</td><td><span class="status status-{{ item.status >= 400 or item.status == 0 ? 'bad' : 'good' }}">{{ item.status ?: 'ERR' }}</span></td><td>{{ item.redirects|length }}</td><td class="url">{{ item.final_url }}</td><td>{{ item.duration_ms }} ms</td></tr>{% endfor %}
+    </tbody></table></div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><h2>Crawled pages</h2><span>{{ report.pages|length }} sampled</span></div>
+    <div class="table-wrap"><table><thead><tr><th>URL</th><th>Status</th><th>Canonical</th><th>Title</th><th>H1</th><th>Words</th></tr></thead><tbody>
+    {% for page in report.pages %}<tr><td class="url">{{ page.final_url }}</td><td><span class="status status-{{ page.status >= 400 or page.status == 0 ? 'bad' : 'good' }}">{{ page.status ?: 'ERR' }}</span></td><td>{{ page.canonical ? (page.canonical == page.final_url ? 'Self' : 'Other') : 'Missing' }}</td><td>{{ page.title|default('—') }}</td><td>{{ page.h1|length }}</td><td>{{ page.word_count }}</td></tr>{% endfor %}
+    </tbody></table></div>
+  </section>
+
+  <section class="section split">
+    <div><div class="section-title"><h2>robots.txt</h2></div><div class="code-card"><b>HTTP {{ report.robots.status }}</b><pre>{{ report.robots.body ?: 'No robots.txt content returned.' }}</pre></div></div>
+    <div><div class="section-title"><h2>Sitemaps</h2></div><div class="code-card"><b>{{ report.sitemap.url_count }} URLs across {{ report.sitemap.files|length }} file(s)</b><ul>{% for file in report.sitemap.files %}<li><span>{{ file.status }}</span> {{ file.url }}</li>{% else %}<li>No sitemap found.</li>{% endfor %}</ul></div></div>
+  </section>
+
+  <dialog class="help-dialog" id="audit-help" aria-labelledby="audit-help-title">
+    <form method="dialog" class="help-close-form"><button class="help-close" aria-label="Close">×</button></form>
+    <div class="eyebrow">NEED A HAND?</div>
+    <h2 id="audit-help-title">Want help fixing these findings?</h2>
+    <p>Bahdan Hal can help turn this audit into a practical, prioritized implementation.</p>
+    {% include 'audit/_contact_form.html.twig' with {source: 'audit-report'} %}
+    <div class="help-actions direct-contact">
+      <a href="mailto:bahdan.hal@hotmail.com?subject=Help%20with%20my%20SEO%20audit">Email directly</a>
+      <a href="https://www.linkedin.com/in/bahdan-hal/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://www.upwork.com/freelancers/~014111a2d384da6af9" target="_blank" rel="noopener noreferrer">Upwork</a>
+    </div>
+  </dialog>
+</section>
+<script>
+(() => {
+  const dialog = document.getElementById('audit-help');
+  if (!dialog || typeof dialog.showModal !== 'function') return;
+  const storageKey = 'open-seo-audit-help-seen';
+  try {
+    if (sessionStorage.getItem(storageKey)) return;
+    sessionStorage.setItem(storageKey, '1');
+  } catch (_) {}
+  window.setTimeout(() => dialog.showModal(), 900);
+  dialog.addEventListener('click', event => {
+    if (event.target === dialog) dialog.close();
+  });
+})();
+</script>
+{% endblock %}

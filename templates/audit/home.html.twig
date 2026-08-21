@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block title %}Free Technical SEO Audit Tool · Open SEO Audit{% endblock %}
+{% block robots %}<meta name="robots" content="index,follow">{% endblock %}
+{% block description %}<meta name="description" content="Run a fast, free technical SEO audit for redirects, canonical URLs, crawler traps, parameters, robots.txt, sitemaps, and indexability issues.">{% endblock %}
+{% block canonical %}<link rel="canonical" href="https://bahdan-hal.ovh/">{% endblock %}
+
+{% block body %}
+<section class="hero">
+  <div class="eyebrow">FAST TECHNICAL SEO AUDIT</div>
+  <h1>Find where Googlebot<br><em>loses the plot.</em></h1>
+  <p class="lede">Test redirects, canonicals, crawl traps, parameters, pagination, robots.txt, and sitemaps. Results are generated immediately from observable HTTP evidence.</p>
+
+  <form class="audit-form" method="post" action="{{ path('audit') }}" onsubmit="this.classList.add('loading')">
+    <label for="url">Website URL</label>
+    <div class="input-row">
+      <input id="url" name="url" type="text" inputmode="url" placeholder="https://example.com" value="{{ url|default('') }}" required autofocus>
+      <button type="submit"><span class="idle">Run audit</span><span class="busy">Crawling…</span></button>
+    </div>
+    {% if error is defined %}<p class="form-error">{{ error }}</p>{% endif %}
+    <small>10 free audits per IP each day · Polite, robots-aware crawling · Reports cached for six hours.</small>
+  </form>
+
+  {% if limit_exhausted|default(false) %}
+  <section class="limit-contact">
+    <h2>Need another audit—or help fixing it?</h2>
+    <p>Leave your email privately on this server and Bahdan will follow up, or use a direct contact option.</p>
+    {% include 'audit/_contact_form.html.twig' with {source: 'daily-limit'} %}
+    <div class="direct-contact">
+      <a href="mailto:bahdan.hal@hotmail.com?subject=Help%20with%20my%20SEO%20audit">Email</a>
+      <a href="https://www.linkedin.com/in/bahdan-hal/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://www.upwork.com/freelancers/~014111a2d384da6af9" target="_blank" rel="noopener noreferrer">Upwork</a>
+    </div>
+  </section>
+  {% endif %}
+
+  <div class="feature-grid">
+    <article><b>01</b><h2>Redirect matrix</h2><p>HTTP, HTTPS, www, non-www, slash variants, and redirect chains.</p></article>
+    <article><b>02</b><h2>Crawl-space scan</h2><p>Internal links, parameters, GET forms, duplicate paths, and pagination traps.</p></article>
+    <article><b>03</b><h2>Index signals</h2><p>Canonical tags, robots directives, sitemap coverage, status codes, titles, and H1s.</p></article>
+  </div>
+</section>
+{% endblock %}
