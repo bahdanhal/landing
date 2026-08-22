@@ -41,6 +41,10 @@
       <span class="tool-number">06</span><span class="tool-state">{{ 'home.available'|trans }}</span>
       <h2>{{ 'home.domain_inspector.title'|trans }}</h2><p>{{ 'home.domain_inspector.text'|trans }}</p><strong>{{ 'home.open'|trans }} →</strong>
     </a>
+    <a class="tool-card" href="{{ path('caddy_transpiler', {_locale: app.request.locale}) }}">
+      <span class="tool-number">07</span><span class="tool-state">{{ 'home.available'|trans }}</span>
+      <h2>{{ 'home.caddy_transpiler.title'|trans }}</h2><p>{{ 'home.caddy_transpiler.text'|trans }}</p><strong>{{ 'home.open'|trans }} →</strong>
+    </a>
   </div>
 
   <section class="toolbox-principles">

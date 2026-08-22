@@ -29,6 +29,7 @@ final readonly class SitemapController
             ['/tools/poland-used-price-index', '/pl/narzedzia/indeks-cen-uzywanych'],
             ['/tools/bimi-studio', '/pl/narzedzia/bimi-studio'],
             ['/tools/domain-inspector', '/pl/narzedzia/inspektor-domen'],
+            ['/tools/caddy-transpiler', '/pl/narzedzia/konwerter-caddyfile'],
         ];
         $entries = [];
         foreach ($pairs as [$en, $pl]) {

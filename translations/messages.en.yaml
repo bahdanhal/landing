@@ -11,6 +11,7 @@ base:
         market: "Used goods prices"
         bimi: "BIMI Studio"
         domain_inspector: "Domain inspector"
+        caddy_transpiler: "Caddyfile Transpiler"
     context:
         income: "Polish income calculator"
         geo: "GEO analyzer"
@@ -18,6 +19,7 @@ base:
         market: "Poland used-goods price index"
         bimi: "BIMI Studio & SVG Converter"
         domain_inspector: "Domain email security inspector"
+        caddy_transpiler: "Nginx & Apache to Caddyfile Transpiler"
     footer: "Useful, transparent tools · No signup · No tracking pixel"
     contact: "Contact"
 
@@ -52,6 +54,9 @@ home:
     domain_inspector:
         title: "Domain security & deliverability"
         text: "1-click verification of DMARC policies, BIMI records, MTA-STS strict transport security, SMTP TLS-RPT, and SPF."
+    caddy_transpiler:
+        title: "Nginx & Apache ➔ Caddyfile Transpiler"
+        text: "Convert Nginx server blocks and Apache .htaccess into clean, idiomatic Caddyfiles with real-time smart mapping, migration advisories and 1-click presets."
     principles:
         private:
             title: "Private by default"
@@ -716,3 +721,41 @@ profile:
         a3: "Yes. The first conversation and an honest initial assessment are free. If the next useful step requires investigation or implementation, I will define the scope before any paid work."
         q4: "Can we talk even if I do not have a defined project yet?"
         a4: "Absolutely. I am always open to an interesting technical conversation, especially around AI adoption, MCP, automation, architecture or a stubborn system problem."
+
+caddy_transpiler:
+    meta:
+        title: "Nginx & Apache to Caddyfile Transpiler · Instant Web Server Converter"
+        description: "Free real-time transpiler converting Nginx server blocks and Apache .htaccess/VirtualHost to clean Caddyfiles with smart mapping and migration advisories."
+    eyebrow: "WEB SERVER MIGRATION TOOL"
+    heading: "Nginx & Apache ➔ Caddyfile Transpiler"
+    lede: "Convert legacy Nginx and Apache configurations into clean, idiomatic Caddyfiles in real-time. Runs 100% client-side in your browser for privacy."
+    source_label: "Source Web Server"
+    server_nginx: "Nginx (nginx.conf / server)"
+    server_apache: "Apache (.htaccess / VirtualHost)"
+    presets_label: "1-Click Presets"
+    preset_wordpress: "WordPress"
+    preset_laravel_symfony: "Symfony / Laravel"
+    preset_nextjs: "Next.js / Node.js"
+    preset_spa: "React / Vue SPA"
+    preset_proxy: "Reverse Proxy"
+    preset_static: "Static + Security"
+    input_placeholder_nginx: "Paste your Nginx server { ... } configuration or location blocks here..."
+    input_placeholder_apache: "Paste your Apache .htaccess or <VirtualHost> configuration here..."
+    output_title: "Generated Caddyfile"
+    copy_btn: "Copy Caddyfile"
+    copied_btn: "Copied!"
+    download_btn: "Download Caddyfile"
+    advisories_title: "Migration Advisories & Optimisations"
+    advisories_empty: "Paste or select a configuration above to see automated migration advisories and smart mappings."
+    omitted_title: "Directives Eliminated / Handled Natively"
+    features_title: "Detected Features & Routing"
+    mapping_cheatsheet_title: "Smart Mapping & Why Caddy is Simpler"
+    cheatsheet_proxy_title: "Reverse Proxy & Headers"
+    cheatsheet_proxy_desc: "proxy_pass + 5 lines of proxy_set_header collapse to a single reverse_proxy. Host, X-Forwarded-For, and WebSockets are handled automatically."
+    cheatsheet_ssl_title: "Automatic HTTPS"
+    cheatsheet_ssl_desc: "ssl_certificate directives are stripped. Caddy automatically issues, renews, and configures TLS via Let's Encrypt / ZeroSSL."
+    cheatsheet_php_title: "PHP-FPM Router"
+    cheatsheet_php_desc: "try_files + fastcgi_pass and param scripts collapse into php_fastcgi and file_server."
+    cheatsheet_rewrite_title: "Clean Redirects"
+    cheatsheet_rewrite_desc: "Complex regex RewriteRules translate directly into human-readable redir statements."
+

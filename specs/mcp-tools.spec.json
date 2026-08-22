@@ -172,6 +172,23 @@
           "required": true
         }
       ]
+    },
+    {
+      "name": "transpile_to_caddyfile",
+      "description": "Transpile Nginx (nginx.conf, server blocks) or Apache (.htaccess, VirtualHost) web server configuration to clean, idiomatic Caddyfile with migration advisories.",
+      "parameters": [
+        {
+          "name": "config_content",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "server_type",
+          "type": "string",
+          "required": false,
+          "enum": ["nginx", "apache"]
+        }
+      ]
     }
   ]
 }

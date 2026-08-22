@@ -1,0 +1,180 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ 'caddy_transpiler.meta.title'|trans }}{% endblock %}
+{% block robots %}<meta name="robots" content="index,follow">{% endblock %}
+{% block description %}<meta name="description" content="{{ 'caddy_transpiler.meta.description'|trans }}">{% endblock %}
+{% block canonical %}
+  <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/konwerter-caddyfile' : 'https://bahdanhal.pl/tools/caddy-transpiler' }}">
+  <link rel="alternate" hreflang="en" href="https://bahdanhal.pl/tools/caddy-transpiler">
+  <link rel="alternate" hreflang="pl" href="https://bahdanhal.pl/pl/narzedzia/konwerter-caddyfile">
+  <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/tools/caddy-transpiler">
+{% endblock %}
+{% block stylesheets %}
+  <link rel="stylesheet" href="/caddy-transpiler.css">
+{% endblock %}
+{% block language_switch %}
+  <a class="language-switch" href="{{ path('caddy_transpiler', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
+{% endblock %}
+{% block tool_name %}: {{ 'caddy_transpiler.heading'|trans }}{% endblock %}
+
+{% block body %}
+<section class="tool-shell transpiler-shell">
+  <a class="back" href="{{ path('home', {_locale: app.request.locale}) }}">← {{ 'common.all_tools'|trans }}</a>
+  
+  <div class="tool-intro">
+    <div>
+      <div class="eyebrow">{{ 'caddy_transpiler.eyebrow'|trans }}</div>
+      <h1>{{ 'caddy_transpiler.heading'|trans }}</h1>
+      <p class="lede">{{ 'caddy_transpiler.lede'|trans }}</p>
+    </div>
+  </div>
+
+  <div class="transpiler-container" id="caddy-transpiler-app" data-locale="{{ app.request.locale }}">
+    <!-- Source & Presets Toolbar -->
+    <div class="transpiler-toolbar">
+      <div class="server-toggle-group" role="group" aria-label="{{ 'caddy_transpiler.source_label'|trans }}">
+        <button type="button" class="btn-toggle active" data-server="nginx">
+          <span class="indicator indicator-nginx"></span> {{ 'caddy_transpiler.server_nginx'|trans }}
+        </button>
+        <button type="button" class="btn-toggle" data-server="apache">
+          <span class="indicator indicator-apache"></span> {{ 'caddy_transpiler.server_apache'|trans }}
+        </button>
+      </div>
+
+      <div class="preset-group">
+        <span class="preset-label">{{ 'caddy_transpiler.presets_label'|trans }}:</span>
+        <button type="button" class="btn-preset" data-preset="wordpress">{{ 'caddy_transpiler.preset_wordpress'|trans }}</button>
+        <button type="button" class="btn-preset" data-preset="laravel_symfony">{{ 'caddy_transpiler.preset_laravel_symfony'|trans }}</button>
+        <button type="button" class="btn-preset" data-preset="nextjs">{{ 'caddy_transpiler.preset_nextjs'|trans }}</button>
+        <button type="button" class="btn-preset" data-preset="spa">{{ 'caddy_transpiler.preset_spa'|trans }}</button>
+        <button type="button" class="btn-preset" data-preset="proxy">{{ 'caddy_transpiler.preset_proxy'|trans }}</button>
+        <button type="button" class="btn-preset" data-preset="static">{{ 'caddy_transpiler.preset_static'|trans }}</button>
+      </div>
+    </div>
+
+    <!-- Split Screen Workspace -->
+    <div class="transpiler-workspace">
+      <!-- Left: Source Config Input -->
+      <div class="workspace-panel input-panel">
+        <div class="panel-header">
+          <span class="panel-title" id="source-panel-title">Nginx (nginx.conf / server)</span>
+          <div class="panel-actions">
+            <button type="button" class="btn-panel-action" id="btn-clear-input" title="Clear input">✕ Clear</button>
+          </div>
+        </div>
+        <div class="editor-wrap">
+          <textarea id="config-input" class="config-textarea" spellcheck="false" placeholder="{{ 'caddy_transpiler.input_placeholder_nginx'|trans }}"></textarea>
+        </div>
+        <div class="panel-footer">
+          <span id="input-stats">0 lines</span>
+          <span class="privacy-badge">🔒 100% Client-side · Zero Data Transmitted</span>
+        </div>
+      </div>
+
+      <!-- Right: Formatted Caddyfile Output -->
+      <div class="workspace-panel output-panel">
+        <div class="panel-header">
+          <span class="panel-title">{{ 'caddy_transpiler.output_title'|trans }}</span>
+          <div class="panel-actions">
+            <button type="button" class="btn-panel-action btn-copy" id="btn-copy-caddyfile">
+              📋 {{ 'caddy_transpiler.copy_btn'|trans }}
+            </button>
+            <button type="button" class="btn-panel-action" id="btn-download-caddyfile">
+              ⬇ {{ 'caddy_transpiler.download_btn'|trans }}
+            </button>
+          </div>
+        </div>
+        <div class="editor-wrap">
+          <pre class="caddy-output-pre"><code id="caddy-output-code" class="language-caddyfile"></code></pre>
+        </div>
+        <div class="panel-footer">
+          <span id="output-stats">0 lines</span>
+          <span class="caddy-version-badge">Caddy v2.10+ Idiomatic</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Migration Advisories & Insights -->
+    <div class="transpiler-insights">
+      <div class="insights-header">
+        <h3>{{ 'caddy_transpiler.advisories_title'|trans }}</h3>
+      </div>
+      <div id="advisories-container" class="advisories-grid">
+        <div class="advisory-card advisory-empty">
+          <p>{{ 'caddy_transpiler.advisories_empty'|trans }}</p>
+        </div>
+      </div>
+
+      <div class="insights-columns">
+        <div class="insights-col">
+          <h4>{{ 'caddy_transpiler.omitted_title'|trans }}</h4>
+          <ul id="omitted-list" class="omitted-list">
+            <li class="empty-hint">None detected</li>
+          </ul>
+        </div>
+        <div class="insights-col">
+          <h4>{{ 'caddy_transpiler.features_title'|trans }}</h4>
+          <ul id="features-list" class="features-list">
+            <li class="empty-hint">None detected</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Smart Mapping Explainer & Cheatsheet -->
+    <div class="cheatsheet-section">
+      <div class="cheatsheet-header">
+        <h3>{{ 'caddy_transpiler.mapping_cheatsheet_title'|trans }}</h3>
+      </div>
+      <div class="cheatsheet-grid">
+        <div class="cheatsheet-card">
+          <div class="card-icon">🚀</div>
+          <h4>{{ 'caddy_transpiler.cheatsheet_proxy_title'|trans }}</h4>
+          <p>{{ 'caddy_transpiler.cheatsheet_proxy_desc'|trans }}</p>
+          <div class="code-compare">
+            <div class="compare-before"><code>proxy_pass http://127.0.0.1:3000;<br>proxy_set_header Host $host;<br>proxy_set_header Upgrade $http_upgrade;</code></div>
+            <div class="compare-arrow">➔</div>
+            <div class="compare-after"><code>reverse_proxy 127.0.0.1:3000</code></div>
+          </div>
+        </div>
+
+        <div class="cheatsheet-card">
+          <div class="card-icon">✨</div>
+          <h4>{{ 'caddy_transpiler.cheatsheet_ssl_title'|trans }}</h4>
+          <p>{{ 'caddy_transpiler.cheatsheet_ssl_desc'|trans }}</p>
+          <div class="code-compare">
+            <div class="compare-before"><code>ssl_certificate /etc/letsencrypt/...;<br>ssl_certificate_key /etc/letsencrypt/...;</code></div>
+            <div class="compare-arrow">➔</div>
+            <div class="compare-after"><code># Automatic HTTPS (Zero config)</code></div>
+          </div>
+        </div>
+
+        <div class="cheatsheet-card">
+          <div class="card-icon">⚡</div>
+          <h4>{{ 'caddy_transpiler.cheatsheet_php_title'|trans }}</h4>
+          <p>{{ 'caddy_transpiler.cheatsheet_php_desc'|trans }}</p>
+          <div class="code-compare">
+            <div class="compare-before"><code>try_files $uri $uri/ /index.php?$args;<br>fastcgi_pass unix:/run/php.sock;</code></div>
+            <div class="compare-arrow">➔</div>
+            <div class="compare-after"><code>php_fastcgi unix//run/php.sock<br>file_server</code></div>
+          </div>
+        </div>
+
+        <div class="cheatsheet-card">
+          <div class="card-icon">🔒</div>
+          <h4>{{ 'caddy_transpiler.cheatsheet_rewrite_title'|trans }}</h4>
+          <p>{{ 'caddy_transpiler.cheatsheet_rewrite_desc'|trans }}</p>
+          <div class="code-compare">
+            <div class="compare-before"><code>RewriteRule ^blog/(.*)$ /posts/$1 [R=301,L]</code></div>
+            <div class="compare-arrow">➔</div>
+            <div class="compare-after"><code>redir /blog/* /posts/{1} permanent</code></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="/caddy-transpiler.js"></script>
+{% endblock %}

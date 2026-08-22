@@ -46,6 +46,16 @@ final class ToolsController extends AbstractController
     }
 
     #[Route(
+        path: ['en' => '/tools/caddy-transpiler', 'pl' => '/pl/narzedzia/konwerter-caddyfile'],
+        name: 'caddy_transpiler',
+        methods: ['GET']
+    )]
+    public function caddyTranspiler(): Response
+    {
+        return $this->render('tools/caddy_transpiler.html.twig');
+    }
+
+    #[Route(
         path: ['en' => '/tools/polish-vat-calculator', 'pl' => '/pl/narzedzia/kalkulator-vat'],
         name: 'legacy_vat_calculator',
         methods: ['GET']

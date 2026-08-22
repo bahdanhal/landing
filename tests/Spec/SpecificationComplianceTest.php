@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Spec;
 
+use App\CaddyTranspiler\Application\CaddyTranspiler;
 use App\Income\Domain\PolishIncomeCalculator;
 use PHPUnit\Framework\TestCase;
 
@@ -88,7 +89,7 @@ final class SpecificationComplianceTest extends TestCase
         self::assertFileExists($specPath);
 
         $spec = json_decode((string) file_get_contents($specPath), true, flags: JSON_THROW_ON_ERROR);
-        self::assertCount(12, $spec['tools']);
+        self::assertCount(13, $spec['tools']);
 
         $names = array_column($spec['tools'], 'name');
         self::assertContains('list_polish_used_price_products', $names);
@@ -103,6 +104,7 @@ final class SpecificationComplianceTest extends TestCase
         self::assertContains('list_admin_price_tips', $names);
         self::assertContains('list_admin_recent_audits', $names);
         self::assertContains('inspect_domain_security', $names);
+        self::assertContains('transpile_to_caddyfile', $names);
     }
 
     public function testDomainInspectorSpecStructure(): void
@@ -120,5 +122,30 @@ final class SpecificationComplianceTest extends TestCase
         self::assertContains('mta_sts', $protocolNames);
         self::assertContains('tls_rpt', $protocolNames);
         self::assertContains('spf', $protocolNames);
+    }
+
+    public function testCaddyTranspilerSpecCompliance(): void
+    {
+        $specPath = dirname(__DIR__, 2) . '/specs/caddy-transpiler.spec.json';
+        self::assertFileExists($specPath);
+
+        $spec = json_decode((string) file_get_contents($specPath), true, flags: JSON_THROW_ON_ERROR);
+        self::assertNotEmpty($spec['supported_source_types']);
+        self::assertNotEmpty($spec['presets']);
+        self::assertNotEmpty($spec['advisory_rules']);
+        self::assertNotEmpty($spec['test_vectors']);
+
+        $transpiler = new CaddyTranspiler();
+
+        foreach ($spec['test_vectors'] as $vector) {
+            $result = $transpiler->transpile($vector['input']);
+            foreach ($vector['expected_caddyfile_snippets'] as $snippet) {
+                self::assertStringContainsString(
+                    $snippet,
+                    $result->caddyfile,
+                    "Expected Caddyfile to contain '{$snippet}' for vector: {$vector['description']}"
+                );
+            }
+        }
     }
 }
