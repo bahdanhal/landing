@@ -14,3 +14,6 @@
 /public/bundles/
 /phpunit.xml
 /graphify-out/
+/.agents/
+/.codex/
+/.gemini/

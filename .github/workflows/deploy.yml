@@ -42,6 +42,11 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.SSH_HOST || '62.238.1.164' }} >> ~/.ssh/known_hosts
 
+      - name: Clean Remote Legacy Directories
+        run: |
+          ssh ${{ secrets.SSH_USER || 'root' }}@${{ secrets.SSH_HOST || '62.238.1.164' }} \
+            'rm -rf /home/bahdan-landing/.agents /home/bahdan-landing/.codex /home/bahdan-landing/.gemini 2>/dev/null || sudo rm -rf /home/bahdan-landing/.agents /home/bahdan-landing/.codex /home/bahdan-landing/.gemini 2>/dev/null || true'
+
       - name: Rsync Files to Production Server
         run: |
           rsync -az --delete \
@@ -49,6 +54,7 @@ jobs:
             --exclude='.idea' \
             --exclude='.agents' \
             --exclude='.codex' \
+            --exclude='.gemini' \
             --exclude='production.env' \
             --exclude='.env.local' \
             --exclude='certbot-webroot' \
@@ -58,9 +64,10 @@ jobs:
       - name: Rebuild & Restart Production Containers
         run: |
           ssh ${{ secrets.SSH_USER || 'root' }}@${{ secrets.SSH_HOST || '62.238.1.164' }} \
-            'cd /home/bahdan-landing && chmod -R u+rwX,go+rX . 2>/dev/null || true; docker compose -p seo --env-file production.env up -d --build'
+            'cd /home/bahdan-landing && rm -rf .agents .codex .gemini 2>/dev/null || true; chmod -R u+rwX,go+rX . 2>/dev/null || true; docker compose -p seo --env-file production.env up -d --build'
 
       - name: Health Check Verification
         run: |
           sleep 5
           curl -f -I --retry 3 --retry-delay 2 https://bahdanhal.pl/healthz || exit 1
+
