@@ -17,8 +17,10 @@ services:
       AUDIT_LOG_DIRECTORY: ${AUDIT_LOG_DIRECTORY:-/app/var/audit-logs}
       AUDIT_LOG_RETENTION_DAYS: ${AUDIT_LOG_RETENTION_DAYS:-14}
       CONTACT_LEAD_DIRECTORY: ${CONTACT_LEAD_DIRECTORY:-/app/var/contact-leads}
+      MARKET_DATA_DIRECTORY: ${MARKET_DATA_DIRECTORY:-/app/var/market-data}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-}
+      MARKET_RESEARCH_MODEL: ${MARKET_RESEARCH_MODEL:-}
     read_only: true
     tmpfs:
       - /app/var:size=128m,uid=82,gid=82,mode=0770
@@ -27,6 +29,7 @@ services:
       - audit_logs:/app/var/audit-logs
       - contact_leads:/app/var/contact-leads
       - rate_limits:/app/var/rate-limits
+      - market_data:/app/var/market-data
     networks: [internal]
 
   web:
@@ -56,3 +59,4 @@ volumes:
   audit_logs:
   contact_leads:
   rate_limits:
+  market_data:

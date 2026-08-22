@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use App\Exception\UnsafeUrlException;
 use App\Service\GeoAnalyzer;
+use App\Shared\Application\DailyQuota;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -15,7 +15,7 @@ final class GeoController extends AbstractController
 {
     public function __construct(
         private readonly GeoAnalyzer $analyzer,
-        private readonly RateLimiterFactory $auditLimiter,
+        private readonly DailyQuota $auditQuota,
         private readonly TranslatorInterface $translator,
     ) {
     }
@@ -29,13 +29,13 @@ final class GeoController extends AbstractController
     #[Route(path: ['en' => '/geo-audit', 'pl' => '/pl/audyt-geo'], name: 'geo_audit', methods: ['POST'])]
     public function audit(Request $request): Response
     {
-        $limit = $this->auditLimiter->create(($request->getClientIp() ?? 'unknown').'|'.gmdate('Y-m-d'))->consume();
-        if (!$limit->isAccepted()) {
+        $decision = $this->auditQuota->consume($request->getClientIp() ?? 'unknown');
+        if (!$decision->accepted) {
             return $this->render('geo/home.html.twig', [
                 'url' => trim((string) $request->request->get('url')),
                 'error' => $this->translator->trans('audit.limit.message'),
                 'limit_exhausted' => true,
-            ], new Response(status: 429));
+            ], new Response(status: 429, headers: ['Retry-After' => (string) $decision->retryAfterSeconds]));
         }
 
         $url = trim((string) $request->request->get('url'));

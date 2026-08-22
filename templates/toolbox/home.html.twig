@@ -17,9 +17,9 @@
   <p class="lede">{{ 'home.lede'|trans }}</p>
 
   <div class="tool-grid">
-    <a class="tool-card tool-card-primary" href="{{ path('vat_calculator', {_locale: app.request.locale}) }}">
+    <a class="tool-card tool-card-primary" href="{{ path('income_calculator', {_locale: app.request.locale}) }}">
       <span class="tool-number">01</span><span class="tool-state">{{ 'home.available'|trans }}</span>
-      <h2>{{ 'home.vat.title'|trans }}</h2><p>{{ 'home.vat.text'|trans }}</p><strong>{{ 'home.open'|trans }} →</strong>
+      <h2>{{ 'home.income.title'|trans }}</h2><p>{{ 'home.income.text'|trans }}</p><strong>{{ 'home.open'|trans }} →</strong>
     </a>
     <a class="tool-card" href="{{ path('geo_home', {_locale: app.request.locale}) }}">
       <span class="tool-number">02</span><span class="tool-state">{{ 'home.available'|trans }}</span>
@@ -28,6 +28,10 @@
     <a class="tool-card" href="{{ path('seo_audit_home', {_locale: app.request.locale}) }}">
       <span class="tool-number">03</span><span class="tool-state">{{ 'home.available'|trans }}</span>
       <h2>{{ 'home.seo.title'|trans }}</h2><p>{{ 'home.seo.text'|trans }}</p><strong>{{ 'home.open'|trans }} →</strong>
+    </a>
+    <a class="tool-card tool-card-market" href="{{ path('market_home', {_locale: app.request.locale}) }}">
+      <span class="tool-number">04</span><span class="tool-state">{{ 'home.available'|trans }}</span>
+      <h2>{{ 'home.market.title'|trans }}</h2><p>{{ 'home.market.text'|trans }}</p><strong>{{ 'home.open'|trans }} →</strong>
     </a>
   </div>
 

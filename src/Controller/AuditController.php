@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Audit\Application\IssueGrouper;
 use App\Exception\UnsafeUrlException;
+use App\Shared\Application\DailyQuota;
 use App\Service\ContactLeadStore;
 use App\Service\SiteAuditor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,9 +20,10 @@ final class AuditController extends AbstractController
     public function __construct(
         private readonly SiteAuditor $auditor,
         private readonly ContactLeadStore $contactLeadStore,
-        private readonly RateLimiterFactory $auditLimiter,
+        private readonly DailyQuota $auditQuota,
         private readonly RateLimiterFactory $contactLimiter,
         private readonly TranslatorInterface $translator,
+        private readonly IssueGrouper $issueGrouper,
     ) {
     }
 
@@ -42,7 +45,7 @@ final class AuditController extends AbstractController
             $report = $this->auditor->audit($url, $refresh);
             return $this->render('audit/report.html.twig', [
                 'report' => $report,
-                'issueGroups' => $this->groupIssues($report['issues']),
+                'issueGroups' => $this->issueGrouper->group($report['issues']),
             ]);
         } catch (UnsafeUrlException|\RuntimeException $exception) {
             return $this->render('audit/home.html.twig', [
@@ -110,12 +113,11 @@ final class AuditController extends AbstractController
 
     private function limitExceeded(Request $request, bool $json = false): ?Response
     {
-        $limit = $this->auditLimiter->create($this->dailyKey($request))->consume();
-        if ($limit->isAccepted()) {
+        $decision = $this->auditQuota->consume($request->getClientIp() ?? 'unknown');
+        if ($decision->accepted) {
             return null;
         }
 
-        $retryAfter = max(1, (new \DateTimeImmutable('tomorrow', new \DateTimeZone('UTC')))->getTimestamp() - time());
         $message = $this->translator->trans('audit.limit.message');
         $response = $json
             ? $this->json([
@@ -131,7 +133,7 @@ final class AuditController extends AbstractController
                 'error' => $message,
                 'limit_exhausted' => true,
             ], new Response(status: 429));
-        $response->headers->set('Retry-After', (string) $retryAfter);
+        $response->headers->set('Retry-After', (string) $decision->retryAfterSeconds);
 
         return $response;
     }
@@ -141,25 +143,4 @@ final class AuditController extends AbstractController
         return ($request->getClientIp() ?? 'unknown').'|'.gmdate('Y-m-d');
     }
 
-    private function groupIssues(array $issues): array
-    {
-        $groups = [];
-        foreach ($issues as $issue) {
-            $key = $issue['severity'].'|'.$issue['code'];
-            if (!isset($groups[$key])) {
-                $groups[$key] = [
-                    'severity' => $issue['severity'],
-                    'code' => $issue['code'],
-                    'title' => $issue['title'],
-                    'occurrences' => [],
-                ];
-            }
-            $groups[$key]['occurrences'][] = [
-                'detail' => $issue['detail'],
-                'evidence' => $issue['evidence'] ?? [],
-            ];
-        }
-
-        return array_values($groups);
-    }
 }

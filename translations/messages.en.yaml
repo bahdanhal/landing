@@ -5,7 +5,15 @@ base:
   by: "by Bahdan Hal"
   navigation: "Tools and language"
   nav:
-    vat: "VAT"
+    income: "UoP / UZ / Ud / B2B"
+    geo: "GEO analyzer"
+    seo: "SEO analyzer"
+    market: "Used prices"
+  context:
+    income: "Polish income calculator"
+    geo: "GEO analyzer"
+    seo: "SEO analyzer"
+    market: "Poland used-price index"
   footer: "Useful, transparent tools · No signup · No tracking pixel"
 
 common:
@@ -21,15 +29,18 @@ home:
   lede: "A growing set of focused tools for calculations, websites, and the awkward practical questions that should not require an account or a sales call."
   available: "READY"
   open: "Open tool"
-  vat:
-    title: "Polish VAT calculator"
-    text: "Convert net and gross amounts using current Polish VAT rates, or model a clearly labelled future rate scenario."
+  income:
+    title: "Polish contract income calculator"
+    text: "Compare take-home pay from the same company budget under UoP, umowa zlecenie, umowa o dzieło, and B2B."
   geo:
     title: "GEO readiness audit"
     text: "Check whether a page is accessible, structured, attributable, and easy for answer engines to understand and cite."
   seo:
     title: "Technical SEO audit"
     text: "Find redirect mistakes, crawler traps, duplicate URL spaces, canonical problems, and sitemap gaps."
+  market:
+    title: "Poland used-price index"
+    text: "Follow weekly AI-assisted estimates of comparable second-hand asking prices, with history, confidence and transparent limitations."
   principles:
     private:
       title: "Private by default"
@@ -288,3 +299,109 @@ geo:
     one: "Fix failed retrieval and indexability checks first."
     two: "Make the core answer, author, date and supporting sources unmistakable on the page."
     three: "Add accurate structured data that matches visible content, then monitor real referrals and citations rather than relying on this score alone."
+
+market:
+  meta:
+    title: "Poland Used-Price Index · Weekly Second-Hand Market History"
+    description: "Track weekly AI-assisted estimates of comparable second-hand asking prices in Poland, with historical statistics and transparent limitations."
+  product_meta:
+    title: "%product% used price in Poland · Weekly history"
+    description: "Weekly estimated median asking price and comparable range for a used %product% in Poland, without marketplace scraping."
+  eyebrow: "POLAND · SECOND-HAND MARKET · WEEKLY"
+  heading_start: "What did used things"
+  heading_emphasis: "actually cost then?"
+  lede: "A dated history of comparable asking-price estimates in Poland. AI researches current market structure each week; our server does not crawl or parse marketplace listings."
+  category:
+    smartphones: "SMARTPHONES"
+  observed: "Observed"
+  awaiting: "First observation pending"
+  awaiting_note: "The history will begin after the next verified weekly research run."
+  open_history: "Open price history"
+  method:
+    title: "What makes this useful—and honest"
+    text: "This is a longitudinal observation series, not a scraped marketplace database and not a claim about completed transactions. Each weekly point uses the same exact product definition."
+    one: "AI web research estimates current market levels without our server crawling or parsing marketplaces."
+    two: "A snapshot is rejected unless the model reports a usable comparable sample and a consistent range. Marketplace listings, names and links are not stored or republished."
+    three: "Median, range, sample size, confidence, date and methodology remain visible with the history."
+    public: "A configured AI model reviews current public market information using one fixed product definition. The application records the returned median, range and reported sample only after consistency checks. This server does not crawl, parse, copy or republish marketplace listings or links."
+  back: "All used-price histories"
+  product_eyebrow: "WEEKLY POLISH ASKING-PRICE OBSERVATION"
+  product_lede: "Comparable used units in working condition on the Polish market. New, damaged, parts-only, bundled and refurbished-as-new offers are excluded."
+  median: "Median"
+  asking_price: "Observed asking price"
+  range: "Comparable range"
+  comparable_range: "Low–high after exclusions"
+  evidence: "Evidence"
+  updated: "Observed"
+  weekly: "Updated weekly"
+  snapshot: "What the latest snapshot says"
+  history: "Price history"
+  observations: "observations"
+  date: "Date"
+  sample: "Comparable offers"
+  confidence_label: "Confidence"
+  confidence:
+    low: "Low confidence"
+    medium: "Medium confidence"
+    high: "High confidence"
+  methodology_label: "Observation methodology"
+  latest_snapshot: "latest observation"
+  no_data:
+    title: "The first weekly point is not published yet"
+    text: "This page is ready, but it will not invent a starting price. It becomes a price history only after a research run passes the evidence rules."
+  caveat:
+    title: "Read the number correctly"
+    text: "These are AI-assisted market estimates, not scraped data, official statistics, completed-sale prices, a valuation, or purchasing advice. Marketplace availability and model access can change the sample."
+
+income:
+  meta:
+    title: "UoP, UZ, Ud and B2B Calculator 2026 · Poland Take-home Pay"
+    description: "Compare Polish take-home pay and deductions for umowa o pracę, umowa zlecenie, umowa o dzieło and B2B using 2026 assumptions."
+  eyebrow: "POLAND · CONTRACTS · 2026"
+  heading: "UoP / UZ / Ud / B2B calculator"
+  lede: "Compare what reaches you from the same monthly company budget. See gross amount, social and health contributions, PIT, business costs, and estimated take-home pay side by side."
+  verified: "Rules checked"
+  types:
+    employment: "Umowa o pracę"
+    mandate: "Umowa zlecenie"
+    work: "Umowa o dzieło"
+    b2b: "B2B"
+  form:
+    budget: "Monthly company budget"
+    budget_help: "Total employer/client cost used for all four variants."
+    student: "UZ: student under 26, contract with another entity"
+    costs: "B2B monthly business costs"
+    taxation: "B2B taxation"
+    zus: "B2B social ZUS"
+    lump_rate: "Lump-sum rate"
+  taxation:
+    linear: "Linear PIT 19%"
+    scale: "Tax scale 12% / 32%"
+    lump: "Lump sum on revenue"
+  zus:
+    standard: "Standard ZUS 2026"
+    preferential: "Preferential ZUS"
+    start: "Ulga na start"
+  result:
+    net: "estimated take-home / month"
+    budget: "Company budget"
+    gross: "Gross / revenue"
+    costs: "Business costs"
+    social: "Social contributions"
+    health: "Health contribution"
+    tax: "PIT"
+  assumptions:
+    title: "Comparable assumptions"
+    text: "This is a planning comparison, not payroll software. It annualizes one unchanged monthly amount and applies the 2026 tax scale and common contribution rules."
+    one: "UoP includes employee contributions and an estimated employer burden using a 1.67% accident rate; employee costs are 250 PLN/month."
+    two: "UZ assumes full social insurance including voluntary sickness unless the under-26 student option is selected; the annual youth-relief limit is included. Ud uses 20% deductible costs and no ZUS/health."
+    three: "B2B excludes VAT as normally neutral, assumes the selected ZUS/tax regime, and does not model holidays, accounting fees or every relief and annual adjustment."
+  sources:
+    title: "Official 2026 references"
+    text: "Parameters are based on current Polish government and ZUS guidance checked on the date above."
+    health: "health contribution"
+    business: "business health rules"
+  limitations:
+    title: "Situations that change the result"
+    text: "Other income, joint filing, age relief, copyright costs, PPK, multiple insurance titles, disability, exact accident rate, annual health reconciliation, holidays and industry-specific lump-sum rates can materially change the result."
+  disclaimer: "Informational estimate only. Confirm a real contract with payroll/accounting software or a qualified Polish adviser."

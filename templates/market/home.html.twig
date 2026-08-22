@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% macro money(grosz, locale) %}{{ (grosz / 100)|number_format(2, locale == 'pl' ? ',' : '.', locale == 'pl' ? ' ' : ',') }} {{ locale == 'pl' ? 'zł' : 'PLN' }}{% endmacro %}
+{% block tool_name %}: {{ 'base.context.market'|trans }}{% endblock %}
+{% block title %}{{ 'market.meta.title'|trans }}{% endblock %}
+{% block robots %}<meta name="robots" content="index,follow">{% endblock %}
+{% block description %}<meta name="description" content="{{ 'market.meta.description'|trans }}">{% endblock %}
+{% block canonical %}
+  <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdan-hal.ovh/pl/narzedzia/indeks-cen-uzywanych' : 'https://bahdan-hal.ovh/tools/poland-used-price-index' }}">
+  <link rel="alternate" hreflang="en" href="https://bahdan-hal.ovh/tools/poland-used-price-index">
+  <link rel="alternate" hreflang="pl" href="https://bahdan-hal.ovh/pl/narzedzia/indeks-cen-uzywanych">
+  <link rel="alternate" hreflang="x-default" href="https://bahdan-hal.ovh/tools/poland-used-price-index">
+{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="/tools.css"><link rel="stylesheet" href="/market.css">{% endblock %}
+{% block language_switch %}<a class="language-switch" href="{{ path('market_home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
+{% block body %}
+<section class="tool-shell market-shell">
+  <a class="back" href="{{ path('home', {_locale: app.request.locale}) }}">← {{ 'common.all_tools'|trans }}</a>
+  <div class="eyebrow">{{ 'market.eyebrow'|trans }}</div>
+  <h1>{{ 'market.heading_start'|trans }}<br><em>{{ 'market.heading_emphasis'|trans }}</em></h1>
+  <p class="lede">{{ 'market.lede'|trans }}</p>
+
+  <div class="market-products">
+    {% for item in products %}
+      <a class="market-product" href="{{ path('market_product', {_locale: app.request.locale, slug: item.product.slug}) }}">
+        <span class="market-category">{{ 'market.category.smartphones'|trans }}</span>
+        <h2>{{ item.product.name }}</h2>
+        {% if item.latest %}
+          <strong>{{ _self.money(item.latest.medianGrosz, app.request.locale) }}</strong>
+          <small>{{ 'market.observed'|trans }} {{ item.latest.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y') }} · n={{ item.latest.sampleSize }}</small>
+        {% else %}
+          <strong>{{ 'market.awaiting'|trans }}</strong><small>{{ 'market.awaiting_note'|trans }}</small>
+        {% endif %}
+        <span class="market-open">{{ 'market.open_history'|trans }} →</span>
+      </a>
+    {% endfor %}
+  </div>
+
+  <aside class="market-method">
+    <strong>{{ 'market.method.title'|trans }}</strong>
+    <p>{{ 'market.method.text'|trans }}</p>
+    <ul><li>{{ 'market.method.one'|trans }}</li><li>{{ 'market.method.two'|trans }}</li><li>{{ 'market.method.three'|trans }}</li></ul>
+  </aside>
+</section>
+{% endblock %}

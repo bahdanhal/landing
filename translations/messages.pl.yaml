@@ -5,7 +5,15 @@ base:
   by: "Bahdan Hal"
   navigation: "Narzędzia i język"
   nav:
-    vat: "VAT"
+    income: "UoP / UZ / Ud / B2B"
+    geo: "Analizator GEO"
+    seo: "Analizator SEO"
+    market: "Ceny używanych"
+  context:
+    income: "Kalkulator wynagrodzeń"
+    geo: "Analizator GEO"
+    seo: "Analizator SEO"
+    market: "Indeks cen używanych w Polsce"
   footer: "Przydatne i przejrzyste narzędzia · Bez rejestracji · Bez pikseli śledzących"
 
 common:
@@ -21,15 +29,18 @@ home:
   lede: "Rosnący zestaw konkretnych narzędzi do obliczeń, stron internetowych i praktycznych pytań, które nie powinny wymagać konta ani rozmowy sprzedażowej."
   available: "GOTOWE"
   open: "Otwórz narzędzie"
-  vat:
-    title: "Polski kalkulator VAT"
-    text: "Przeliczaj kwoty netto i brutto według aktualnych polskich stawek VAT albo zasymuluj wyraźnie oznaczony przyszły scenariusz."
+  income:
+    title: "Kalkulator form zatrudnienia"
+    text: "Porównaj wypłatę z tego samego budżetu firmy dla UoP, umowy zlecenia, umowy o dzieło i B2B."
   geo:
     title: "Audyt gotowości GEO"
     text: "Sprawdź, czy strona jest dostępna, uporządkowana, wiarygodna i łatwa do zrozumienia oraz cytowania przez silniki odpowiedzi."
   seo:
     title: "Techniczny audyt SEO"
     text: "Znajdź błędy przekierowań, pułapki crawlerów, duplikaty adresów, problemy canonical i luki w mapie witryny."
+  market:
+    title: "Indeks cen używanych w Polsce"
+    text: "Śledź cotygodniowe estymacje porównywalnych cen ofertowych z historią, poziomem pewności i jawnymi ograniczeniami."
   principles:
     private:
       title: "Prywatność domyślnie"
@@ -288,3 +299,109 @@ geo:
     one: "Najpierw napraw niezaliczone kontrole pobierania i indeksowalności."
     two: "Jednoznacznie pokaż główną odpowiedź, autora, datę i źródła wspierające."
     three: "Dodaj poprawne dane uporządkowane zgodne z widoczną treścią, a potem mierz rzeczywiste odesłania i cytowania zamiast polegać wyłącznie na punktacji."
+
+market:
+  meta:
+    title: "Indeks cen używanych w Polsce · Historia tydzień po tygodniu"
+    description: "Cotygodniowe estymacje porównywalnych cen ofertowych używanych rzeczy w Polsce: historia i przejrzyste ograniczenia."
+  product_meta:
+    title: "%product% używany · Cena i historia w Polsce"
+    description: "Cotygodniowa estymowana mediana ceny ofertowej i porównywalny zakres dla używanego %product% w Polsce, bez scrapowania marketplace."
+  eyebrow: "POLSKA · RYNEK WTÓRNY · CO TYDZIEŃ"
+  heading_start: "Ile używane rzeczy"
+  heading_emphasis: "kosztowały wtedy?"
+  lede: "Historia estymowanych porównywalnych cen ofertowych w Polsce. AI bada strukturę rynku co tydzień; nasz serwer nie crawluje ani nie parsuje ogłoszeń marketplace."
+  category:
+    smartphones: "SMARTFONY"
+  observed: "Obserwacja"
+  awaiting: "Oczekiwanie na pierwszą obserwację"
+  awaiting_note: "Historia rozpocznie się po najbliższym zweryfikowanym cotygodniowym badaniu."
+  open_history: "Otwórz historię ceny"
+  method:
+    title: "Dlaczego to jest użyteczne — i uczciwe"
+    text: "To seria obserwacji w czasie, a nie scrapowana baza marketplace i nie dane o zakończonych transakcjach. Każdy cotygodniowy punkt używa tej samej ścisłej definicji produktu."
+    one: "AI z dostępem do internetu szacuje bieżący poziom rynku bez crawlowania ani parsowania marketplace przez nasz serwer."
+    two: "Obserwacja jest odrzucana bez użytecznej próby i spójnego zakresu. Ogłoszenia, nazwy i linki marketplace nie są zapisywane ani publikowane."
+    three: "Mediana, zakres, liczebność próby, pewność, data i metodologia pozostają widoczne w historii."
+    public: "Skonfigurowany model AI analizuje aktualne publiczne informacje rynkowe według jednej stałej definicji produktu. Aplikacja zapisuje zwróconą medianę, zakres i deklarowaną próbę dopiero po sprawdzeniu spójności. Ten serwer nie crawluje, nie parsuje, nie kopiuje ani nie publikuje ogłoszeń lub linków marketplace."
+  back: "Wszystkie historie cen"
+  product_eyebrow: "COTYGODNIOWA OBSERWACJA CEN OFERTOWYCH W POLSCE"
+  product_lede: "Porównywalne używane egzemplarze w pełni sprawne na polskim rynku. Oferty nowe, uszkodzone, na części, w zestawach i odnowione jako nowe są wykluczone."
+  median: "Mediana"
+  asking_price: "Obserwowana cena ofertowa"
+  range: "Porównywalny zakres"
+  comparable_range: "Minimum–maksimum po wykluczeniach"
+  evidence: "Materiał"
+  updated: "Obserwacja"
+  weekly: "Aktualizacja co tydzień"
+  snapshot: "Co mówi najnowsza obserwacja"
+  history: "Historia ceny"
+  observations: "obserwacji"
+  date: "Data"
+  sample: "Porównywalne oferty"
+  confidence_label: "Pewność"
+  confidence:
+    low: "Niska pewność"
+    medium: "Średnia pewność"
+    high: "Wysoka pewność"
+  methodology_label: "Metodologia obserwacji"
+  latest_snapshot: "najnowsza obserwacja"
+  no_data:
+    title: "Pierwszy cotygodniowy punkt nie został jeszcze opublikowany"
+    text: "Strona jest gotowa, ale nie wymyśli ceny początkowej. Historia zacznie się dopiero, gdy badanie przejdzie reguły jakości materiału."
+  caveat:
+    title: "Jak poprawnie czytać tę liczbę"
+    text: "To wspomagane przez AI estymacje rynku, a nie dane scrapowane, oficjalne statystyki, ceny transakcyjne, wycena ani porada zakupowa. Dostępność ofert i dostęp modelu mogą zmieniać próbę."
+
+income:
+  meta:
+    title: "Kalkulator UoP, UZ, Ud i B2B 2026 · Wynagrodzenie netto"
+    description: "Porównaj polskie wynagrodzenie netto i potrącenia dla umowy o pracę, zlecenia, dzieła i B2B według założeń na 2026 rok."
+  eyebrow: "POLSKA · FORMY ZATRUDNIENIA · 2026"
+  heading: "Kalkulator UoP / UZ / Ud / B2B"
+  lede: "Porównaj, ile trafia do Ciebie z tego samego miesięcznego budżetu firmy. Zobacz obok siebie kwotę brutto, składki społeczne i zdrowotne, PIT, koszty firmy oraz szacowaną wypłatę."
+  verified: "Zasady sprawdzone"
+  types:
+    employment: "Umowa o pracę"
+    mandate: "Umowa zlecenie"
+    work: "Umowa o dzieło"
+    b2b: "B2B"
+  form:
+    budget: "Miesięczny budżet firmy"
+    budget_help: "Łączny koszt pracodawcy/klienta użyty dla wszystkich czterech wariantów."
+    student: "UZ: student do 26 lat, umowa z innym podmiotem"
+    costs: "Miesięczne koszty B2B"
+    taxation: "Opodatkowanie B2B"
+    zus: "Składki społeczne B2B"
+    lump_rate: "Stawka ryczałtu"
+  taxation:
+    linear: "Podatek liniowy 19%"
+    scale: "Skala 12% / 32%"
+    lump: "Ryczałt od przychodu"
+  zus:
+    standard: "Pełny ZUS 2026"
+    preferential: "ZUS preferencyjny"
+    start: "Ulga na start"
+  result:
+    net: "szacunkowo na rękę / miesiąc"
+    budget: "Budżet firmy"
+    gross: "Brutto / przychód"
+    costs: "Koszty firmy"
+    social: "Składki społeczne"
+    health: "Składka zdrowotna"
+    tax: "PIT"
+  assumptions:
+    title: "Wspólne założenia porównania"
+    text: "To porównanie planistyczne, a nie program kadrowo-płacowy. Zakłada tę samą kwotę przez 12 miesięcy i stosuje skalę oraz typowe składki z 2026 r."
+    one: "UoP obejmuje składki pracownika i szacowane obciążenia pracodawcy przy składce wypadkowej 1,67%; KUP pracownika to 250 zł/mies."
+    two: "UZ zakłada pełne oskładkowanie z dobrowolnym chorobowym, chyba że zaznaczysz studenta do 26 lat; uwzględniamy roczny limit ulgi dla młodych. Ud stosuje 20% KUP bez ZUS i zdrowotnej."
+    three: "B2B pomija VAT jako zwykle neutralny, używa wybranego ZUS i podatku oraz nie modeluje urlopu, księgowości, każdej ulgi i rozliczenia rocznego."
+  sources:
+    title: "Oficjalne źródła 2026"
+    text: "Parametry wynikają z aktualnych informacji polskiego rządu i ZUS, sprawdzonych w dniu podanym wyżej."
+    health: "składka zdrowotna"
+    business: "zdrowotna przedsiębiorcy"
+  limitations:
+    title: "Sytuacje zmieniające wynik"
+    text: "Inne dochody, wspólne rozliczenie, ulga dla młodych, autorskie KUP, PPK, zbieg tytułów, niepełnosprawność, dokładna wypadkowa, roczne rozliczenie zdrowotnej, urlop i właściwa stawka ryczałtu mogą istotnie zmienić wynik."
+  disclaimer: "Wyłącznie szacunek informacyjny. Rzeczywistą umowę sprawdź w programie kadrowo-księgowym lub u polskiego specjalisty."

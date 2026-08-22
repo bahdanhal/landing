@@ -8,8 +8,10 @@ parameters:
   audit.log_directory: '%env(AUDIT_LOG_DIRECTORY)%'
   audit.log_retention_days: '%env(int:AUDIT_LOG_RETENTION_DAYS)%'
   contact.lead_directory: '%env(CONTACT_LEAD_DIRECTORY)%'
+  market.data_directory: '%env(MARKET_DATA_DIRECTORY)%'
   anthropic.api_key: '%env(ANTHROPIC_API_KEY)%'
   anthropic.model: '%env(ANTHROPIC_MODEL)%'
+  market.research_model: '%env(MARKET_RESEARCH_MODEL)%'
 
 services:
   _defaults:
@@ -55,12 +57,31 @@ services:
 
   App\Controller\AuditController:
     arguments:
-      $auditLimiter: '@limiter.audit'
+      $auditQuota: '@App\Shared\Application\DailyQuota'
       $contactLimiter: '@limiter.contact'
 
   App\Controller\GeoController:
     arguments:
-      $auditLimiter: '@limiter.audit'
+      $auditQuota: '@App\Shared\Application\DailyQuota'
+
+  App\Shared\Application\DailyQuota:
+    arguments:
+      $limiter: '@limiter.audit'
+
+  App\Market\Domain\PriceObservationRepository:
+    alias: App\Market\Infrastructure\JsonPriceObservationRepository
+
+  App\Market\Application\MarketResearcher:
+    alias: App\Market\Infrastructure\AnthropicMarketResearcher
+
+  App\Market\Infrastructure\JsonPriceObservationRepository:
+    arguments:
+      $directory: '%market.data_directory%'
+
+  App\Market\Infrastructure\AnthropicMarketResearcher:
+    arguments:
+      $apiKey: '%anthropic.api_key%'
+      $model: '%market.research_model%'
 
   app.audit_cache:
     class: Symfony\Component\Cache\Adapter\FilesystemAdapter

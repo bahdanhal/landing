@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class ToolsController extends AbstractController
@@ -14,17 +15,17 @@ final class ToolsController extends AbstractController
         return $this->render('toolbox/home.html.twig');
     }
 
-    #[Route(
-        path: ['en' => '/tools/polish-vat-calculator', 'pl' => '/pl/narzedzia/kalkulator-vat'],
-        name: 'vat_calculator',
-        methods: ['GET'],
-    )]
-    public function vatCalculator(): Response
+    #[Route(path: ['en' => '/tools/poland-employment-calculator', 'pl' => '/pl/narzedzia/kalkulator-wynagrodzen'], name: 'income_calculator', methods: ['GET'])]
+    public function incomeCalculator(): Response
     {
-        return $this->render('tools/vat.html.twig', [
+        return $this->render('tools/income.html.twig', [
             'verified_at' => '2026-08-21',
-            'current_rates' => [23, 8, 5, 0],
-            'future_estimate_date' => '2027-01-01',
         ]);
+    }
+
+    #[Route(path: ['en' => '/tools/polish-vat-calculator', 'pl' => '/pl/narzedzia/kalkulator-vat'], name: 'legacy_vat_calculator', methods: ['GET'])]
+    public function legacyVatCalculator(Request $request): Response
+    {
+        return $this->redirectToRoute('income_calculator', ['_locale' => $request->getLocale()], 301);
     }
 }
