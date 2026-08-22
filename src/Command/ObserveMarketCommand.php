@@ -8,6 +8,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'app:market:observe', description: 'Research and store weekly Polish second-hand asking-price observations.')]
@@ -20,22 +21,46 @@ final class ObserveMarketCommand extends Command
 
     protected function configure(): void
     {
-        $this->addArgument('slug', InputArgument::OPTIONAL, 'One product slug; omit to update the complete catalog.');
+        $this
+            ->addArgument('slug', InputArgument::OPTIONAL, 'One product slug; omit to update the complete catalog.')
+            ->addOption('families', null, InputOption::VALUE_NONE, 'Observe the default configuration for each displayed product family.')
+            ->addOption('at', null, InputOption::VALUE_REQUIRED, 'Observation date in YYYY-MM-DD format. Past dates require archived evidence.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $requested = $input->getArgument('slug');
-        $products = is_string($requested) && $requested !== '' ? [$this->catalog->get($requested)] : $this->catalog->all();
+        $products = is_string($requested) && $requested !== ''
+            ? [$this->catalog->get($requested)]
+            : ($input->getOption('families') ? $this->catalog->familyDefaults() : $this->catalog->all());
         if (in_array(null, $products, true)) {
             $output->writeln('<error>Unknown product slug.</error>');
             return Command::INVALID;
         }
+        $at = $this->observationDate($input->getOption('at'));
+        $failures = 0;
         foreach ($products as $product) {
-            $observation = $this->observeMarket->observe($product->slug);
-            $output->writeln(sprintf('<info>%s: %.2f PLN (%s, n=%d)</info>', $product->name, $observation->medianGrosz / 100, $observation->confidence, $observation->sampleSize));
+            try {
+                $observation = $this->observeMarket->observe($product->slug, $at);
+                $output->writeln(sprintf('<info>%s: %.2f PLN (%s, n=%d, %s)</info>', $product->name, $observation->medianGrosz / 100, $observation->confidence, $observation->sampleSize, $observation->observedAt->format('Y-m-d')));
+            } catch (\Throwable $exception) {
+                ++$failures;
+                $output->writeln(sprintf('<error>%s: %s</error>', $product->name, $exception->getMessage()));
+            }
         }
 
-        return Command::SUCCESS;
+        return $failures === count($products) ? Command::FAILURE : Command::SUCCESS;
+    }
+
+    private function observationDate(mixed $value): ?\DateTimeImmutable
+    {
+        if ($value === null) {
+            return null;
+        }
+        if (!is_string($value) || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $value)) {
+            throw new \InvalidArgumentException('--at must use YYYY-MM-DD.');
+        }
+
+        return new \DateTimeImmutable($value.' 12:00:00', new \DateTimeZone('Europe/Warsaw'));
     }
 }

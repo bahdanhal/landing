@@ -18,6 +18,7 @@ final readonly class SitemapController
     {
         $pairs = [
             ['/', '/pl/'],
+            ['/tools', '/pl/narzedzia'],
             ['/tools/poland-employment-calculator', '/pl/narzedzia/kalkulator-wynagrodzen'],
             ['/tools/geo-audit', '/pl/narzedzia/audyt-geo'],
             ['/tools/seo-audit', '/pl/narzedzia/audyt-seo'],

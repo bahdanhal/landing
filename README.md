@@ -7,7 +7,7 @@ A bilingual Symfony 8.1 / PHP 8.5 collection of focused practical tools, deploye
 - Polish contract income calculator: browser-only UoP, umowa zlecenie, umowa o dzieło and B2B comparison from one company budget using explicit 2026 assumptions.
 - GEO readiness audit: one-page deterministic checks for retrieval, answer structure, schema, provenance, citations, freshness and entity clarity. AI crawler policies are reported but not scored.
 - Technical SEO audit: redirects, canonical consolidation, crawl traps, parameter spaces, robots.txt, sitemap coverage and indexability.
-- Poland used-price index: weekly AI market estimates stored as a validated history without server-side marketplace crawling or public marketplace citations.
+- Poland used-goods price index: weekly AI market estimates stored as a validated history without server-side marketplace crawling or public marketplace citations.
 
 Every indexable page has English and Polish routes, self-canonicals, reciprocal `hreflang` links and sitemap entries. Crawl result pages are `noindex`.
 

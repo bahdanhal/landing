@@ -9,7 +9,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ToolsController extends AbstractController
 {
-    #[Route(path: ['en' => '/', 'pl' => '/pl/'], name: 'home', methods: ['GET'])]
+    #[Route(path: ['en' => '/', 'pl' => '/pl/'], name: 'landing', methods: ['GET'])]
+    public function landing(): Response
+    {
+        return $this->render('portfolio/home.html.twig');
+    }
+
+    #[Route(path: ['en' => '/tools', 'pl' => '/pl/narzedzia'], name: 'home', methods: ['GET'])]
     public function home(): Response
     {
         return $this->render('toolbox/home.html.twig');

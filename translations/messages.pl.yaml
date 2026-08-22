@@ -8,12 +8,12 @@ base:
     income: "UoP / UZ / Ud / B2B"
     geo: "Analizator GEO"
     seo: "Analizator SEO"
-    market: "Ceny używanych"
+    market: "Ceny używanych rzeczy"
   context:
     income: "Kalkulator wynagrodzeń"
     geo: "Analizator GEO"
     seo: "Analizator SEO"
-    market: "Indeks cen używanych w Polsce"
+    market: "Indeks cen używanych rzeczy w Polsce"
   footer: "Przydatne i przejrzyste narzędzia · Bez rejestracji · Bez pikseli śledzących"
   contact: "Kontakt"
 
@@ -348,7 +348,8 @@ market:
   mcp:
     eyebrow: "OTWARTY SERWER MCP"
     title: "Użyj historii cen w asystencie AI"
-    text: "Publiczny serwer MCP tylko do odczytu pozwala zgodnym asystentom wyświetlać śledzone produkty i pobierać historię cen z datami. Nie wymaga konta ani klucza API. Wynik narzędzia zawiera stronę kanoniczną i uprzejmą prośbę o podanie źródła przy wykorzystaniu wartości."
+    text: "Publiczny serwer MCP tylko do odczytu pozwala zgodnym asystentom wyświetlać śledzone produkty i pobierać historię cen z datami. Nie wymaga konta ani klucza API."
+  choose_configuration: "Wybierz konfigurację"
   faq:
     title: "Jak korzystać z tej historii"
     estimate:
@@ -427,3 +428,37 @@ income:
     title: "Sytuacje zmieniające wynik"
     text: "Inne dochody, wspólne rozliczenie, ulga dla młodych, autorskie KUP, PPK, zbieg tytułów, niepełnosprawność, dokładna wypadkowa, roczne rozliczenie zdrowotnej, urlop i właściwa stawka ryczałtu mogą istotnie zmienić wynik."
   disclaimer: "Wyłącznie szacunek informacyjny. Rzeczywistą umowę sprawdź w programie kadrowo-księgowym lub u polskiego specjalisty."
+
+profile:
+  meta:
+    title: "Bahdan Hal · Backend Engineer w Gdańsku"
+    description: "Backend engineer pracujący z PHP, Symfony, Laravelem, infrastrukturą Linux i praktycznymi integracjami AI. Gdańsk, Polska."
+  role_short: "Backend Engineer"
+  eyebrow: "BACKEND ENGINEER · GDAŃSK"
+  heading: "Buduję systemy,"
+  heading_emphasis: "które pozostają użyteczne."
+  intro: "Jestem backend engineerem z ponad pięcioletnim doświadczeniem w modernizacji aplikacji PHP, utrzymaniu infrastruktury Linux i wdrażaniu praktycznych integracji AI. Lubię jasne systemy, świadome kompromisy i oprogramowanie, które radzi sobie na produkcji."
+  contact: "Napisz do mnie"
+  tools: "Otwórz toolbox"
+  facts_label: "Podsumowanie zawodowe"
+  years: "lat w branży"
+  backend:
+    title: "Systemy backendowe"
+    text: "Aplikacje Symfony i Laravel, migracje legacy, procesy oparte na danych, API, integracje, kolejki i cała mało efektowna praca nad niezawodnością."
+  infrastructure:
+    title: "Praktyczna infrastruktura"
+    text: "Docker, hardening Linuksa, migracje na opłacalne VPS-y i bare metal, dostarczalność poczty, usuwanie skutków incydentów i diagnostyka produkcji."
+  ai:
+    title: "AI do konkretnych zadań"
+    text: "Integracje modeli i narzędzia agentowe tam, gdzie rozwiązują konkretny problem: procesy treściowe, narzędzia wewnętrzne, ustrukturyzowany research i produktywność programistów."
+  work:
+    eyebrow: "WYBRANE DOŚWIADCZENIE"
+    title: "Ostatnie projekty"
+    freedom: "Backend i wewnętrzne narzędzia agentowe dla platformy telekomunikacyjnej: integracje, stabilność i trudne błędy produkcyjne."
+    gwo: "Modernizacja systemów Symfony i Laravel używanych przez miliony osób, narzędzia redakcyjne i edukacyjne oraz integracje modeli generatywnych i wizyjnych."
+    consulting_title: "Niezależny konsulting"
+    consulting: "Bezpieczeństwo Linuksa, migracje, dostarczalność SMTP, integracje API i konkretne prace backendowe dla klientów z realnymi systemami i rozsądnymi budżetami."
+  present: "obecnie"
+  contact_eyebrow: "KONTAKT"
+  contact_heading: "Masz użyteczny problem?"
+  socials: "Kontakt i profile"

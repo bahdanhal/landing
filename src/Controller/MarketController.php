@@ -17,9 +17,15 @@ final class MarketController extends AbstractController
     #[Route(path: ['en' => '/tools/poland-used-price-index', 'pl' => '/pl/narzedzia/indeks-cen-uzywanych'], name: 'market_home', methods: ['GET'])]
     public function home(): Response
     {
-        $products = array_map(fn ($product) => ['product' => $product, 'latest' => $this->observations->latest($product->slug)], $this->catalog->all());
+        $families = array_map(fn ($family) => [
+            'family' => $family,
+            'configurations' => array_map(fn ($product) => [
+                'product' => $product,
+                'latest' => $this->observations->latest($product->slug),
+            ], $family->configurations),
+        ], $this->catalog->families());
 
-        return $this->render('market/home.html.twig', ['products' => $products]);
+        return $this->render('market/home.html.twig', ['families' => $families]);
     }
 
     #[Route(path: ['en' => '/tools/poland-used-price-index/{slug}', 'pl' => '/pl/narzedzia/indeks-cen-uzywanych/{slug}'], name: 'market_product', requirements: ['slug' => '[a-z0-9-]+'], methods: ['GET'])]

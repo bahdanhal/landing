@@ -8,12 +8,12 @@ base:
     income: "UoP / UZ / Ud / B2B"
     geo: "GEO analyzer"
     seo: "SEO analyzer"
-    market: "Used prices"
+    market: "Used goods prices"
   context:
     income: "Polish income calculator"
     geo: "GEO analyzer"
     seo: "SEO analyzer"
-    market: "Poland used-price index"
+    market: "Poland used-goods price index"
   footer: "Useful, transparent tools · No signup · No tracking pixel"
   contact: "Contact"
 
@@ -40,7 +40,7 @@ home:
     title: "Technical SEO audit"
     text: "Find redirect mistakes, crawler traps, duplicate URL spaces, canonical problems, and sitemap gaps."
   market:
-    title: "Poland used-price index"
+    title: "Poland used-goods price index"
     text: "Follow weekly AI-assisted estimates of comparable second-hand asking prices, with history, confidence and transparent limitations."
   principles:
     private:
@@ -348,7 +348,8 @@ market:
   mcp:
     eyebrow: "OPEN MCP SERVER"
     title: "Use the price history from an AI assistant"
-    text: "The public, read-only MCP endpoint lets compatible assistants list tracked products and retrieve dated price history. No account or API key is required. Tool results include the canonical page and politely request attribution when a figure is used."
+    text: "The public, read-only MCP endpoint lets compatible assistants list tracked products and retrieve dated price history. No account or API key is required."
+  choose_configuration: "Choose a configuration"
   faq:
     title: "How to use this history"
     estimate:
@@ -427,3 +428,37 @@ income:
     title: "Situations that change the result"
     text: "Other income, joint filing, age relief, copyright costs, PPK, multiple insurance titles, disability, exact accident rate, annual health reconciliation, holidays and industry-specific lump-sum rates can materially change the result."
   disclaimer: "Informational estimate only. Confirm a real contract with payroll/accounting software or a qualified Polish adviser."
+
+profile:
+  meta:
+    title: "Bahdan Hal · Backend Engineer in Gdańsk"
+    description: "Backend engineer working with PHP, Symfony, Laravel, Linux infrastructure and practical AI integrations. Based in Gdańsk, Poland."
+  role_short: "Backend Engineer"
+  eyebrow: "BACKEND ENGINEER · GDAŃSK"
+  heading: "I build systems"
+  heading_emphasis: "that stay useful."
+  intro: "I’m a backend engineer with more than five years of experience modernising PHP applications, operating Linux infrastructure, and shipping practical AI integrations. I like clear systems, measured trade-offs, and software that survives contact with production."
+  contact: "Email me"
+  tools: "Open the toolbox"
+  facts_label: "Professional summary"
+  years: "years in software"
+  backend:
+    title: "Backend systems"
+    text: "Symfony and Laravel applications, legacy migrations, data-heavy workflows, APIs, integrations, queues, and the unglamorous reliability work that keeps them running."
+  infrastructure:
+    title: "Practical infrastructure"
+    text: "Docker, Linux hardening, migrations to cost-effective VPS and bare metal, mail deliverability, incident recovery, and production debugging."
+  ai:
+    title: "AI with a job to do"
+    text: "Model integrations and agent tooling where they solve a concrete problem: content workflows, internal tools, structured research, and developer productivity."
+  work:
+    eyebrow: "SELECTED EXPERIENCE"
+    title: "Recent work"
+    freedom: "Backend development and internal agent tooling for a telecommunications platform, including integrations, stability work, and difficult production defects."
+    gwo: "Modernised Symfony and Laravel systems used by millions, built editorial and education tools, and integrated generative and vision models into real workflows."
+    consulting_title: "Independent consulting"
+    consulting: "Linux security, migrations, SMTP deliverability, API integrations, and focused backend work for clients running real systems on practical budgets."
+  present: "present"
+  contact_eyebrow: "CONTACT"
+  contact_heading: "Have a useful problem?"
+  socials: "Contact and profiles"

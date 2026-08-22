@@ -3,6 +3,7 @@
 namespace App\Market\Application;
 
 use App\Market\Domain\Product;
+use App\Market\Domain\ProductFamily;
 
 final class ProductCatalog
 {
@@ -21,6 +22,55 @@ final class ProductCatalog
         }
 
         return null;
+    }
+
+    /** @return list<ProductFamily> */
+    public function families(): array
+    {
+        $families = [];
+        foreach ($this->all() as $product) {
+            $families[$this->familySlug($product)][] = $product;
+        }
+
+        return array_map(function (array $products): ProductFamily {
+            $first = $products[0];
+            $familySlug = $this->familySlug($first);
+            $name = $first->category === 'smartphones'
+                ? 'Apple '.$first->specifications['generation']
+                : sprintf('MacBook Air %s %s', $first->specifications['display'], $first->specifications['chip']);
+            [$image, $credit, $source] = match ($familySlug) {
+                'iphone-13' => ['/images/market/iphone-13.jpg', 'Kskhh', 'https://commons.wikimedia.org/wiki/File:IPhone_13.jpg'],
+                'iphone-14' => ['/images/market/iphone-14-plus.jpg', 'Kskhh', 'https://commons.wikimedia.org/wiki/File:IPhone_13_and_iPhone_14_Plus.jpg'],
+                'macbook-air-13-m1' => ['/images/market/macbook-air-m1.png', 'L', 'https://commons.wikimedia.org/wiki/File:Macbook_Air_M1_Silver_PNG.png'],
+                'macbook-air-13-m2' => ['/images/market/macbook-air-m2.jpg', 'KKPCW (Kyu3)', 'https://commons.wikimedia.org/wiki/File:M2_Macbook_Air_Midnight_model_-_1.jpg'],
+                'macbook-air-15-m2' => ['/images/market/macbook-air-15.jpg', 'KKPCW (Kyu3)', 'https://commons.wikimedia.org/wiki/File:Macbook_Air_15_inch_-_1.jpg'],
+            };
+
+            return new ProductFamily(
+                $familySlug,
+                $name,
+                $first->category,
+                $image,
+                $credit,
+                $source,
+                $products,
+            );
+        }, array_values($families));
+    }
+
+    /** @return list<Product> */
+    public function familyDefaults(): array
+    {
+        return array_map(static fn (ProductFamily $family): Product => $family->defaultConfiguration(), $this->families());
+    }
+
+    private function familySlug(Product $product): string
+    {
+        if ($product->category === 'smartphones') {
+            return strtolower(str_replace(' ', '-', $product->specifications['generation']));
+        }
+
+        return strtolower(str_replace([' ', '-inch'], ['-', ''], sprintf('macbook-air-%s-%s', $product->specifications['display'], $product->specifications['chip'])));
     }
 
     /** @return list<Product> */

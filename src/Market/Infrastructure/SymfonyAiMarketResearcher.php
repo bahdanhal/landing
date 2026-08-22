@@ -16,9 +16,13 @@ final readonly class SymfonyAiMarketResearcher implements MarketResearcher
 
     public function observe(Product $product, \DateTimeImmutable $at): PriceObservation
     {
+        $today = new \DateTimeImmutable('today', new \DateTimeZone('Europe/Warsaw'));
+        $historicalRules = $at < $today
+            ? 'This is a historical observation. Use only public web-archive captures whose capture timestamp is on, or as close as practical to, the requested date. The returned figures must describe evidence visible in those dated captures, not current prices and not a backwards projection. If enough dated archived comparables cannot be verified, explain the failure instead of returning JSON.'
+            : 'This is a current observation. Use current public market information.';
         $text = $this->ai->complete(
             'You conduct a conservative, repeatable AI estimate of second-hand asking prices in Poland. Use provider-hosted web search to understand the current market, but never reproduce, cite, name, quote, or return any marketplace, domain, seller, listing, or URL. Compare only the exact product definition. Exclude damaged, parts-only, new, refurbished-as-new, locked, bundled, obvious outliers and non-Polish offers. Return only one strict JSON object with keys median_pln (integer), low_pln (integer), high_pln (integer), sample_size (integer), confidence (low|medium|high). Prices are an AI-assisted estimate of asking prices, not scraped or completed-sale data. If fewer than three comparable offers can be observed, explain the failure instead of fabricating JSON.',
-            sprintf("Observation date: %s\nMarket: Poland, prices in PLN\nProduct: %s\nExact comparison definition: %s", $at->format('Y-m-d'), $product->name, $product->definition),
+            sprintf("Observation date: %s\n%s\nMarket: Poland, prices in PLN\nProduct: %s\nExact comparison definition: %s", $at->format('Y-m-d'), $historicalRules, $product->name, $product->definition),
             AiUseCase::MarketResearch,
         );
         $data = $this->decodeJson($text);

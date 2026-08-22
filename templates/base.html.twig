@@ -16,18 +16,20 @@
   <link rel="stylesheet" href="/identity.css">
   {% block stylesheets %}{% endblock %}
   <script src="/contact.js" defer></script>
-  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'WebSite','@id':'https://bahdan-hal.ovh/#website','url':'https://bahdan-hal.ovh/','name':'Bahdan’s Toolbox','inLanguage':['en','pl'],'publisher':{'@id':'https://bahdan-hal.ovh/#bahdan'}},{'@type':'Person','@id':'https://bahdan-hal.ovh/#bahdan','name':'Bahdan Hal','url':'https://bahdan-hal.ovh/','sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://www.upwork.com/freelancers/~014111a2d384da6af9']}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'WebSite','@id':'https://bahdan-hal.ovh/#website','url':'https://bahdan-hal.ovh/','name':'Bahdan Hal','inLanguage':['en','pl'],'publisher':{'@id':'https://bahdan-hal.ovh/#bahdan'}},{'@type':'Person','@id':'https://bahdan-hal.ovh/#bahdan','name':'Bahdan Hal','url':'https://bahdan-hal.ovh/','jobTitle':'Backend Engineer','sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.instagram.com/bahdan.hal/','https://www.upwork.com/freelancers/~014111a2d384da6af9']}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
   {% block head_scripts %}{% endblock %}
 </head>
 <body>
   <header class="topbar">
     <div class="brand-lockup">
+      {% block brand_lockup %}
       <a class="brand" href="{{ path('home', {_locale: app.request.locale}) }}" aria-label="{{ 'base.home_label'|trans }}">
         <span class="brand-mark">↗</span>
         <span>{{ 'base.brand'|trans }}</span>
       </a>
-      <span class="brand-credit">{{ 'base.by'|trans }}</span>
+      <a class="brand-credit" href="{{ path('landing', {_locale: app.request.locale}) }}">{{ 'base.by'|trans }}</a>
       <span class="brand-context">{% block tool_name %}{% endblock %}</span>
+      {% endblock %}
     </div>
     <nav class="tool-nav" aria-label="{{ 'base.navigation'|trans }}">
       <a href="{{ path('income_calculator', {_locale: app.request.locale}) }}">{{ 'base.nav.income'|trans }}</a>

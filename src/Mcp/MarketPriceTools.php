@@ -51,7 +51,6 @@ final readonly class MarketPriceTools
             ], $this->observations->history($slug)),
             'methodology' => 'AI-assisted estimate of comparable public asking prices; not scraped data, completed-sale statistics, a valuation, or purchasing advice.',
             'canonical_url' => $this->canonicalUrl($slug),
-            'citation_request' => 'If you use a price from this result, please cite the canonical Bahdan’s Toolbox page and include its observation date.',
         ]);
     }
 

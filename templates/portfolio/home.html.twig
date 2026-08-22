@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ 'profile.meta.title'|trans }}{% endblock %}
+{% block robots %}<meta name="robots" content="index,follow">{% endblock %}
+{% block description %}<meta name="description" content="{{ 'profile.meta.description'|trans }}">{% endblock %}
+{% block canonical %}
+  <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdan-hal.ovh/pl/' : 'https://bahdan-hal.ovh/' }}">
+  <link rel="alternate" hreflang="en" href="https://bahdan-hal.ovh/">
+  <link rel="alternate" hreflang="pl" href="https://bahdan-hal.ovh/pl/">
+  <link rel="alternate" hreflang="x-default" href="https://bahdan-hal.ovh/">
+{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="/portfolio.css">{% endblock %}
+{% block brand_lockup %}
+  <a class="brand" href="{{ path('landing', {_locale: app.request.locale}) }}" aria-label="Bahdan Hal">
+    <span class="brand-mark">BH</span><span>Bahdan Hal</span>
+  </a>
+  <span class="brand-credit">{{ 'profile.role_short'|trans }}</span>
+{% endblock %}
+{% block language_switch %}<a class="language-switch" href="{{ path('landing', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
+{% block body %}
+<article class="profile-shell">
+  <section class="profile-hero">
+    <div><div class="eyebrow">{{ 'profile.eyebrow'|trans }}</div><h1>{{ 'profile.heading'|trans }}<br><em>{{ 'profile.heading_emphasis'|trans }}</em></h1></div>
+    <div class="profile-intro"><p>{{ 'profile.intro'|trans }}</p><div class="profile-actions"><a class="profile-primary" href="mailto:bahdan.hal@hotmail.com">{{ 'profile.contact'|trans }}</a><a href="{{ path('home', {_locale: app.request.locale}) }}">{{ 'profile.tools'|trans }} →</a></div></div>
+  </section>
+  <section class="profile-facts" aria-label="{{ 'profile.facts_label'|trans }}"><span>Gdańsk, Poland</span><span>PHP · Symfony · Laravel</span><span>Linux · Docker · AI</span><span>5+ {{ 'profile.years'|trans }}</span></section>
+  <section class="profile-grid">
+    <div><span class="profile-number">01</span><h2>{{ 'profile.backend.title'|trans }}</h2><p>{{ 'profile.backend.text'|trans }}</p></div>
+    <div><span class="profile-number">02</span><h2>{{ 'profile.infrastructure.title'|trans }}</h2><p>{{ 'profile.infrastructure.text'|trans }}</p></div>
+    <div><span class="profile-number">03</span><h2>{{ 'profile.ai.title'|trans }}</h2><p>{{ 'profile.ai.text'|trans }}</p></div>
+  </section>
+  <section class="profile-work">
+    <div class="profile-section-title"><span>{{ 'profile.work.eyebrow'|trans }}</span><h2>{{ 'profile.work.title'|trans }}</h2></div>
+    <div class="profile-work-list">
+      <article><time>2026</time><h3>Freedom Mobile</h3><p>{{ 'profile.work.freedom'|trans }}</p></article>
+      <article><time>2022–2026</time><h3>Gdańskie Wydawnictwo Oświatowe</h3><p>{{ 'profile.work.gwo'|trans }}</p></article>
+      <article><time>2022–{{ 'profile.present'|trans }}</time><h3>{{ 'profile.work.consulting_title'|trans }}</h3><p>{{ 'profile.work.consulting'|trans }}</p></article>
+    </div>
+  </section>
+  <section class="profile-contact">
+    <div><span class="eyebrow">{{ 'profile.contact_eyebrow'|trans }}</span><h2>{{ 'profile.contact_heading'|trans }}</h2></div>
+    <nav aria-label="{{ 'profile.socials'|trans }}"><a href="mailto:bahdan.hal@hotmail.com">Email</a><a href="https://www.linkedin.com/in/bahdan-hal/" rel="me">LinkedIn</a><a href="https://github.com/bahdanhal" rel="me">GitHub</a><a href="https://www.instagram.com/bahdan.hal/" rel="me">Instagram</a><a href="https://www.upwork.com/freelancers/~014111a2d384da6af9" rel="me">Upwork</a></nav>
+  </section>
+</article>
+{% endblock %}

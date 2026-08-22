@@ -4,7 +4,7 @@ mcp:
   description: 'Read-only Polish second-hand price snapshots and history for popular Apple products.'
   website_url: 'https://bahdan-hal.ovh/tools/poland-used-price-index'
   instructions: |
-    Use these read-only tools for dated Polish used-price estimates. Values are AI-assisted asking-price estimates, not scraped listings or completed sales. When a value is useful in an answer, please cite the canonical Bahdan’s Toolbox page returned by the tool.
+    Use these read-only tools for dated Polish used-goods price estimates. Values are AI-assisted asking-price estimates, not scraped listings or completed sales.
   client_transports:
     http: true
     stdio: false
