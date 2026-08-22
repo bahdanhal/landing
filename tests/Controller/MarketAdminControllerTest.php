@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Analytics\Application\TrafficAnalytics;
+use App\Analytics\Domain\PageViewRepository;
 use App\Controller\Admin\MarketAdminController;
 use App\Market\Application\ProductCatalog;
 use App\Market\Domain\PriceObservation;
 use App\Market\Domain\PriceObservationRepository;
+use App\Market\Domain\PriceTipRepository;
+use App\Market\Domain\ProductRequestStore;
 use App\Market\Infrastructure\JsonProductRequestStore;
 use App\Market\Infrastructure\JsonPriceTipRepository;
 use PHPUnit\Framework\TestCase;
@@ -34,7 +38,14 @@ final class MarketAdminControllerTest extends TestCase
         $container = new Container();
         $container->set('twig', $twig);
 
-        $controller = new MarketAdminController($catalog, $observations, $productRequests, $priceTips, $secret);
+        $controller = new MarketAdminController(
+            $catalog,
+            $observations,
+            $productRequests,
+            $priceTips,
+            $this->trafficAnalytics(),
+            $secret,
+        );
         $controller->setContainer($container);
 
         $request = new Request();
@@ -58,7 +69,14 @@ final class MarketAdminControllerTest extends TestCase
         $container = new Container();
         $container->set('router', $router);
 
-        $controller = new MarketAdminController($catalog, $observations, $productRequests, $priceTips, $secret);
+        $controller = new MarketAdminController(
+            $catalog,
+            $observations,
+            $productRequests,
+            $priceTips,
+            $this->trafficAnalytics(),
+            $secret,
+        );
         $controller->setContainer($container);
 
         $request = new Request(request: ['password' => 'test-secret-key']);
@@ -94,7 +112,14 @@ final class MarketAdminControllerTest extends TestCase
         $container = new Container();
         $container->set('router', $router);
 
-        $controller = new MarketAdminController($catalog, $observations, $productRequests, $priceTips, $secret);
+        $controller = new MarketAdminController(
+            $catalog,
+            $observations,
+            $productRequests,
+            $priceTips,
+            $this->trafficAnalytics(),
+            $secret,
+        );
         $controller->setContainer($container);
 
         $authCookie = hash_hmac('sha256', 'market_admin_authenticated', $secret);
@@ -113,5 +138,57 @@ final class MarketAdminControllerTest extends TestCase
 
         $response = $controller->saveObservation($request);
         self::assertSame(302, $response->getStatusCode());
+    }
+
+    public function testAuthenticatedDashboardIncludesTrafficAndMarketStatistics(): void
+    {
+        $catalog = new ProductCatalog();
+        $observations = $this->createStub(PriceObservationRepository::class);
+        $observations->method('history')->willReturn([]);
+        $productRequests = $this->createStub(ProductRequestStore::class);
+        $productRequests->method('all')->willReturn([]);
+        $priceTips = $this->createStub(PriceTipRepository::class);
+        $priceTips->method('all')->willReturn([]);
+        $secret = 'test-secret-key';
+
+        $twig = $this->createMock(Environment::class);
+        $twig->expects(self::once())
+            ->method('render')
+            ->with(
+                'admin/market.html.twig',
+                self::callback(static function (array $context): bool {
+                    return $context['traffic']['last_7_days']['page_views'] === 0
+                        && count($context['traffic']['daily']) === 30
+                        && $context['statistics']['catalog_coverage_percent'] === 0
+                        && $context['statistics']['stale_products'] === count($context['all_products']);
+                }),
+            )
+            ->willReturn('<html>dashboard</html>');
+
+        $container = new Container();
+        $container->set('twig', $twig);
+
+        $controller = new MarketAdminController(
+            $catalog,
+            $observations,
+            $productRequests,
+            $priceTips,
+            $this->trafficAnalytics(),
+            $secret,
+        );
+        $controller->setContainer($container);
+
+        $response = $controller->index(new Request(query: ['token' => $secret]));
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertSame('<html>dashboard</html>', $response->getContent());
+    }
+
+    private function trafficAnalytics(): TrafficAnalytics
+    {
+        $pageViews = $this->createStub(PageViewRepository::class);
+        $pageViews->method('since')->willReturn([]);
+
+        return new TrafficAnalytics($pageViews);
     }
 }

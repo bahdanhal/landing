@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Analytics\Application\TrafficAnalytics;
 use App\Market\Application\ProductCatalog;
 use App\Market\Domain\PriceObservation;
 use App\Market\Domain\PriceObservationRepository;
+use App\Market\Domain\PriceTip;
 use App\Market\Domain\PriceTipRepository;
+use App\Market\Domain\Product;
 use App\Market\Domain\ProductRequestStore;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -24,6 +27,7 @@ final class MarketAdminController extends AbstractController
         private readonly PriceObservationRepository $observations,
         private readonly ProductRequestStore $productRequests,
         private readonly PriceTipRepository $priceTips,
+        private readonly TrafficAnalytics $trafficAnalytics,
         private readonly string $secret,
     ) {
     }
@@ -39,7 +43,18 @@ final class MarketAdminController extends AbstractController
         $search = strtolower(trim((string) $request->query->get('q', '')));
 
         $allProducts = $this->catalog->all();
-        $filtered = array_filter($allProducts, function ($product) use ($category, $search): bool {
+        $allProductData = array_map(function (Product $product): array {
+            $history = $this->observations->history($product->slug);
+
+            return [
+                'product' => $product,
+                'latest' => $history[0] ?? null,
+                'previous' => $history[1] ?? null,
+                'observation_count' => count($history),
+            ];
+        }, $allProducts);
+        $productData = array_values(array_filter($allProductData, function (array $item) use ($category, $search): bool {
+            $product = $item['product'];
             if ($category !== null && $category !== '' && $product->category !== $category) {
                 return false;
             }
@@ -47,27 +62,56 @@ final class MarketAdminController extends AbstractController
                 return false;
             }
             return true;
-        });
+        }));
 
-        $productData = array_map(function ($product) {
-            $history = $this->observations->history($product->slug);
-            $latest = $history[0] ?? null;
-            $previous = $history[1] ?? null;
+        $requests = $this->productRequests->all();
+        $priceTips = $this->priceTips->all();
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+        $sevenDaysAgo = $now->modify('-7 days');
+        $thirtyDaysAgo = $now->modify('-30 days');
+        $traffic = $this->trafficAnalytics->summary($now);
+        $trafficPeak = max(1, ...array_column($traffic['daily'], 'page_views'));
+        $traffic['daily'] = array_map(static fn (array $day): array => [
+            ...$day,
+            'height_percent' => $day['page_views'] === 0
+                ? 2
+                : max(8, (int) round(($day['page_views'] / $trafficPeak) * 100)),
+        ], $traffic['daily']);
 
-            return [
-                'product' => $product,
-                'latest' => $latest,
-                'previous' => $previous,
-                'observation_count' => count($history),
-            ];
-        }, $filtered);
+        $productsWithHistory = count(array_filter(
+            $allProductData,
+            static fn (array $item): bool => $item['latest'] !== null,
+        ));
+        $staleProducts = count(array_filter(
+            $allProductData,
+            static fn (array $item): bool => $item['latest'] === null
+                || $item['latest']->observedAt < $thirtyDaysAgo,
+        ));
+        $trackedProducts = count($allProducts);
 
         return $this->render('admin/market.html.twig', [
             'products' => $productData,
             'all_products' => $allProducts,
             'families' => $this->catalog->families(),
-            'requests' => $this->productRequests->all(),
-            'price_tips' => $this->priceTips->all(),
+            'requests' => $requests,
+            'price_tips' => $priceTips,
+            'traffic' => $traffic,
+            'statistics' => [
+                'requests_last_7_days' => count(array_filter(
+                    $requests,
+                    static fn (array $item): bool => new \DateTimeImmutable($item['timestamp']) >= $sevenDaysAgo,
+                )),
+                'price_tips_last_7_days' => count(array_filter(
+                    $priceTips,
+                    static fn (PriceTip $tip): bool => $tip->submittedAt >= $sevenDaysAgo,
+                )),
+                'tracked_products' => $trackedProducts,
+                'catalog_coverage_percent' => $trackedProducts === 0
+                    ? 0
+                    : (int) round(($productsWithHistory / $trackedProducts) * 100),
+                'observation_points' => array_sum(array_column($allProductData, 'observation_count')),
+                'stale_products' => $staleProducts,
+            ],
             'current_category' => $category,
             'search' => $search,
             'status' => $request->query->get('status'),
