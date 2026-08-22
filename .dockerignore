@@ -1,4 +1,5 @@
 .git
+.github
 .idea
 .env
 .env.local
@@ -6,3 +7,4 @@ production.env
 certbot-webroot
 var
 vendor
+
