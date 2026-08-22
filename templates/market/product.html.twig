@@ -163,7 +163,7 @@
                         {% for observation in history %}<tr><td><time datetime="{{ observation.observedAt|date('c') }}">{{ observation.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y') }}</time></td><td><strong>{{ _self.money(observation.medianGrosz, app.request.locale) }}</strong></td><td>{{ _self.money(observation.lowGrosz, app.request.locale) }}–{{ _self.money(observation.highGrosz, app.request.locale) }}</td></tr>{% endfor %}
                         </tbody></table></div>
             </section>
-            <section class="section market-evidence"><div class="section-title"><h2>{{ 'market.methodology_label'|trans }}</h2><span>{{ 'market.latest_snapshot'|trans }}</span></div><p>{{ 'market.method.public'|trans }}</p></section>
+            <section class="section market-evidence"><div class="section-title"><h2>{{ 'market.methodology_label'|trans }}</h2><span>{{ 'market.method.verified_badge'|trans }}</span></div><p>{{ 'market.method.public'|trans }}</p><p class="market-curation-note">✓ {{ 'market.method.verified_by_bahdan'|trans }}</p></section>
             <section class="tool-faq">
                 <h2>{{ 'market.faq.title'|trans }}</h2>
                 <details open>

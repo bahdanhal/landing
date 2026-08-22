@@ -75,7 +75,7 @@ final class SeedMarketDataCommand extends Command
     private function calculateBasePricePln(Product $product): int
     {
         if ($product->category === 'cars') {
-            return str_contains($product->slug, '2-0') ? 10500 : 8500;
+            return str_contains($product->slug, '2-0') ? 4900 : 3800;
         }
 
         if ($product->category === 'ram') {
@@ -90,7 +90,7 @@ final class SeedMarketDataCommand extends Command
             return $this->macBookPrice($product);
         }
 
-        return 1000;
+        return 500;
     }
 
     private function ramPrice(Product $product): int
@@ -99,31 +99,38 @@ final class SeedMarketDataCommand extends Command
         $cap = $specs['capacity'] ?? '';
         $type = $specs['type'] ?? 'DDR4';
         $isLaptop = str_contains($specs['form_factor'] ?? '', 'SO-DIMM');
+        $speed = $specs['speed'] ?? '';
 
         if ($type === 'DDR4') {
-            if (str_contains($cap, '16 GB')) {
-                return $isLaptop ? 115 : 120;
+            if ($cap === '8 GB') {
+                return $isLaptop ? 480 : 500;
             }
-            if (str_contains($cap, '32 GB')) {
-                return str_contains($specs['speed'] ?? '', '3600') ? 250 : 220;
+            if ($cap === '16 GB') {
+                if ($isLaptop) {
+                    return 960;
+                }
+                return str_contains($speed, '3600') ? 1100 : 1000;
             }
-            if (str_contains($cap, '64 GB')) {
-                return 480;
+            if ($cap === '32 GB') {
+                return $isLaptop ? 1250 : 1350;
             }
         } else {
             // DDR5
-            if (str_contains($cap, '16 GB')) {
-                return 160;
+            if ($cap === '8 GB') {
+                return 520;
             }
-            if (str_contains($cap, '32 GB')) {
-                return str_contains($specs['speed'] ?? '', '6000') ? 390 : 340;
+            if ($cap === '16 GB') {
+                if ($isLaptop) {
+                    return str_contains($speed, '5600') ? 980 : 920;
+                }
+                return str_contains($speed, '6000') ? 950 : 880;
             }
-            if (str_contains($cap, '64 GB')) {
-                return 740;
+            if ($cap === '32 GB') {
+                return $isLaptop ? 1800 : 1850;
             }
         }
 
-        return 200;
+        return 500;
     }
 
     private function iphonePrice(Product $product): int
@@ -133,40 +140,61 @@ final class SeedMarketDataCommand extends Command
         $variant = $specs['variant'] ?? 'Standard';
         $storage = $specs['storage'] ?? '128 GB';
 
-        $baseByGen = [
-            'iPhone X' => 650,
-            'iPhone XR' => 750,
-            'iPhone XS' => 800,
-            'iPhone SE 2020' => 650,
-            'iPhone 11' => 1050,
-            'iPhone SE 2022' => 1050,
-            'iPhone 12' => 1350,
-            'iPhone 13' => 1850,
-            'iPhone 14' => 2250,
-            'iPhone 15' => 2850,
-            'iPhone 16' => 3450,
+        // Base price for lowest available capacity of each model
+        $basePrices = [
+            'iPhone X' => ['Standard' => 220],
+            'iPhone XR' => ['Standard' => 280],
+            'iPhone XS' => ['Standard' => 310, 'Max' => 400],
+            'iPhone SE 2020' => ['Standard' => 260],
+            'iPhone 11' => ['Standard' => 420, 'Pro' => 620, 'Pro Max' => 750],
+            'iPhone SE 2022' => ['Standard' => 450],
+            'iPhone 12' => ['Mini' => 520, 'Standard' => 650, 'Pro' => 900, 'Pro Max' => 1100],
+            'iPhone 13' => ['Mini' => 850, 'Standard' => 950, 'Pro' => 1300, 'Pro Max' => 1550],
+            'iPhone 14' => ['Standard' => 1250, 'Plus' => 1400, 'Pro' => 1750, 'Pro Max' => 2050],
+            'iPhone 15' => ['Standard' => 1650, 'Plus' => 1850, 'Pro' => 2300, 'Pro Max' => 2750],
+            'iPhone 16' => ['Standard' => 2200, 'Plus' => 2450, 'Pro' => 2950, 'Pro Max' => 3500],
         ];
 
-        $price = $baseByGen[$gen] ?? 1500;
+        $variantKey = match ($variant) {
+            'Mini' => 'Mini',
+            'Plus' => 'Plus',
+            'Pro' => 'Pro',
+            'Pro Max', 'Max' => (isset($basePrices[$gen]['Pro Max']) ? 'Pro Max' : 'Max'),
+            default => 'Standard',
+        };
 
-        if ($variant === 'Mini') {
-            $price = (int) round($price * 0.88);
-        } elseif ($variant === 'Plus') {
-            $price = (int) round($price * 1.15);
-        } elseif ($variant === 'Pro') {
-            $price = (int) round($price * 1.35);
-        } elseif ($variant === 'Pro Max' || $variant === 'Max') {
-            $price = (int) round($price * 1.55);
-        }
+        $price = $basePrices[$gen][$variantKey] ?? 800;
 
-        if (str_contains($storage, '128 GB')) {
-            $price += 100;
-        } elseif (str_contains($storage, '256 GB')) {
-            $price += 250;
-        } elseif (str_contains($storage, '512 GB')) {
-            $price += 500;
-        } elseif (str_contains($storage, '1 TB')) {
-            $price += 800;
+        // Storage increments relative to base tier
+        // iPhone 15 Pro Max and 16 Pro Max start at 256 GB base
+        $startsAt256 = ($gen === 'iPhone 15' || $gen === 'iPhone 16') && ($variant === 'Pro Max');
+        // Models starting at 128 GB
+        $startsAt128 = in_array($gen, ['iPhone 13', 'iPhone 14', 'iPhone 15', 'iPhone 16'], true)
+            || (($gen === 'iPhone 12') && ($variant === 'Pro' || $variant === 'Pro Max'));
+
+        if ($startsAt256) {
+            if (str_contains($storage, '512 GB')) {
+                $price += 250;
+            } elseif (str_contains($storage, '1 TB')) {
+                $price += 500;
+            }
+        } elseif ($startsAt128) {
+            if (str_contains($storage, '256 GB')) {
+                $price += 100;
+            } elseif (str_contains($storage, '512 GB')) {
+                $price += 200;
+            } elseif (str_contains($storage, '1 TB')) {
+                $price += 360;
+            }
+        } else {
+            // Models starting at 64 GB
+            if (str_contains($storage, '128 GB')) {
+                $price += 50;
+            } elseif (str_contains($storage, '256 GB')) {
+                $price += 90;
+            } elseif (str_contains($storage, '512 GB')) {
+                $price += 160;
+            }
         }
 
         return $price;
@@ -183,43 +211,96 @@ final class SeedMarketDataCommand extends Command
 
         if ($line === 'MacBook Air') {
             $base = match ($chip) {
-                'M1' => 2600,
-                'M2' => ($display === '15-inch' ? 4400 : 3650),
-                'M3' => ($display === '15-inch' ? 5100 : 4450),
-                default => 3000,
+                'M1' => 1350,
+                'M2' => ($display === '15-inch' ? 2650 : 2150),
+                'M3' => ($display === '15-inch' ? 3300 : 2800),
+                default => 1500,
             };
+
+            // Memory additions for MacBook Air (base is 8 GB)
+            if (str_contains($memory, '16 GB')) {
+                $base += ($chip === 'M3' ? 400 : 300);
+            } elseif (str_contains($memory, '24 GB')) {
+                $base += ($chip === 'M3' ? 800 : 700);
+            }
+
+            // Storage additions for MacBook Air (base is 256 GB)
+            if (str_contains($storage, '512 GB')) {
+                $base += ($chip === 'M3' ? 350 : 250);
+            } elseif (str_contains($storage, '1 TB')) {
+                $base += ($chip === 'M3' ? 700 : 500);
+            } elseif (str_contains($storage, '2 TB')) {
+                $base += ($chip === 'M3' ? 1150 : 900);
+            }
+
+            return $base;
+        }
+
+        // MacBook Pro models
+        // Base configurations:
+        // - M1 Pro / M2 Pro / M3 Pro: Base is 16 GB (or 18 GB) RAM and 512 GB SSD
+        // - M1 Max / M2 Max / M3 Max (14"): Base is 32 GB (or 36 GB) RAM and 512 GB / 1 TB SSD
+        // - M1 Max / M2 Max / M3 Max (16"): Base is 32 GB (or 36 GB) RAM and 1 TB SSD
+        // - M3 14": Base is 8 GB RAM and 512 GB SSD
+        $base = match ($chip) {
+            'M1 Pro' => ($display === '16-inch' ? 3100 : 2700),
+            'M1 Max' => ($display === '16-inch' ? 4100 : 3500),
+            'M2 Pro' => ($display === '16-inch' ? 5100 : 4600),
+            'M2 Max' => ($display === '16-inch' ? 6500 : 5600),
+            'M3' => 3700,
+            'M3 Pro' => ($display === '16-inch' ? 5900 : 5200),
+            'M3 Max' => ($display === '16-inch' ? 8200 : 7200),
+            default => 3500,
+        };
+
+        // Memory additions above base tier for each chip
+        if ($chip === 'M3') {
+            // M3 14" starts at 8 GB
+            if (str_contains($memory, '16 GB')) {
+                $base += 450;
+            } elseif (str_contains($memory, '24 GB')) {
+                $base += 900;
+            }
+        } elseif (in_array($chip, ['M1 Pro', 'M2 Pro'], true)) {
+            // M1/M2 Pro starts at 16 GB
+            if (str_contains($memory, '32 GB')) {
+                $base += ($chip === 'M2 Pro' ? 800 : 450);
+            }
+        } elseif ($chip === 'M3 Pro') {
+            // M3 Pro starts at 18 GB
+            if (str_contains($memory, '36 GB')) {
+                $base += 700;
+            }
+        } elseif (in_array($chip, ['M1 Max', 'M2 Max'], true)) {
+            // M1/M2 Max starts at 32 GB
+            if (str_contains($memory, '64 GB')) {
+                $base += ($chip === 'M2 Max' ? 700 : 550);
+            }
+        } elseif ($chip === 'M3 Max') {
+            // M3 Max starts at 36 GB
+            if (str_contains($memory, '48 GB')) {
+                $base += 600;
+            } elseif (str_contains($memory, '64 GB')) {
+                $base += 1000;
+            }
+        }
+
+        // Storage additions above base tier for each model
+        $startsAt1Tb = ($display === '16-inch' && in_array($chip, ['M1 Max', 'M2 Max', 'M3 Max'], true))
+            || ($display === '14-inch' && in_array($chip, ['M2 Max', 'M3 Max'], true));
+
+        if ($startsAt1Tb) {
+            // Base SSD is 1 TB
+            if (str_contains($storage, '2 TB')) {
+                $base += 500;
+            }
         } else {
-            // MacBook Pro
-            $base = match ($chip) {
-                'M1 Pro' => ($display === '16-inch' ? 5500 : 4800),
-                'M1 Max' => ($display === '16-inch' ? 6800 : 6500),
-                'M2 Pro' => ($display === '16-inch' ? 7100 : 6200),
-                'M2 Max' => ($display === '16-inch' ? 8600 : 7600),
-                'M3' => 5400,
-                'M3 Pro' => ($display === '16-inch' ? 8800 : 7600),
-                'M3 Max' => ($display === '16-inch' ? 11500 : 10500),
-                default => 6000,
-            };
-        }
-
-        // Memory adjustment
-        if (str_contains($memory, '16 GB') || str_contains($memory, '18 GB')) {
-            $base += 600;
-        } elseif (str_contains($memory, '24 GB')) {
-            $base += 1100;
-        } elseif (str_contains($memory, '32 GB') || str_contains($memory, '36 GB')) {
-            $base += 1500;
-        } elseif (str_contains($memory, '48 GB') || str_contains($memory, '64 GB')) {
-            $base += 2400;
-        }
-
-        // Storage adjustment
-        if (str_contains($storage, '512 GB')) {
-            $base += 450;
-        } elseif (str_contains($storage, '1 TB')) {
-            $base += 950;
-        } elseif (str_contains($storage, '2 TB')) {
-            $base += 1800;
+            // Base SSD is 512 GB
+            if (str_contains($storage, '1 TB')) {
+                $base += ($chip === 'M3 Max' ? 500 : 400);
+            } elseif (str_contains($storage, '2 TB')) {
+                $base += 850;
+            }
         }
 
         return $base;

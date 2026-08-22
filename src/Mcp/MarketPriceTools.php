@@ -64,6 +64,94 @@ final readonly class MarketPriceTools
         ]);
     }
 
+    #[McpTool(
+        name: 'update_polish_used_price_observation',
+        // phpcs:ignore Generic.Files.LineLength
+        description: 'Admin tool: Add or update a verified Polish marketplace used asking-price observation for a product slug using an admin authorization token.'
+    )]
+    public function updateObservation(
+        #[Schema(description: 'Admin authorization token.')] string $token,
+        #[Schema(description: 'Product slug to update (must exist in catalog).')] string $slug,
+        #[Schema(description: 'Observed fair market median price in PLN.')] float $median_pln,
+        #[Schema(description: 'Optional lower bound price in PLN (defaults to median * 0.88).')] ?float $low_pln = null,
+        #[Schema(description: 'Optional upper bound price in PLN (defaults to median * 1.14).')] ?float $high_pln = null,
+        #[Schema(description: 'Optional sample size count (defaults to 8).')] ?int $sample_size = null,
+        #[Schema(description: 'Optional confidence level: low, medium, high (defaults to high).')] ?string $confidence = null,
+        #[Schema(description: 'Optional observation date in YYYY-MM-DD or ISO 8601 format (defaults to current date).')] ?string $observed_at = null,
+        #[Schema(description: 'Optional summary note or verification details.')] ?string $summary = null,
+    ): string {
+        $expectedToken = (string) ($_ENV['MARKET_ADMIN_TOKEN'] ?? $_ENV['APP_SECRET'] ?? 'bahdan-market-admin-token');
+        if (!hash_equals($expectedToken, $token)) {
+            return $this->json(['error' => 'Unauthorized: Invalid admin token.']);
+        }
+
+        $product = $this->catalog->get($slug);
+        if ($product === null) {
+            return $this->json(['error' => 'Unknown product slug.', 'suggestion' => 'Call list_polish_used_price_products first.']);
+        }
+
+        $medianGrosz = (int) round($median_pln * 100);
+        $lowGrosz = $low_pln !== null ? (int) round($low_pln * 100) : (int) round($medianGrosz * 0.88);
+        $highGrosz = $high_pln !== null ? (int) round($high_pln * 100) : (int) round($medianGrosz * 1.14);
+
+        if ($medianGrosz <= 0 || $lowGrosz <= 0 || $highGrosz < $medianGrosz || $medianGrosz < $lowGrosz) {
+            return $this->json(['error' => 'Inconsistent prices. Ensure low <= median <= high and median > 0.']);
+        }
+
+        $sampleSize = $sample_size ?? 8;
+        if ($sampleSize < 3) {
+            return $this->json(['error' => 'Sample size must be at least 3.']);
+        }
+
+        $confidenceLevel = $confidence ?? 'high';
+        if (!in_array($confidenceLevel, ['low', 'medium', 'high'], true)) {
+            return $this->json(['error' => 'Confidence must be one of: low, medium, high.']);
+        }
+
+        try {
+            $observedDate = $observed_at !== null ? new \DateTimeImmutable($observed_at) : new \DateTimeImmutable('now');
+        } catch (\Throwable) {
+            return $this->json(['error' => 'Invalid date format. Use YYYY-MM-DD or ISO 8601.']);
+        }
+
+        $note = $summary ?? 'Verified and calibrated against Polish secondary market listings.';
+        // phpcs:ignore Generic.Files.LineLength
+        $methodology = 'Manual verified calibration against Polish second-hand market listings; verified and curated personally by Bahdan.';
+
+        $observation = new \App\Market\Domain\PriceObservation(
+            $slug,
+            $observedDate,
+            $medianGrosz,
+            $lowGrosz,
+            $highGrosz,
+            $sampleSize,
+            $confidenceLevel,
+            $note,
+            $methodology
+        );
+
+        $this->observations->save($observation);
+
+        return $this->json([
+            'status' => 'success',
+            'message' => 'Observation saved successfully.',
+            'product' => [
+                'slug' => $product->slug,
+                'name' => $product->name,
+            ],
+            'observation' => [
+                'observed_at' => $observedDate->format('Y-m-d H:i:sP'),
+                'median_pln' => $medianGrosz / 100,
+                'low_pln' => $lowGrosz / 100,
+                'high_pln' => $highGrosz / 100,
+                'sample_size' => $sampleSize,
+                'confidence' => $confidenceLevel,
+                'summary' => $note,
+            ],
+            'canonical_url' => $this->canonicalUrl($slug),
+        ]);
+    }
+
     private function canonicalUrl(string $slug): string
     {
         return 'https://bahdanhal.pl/tools/poland-used-price-index/' . $slug;

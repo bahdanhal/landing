@@ -65,6 +65,59 @@
           "enum": ["standard", "preferential", "start"]
         }
       ]
+    },
+    {
+      "name": "update_polish_used_price_observation",
+      "description": "Admin tool: Add or update a verified Polish used price observation for a product slug using an admin token.",
+      "parameters": [
+        {
+          "name": "token",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "slug",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "median_pln",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "low_pln",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "high_pln",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "sample_size",
+          "type": "integer",
+          "required": false
+        },
+        {
+          "name": "confidence",
+          "type": "string",
+          "required": false,
+          "enum": ["low", "medium", "high"]
+        },
+        {
+          "name": "observed_at",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "summary",
+          "type": "string",
+          "required": false
+        }
+      ]
     }
   ]
 }
+

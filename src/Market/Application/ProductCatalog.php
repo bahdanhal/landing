@@ -433,18 +433,18 @@ final class ProductCatalog
     {
         $products = [];
 
-        /** @var list<array{family: string, family_name: string, type: string, form_factor: string, kits: list<array{capacity: string, speed: string}>}> $groups */
+        /** @var list<array{family: string, family_name: string, type: string, form_factor: string, modules: list<array{capacity: string, speed: string}>}> $groups */
         $groups = [
             [
                 'family' => 'ram-ddr4-desktop',
                 'family_name' => 'RAM DDR4 Desktop (DIMM)',
                 'type' => 'DDR4',
                 'form_factor' => 'DIMM (Desktop)',
-                'kits' => [
-                    ['capacity' => '16 GB (2x8GB)', 'speed' => '3200 MHz'],
-                    ['capacity' => '32 GB (2x16GB)', 'speed' => '3200 MHz'],
-                    ['capacity' => '32 GB (2x16GB)', 'speed' => '3600 MHz'],
-                    ['capacity' => '64 GB (2x32GB)', 'speed' => '3600 MHz'],
+                'modules' => [
+                    ['capacity' => '8 GB', 'speed' => '3200 MHz'],
+                    ['capacity' => '16 GB', 'speed' => '3200 MHz'],
+                    ['capacity' => '16 GB', 'speed' => '3600 MHz'],
+                    ['capacity' => '32 GB', 'speed' => '3600 MHz'],
                 ],
             ],
             [
@@ -452,10 +452,10 @@ final class ProductCatalog
                 'family_name' => 'RAM DDR5 Desktop (DIMM)',
                 'type' => 'DDR5',
                 'form_factor' => 'DIMM (Desktop)',
-                'kits' => [
-                    ['capacity' => '32 GB (2x16GB)', 'speed' => '5600 MHz'],
-                    ['capacity' => '32 GB (2x16GB)', 'speed' => '6000 MHz'],
-                    ['capacity' => '64 GB (2x32GB)', 'speed' => '6000 MHz'],
+                'modules' => [
+                    ['capacity' => '16 GB', 'speed' => '5600 MHz'],
+                    ['capacity' => '16 GB', 'speed' => '6000 MHz'],
+                    ['capacity' => '32 GB', 'speed' => '6000 MHz'],
                 ],
             ],
             [
@@ -463,9 +463,10 @@ final class ProductCatalog
                 'family_name' => 'RAM DDR4 Laptop (SO-DIMM)',
                 'type' => 'DDR4',
                 'form_factor' => 'SO-DIMM (Laptop)',
-                'kits' => [
-                    ['capacity' => '16 GB (2x8GB)', 'speed' => '3200 MHz'],
-                    ['capacity' => '32 GB (2x16GB)', 'speed' => '3200 MHz'],
+                'modules' => [
+                    ['capacity' => '8 GB', 'speed' => '3200 MHz'],
+                    ['capacity' => '16 GB', 'speed' => '3200 MHz'],
+                    ['capacity' => '32 GB', 'speed' => '3200 MHz'],
                 ],
             ],
             [
@@ -473,37 +474,37 @@ final class ProductCatalog
                 'family_name' => 'RAM DDR5 Laptop (SO-DIMM)',
                 'type' => 'DDR5',
                 'form_factor' => 'SO-DIMM (Laptop)',
-                'kits' => [
-                    ['capacity' => '16 GB (2x8GB)', 'speed' => '4800 MHz'],
-                    ['capacity' => '32 GB (2x16GB)', 'speed' => '4800 MHz'],
-                    ['capacity' => '32 GB (2x16GB)', 'speed' => '5600 MHz'],
-                    ['capacity' => '64 GB (2x32GB)', 'speed' => '5600 MHz'],
+                'modules' => [
+                    ['capacity' => '8 GB', 'speed' => '4800 MHz'],
+                    ['capacity' => '16 GB', 'speed' => '4800 MHz'],
+                    ['capacity' => '16 GB', 'speed' => '5600 MHz'],
+                    ['capacity' => '32 GB', 'speed' => '5600 MHz'],
                 ],
             ],
         ];
 
         foreach ($groups as $group) {
-            foreach ($group['kits'] as $kit) {
-                $name = sprintf('RAM %s %s %s', $group['type'], $kit['capacity'], $kit['speed']);
+            foreach ($group['modules'] as $module) {
+                $name = sprintf('RAM %s %s %s', $group['type'], $module['capacity'], $module['speed']);
                 $slug = strtolower(str_replace(
-                    [' ', '(', ')', '2x', '·'],
-                    ['-', '', '', '', ''],
-                    sprintf('%s-%s-%s', $group['family'], $kit['capacity'], $kit['speed'])
+                    [' ', '(', ')', '·'],
+                    ['-', '', '', ''],
+                    sprintf('%s-%s-%s', $group['family'], $module['capacity'], $module['speed'])
                 ));
 
                 $products[] = new Product(
                     $slug,
                     $name,
                     // phpcs:ignore Generic.Files.LineLength
-                    sprintf('Used, fully functional %s %s RAM kit (%s) in Poland. Exclude defective, single loose unmatching sticks, ECC server memory, and new-in-box dealer listings.', $group['type'], $kit['capacity'], $group['form_factor']),
+                    sprintf('Used, fully functional single %s %s RAM module (%s) in Poland. Exclude defective, ECC server memory, and new-in-box dealer listings.', $group['type'], $module['capacity'], $group['form_factor']),
                     'ram',
                     [
                         'family' => $group['family'],
                         'family_name' => $group['family_name'],
                         'type' => $group['type'],
                         'form_factor' => $group['form_factor'],
-                        'capacity' => $kit['capacity'],
-                        'speed' => $kit['speed'],
+                        'capacity' => $module['capacity'],
+                        'speed' => $module['speed'],
                     ]
                 );
             }

@@ -81,7 +81,7 @@ final class SpecificationComplianceTest extends TestCase
         self::assertFileExists($specPath);
 
         $spec = json_decode((string) file_get_contents($specPath), true, flags: JSON_THROW_ON_ERROR);
-        self::assertCount(5, $spec['tools']);
+        self::assertCount(6, $spec['tools']);
 
         $names = array_column($spec['tools'], 'name');
         self::assertContains('list_polish_used_price_products', $names);
@@ -89,5 +89,6 @@ final class SpecificationComplianceTest extends TestCase
         self::assertContains('audit_website_seo', $names);
         self::assertContains('analyze_geo_readiness', $names);
         self::assertContains('calculate_polish_income_comparison', $names);
+        self::assertContains('update_polish_used_price_observation', $names);
     }
 }
