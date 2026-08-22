@@ -103,34 +103,34 @@ final class SeedMarketDataCommand extends Command
 
         if ($type === 'DDR4') {
             if ($cap === '8 GB') {
-                return $isLaptop ? 480 : 500;
+                return $isLaptop ? 70 : 75;
             }
             if ($cap === '16 GB') {
                 if ($isLaptop) {
-                    return 960;
+                    return 160;
                 }
-                return str_contains($speed, '3600') ? 1100 : 1000;
+                return str_contains($speed, '3600') ? 190 : 170;
             }
             if ($cap === '32 GB') {
-                return $isLaptop ? 1250 : 1350;
+                return $isLaptop ? 330 : 360;
             }
         } else {
             // DDR5
             if ($cap === '8 GB') {
-                return 520;
+                return 115;
             }
             if ($cap === '16 GB') {
                 if ($isLaptop) {
-                    return str_contains($speed, '5600') ? 980 : 920;
+                    return str_contains($speed, '5600') ? 300 : 270;
                 }
-                return str_contains($speed, '6000') ? 950 : 880;
+                return str_contains($speed, '6000') ? 290 : 260;
             }
             if ($cap === '32 GB') {
-                return $isLaptop ? 1800 : 1850;
+                return $isLaptop ? 540 : 560;
             }
         }
 
-        return 500;
+        return 150;
     }
 
     private function iphonePrice(Product $product): int
