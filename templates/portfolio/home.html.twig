@@ -9,6 +9,9 @@
     <link rel="alternate" hreflang="x-default" href="https://bahdan-hal.ovh/">
 {% endblock %}
 {% block stylesheets %}<link rel="stylesheet" href="/portfolio.css">{% endblock %}
+{% block head_scripts %}
+    <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'FAQPage','@id':'https://bahdan-hal.ovh/#faq','inLanguage':app.request.locale,'dateModified':'2026-08-21','author':{'@id':'https://bahdan-hal.ovh/#bahdan'},'publisher':{'@id':'https://bahdan-hal.ovh/#bahdan'},'mainEntity':[{'@type':'Question','name':'profile.faq.q1'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a1'|trans}},{'@type':'Question','name':'profile.faq.q2'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a2'|trans}}]}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+{% endblock %}
 {% block brand_lockup %}
     <a class="brand" href="{{ path('landing', {_locale: app.request.locale}) }}" aria-label="Bahdan Hal">
         <span class="brand-mark">BH</span><span>Bahdan Hal</span>
@@ -50,11 +53,11 @@
 
         <section class="profile-work">
             <div class="profile-section-title"><span>{{ 'profile.work.eyebrow'|trans }}</span><h2>{{ 'profile.work.title'|trans }}</h2></div>
-            <div class="profile-work-list">
-                <article><time>2026</time><h3>Freedom Mobile</h3><p>{{ 'profile.work.freedom'|trans }}</p></article>
-                <article><time>2022–2026</time><h3>Gdańskie Wydawnictwo Oświatowe</h3><p>{{ 'profile.work.gwo'|trans }}</p></article>
-                <article><time>2022–{{ 'profile.present'|trans }}</time><h3>{{ 'profile.work.consulting_title'|trans }}</h3><p>{{ 'profile.work.consulting'|trans }}</p></article>
-            </div>
+            <ul class="profile-work-list">
+                <li><article><time datetime="2026">2026</time><h3>Freedom Mobile</h3><p>{{ 'profile.work.freedom'|trans }}</p></article></li>
+                <li><article><time datetime="2022/2026">2022–2026</time><h3>Gdańskie Wydawnictwo Oświatowe</h3><p>{{ 'profile.work.gwo'|trans }}</p></article></li>
+                <li><article><time datetime="2022">2022–{{ 'profile.present'|trans }}</time><h3>{{ 'profile.work.consulting_title'|trans }}</h3><p>{{ 'profile.work.consulting'|trans }}</p></article></li>
+            </ul>
         </section>
 
         <figure class="profile-summit-feature">
@@ -67,6 +70,20 @@
                 <p>{{ 'profile.summit_subtext'|trans }}</p>
             </figcaption>
         </figure>
+
+        <section class="profile-faq">
+            <div class="profile-section-title"><span>FAQ</span><h2>{{ 'profile.faq.title'|trans }}</h2></div>
+            <div class="profile-faq-list">
+                <details open>
+                    <summary><h3>{{ 'profile.faq.q1'|trans }}</h3></summary>
+                    <p>{{ 'profile.faq.a1'|trans }}</p>
+                </details>
+                <details open>
+                    <summary><h3>{{ 'profile.faq.q2'|trans }}</h3></summary>
+                    <p>{{ 'profile.faq.a2'|trans }}</p>
+                </details>
+            </div>
+        </section>
 
         <section class="profile-contact">
             <div><span class="eyebrow">{{ 'profile.contact_eyebrow'|trans }}</span><h2>{{ 'profile.contact_heading'|trans }}</h2></div>

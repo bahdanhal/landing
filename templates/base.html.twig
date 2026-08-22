@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ app.request.locale }}">
+<html lang="{{ app.request ? app.request.getLocale() : 'en' }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,7 +17,7 @@
   {% block stylesheets %}{% endblock %}
   <link rel="stylesheet" href="/theme-dark.css">
   <script src="/contact.js" defer></script>
-  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'WebSite','@id':'https://bahdan-hal.ovh/#website','url':'https://bahdan-hal.ovh/','name':'Bahdan Hal','inLanguage':['en','pl'],'publisher':{'@id':'https://bahdan-hal.ovh/#bahdan'}},{'@type':'Person','@id':'https://bahdan-hal.ovh/#bahdan','name':'Bahdan Hal','url':'https://bahdan-hal.ovh/','jobTitle':'Backend Engineer','sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.instagram.com/bahdan.hal/','https://www.upwork.com/freelancers/~014111a2d384da6af9']}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'WebSite','@id':'https://bahdan-hal.ovh/#website','url':'https://bahdan-hal.ovh/','name':'Bahdan Hal','inLanguage':['en','pl'],'publisher':{'@id':'https://bahdan-hal.ovh/#bahdan'},'author':{'@id':'https://bahdan-hal.ovh/#bahdan'},'dateModified':'2026-08-21'},{'@type':'Person','@id':'https://bahdan-hal.ovh/#bahdan','name':'Bahdan Hal','url':'https://bahdan-hal.ovh/','jobTitle':'Backend Engineer','sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.instagram.com/bahdan.hal/','https://www.upwork.com/freelancers/~014111a2d384da6af9']}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
   {% block head_scripts %}{% endblock %}
 </head>
 <body>

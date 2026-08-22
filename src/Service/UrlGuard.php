@@ -6,7 +6,7 @@ namespace App\Service;
 
 use App\Exception\UnsafeUrlException;
 
-final class UrlGuard
+class UrlGuard
 {
     public function normalize(string $input): string
     {

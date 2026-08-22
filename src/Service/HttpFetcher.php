@@ -6,7 +6,7 @@ namespace App\Service;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class HttpFetcher
+class HttpFetcher
 {
     private const USER_AGENT = 'BahdanToolbox/1.0 (+https://bahdan-hal.ovh/)';
 

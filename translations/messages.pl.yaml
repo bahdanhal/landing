@@ -496,3 +496,9 @@ profile:
     summit_eyebrow: "PRZYGOTOWANIE I ODPORNOŚĆ"
     summit_caption: "Spokój na produkcji, niezależnie od skali."
     summit_subtext: "Zarówno na szlaku, jak i w architekturze systemów liczy się przygotowanie, prostota i odporność na trudne warunki."
+    faq:
+        title: "Często zadawane pytania"
+        q1: "W jakim stosie technologicznym i rozwiązaniach się specjalizujesz?"
+        a1: "Moja główna specjalizacja to backend w PHP (Symfony, Laravel), bazy PostgreSQL i MySQL, Redis, systemy Linux, konteneryzacja w Dockerze oraz deterministyczne i agentowe integracje AI."
+        q2: "Jakie formy współpracy i zadania realizujesz?"
+        a2: "Realizuję projekty w zakresie architektury backendowej, migracji aplikacji legacy, budowy API, optymalizacji wydajności oraz niezależnego doradztwa technicznego w modelu B2B."

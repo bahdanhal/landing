@@ -496,3 +496,9 @@ profile:
     summit_eyebrow: "RESILIENCE & PREPARATION"
     summit_caption: "Calm in production, whatever the scale."
     summit_subtext: "Whether on the trail or in backend architecture, what matters is thorough preparation, simplicity, and resilience under pressure."
+    faq:
+        title: "Frequently asked questions"
+        q1: "What backend stack and technologies do you specialise in?"
+        a1: "My focus is PHP (Symfony, Laravel), PostgreSQL, MySQL, Redis, Linux systems, Docker containerisation, and deterministic or agentic AI integrations."
+        q2: "What collaboration models and projects do you take on?"
+        a2: "I work on backend architecture, legacy migrations, API development, performance optimization, and independent consulting on B2B terms."

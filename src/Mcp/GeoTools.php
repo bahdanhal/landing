@@ -27,21 +27,18 @@ final readonly class GeoTools
             $report = $this->analyzer->analyze($url);
 
             return $this->json([
-                'url' => $report['url'] ?? $url,
+                'target' => $report['target'] ?? $url,
+                'final_url' => $report['final_url'] ?? $url,
                 'status' => 'completed',
-                'meta' => [
-                    'title' => $report['meta']['title'] ?? null,
-                    'word_count' => $report['meta']['word_count'] ?? 0,
-                    'headings_count' => $report['meta']['headings_count'] ?? 0,
-                    'schema_types' => $report['meta']['schema_types'] ?? [],
-                ],
-                'signals' => $report['signals'] ?? [],
-                'ai_crawler_policies' => $report['ai_crawler_policies'] ?? [],
-                'llms_txt' => $report['llms_txt'] ?? null,
+                'score' => $report['score'] ?? 0,
+                'counts' => $report['counts'] ?? [],
+                'page' => $report['page'] ?? [],
+                'checks' => $report['checks'] ?? [],
+                'crawler_controls' => $report['crawler_controls'] ?? [],
             ]);
         } catch (\Throwable $e) {
             return $this->json([
-                'url' => $url,
+                'target' => $url,
                 'status' => 'error',
                 'error' => $e->getMessage(),
             ]);
