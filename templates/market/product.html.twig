@@ -11,7 +11,7 @@
   <link rel="alternate" hreflang="pl" href="https://bahdan-hal.ovh/pl/narzedzia/indeks-cen-uzywanych/{{ product.slug }}">
   <link rel="alternate" hreflang="x-default" href="https://bahdan-hal.ovh/tools/poland-used-price-index/{{ product.slug }}">
 {% endblock %}
-{% block stylesheets %}<link rel="stylesheet" href="/tools.css"><link rel="stylesheet" href="/market.css">{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="/tools.css"><link rel="stylesheet" href="/market.css"><link rel="stylesheet" href="/market-extra.css">{% endblock %}
 {% block language_switch %}<a class="language-switch" href="{{ path('market_product', {_locale: app.request.locale == 'pl' ? 'en' : 'pl', slug: product.slug}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
 {% block body %}
 <article class="tool-shell market-shell">
@@ -19,6 +19,9 @@
   <div class="eyebrow">{{ 'market.product_eyebrow'|trans }}</div>
   <h1 class="market-title">{{ product.name }}</h1>
   <p class="lede">{{ 'market.product_lede'|trans }}</p>
+  <dl class="market-specs">
+    {% for key, value in product.specifications %}<div><dt>{{ ('market.spec.' ~ key)|trans }}</dt><dd>{{ value }}</dd></div>{% endfor %}
+  </dl>
 
   {% if latest %}
     <section class="market-latest">
@@ -28,7 +31,7 @@
       <div><span>{{ 'market.updated'|trans }}</span><strong>{{ latest.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y') }}</strong><small>{{ 'market.weekly'|trans }}</small></div>
     </section>
 
-    <section class="market-summary"><h2>{{ 'market.snapshot'|trans }}</h2><p>{{ latest.summary }}</p></section>
+    <section class="market-summary"><h2>{{ 'market.snapshot'|trans }}</h2><p>{{ 'market.snapshot_text'|trans({'%product%': product.name, '%median%': _self.money(latest.medianGrosz, app.request.locale), '%low%': _self.money(latest.lowGrosz, app.request.locale), '%high%': _self.money(latest.highGrosz, app.request.locale), '%sample%': latest.sampleSize, '%confidence%': ('market.confidence.' ~ latest.confidence)|trans, '%date%': latest.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y')}) }}</p></section>
     <section class="section">
       <div class="section-title"><h2>{{ 'market.history'|trans }}</h2><span>{{ history|length }} {{ 'market.observations'|trans }}</span></div>
       <div class="table-wrap"><table><thead><tr><th>{{ 'market.date'|trans }}</th><th>{{ 'market.median'|trans }}</th><th>{{ 'market.range'|trans }}</th><th>{{ 'market.sample'|trans }}</th><th>{{ 'market.confidence_label'|trans }}</th></tr></thead><tbody>
@@ -36,11 +39,12 @@
       </tbody></table></div>
     </section>
     <section class="section market-evidence"><div class="section-title"><h2>{{ 'market.methodology_label'|trans }}</h2><span>{{ 'market.latest_snapshot'|trans }}</span></div><p>{{ 'market.method.public'|trans }}</p></section>
+    <section class="tool-faq"><h2>{{ 'market.faq.title'|trans }}</h2><details><summary>{{ 'market.faq.estimate.q'|trans }}</summary><p>{{ 'market.faq.estimate.a'|trans }}</p></details><details><summary>{{ 'market.faq.sources.q'|trans }}</summary><p>{{ 'market.faq.sources.a'|trans }}</p></details></section>
   {% else %}
     <section class="market-empty"><h2>{{ 'market.no_data.title'|trans }}</h2><p>{{ 'market.no_data.text'|trans }}</p></section>
   {% endif %}
 
   <aside class="market-caveat"><strong>{{ 'market.caveat.title'|trans }}</strong><p>{{ 'market.caveat.text'|trans }}</p></aside>
 </article>
-{% if latest %}<script type="application/ld+json">{{ {'@context':'https://schema.org','@type':'Dataset','name':product.name ~ ' used asking-price history in Poland','description':'market.product_meta.description'|trans({'%product%': product.name}),'url':canonical_url,'inLanguage':app.request.locale,'dateModified':latest.observedAt|date('c'),'creator':{'@type':'Person','name':'Bahdan Hal'},'spatialCoverage':{'@type':'Country','name':'Poland'},'variableMeasured':['Median asking price in PLN','Observed comparable range','Comparable offer count']}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>{% endif %}
+{% if latest %}<script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'Dataset','name':product.name ~ ' used asking-price history in Poland','description':'market.product_meta.description'|trans({'%product%': product.name}),'url':canonical_url,'inLanguage':app.request.locale,'dateModified':latest.observedAt|date('c'),'creator':{'@id':'https://bahdan-hal.ovh/#bahdan'},'publisher':{'@id':'https://bahdan-hal.ovh/#bahdan'},'spatialCoverage':{'@type':'Country','name':'Poland'},'variableMeasured':['Median asking price in PLN','Observed comparable range','Comparable offer count']},{'@type':'FAQPage','mainEntity':[{'@type':'Question','name':'market.faq.estimate.q'|trans,'acceptedAnswer':{'@type':'Answer','text':'market.faq.estimate.a'|trans}},{'@type':'Question','name':'market.faq.sources.q'|trans,'acceptedAnswer':{'@type':'Answer','text':'market.faq.sources.a'|trans}}]}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>{% endif %}
 {% endblock %}

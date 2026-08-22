@@ -20,8 +20,20 @@ final class PriceObservationTest extends TestCase
         new PriceObservation('iphone-14-128gb', new \DateTimeImmutable('2026-08-21'), 150000, 160000, 140000, 8, 'medium', 'Summary', 'Method');
     }
 
+    public function testLegacyResearchProseIsDiscardedOnRead(): void
+    {
+        $data = $this->observation()->toArray();
+        $data['summary'] = 'A legacy sentence naming an exact marketplace.';
+        $data['methodology'] = 'Legacy source details.';
+
+        $observation = PriceObservation::fromArray($data);
+
+        self::assertSame('', $observation->summary);
+        self::assertStringNotContainsString('Legacy', $observation->methodology);
+    }
+
     private function observation(): PriceObservation
     {
-        return new PriceObservation('iphone-14-128gb', new \DateTimeImmutable('2026-08-21T12:00:00+02:00'), 150000, 130000, 170000, 8, 'medium', 'Observed summary', 'Comparable public asking-price estimate.');
+        return new PriceObservation('iphone-14-128gb', new \DateTimeImmutable('2026-08-21T12:00:00+02:00'), 150000, 130000, 170000, 8, 'medium', '', 'AI-assisted estimate from current public market information; no marketplace identities, listings, or links retained.');
     }
 }

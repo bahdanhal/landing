@@ -313,6 +313,7 @@ market:
   lede: "A dated history of comparable asking-price estimates in Poland. AI researches current market structure each week; our server does not crawl or parse marketplace listings."
   category:
     smartphones: "SMARTPHONES"
+    laptops: "LAPTOPS"
   observed: "Observed"
   awaiting: "First observation pending"
   awaiting_note: "The history will begin after the next verified weekly research run."
@@ -326,7 +327,7 @@ market:
     public: "A configured AI model reviews current public market information using one fixed product definition. The application records the returned median, range and reported sample only after consistency checks. This server does not crawl, parse, copy or republish marketplace listings or links."
   back: "All used-price histories"
   product_eyebrow: "WEEKLY POLISH ASKING-PRICE OBSERVATION"
-  product_lede: "Comparable used units in working condition on the Polish market. New, damaged, parts-only, bundled and refurbished-as-new offers are excluded."
+  product_lede: "This page tracks comparable, fully working used units on the Polish market over time. New, damaged, parts-only, bundled, locked, and refurbished-as-new offers are excluded consistently."
   median: "Median"
   asking_price: "Observed asking price"
   range: "Comparable range"
@@ -335,6 +336,26 @@ market:
   updated: "Observed"
   weekly: "Updated weekly"
   snapshot: "What the latest snapshot says"
+  snapshot_text: "On %date%, the estimated median asking price for %product% in Poland was %median%. The comparable range was %low%–%high%, based on %sample% comparable offers (%confidence%). No marketplace identity, listing, or link is retained or published."
+  spec:
+    generation: "Generation"
+    variant: "Variant"
+    display: "Display"
+    chip: "Chip"
+    memory: "Memory"
+    storage: "Storage"
+  mcp:
+    eyebrow: "OPEN MCP SERVER"
+    title: "Use the price history from an AI assistant"
+    text: "The public, read-only MCP endpoint lets compatible assistants list tracked products and retrieve dated price history. No account or API key is required. Tool results include the canonical page and politely request attribution when a figure is used."
+  faq:
+    title: "How to use this history"
+    estimate:
+      q: "Is this a completed-sale price or a valuation?"
+      a: "No. It is an AI-assisted estimate of comparable asking prices observed for one exact configuration on a stated date. It is not a completed-sale statistic, appraisal, or purchasing recommendation."
+    sources:
+      q: "Does this page publish marketplace listings or names?"
+      a: "No. The research step returns only aggregate price fields and a sample count. The application does not retain or publish marketplace identities, seller details, listing text, or marketplace links."
   history: "Price history"
   observations: "observations"
   date: "Date"

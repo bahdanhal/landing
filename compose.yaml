@@ -19,8 +19,10 @@ services:
       CONTACT_LEAD_DIRECTORY: ${CONTACT_LEAD_DIRECTORY:-/app/var/contact-leads}
       MARKET_DATA_DIRECTORY: ${MARKET_DATA_DIRECTORY:-/app/var/market-data}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
-      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-}
-      MARKET_RESEARCH_MODEL: ${MARKET_RESEARCH_MODEL:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      AI_PROVIDER: ${AI_PROVIDER:-anthropic}
+      AI_SUMMARY_MODEL: ${AI_SUMMARY_MODEL:-claude-haiku-4-5-20251001}
+      AI_RESEARCH_MODEL: ${AI_RESEARCH_MODEL:-claude-sonnet-4-6}
     read_only: true
     tmpfs:
       - /app/var:size=128m,uid=82,gid=82,mode=0770

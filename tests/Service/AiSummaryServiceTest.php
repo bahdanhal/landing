@@ -3,26 +3,40 @@
 namespace App\Tests\Service;
 
 use App\Service\AiSummaryService;
+use App\Shared\AI\AiClient;
+use App\Shared\AI\AiUseCase;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpClient\MockHttpClient;
-use Symfony\Component\HttpClient\Response\MockResponse;
 
 final class AiSummaryServiceTest extends TestCase
 {
     public function testIsSilentWhenNotConfigured(): void
     {
-        $service = new AiSummaryService(new MockHttpClient(), '', '');
+        $ai = new class implements AiClient {
+            public function complete(string $systemPrompt, string $userPrompt, AiUseCase $useCase): string
+            {
+                throw new \RuntimeException('not configured');
+            }
+        };
+        $service = new AiSummaryService($ai, 'test');
 
-        self::assertNull($service->summarize([]));
+        self::assertNull($service->summarize([
+            'target' => 'https://example.com/',
+            'score' => 100,
+            'counts' => [],
+            'summary' => [],
+            'issues' => [],
+        ]));
     }
 
     public function testParsesAValidStructuredSummary(): void
     {
-        $response = new MockResponse(json_encode(['content' => [[
-            'type' => 'text',
-            'text' => '{"overview":"Fix canonicalization first.","priorities":[{"title":"Canonicals","why":"Duplicates split signals.","action":"Add self-referencing canonicals."}]}',
-        ]]], JSON_THROW_ON_ERROR), ['http_code' => 200]);
-        $service = new AiSummaryService(new MockHttpClient($response), 'test-key', 'test-model');
+        $ai = new class implements AiClient {
+            public function complete(string $systemPrompt, string $userPrompt, AiUseCase $useCase): string
+            {
+                return '{"overview":"Fix canonicalization first.","priorities":[{"title":"Canonicals","why":"Duplicates split signals.","action":"Add self-referencing canonicals."}]}';
+            }
+        };
+        $service = new AiSummaryService($ai, 'test-model');
         $summary = $service->summarize([
             'target' => 'https://example.com/',
             'score' => 50,

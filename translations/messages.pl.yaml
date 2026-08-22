@@ -313,6 +313,7 @@ market:
   lede: "Historia estymowanych porównywalnych cen ofertowych w Polsce. AI bada strukturę rynku co tydzień; nasz serwer nie crawluje ani nie parsuje ogłoszeń marketplace."
   category:
     smartphones: "SMARTFONY"
+    laptops: "LAPTOPY"
   observed: "Obserwacja"
   awaiting: "Oczekiwanie na pierwszą obserwację"
   awaiting_note: "Historia rozpocznie się po najbliższym zweryfikowanym cotygodniowym badaniu."
@@ -326,7 +327,7 @@ market:
     public: "Skonfigurowany model AI analizuje aktualne publiczne informacje rynkowe według jednej stałej definicji produktu. Aplikacja zapisuje zwróconą medianę, zakres i deklarowaną próbę dopiero po sprawdzeniu spójności. Ten serwer nie crawluje, nie parsuje, nie kopiuje ani nie publikuje ogłoszeń lub linków marketplace."
   back: "Wszystkie historie cen"
   product_eyebrow: "COTYGODNIOWA OBSERWACJA CEN OFERTOWYCH W POLSCE"
-  product_lede: "Porównywalne używane egzemplarze w pełni sprawne na polskim rynku. Oferty nowe, uszkodzone, na części, w zestawach i odnowione jako nowe są wykluczone."
+  product_lede: "Ta strona śledzi w czasie porównywalne, w pełni sprawne używane egzemplarze na polskim rynku. Oferty nowe, uszkodzone, na części, zablokowane, w zestawach i odnowione jako nowe są konsekwentnie wykluczane."
   median: "Mediana"
   asking_price: "Obserwowana cena ofertowa"
   range: "Porównywalny zakres"
@@ -335,6 +336,26 @@ market:
   updated: "Obserwacja"
   weekly: "Aktualizacja co tydzień"
   snapshot: "Co mówi najnowsza obserwacja"
+  snapshot_text: "W dniu %date% szacowana mediana ceny ofertowej %product% w Polsce wynosiła %median%. Porównywalny zakres to %low%–%high% na podstawie %sample% porównywalnych ofert (%confidence%). Nazwy serwisów, ogłoszenia ani linki nie są zachowywane lub publikowane."
+  spec:
+    generation: "Generacja"
+    variant: "Wariant"
+    display: "Ekran"
+    chip: "Układ"
+    memory: "Pamięć"
+    storage: "Dysk"
+  mcp:
+    eyebrow: "OTWARTY SERWER MCP"
+    title: "Użyj historii cen w asystencie AI"
+    text: "Publiczny serwer MCP tylko do odczytu pozwala zgodnym asystentom wyświetlać śledzone produkty i pobierać historię cen z datami. Nie wymaga konta ani klucza API. Wynik narzędzia zawiera stronę kanoniczną i uprzejmą prośbę o podanie źródła przy wykorzystaniu wartości."
+  faq:
+    title: "Jak korzystać z tej historii"
+    estimate:
+      q: "Czy to cena transakcyjna albo wycena?"
+      a: "Nie. To wspomagana przez AI estymacja porównywalnych cen ofertowych dla jednej dokładnej konfiguracji i wskazanej daty. Nie jest to statystyka zakończonych transakcji, wycena ani rekomendacja zakupu."
+    sources:
+      q: "Czy strona publikuje ogłoszenia lub nazwy serwisów?"
+      a: "Nie. Etap badawczy zwraca wyłącznie zagregowane wartości cen i liczebność próby. Aplikacja nie zachowuje ani nie publikuje nazw serwisów, danych sprzedawców, treści ogłoszeń ani linków."
   history: "Historia ceny"
   observations: "obserwacji"
   date: "Data"

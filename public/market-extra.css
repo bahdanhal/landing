@@ -1,0 +1,9 @@
+.market-mcp{display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px;margin-top:24px;padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.market-mcp h2{font-family:Georgia,serif;font-size:28px;margin:9px 0}
+.market-mcp p{color:var(--muted);line-height:1.55;max-width:720px}
+.market-mcp code{padding:13px 15px;border-radius:8px;background:var(--ink);color:#fff;overflow-wrap:anywhere}
+.market-specs{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 28px}
+.market-specs div{padding:10px 13px;border:1px solid var(--line);border-radius:9px;background:var(--panel)}
+.market-specs dt{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em}
+.market-specs dd{margin:4px 0 0;font-weight:800}
+@media(max-width:850px){.market-mcp{grid-template-columns:1fr}}

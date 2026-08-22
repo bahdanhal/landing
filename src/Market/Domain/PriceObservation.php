@@ -30,6 +30,6 @@ final readonly class PriceObservation
 
     public static function fromArray(array $data): self
     {
-        return new self((string) $data['product_slug'], new \DateTimeImmutable((string) $data['observed_at']), (int) $data['median_grosz'], (int) $data['low_grosz'], (int) $data['high_grosz'], (int) $data['sample_size'], (string) $data['confidence'], (string) $data['summary'], (string) $data['methodology']);
+        return new self((string) $data['product_slug'], new \DateTimeImmutable((string) $data['observed_at']), (int) $data['median_grosz'], (int) $data['low_grosz'], (int) $data['high_grosz'], (int) $data['sample_size'], (string) $data['confidence'], '', 'AI-assisted estimate from current public market information; no marketplace identities, listings, or links retained.');
     }
 }

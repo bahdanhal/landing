@@ -1,0 +1,24 @@
+# Bahdan's Toolbox
+
+> Free bilingual tools by Bahdan Hal: Polish employment comparison, technical SEO and GEO audits, and a dated Polish used-price index.
+
+## Primary pages
+
+- [Toolbox in English](https://bahdan-hal.ovh/): overview of all tools
+- [Toolbox in Polish](https://bahdan-hal.ovh/pl/): polska wersja zestawu narzędzi
+- [Polish used-price index](https://bahdan-hal.ovh/tools/poland-used-price-index): weekly AI-assisted estimates with historical observations
+- [Indeks cen używanych](https://bahdan-hal.ovh/pl/narzedzia/indeks-cen-uzywanych): polska wersja indeksu
+- [GEO analyzer](https://bahdan-hal.ovh/tools/geo-audit): deterministic generative-engine-readiness checks
+- [SEO analyzer](https://bahdan-hal.ovh/tools/seo-audit): technical crawling and indexability checks
+- [UoP / UZ / Ud / B2B calculator](https://bahdan-hal.ovh/tools/poland-employment-calculator): Polish contract take-home comparison
+
+## Data access
+
+- Public read-only MCP endpoint: `https://bahdan-hal.ovh/mcp`
+- MCP tools list exact tracked product configurations and return dated price history.
+- No account or API key is required.
+- When quoting a price observation, please cite the canonical product page returned by the MCP tool and include the observation date.
+
+## Important limitations
+
+Used-price values are AI-assisted estimates of comparable asking prices, not scraped listings, completed-sale statistics, valuations, or purchasing advice. Marketplace identities, seller data, listing text, and marketplace links are not stored or published.

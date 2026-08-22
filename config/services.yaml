@@ -9,9 +9,9 @@ parameters:
   audit.log_retention_days: '%env(int:AUDIT_LOG_RETENTION_DAYS)%'
   contact.lead_directory: '%env(CONTACT_LEAD_DIRECTORY)%'
   market.data_directory: '%env(MARKET_DATA_DIRECTORY)%'
-  anthropic.api_key: '%env(ANTHROPIC_API_KEY)%'
-  anthropic.model: '%env(ANTHROPIC_MODEL)%'
-  market.research_model: '%env(MARKET_RESEARCH_MODEL)%'
+  ai.provider: '%env(AI_PROVIDER)%'
+  ai.summary_model: '%env(AI_SUMMARY_MODEL)%'
+  ai.research_model: '%env(AI_RESEARCH_MODEL)%'
 
 services:
   _defaults:
@@ -37,8 +37,18 @@ services:
 
   App\Service\AiSummaryService:
     arguments:
-      $apiKey: '%anthropic.api_key%'
-      $model: '%anthropic.model%'
+      $configurationFingerprint: '%ai.provider%:%ai.summary_model%'
+
+  App\Shared\AI\SymfonyAiClient:
+    arguments:
+      $anthropicPlatform: '@ai.platform.anthropic'
+      $geminiPlatform: '@ai.platform.gemini'
+      $provider: '%ai.provider%'
+      $summaryModel: '%ai.summary_model%'
+      $researchModel: '%ai.research_model%'
+
+  App\Shared\AI\AiClient:
+    alias: App\Shared\AI\SymfonyAiClient
 
   App\Service\HttpFetcher:
     arguments:
@@ -72,16 +82,11 @@ services:
     alias: App\Market\Infrastructure\JsonPriceObservationRepository
 
   App\Market\Application\MarketResearcher:
-    alias: App\Market\Infrastructure\AnthropicMarketResearcher
+    alias: App\Market\Infrastructure\SymfonyAiMarketResearcher
 
   App\Market\Infrastructure\JsonPriceObservationRepository:
     arguments:
       $directory: '%market.data_directory%'
-
-  App\Market\Infrastructure\AnthropicMarketResearcher:
-    arguments:
-      $apiKey: '%anthropic.api_key%'
-      $model: '%market.research_model%'
 
   app.audit_cache:
     class: Symfony\Component\Cache\Adapter\FilesystemAdapter

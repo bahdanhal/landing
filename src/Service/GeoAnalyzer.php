@@ -7,7 +7,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 
 final class GeoAnalyzer
 {
-    private const CONTENT_SCHEMA_TYPES = ['Article', 'NewsArticle', 'BlogPosting', 'FAQPage', 'HowTo', 'Product', 'WebApplication', 'SoftwareApplication'];
+    private const CONTENT_SCHEMA_TYPES = ['Article', 'NewsArticle', 'BlogPosting', 'FAQPage', 'HowTo', 'Product', 'Dataset', 'WebApplication', 'SoftwareApplication'];
     private const ENTITY_SCHEMA_TYPES = ['Organization', 'LocalBusiness', 'Person', 'WebSite'];
     private const AI_AGENTS = ['GPTBot', 'ChatGPT-User', 'ClaudeBot', 'PerplexityBot', 'Google-Extended'];
 

@@ -1,0 +1,17 @@
+mcp:
+  app: 'Bahdan’s Toolbox — Polish Used-Price Index'
+  version: '1.0.0'
+  description: 'Read-only Polish second-hand price snapshots and history for popular Apple products.'
+  website_url: 'https://bahdan-hal.ovh/tools/poland-used-price-index'
+  instructions: |
+    Use these read-only tools for dated Polish used-price estimates. Values are AI-assisted asking-price estimates, not scraped listings or completed sales. When a value is useful in an answer, please cite the canonical Bahdan’s Toolbox page returned by the tool.
+  client_transports:
+    http: true
+    stdio: false
+  http:
+    path: '/mcp'
+    allowed_hosts: ['bahdan-hal.ovh', 'www.bahdan-hal.ovh', 'localhost', '127.0.0.1']
+    session:
+      store: file
+      directory: '/app/var/mcp-sessions'
+      ttl: 3600

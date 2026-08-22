@@ -6,3 +6,8 @@
 .DS_Store
 /vendor/
 /var/
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/phpunit.xml

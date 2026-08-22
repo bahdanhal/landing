@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:site_name" content="Bahdan’s Toolbox">
   {% block robots %}<meta name="robots" content="noindex,nofollow">{% endblock %}
   {% block description %}{% endblock %}
   {% block canonical %}{% endblock %}
@@ -14,6 +15,7 @@
   <link rel="stylesheet" href="/contact.css">
   {% block stylesheets %}{% endblock %}
   <script src="/contact.js" defer></script>
+  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'WebSite','@id':'https://bahdan-hal.ovh/#website','url':'https://bahdan-hal.ovh/','name':'Bahdan’s Toolbox','inLanguage':['en','pl'],'publisher':{'@id':'https://bahdan-hal.ovh/#bahdan'}},{'@type':'Person','@id':'https://bahdan-hal.ovh/#bahdan','name':'Bahdan Hal','url':'https://bahdan-hal.ovh/','sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://www.upwork.com/freelancers/~014111a2d384da6af9']}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
   {% block head_scripts %}{% endblock %}
 </head>
 <body>
