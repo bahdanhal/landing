@@ -217,7 +217,7 @@ The project exposes a native **Model Context Protocol** endpoint at `/mcp` via `
 - **Tools**:
   - `list_polish_used_price_products`: Returns tracked product families, configurations, categories, canonical URLs, and observation availability.
   - `get_polish_used_price_history`: Returns dated asking-price estimates (median, low, high in PLN, sample size, confidence) for a specific product configuration slug.
-  - `get_admin_dashboard_statistics`: Returns submission trends and market observation coverage to an authenticated administrator.
+  - `get_admin_dashboard_statistics`: Returns privacy-preserving traffic, submission trends, SEO audit outcomes and market observation coverage to an authenticated administrator.
   - `list_admin_contact_leads`: Returns recent private consultation requests to an authenticated administrator.
   - `list_admin_product_requests`: Returns requested price-index products to an authenticated administrator.
   - `list_admin_price_tips`: Returns active, expiring listing links awaiting private manual review.

@@ -67,7 +67,7 @@ docker compose -p seo --env-file production.env exec app sh -lc \
 
 ## Production
 
-The Docker Compose stack contains PHP-FPM and Caddy. Caddy normalizes HTTP/HTTPS and www/non-www (including legacy `bahdan-hal.ovh`) to `https://bahdanhal.pl`, serves Certbot certificates and emits JSON access logs. Persistent volumes hold caches, rate limits, audit logs, contact leads and market history.
+The Docker Compose stack contains PHP-FPM and Caddy. Caddy normalizes HTTP/HTTPS and www/non-www (including legacy `bahdan-hal.ovh`) to `https://bahdanhal.pl`, serves Certbot certificates and emits JSON access logs. Persistent volumes hold caches, rate limits, audit logs, privacy-preserving traffic analytics, contact leads and market history.
 
 ## Development standards & guidelines
 

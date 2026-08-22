@@ -18,6 +18,8 @@ services:
       AUDIT_LOG_RETENTION_DAYS: ${AUDIT_LOG_RETENTION_DAYS:-14}
       CONTACT_LEAD_DIRECTORY: ${CONTACT_LEAD_DIRECTORY:-/app/var/contact-leads}
       MARKET_DATA_DIRECTORY: ${MARKET_DATA_DIRECTORY:-/app/var/market-data}
+      ANALYTICS_DATA_DIRECTORY: ${ANALYTICS_DATA_DIRECTORY:-/app/var/analytics-data}
+      ANALYTICS_RETENTION_DAYS: ${ANALYTICS_RETENTION_DAYS:-90}
       MARKET_ADMIN_TOKEN: ${MARKET_ADMIN_TOKEN:-}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
@@ -32,6 +34,7 @@ services:
       - contact_leads:/app/var/contact-leads
       - rate_limits:/app/var/rate-limits
       - market_data:/app/var/market-data
+      - analytics_data:/app/var/analytics-data
     networks: [internal]
 
   web:
@@ -62,3 +65,4 @@ volumes:
   contact_leads:
   rate_limits:
   market_data:
+  analytics_data:

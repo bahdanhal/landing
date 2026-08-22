@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Mcp;
 
+use App\Analytics\Application\TrafficAnalytics;
+use App\Analytics\Infrastructure\JsonlPageViewRepository;
 use App\Audit\Infrastructure\AuditLogger;
 use App\Lead\Domain\Lead;
 use App\Lead\Infrastructure\JsonlLeadRepository;
@@ -111,6 +113,7 @@ final class AdminToolsTest extends TestCase
         self::assertGreaterThan(0, $statistics['market_coverage']['tracked_products']);
         self::assertSame(1, $statistics['market_coverage']['products_with_history']);
         self::assertSame(1, $statistics['seo_audits']['completed']);
+        self::assertSame(0, $statistics['traffic']['last_30_days']['page_views']);
         self::assertSame('person@example.com', $leads['items'][0]['email']);
         self::assertSame('PlayStation 5 Slim', $requests['items'][0]['product']);
         self::assertSame('https://example.com/listing/123', $tips['items'][0]['listing_url']);
@@ -150,6 +153,7 @@ final class AdminToolsTest extends TestCase
             new ProductCatalog(),
             $observations ?? new JsonPriceObservationRepository($this->directory . '/market'),
             $auditLogger ?? new AuditLogger($this->directory . '/audits', 14),
+            new TrafficAnalytics(new JsonlPageViewRepository($this->directory . '/analytics', 90)),
         );
     }
 

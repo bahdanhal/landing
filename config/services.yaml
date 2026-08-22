@@ -9,6 +9,8 @@ parameters:
   audit.log_retention_days: '%env(int:AUDIT_LOG_RETENTION_DAYS)%'
   contact.lead_directory: '%env(CONTACT_LEAD_DIRECTORY)%'
   market.data_directory: '%env(MARKET_DATA_DIRECTORY)%'
+  analytics.data_directory: '%env(ANALYTICS_DATA_DIRECTORY)%'
+  analytics.retention_days: '%env(int:ANALYTICS_RETENTION_DAYS)%'
   ai.provider: '%env(AI_PROVIDER)%'
   ai.summary_model: '%env(AI_SUMMARY_MODEL)%'
 
@@ -66,6 +68,18 @@ services:
       $directory: '%contact.lead_directory%'
 
   App\Lead\Application\CaptureLead:
+    arguments:
+      $secret: '%env(APP_SECRET)%'
+
+  App\Analytics\Domain\PageViewRepository:
+    alias: App\Analytics\Infrastructure\JsonlPageViewRepository
+
+  App\Analytics\Infrastructure\JsonlPageViewRepository:
+    arguments:
+      $directory: '%analytics.data_directory%'
+      $retentionDays: '%analytics.retention_days%'
+
+  App\Analytics\Infrastructure\PageViewSubscriber:
     arguments:
       $secret: '%env(APP_SECRET)%'
 

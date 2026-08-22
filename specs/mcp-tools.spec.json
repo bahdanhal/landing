@@ -115,7 +115,7 @@
     },
     {
       "name": "get_admin_dashboard_statistics",
-      "description": "Admin-only aggregate statistics for private submissions and market coverage. Requires Bearer authorization.",
+      "description": "Admin-only aggregate traffic, private submission, SEO audit and market coverage statistics. Traffic contains privacy-preserving page views, unique visitors, source categories, referring domains and top paths for the last 7 and 30 days. Requires Bearer authorization.",
       "parameters": []
     },
     {

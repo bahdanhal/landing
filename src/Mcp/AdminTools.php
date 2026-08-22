@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Mcp;
 
+use App\Analytics\Application\TrafficAnalytics;
 use App\Audit\Infrastructure\AuditLogger;
 use App\Lead\Domain\Lead;
 use App\Lead\Domain\LeadRepository;
@@ -25,13 +26,14 @@ final readonly class AdminTools
         private ProductCatalog $catalog,
         private PriceObservationRepository $observations,
         private AuditLogger $auditLogger,
+        private TrafficAnalytics $trafficAnalytics,
     ) {
     }
 
     #[McpTool(
         name: 'get_admin_dashboard_statistics',
         // phpcs:ignore Generic.Files.LineLength
-        description: 'Admin-only: Get aggregate contact, product-request, price-tip and market-coverage statistics. Requires an Authorization: Bearer header.'
+        description: 'Admin-only: Get privacy-preserving traffic, submission, SEO audit and market-coverage statistics. Requires an Authorization: Bearer header.'
     )]
     public function statistics(): string
     {
@@ -89,6 +91,7 @@ final readonly class AdminTools
                 ),
             ],
             'seo_audits' => $this->auditStatistics($auditEvents, $sevenDaysAgo, $thirtyDaysAgo),
+            'traffic' => $this->trafficAnalytics->summary($now),
             'lead_sources' => $this->frequencies(array_map(static fn (Lead $lead): string => $lead->source, $leads)),
             'requested_products' => $this->frequencies(array_map(
                 static fn (array $request): string => $request['product'],
