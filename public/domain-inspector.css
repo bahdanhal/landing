@@ -8,8 +8,8 @@
 }
 
 .inspector-form-card {
-  background: var(--surface-bg, #111827);
-  border: 1px solid var(--border-color, #1f2937);
+  background: var(--surface-bg);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 1.75rem;
 }
@@ -34,6 +34,23 @@
   padding: 0.75rem 1rem;
   font-size: 1rem;
   color: #f3f4f6;
+}
+
+.inspector-feature-grid {
+  margin-top: 1rem;
+}
+
+.inspector-feature-card {
+  padding: 1.5rem;
+}
+
+.inspector-feature-card h3 {
+  margin: 0 0 .75rem;
+}
+
+.inspector-feature-card p {
+  margin: 0;
+  font-size: .9rem;
 }
 
 .inspector-domain-input:focus {

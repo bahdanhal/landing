@@ -2,6 +2,7 @@ base:
     default_title: "Bahdan’s Toolbox"
     home_label: "Bahdan’s Toolbox home"
     brand: "Bahdan’s Toolbox"
+    brand_short: "Toolbox"
     by: "by Bahdan Hal"
     navigation: "Tools and language"
     nav:
@@ -12,6 +13,7 @@ base:
         bimi: "BIMI Studio"
         domain_inspector: "Domain inspector"
         caddy_transpiler: "Caddyfile Transpiler"
+        more: "Tools"
     context:
         income: "Polish income calculator"
         geo: "GEO analyzer"
@@ -36,6 +38,11 @@ home:
     lede: "A growing set of focused tools for calculations, websites, and the awkward practical questions that should not require an account or a sales call."
     available: "READY"
     open: "Open tool"
+    categories:
+        business: "Business & money"
+        web: "Web quality"
+        email: "Email & identity"
+        infrastructure: "Infrastructure"
     income:
         title: "Polish contract income calculator"
         text: "Compare take-home pay from the same company budget under UoP, umowa zlecenie, umowa o dzieło, and B2B."
@@ -758,4 +765,3 @@ caddy_transpiler:
     cheatsheet_php_desc: "try_files + fastcgi_pass and param scripts collapse into php_fastcgi and file_server."
     cheatsheet_rewrite_title: "Clean Redirects"
     cheatsheet_rewrite_desc: "Complex regex RewriteRules translate directly into human-readable redir statements."
-

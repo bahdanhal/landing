@@ -2,6 +2,7 @@ base:
     default_title: "Narzędzia Bahdana"
     home_label: "Strona główna Narzędzi Bahdana"
     brand: "Narzędzia Bahdana"
+    brand_short: "Narzędzia"
     by: "autor: Bahdan Hal"
     navigation: "Narzędzia i język"
     nav:
@@ -12,6 +13,7 @@ base:
         bimi: "BIMI Studio"
         domain_inspector: "Inspektor domen"
         caddy_transpiler: "Konwerter Caddyfile"
+        more: "Narzędzia"
     context:
         income: "Kalkulator wynagrodzeń"
         geo: "Analizator GEO"
@@ -36,6 +38,11 @@ home:
     lede: "Rosnący zestaw konkretnych narzędzi do obliczeń, stron internetowych i praktycznych pytań, które nie powinny wymagać konta ani rozmowy sprzedażowej."
     available: "GOTOWE"
     open: "Otwórz narzędzie"
+    categories:
+        business: "Biznes i finanse"
+        web: "Jakość stron"
+        email: "E-mail i identyfikacja"
+        infrastructure: "Infrastruktura"
     income:
         title: "Kalkulator form zatrudnienia"
         text: "Porównaj wypłatę z tego samego budżetu firmy dla UoP, umowy zlecenia, umowy o dzieło i B2B."

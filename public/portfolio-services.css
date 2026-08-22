@@ -89,10 +89,6 @@
     }
 }
 
-.mobile-toolbox-link {
-    display: none;
-}
-
 .profile-scope {
     max-width: 850px;
     margin: 48px 0 0;
@@ -203,30 +199,6 @@
         align-items: center;
         gap: 12px;
         padding: 10px 18px;
-    }
-
-    .portfolio-page .brand-credit,
-    .portfolio-page .tool-nav > a:not(.language-switch):not(.mobile-toolbox-link) {
-        display: none;
-    }
-
-    .portfolio-page .tool-nav {
-        width: auto;
-        margin-left: auto;
-        gap: 8px;
-        overflow: visible;
-        padding: 0;
-    }
-
-    .portfolio-page .tool-nav .mobile-toolbox-link,
-    .portfolio-page .tool-nav .language-switch {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 44px;
-        padding: 0 12px;
-        border: 1px solid var(--line);
-        border-radius: 99px;
     }
 
     .profile-shell {

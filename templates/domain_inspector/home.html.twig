@@ -9,6 +9,7 @@
   <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/tools/domain-inspector">
 {% endblock %}
 {% block stylesheets %}
+  <link rel="stylesheet" href="/tools.css">
   <link rel="stylesheet" href="/domain-inspector.css">
 {% endblock %}
 {% block language_switch %}
@@ -17,15 +18,17 @@
 {% block tool_name %}{{ 'domain_inspector.title'|trans }}{% endblock %}
 
 {% block body %}
-<section class="hero inspector-hero">
-  <div class="eyebrow">{{ 'domain_inspector.eyebrow'|trans }}</div>
-  <h1>{{ 'domain_inspector.heading'|trans }}</h1>
-  <p class="lede">{{ 'domain_inspector.lede'|trans }}</p>
+<section class="tool-page-shell inspector-hero">
+  {% include 'tools/_tool_intro.html.twig' with {
+    eyebrow: 'domain_inspector.eyebrow'|trans,
+    heading: 'domain_inspector.heading'|trans,
+    lede: 'domain_inspector.lede'|trans
+  } only %}
 
   <div class="inspector-shell">
-    <div class="inspector-form-card">
+    <div class="inspector-form-card ui-panel">
       <form action="{{ path('domain_inspector_check', {_locale: app.request.locale}) }}" method="POST">
-        <label for="domain-input" style="font-weight: 600; font-size: 1.05rem;">
+        <label for="domain-input" class="ui-field-label">
           {{ 'domain_inspector.input_label'|trans }}
         </label>
         <div class="inspector-input-row">
@@ -33,14 +36,14 @@
             type="text"
             id="domain-input"
             name="domain"
-            class="inspector-domain-input"
+            class="inspector-domain-input ui-input"
             placeholder="stripe.com"
             value="{{ domain|default('') }}"
             required
             autocomplete="off"
             autofocus
           >
-          <button type="submit" class="btn-primary-action">
+          <button type="submit" class="btn-primary-action ui-button ui-button-primary">
             ⚡ {{ 'domain_inspector.check_btn'|trans }}
           </button>
         </div>
@@ -54,7 +57,7 @@
         </div>
 
         {% if error is defined and error is not empty %}
-          <div style="margin-top: 1rem; color: #ef4444; font-size: 0.9rem; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); padding: 0.75rem; border-radius: 6px;">
+          <div class="ui-alert">
             ⚠️ {{ error }}
           </div>
         {% endif %}
@@ -62,31 +65,31 @@
     </div>
 
     <!-- Feature Highlights -->
-    <div class="studio-grid" style="margin-top: 1rem;">
-      <div class="studio-panel">
+    <div class="ui-grid inspector-feature-grid">
+      <div class="ui-panel inspector-feature-card">
         <h3>✅ {{ 'domain_inspector.features.dmarc.title'|trans }}</h3>
-        <p style="color: #9ca3af; font-size: 0.9rem; line-height: 1.5;">
+        <p class="ui-muted">
           {{ 'domain_inspector.features.dmarc.text'|trans }}
         </p>
       </div>
 
-      <div class="studio-panel">
+      <div class="ui-panel inspector-feature-card">
         <h3>🟣 {{ 'domain_inspector.features.bimi.title'|trans }}</h3>
-        <p style="color: #9ca3af; font-size: 0.9rem; line-height: 1.5;">
+        <p class="ui-muted">
           {{ 'domain_inspector.features.bimi.text'|trans }}
         </p>
       </div>
 
-      <div class="studio-panel">
+      <div class="ui-panel inspector-feature-card">
         <h3>🔒 {{ 'domain_inspector.features.mta_sts.title'|trans }}</h3>
-        <p style="color: #9ca3af; font-size: 0.9rem; line-height: 1.5;">
+        <p class="ui-muted">
           {{ 'domain_inspector.features.mta_sts.text'|trans }}
         </p>
       </div>
 
-      <div class="studio-panel">
+      <div class="ui-panel inspector-feature-card">
         <h3>📊 {{ 'domain_inspector.features.tls_rpt.title'|trans }}</h3>
-        <p style="color: #9ca3af; font-size: 0.9rem; line-height: 1.5;">
+        <p class="ui-muted">
           {{ 'domain_inspector.features.tls_rpt.text'|trans }}
         </p>
       </div>

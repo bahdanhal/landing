@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block tool_name %}: {{ 'base.context.geo'|trans }}{% endblock %}
+{% block tool_name %}{{ 'base.context.geo'|trans }}{% endblock %}
 {% block title %}{{ 'geo.meta.title'|trans }}{% endblock %}
 {% block robots %}<meta name="robots" content="index,follow">{% endblock %}
 {% block description %}<meta name="description" content="{{ 'geo.meta.description'|trans }}">{% endblock %}
@@ -14,7 +14,6 @@
 
 {% block body %}
 <section class="tool-shell geo-home">
-  <a class="back" href="{{ path('home', {_locale: app.request.locale}) }}">← {{ 'common.all_tools'|trans }}</a>
   <div class="eyebrow">{{ 'geo.eyebrow'|trans }}</div>
   <h1>{{ 'geo.heading_start'|trans }}<br><em>{{ 'geo.heading_emphasis'|trans }}</em></h1>
   <p class="lede">{{ 'geo.lede'|trans }}</p>

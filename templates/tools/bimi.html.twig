@@ -9,6 +9,7 @@
   <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/tools/bimi-studio">
 {% endblock %}
 {% block stylesheets %}
+  <link rel="stylesheet" href="/tools.css">
   <link rel="stylesheet" href="/bimi-studio.css">
 {% endblock %}
 {% block language_switch %}
@@ -17,15 +18,17 @@
 {% block tool_name %}{{ 'bimi.title'|trans }}{% endblock %}
 
 {% block body %}
-<section class="hero bimi-hero">
-  <div class="eyebrow">{{ 'bimi.eyebrow'|trans }}</div>
-  <h1>{{ 'bimi.heading'|trans }}</h1>
-  <p class="lede">{{ 'bimi.lede'|trans }}</p>
+<section class="tool-page-shell bimi-hero">
+  {% include 'tools/_tool_intro.html.twig' with {
+    eyebrow: 'bimi.eyebrow'|trans,
+    heading: 'bimi.heading'|trans,
+    lede: 'bimi.lede'|trans
+  } only %}
 
   <div class="bimi-studio-container">
     <!-- Studio Grid: Upload & Controls + Canvas Preview -->
     <div class="studio-grid">
-      <div class="studio-panel">
+      <div class="studio-panel ui-panel">
         <h3>{{ 'bimi.upload.title'|trans }}</h3>
         <p class="studio-subtext">{{ 'bimi.upload.text'|trans }}</p>
 
@@ -125,7 +128,7 @@
         </div>
       </div>
 
-      <div class="studio-panel">
+      <div class="studio-panel ui-panel">
         <h3>{{ 'bimi.preview.canvas_title'|trans }}</h3>
         <p class="studio-subtext">{{ 'bimi.preview.canvas_text'|trans }}</p>
 

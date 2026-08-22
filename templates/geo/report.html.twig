@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block tool_name %}: {{ 'base.context.geo'|trans }}{% endblock %}
+{% block tool_name %}{{ 'base.context.geo'|trans }}{% endblock %}
 {% block title %}{{ 'geo.report.title'|trans }} · {{ report.final_url }}{% endblock %}
 {% block stylesheets %}<link rel="stylesheet" href="/tools.css"><link rel="stylesheet" href="/geo.css">{% endblock %}
 {% block language_switch %}<a class="language-switch" href="{{ path('geo_home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}

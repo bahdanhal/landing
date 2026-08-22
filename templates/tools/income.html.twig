@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block tool_name %}: {{ 'base.context.income'|trans }}{% endblock %}
+{% block tool_name %}{{ 'base.context.income'|trans }}{% endblock %}
 {% block title %}{{ 'income.meta.title'|trans }}{% endblock %}
 {% block robots %}<meta name="robots" content="index,follow">{% endblock %}
 {% block description %}<meta name="description" content="{{ 'income.meta.description'|trans }}">{% endblock %}
@@ -11,8 +11,13 @@
 {% block language_switch %}<a class="language-switch" href="{{ path('income_calculator', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
 {% block body %}
 <section class="tool-shell income-shell">
-  <a class="back" href="{{ path('home', {_locale: app.request.locale}) }}">← {{ 'common.all_tools'|trans }}</a>
-  <div class="tool-intro"><div><div class="eyebrow">{{ 'income.eyebrow'|trans }}</div><h1>{{ 'income.heading'|trans }}</h1><p class="lede">{{ 'income.lede'|trans }}</p></div><div class="verified-badge"><span>{{ 'income.verified'|trans }}</span><strong>{{ verified_at|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y') }}</strong></div></div>
+  {% include 'tools/_tool_intro.html.twig' with {
+    eyebrow: 'income.eyebrow'|trans,
+    heading: 'income.heading'|trans,
+    lede: 'income.lede'|trans,
+    badge_label: 'income.verified'|trans,
+    badge_value: verified_at|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y')
+  } only %}
   <div class="income-calculator" data-income-calculator data-locale="{{ app.request.locale }}" data-labels="{{ {employment:'income.types.employment'|trans,mandate:'income.types.mandate'|trans,work:'income.types.work'|trans,b2b:'income.types.b2b'|trans,net:'income.result.net'|trans,budget:'income.result.budget'|trans,gross:'income.result.gross'|trans,costs:'income.result.costs'|trans,social:'income.result.social'|trans,health:'income.result.health'|trans,tax:'income.result.tax'|trans}|json_encode }}">
     <div class="income-controls">
       <div class="field"><label for="income-budget">{{ 'income.form.budget'|trans }}</label><div class="money-input"><input id="income-budget" data-control="budget" inputmode="decimal" value="12000"><span>PLN</span></div><small>{{ 'income.form.budget_help'|trans }}</small></div>

@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block tool_name %}: {{ 'base.context.seo'|trans }}{% endblock %}
+{% block tool_name %}{{ 'base.context.seo'|trans }}{% endblock %}
 {% block title %}{{ 'audit.meta.title'|trans }}{% endblock %}
 {% block robots %}<meta name="robots" content="index,follow">{% endblock %}
 {% block description %}<meta name="description" content="{{ 'audit.meta.description'|trans }}">{% endblock %}
@@ -13,7 +13,6 @@
 
 {% block body %}
 <section class="hero">
-  <a class="back" href="{{ path('home', {_locale: app.request.locale}) }}">← {{ 'common.all_tools'|trans }}</a>
   <div class="eyebrow">{{ 'audit.eyebrow'|trans }}</div>
   <h1>{{ 'audit.heading_start'|trans }}<br><em>{{ 'audit.heading_emphasis'|trans }}</em></h1>
   <p class="lede">{{ 'audit.lede'|trans }}</p>

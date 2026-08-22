@@ -1,3 +1,4 @@
+{% set tool_context %}{% block tool_name %}{% endblock %}{% endset %}
 <!doctype html>
 <html lang="{{ app.request ? app.request.getLocale() : 'en' }}">
 <head>
@@ -15,6 +16,7 @@
   <link rel="stylesheet" href="/grouped-findings.css">
   <link rel="stylesheet" href="/contact.css">
   <link rel="stylesheet" href="/identity.css">
+  <link rel="stylesheet" href="/ui.css">
   {% block stylesheets %}{% endblock %}
   <link rel="stylesheet" href="/theme-dark.css">
   <script src="/contact.js" defer></script>
@@ -22,32 +24,45 @@
   {% block head_scripts %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
-  <header class="topbar">
-    <div class="brand-lockup">
-      {% block brand_lockup %}
-      <a class="brand" href="{{ path('home', {_locale: app.request.locale}) }}" aria-label="{{ 'base.home_label'|trans }}">
-        <span class="brand-mark">↗</span>
-        <span>{{ 'base.brand'|trans }}</span>
-      </a>
-      <a class="brand-credit" href="{{ path('landing', {_locale: app.request.locale}) }}">{{ 'base.by'|trans }}</a>
-      <span class="brand-context">{% block tool_name %}{% endblock %}</span>
-      {% endblock %}
+  <header class="site-header">
+    <div class="topbar">
+      <div class="brand-lockup">
+        {% block brand_lockup %}
+        <a class="brand" href="{{ path('home', {_locale: app.request.locale}) }}" aria-label="{{ 'base.home_label'|trans }}">
+          <span class="brand-mark">↗</span>
+          <span class="brand-name"><span class="brand-name-full">{{ 'base.brand'|trans }}</span><span class="brand-name-short">{{ 'base.brand_short'|trans }}</span></span>
+        </a>
+        <a class="brand-credit" href="{{ path('landing', {_locale: app.request.locale}) }}">{{ 'base.by'|trans }}</a>
+        {% endblock %}
+      </div>
+      <div class="topbar-actions">
+        <nav class="primary-nav" aria-label="{{ 'base.navigation'|trans }}">
+          <a href="{{ path('income_calculator', {_locale: app.request.locale}) }}">{{ 'base.nav.income'|trans }}</a>
+          <a href="{{ path('geo_home', {_locale: app.request.locale}) }}">{{ 'base.nav.geo'|trans }}</a>
+          <a href="{{ path('seo_audit_home', {_locale: app.request.locale}) }}">{{ 'base.nav.seo'|trans }}</a>
+        </nav>
+        <details class="tool-menu">
+          <summary>{{ 'base.nav.more'|trans }}</summary>
+          <nav class="tool-menu-panel" aria-label="{{ 'base.nav.more'|trans }}">
+            <a href="{{ path('home', {_locale: app.request.locale}) }}">{{ 'common.all_tools'|trans }}</a>
+            <a href="{{ path('market_home', {_locale: app.request.locale}) }}">{{ 'base.nav.market'|trans }}</a>
+            <a href="{{ path('bimi_studio', {_locale: app.request.locale}) }}">{{ 'base.nav.bimi'|trans }}</a>
+            <a href="{{ path('domain_inspector_home', {_locale: app.request.locale}) }}">{{ 'base.nav.domain_inspector'|trans }}</a>
+            <a href="{{ path('caddy_transpiler', {_locale: app.request.locale}) }}">{{ 'base.nav.caddy_transpiler'|trans }}</a>
+          </nav>
+        </details>
+        {% block language_switch %}
+          <a class="language-switch" href="{{ path('home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
+        {% endblock %}
+      </div>
     </div>
-    <nav class="tool-nav" aria-label="{{ 'base.navigation'|trans }}">
-      <a href="{{ path('income_calculator', {_locale: app.request.locale}) }}">{{ 'base.nav.income'|trans }}</a>
-      <a href="{{ path('geo_home', {_locale: app.request.locale}) }}">{{ 'base.nav.geo'|trans }}</a>
-      <a href="{{ path('seo_audit_home', {_locale: app.request.locale}) }}">{{ 'base.nav.seo'|trans }}</a>
-      <a href="{{ path('market_home', {_locale: app.request.locale}) }}">{{ 'base.nav.market'|trans }}</a>
-      <a href="{{ path('bimi_studio', {_locale: app.request.locale}) }}">{{ 'base.nav.bimi'|trans }}</a>
-      <a href="{{ path('domain_inspector_home', {_locale: app.request.locale}) }}">{{ 'base.nav.domain_inspector'|trans }}</a>
-      <a href="{{ path('caddy_transpiler', {_locale: app.request.locale}) }}">{{ 'base.nav.caddy_transpiler'|trans }}</a>
-      {% if app.request.attributes.get('_route') == 'landing' %}
-        <a class="mobile-toolbox-link" href="{{ path('home', {_locale: app.request.locale}) }}">{{ 'base.brand'|trans }}</a>
-      {% endif %}
-      {% block language_switch %}
-        <a class="language-switch" href="{{ path('home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
-      {% endblock %}
-    </nav>
+    {% if tool_context|trim is not empty %}
+      <div class="tool-context-bar">
+        <a href="{{ path('home', {_locale: app.request.locale}) }}">{{ 'common.all_tools'|trans }}</a>
+        <span aria-hidden="true">/</span>
+        <strong>{{ tool_context|trim }}</strong>
+      </div>
+    {% endif %}
   </header>
   <main>{% block body %}{% endblock %}</main>
   <footer>{{ 'base.footer'|trans }} · <a class="footer-contact" href="mailto:bahdan.hal@hotmail.com">{{ 'base.contact'|trans }}</a><br><span class="copyright">© {{ "now"|date("Y") }} Bahdan Hal</span></footer>

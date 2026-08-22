@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% macro money(grosz) %}{{ (grosz / 100)|number_format(2, '.', ' ') }} PLN{% endmacro %}
-{% block tool_name %}: Market Admin{% endblock %}
+{% block tool_name %}Market Admin{% endblock %}
 {% block title %}Market Admin Dashboard · Bahdan’s Toolbox{% endblock %}
 {% block robots %}<meta name="robots" content="noindex,nofollow">{% endblock %}
 {% block stylesheets %}

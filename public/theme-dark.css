@@ -10,6 +10,15 @@
   --red: #ff7d8a;
   --amber: #f1bd66;
   --green: #63d6aa;
+  --surface: #16263b;
+  --surface-raised: #1b2d45;
+  --surface-active: #29425f;
+  --surface-bg: #16263b;
+  --border: #293b55;
+  --border-color: #293b55;
+  --text: #e7eef8;
+  --text-muted: #9aaac0;
+  --accent: #5aa9ff;
 }
 
 html { background: #0d1828; }
@@ -29,8 +38,6 @@ body {
   box-shadow: 0 1px 0 rgba(255, 255, 255, .025);
 }
 .brand-mark { background: linear-gradient(145deg, #58adff, #356bd8); box-shadow: 0 0 0 4px rgba(90, 169, 255, .09); }
-.tool-nav .language-switch { background: rgba(17, 29, 47, .72); }
-
 .hero, .report-shell { padding-top: 64px; }
 .toolbox-hero { padding-top: 72px; }
 .hero h1, .geo-home h1, .market-shell h1 {

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% macro money(grosz, locale) %}{{ (grosz / 100)|number_format(2, locale == 'pl' ? ',' : '.', locale == 'pl' ? ' ' : ',') }} {{ locale == 'pl' ? 'zł' : 'PLN' }}{% endmacro %}
-{% block tool_name %}: {{ 'base.context.market'|trans }}{% endblock %}
+{% block tool_name %}{{ 'base.context.market'|trans }}{% endblock %}
 {% block title %}{{ 'market.meta.title'|trans }}{% endblock %}
 {% block robots %}<meta name="robots" content="index,follow">{% endblock %}
 {% block description %}<meta name="description" content="{{ 'market.meta.description'|trans }}">{% endblock %}
@@ -14,7 +14,6 @@
 {% block language_switch %}<a class="language-switch" href="{{ path('market_home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
 {% block body %}
     <section class="tool-shell market-shell">
-        <a class="back" href="{{ path('home', {_locale: app.request.locale}) }}">← {{ 'common.all_tools'|trans }}</a>
         <div class="eyebrow">{{ 'market.eyebrow'|trans }}</div>
         <h1>{{ 'market.heading_start'|trans }}<br><em>{{ 'market.heading_emphasis'|trans }}</em></h1>
         <p class="lede">{{ 'market.lede'|trans }}</p>

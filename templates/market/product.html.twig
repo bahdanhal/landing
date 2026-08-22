@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% macro money(grosz, locale) %}{{ (grosz / 100)|number_format(2, locale == 'pl' ? ',' : '.', locale == 'pl' ? ' ' : ',') }} {{ locale == 'pl' ? 'zł' : 'PLN' }}{% endmacro %}
-{% block tool_name %}: {{ 'base.context.market'|trans }}{% endblock %}
+{% block tool_name %}{{ 'base.context.market'|trans }}{% endblock %}
 {% block title %}{{ 'market.product_meta.title'|trans({'%product%': product.name}) }}{% endblock %}
 {% block robots %}<meta name="robots" content="{{ latest ? 'index,follow' : 'noindex,follow' }}">{% endblock %}
 {% block description %}<meta name="description" content="{{ 'market.product_meta.description'|trans({'%product%': product.name}) }}">{% endblock %}

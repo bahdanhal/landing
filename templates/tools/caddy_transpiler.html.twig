@@ -9,28 +9,25 @@
   <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/tools/caddy-transpiler">
 {% endblock %}
 {% block stylesheets %}
+  <link rel="stylesheet" href="/tools.css">
   <link rel="stylesheet" href="/caddy-transpiler.css">
 {% endblock %}
 {% block language_switch %}
   <a class="language-switch" href="{{ path('caddy_transpiler', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
 {% endblock %}
-{% block tool_name %}: {{ 'caddy_transpiler.heading'|trans }}{% endblock %}
+{% block tool_name %}{{ 'caddy_transpiler.heading'|trans }}{% endblock %}
 
 {% block body %}
-<section class="tool-shell transpiler-shell">
-  <a class="back" href="{{ path('home', {_locale: app.request.locale}) }}">← {{ 'common.all_tools'|trans }}</a>
-  
-  <div class="tool-intro">
-    <div>
-      <div class="eyebrow">{{ 'caddy_transpiler.eyebrow'|trans }}</div>
-      <h1>{{ 'caddy_transpiler.heading'|trans }}</h1>
-      <p class="lede">{{ 'caddy_transpiler.lede'|trans }}</p>
-    </div>
-  </div>
+<section class="tool-page-shell transpiler-shell">
+  {% include 'tools/_tool_intro.html.twig' with {
+    eyebrow: 'caddy_transpiler.eyebrow'|trans,
+    heading: 'caddy_transpiler.heading'|trans,
+    lede: 'caddy_transpiler.lede'|trans
+  } only %}
 
   <div class="transpiler-container" id="caddy-transpiler-app" data-locale="{{ app.request.locale }}">
     <!-- Source & Presets Toolbar -->
-    <div class="transpiler-toolbar">
+    <div class="transpiler-toolbar ui-panel">
       <div class="server-toggle-group" role="group" aria-label="{{ 'caddy_transpiler.source_label'|trans }}">
         <button type="button" class="btn-toggle active" data-server="nginx">
           <span class="indicator indicator-nginx"></span> {{ 'caddy_transpiler.server_nginx'|trans }}
@@ -54,7 +51,7 @@
     <!-- Split Screen Workspace -->
     <div class="transpiler-workspace">
       <!-- Left: Source Config Input -->
-      <div class="workspace-panel input-panel">
+      <div class="workspace-panel input-panel ui-panel">
         <div class="panel-header">
           <span class="panel-title" id="source-panel-title">Nginx (nginx.conf / server)</span>
           <div class="panel-actions">
@@ -71,7 +68,7 @@
       </div>
 
       <!-- Right: Formatted Caddyfile Output -->
-      <div class="workspace-panel output-panel">
+      <div class="workspace-panel output-panel ui-panel">
         <div class="panel-header">
           <span class="panel-title">{{ 'caddy_transpiler.output_title'|trans }}</span>
           <div class="panel-actions">
@@ -94,7 +91,7 @@
     </div>
 
     <!-- Migration Advisories & Insights -->
-    <div class="transpiler-insights">
+    <div class="transpiler-insights ui-panel">
       <div class="insights-header">
         <h3>{{ 'caddy_transpiler.advisories_title'|trans }}</h3>
       </div>
