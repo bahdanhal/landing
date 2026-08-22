@@ -47,7 +47,7 @@ COPY phpstan-baseline.neon ./phpstan-baseline.neon
 RUN composer dump-autoload --classmap-authoritative
 CMD ["vendor/bin/phpunit"]
 
-FROM caddy:2.10-alpine AS web
+FROM caddy:2.11-alpine AS web
 WORKDIR /app
 COPY public ./public
 COPY Caddyfile /etc/caddy/Caddyfile
