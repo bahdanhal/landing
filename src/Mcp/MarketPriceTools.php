@@ -8,11 +8,15 @@ use App\Market\Application\ProductCatalog;
 use App\Market\Domain\PriceObservationRepository;
 use Mcp\Capability\Attribute\McpTool;
 use Mcp\Capability\Attribute\Schema;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 final readonly class MarketPriceTools
 {
-    public function __construct(private ProductCatalog $catalog, private PriceObservationRepository $observations)
-    {
+    public function __construct(
+        private ProductCatalog $catalog,
+        private PriceObservationRepository $observations,
+        private ?RequestStack $requestStack = null,
+    ) {
     }
 
     #[McpTool(
@@ -67,10 +71,9 @@ final readonly class MarketPriceTools
     #[McpTool(
         name: 'update_polish_used_price_observation',
         // phpcs:ignore Generic.Files.LineLength
-        description: 'Admin tool: Add or update a verified Polish marketplace used asking-price observation for a product slug using an admin authorization token.'
+        description: 'Admin-only tool: Add or update a verified Polish marketplace used asking-price observation. Authorization is handled via the Authorization header — do NOT pass any token argument.'
     )]
     public function updateObservation(
-        #[Schema(description: 'Admin authorization token.')] string $token,
         #[Schema(description: 'Product slug to update (must exist in catalog).')] string $slug,
         #[Schema(description: 'Observed fair market median price in PLN.')] float $median_pln,
         #[Schema(description: 'Optional lower bound price in PLN (defaults to median * 0.88).')] ?float $low_pln = null,
@@ -81,7 +84,22 @@ final readonly class MarketPriceTools
         #[Schema(description: 'Optional summary note or verification details.')] ?string $summary = null,
     ): string {
         $expectedToken = (string) ($_ENV['MARKET_ADMIN_TOKEN'] ?? $_ENV['APP_SECRET'] ?? '');
-        if ($expectedToken === '' || !hash_equals($expectedToken, $token)) {
+        if ($expectedToken === '') {
+            return $this->json(['error' => 'Unauthorized: Invalid admin token.']);
+        }
+
+        $providedToken = '';
+        if ($this->requestStack !== null) {
+            $request = $this->requestStack->getCurrentRequest();
+            if ($request !== null) {
+                $authHeader = $request->headers->get('Authorization') ?? '';
+                if (preg_match('/^Bearer\s+(.+)$/i', $authHeader, $matches)) {
+                    $providedToken = trim($matches[1]);
+                }
+            }
+        }
+
+        if ($providedToken === '' || !hash_equals($expectedToken, $providedToken)) {
             return $this->json(['error' => 'Unauthorized: Invalid admin token.']);
         }
 

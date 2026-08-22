@@ -56,9 +56,13 @@ final class MarketPriceToolsTest extends TestCase
         $_ENV['MARKET_ADMIN_TOKEN'] = 'test-token-123';
         $catalog = new ProductCatalog();
         $repository = $this->createStub(PriceObservationRepository::class);
-        $tools = new MarketPriceTools($catalog, $repository);
+        $requestStack = new \Symfony\Component\HttpFoundation\RequestStack();
+        $request = new \Symfony\Component\HttpFoundation\Request();
+        $request->headers->set('Authorization', 'Bearer wrong-token');
+        $requestStack->push($request);
+        $tools = new MarketPriceTools($catalog, $repository, $requestStack);
 
-        $json = $tools->updateObservation('wrong-token', 'iphone-13-128gb', 950);
+        $json = $tools->updateObservation('iphone-13-128gb', 950);
         $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
 
         self::assertArrayHasKey('error', $data);
@@ -72,23 +76,70 @@ final class MarketPriceToolsTest extends TestCase
         $repository = $this->createStub(PriceObservationRepository::class);
         $tools = new MarketPriceTools($catalog, $repository);
 
-        $json = $tools->updateObservation('bahdan-market-admin-token', 'iphone-13-128gb', 950);
+        $json = $tools->updateObservation('iphone-13-128gb', 950);
         $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
 
         self::assertArrayHasKey('error', $data);
         self::assertStringContainsString('Unauthorized', $data['error']);
     }
 
-    public function testAdminUpdateObservationSavesSuccessfully(): void
+    public function testAdminUpdateObservationFailsWithoutHeader(): void
+    {
+        $_ENV['MARKET_ADMIN_TOKEN'] = 'test-token-123';
+        $catalog = new ProductCatalog();
+        $repository = $this->createStub(PriceObservationRepository::class);
+        $tools = new MarketPriceTools($catalog, $repository);
+
+        $json = $tools->updateObservation('iphone-13-128gb', 950);
+        $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+
+        self::assertArrayHasKey('error', $data);
+        self::assertStringContainsString('Unauthorized', $data['error']);
+    }
+
+    public function testAdminUpdateObservationSavesSuccessfullyWithTokenParam(): void
     {
         $_ENV['MARKET_ADMIN_TOKEN'] = 'test-token-123';
         $catalog = new ProductCatalog();
         $repository = $this->createMock(PriceObservationRepository::class);
         $repository->expects(self::once())->method('save');
 
-        $tools = new MarketPriceTools($catalog, $repository);
+        $requestStack = new \Symfony\Component\HttpFoundation\RequestStack();
+        $request = new \Symfony\Component\HttpFoundation\Request();
+        $request->headers->set('Authorization', 'Bearer test-token-123');
+        $requestStack->push($request);
+
+        $tools = new MarketPriceTools($catalog, $repository, $requestStack);
         $json = $tools->updateObservation(
-            'test-token-123',
+            'iphone-13-128gb',
+            950,
+            830,
+            1080,
+            10,
+            'high',
+            '2026-08-22',
+            'Personal verification'
+        );
+
+        $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+        self::assertSame('success', $data['status']);
+        self::assertEquals(950, $data['observation']['median_pln']);
+    }
+
+    public function testAdminUpdateObservationSavesSuccessfullyWithAuthorizationHeader(): void
+    {
+        $_ENV['MARKET_ADMIN_TOKEN'] = 'test-token-123';
+        $catalog = new ProductCatalog();
+        $repository = $this->createMock(PriceObservationRepository::class);
+        $repository->expects(self::once())->method('save');
+
+        $requestStack = new \Symfony\Component\HttpFoundation\RequestStack();
+        $request = new \Symfony\Component\HttpFoundation\Request();
+        $request->headers->set('Authorization', 'Bearer test-token-123');
+        $requestStack->push($request);
+
+        $tools = new MarketPriceTools($catalog, $repository, $requestStack);
+        $json = $tools->updateObservation(
             'iphone-13-128gb',
             950,
             830,

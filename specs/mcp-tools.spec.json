@@ -68,13 +68,8 @@
     },
     {
       "name": "update_polish_used_price_observation",
-      "description": "Admin tool: Add or update a verified Polish used price observation for a product slug using an admin token.",
+      "description": "Admin tool: Add or update a verified Polish used price observation for a product slug. Authorization is handled via the Authorization header.",
       "parameters": [
-        {
-          "name": "token",
-          "type": "string",
-          "required": true
-        },
         {
           "name": "slug",
           "type": "string",
