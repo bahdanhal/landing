@@ -20,6 +20,7 @@ final class SitemapControllerTest extends TestCase
         $xml = (new SitemapController(new ProductCatalog(), $repository))()->getContent();
 
         self::assertIsString($xml);
+        self::assertStringContainsString('<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>', $xml);
         self::assertStringContainsString('/peugeot-206-cc-1-6-petrol</loc>', $xml);
         self::assertStringNotContainsString('/peugeot-206-cc-2-0-petrol</loc>', $xml);
         self::assertSame(14, substr_count($xml, '<url>'));
