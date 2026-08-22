@@ -37,7 +37,7 @@ graph TD
 ### Architectural Principles
 
 1. **Hardened Database & Clean Architecture Persistence**  
-   Primary domain entities (Price Observations, Leads, Product Requests, Price Tips) are managed via Doctrine ORM backed by an isolated PostgreSQL 17 database. The database container resides exclusively in an internal Docker network with zero exposed host ports.
+   Primary domain entities and analytics data (Price Observations, Leads, Product Requests, Price Tips, Page Views) are managed via Doctrine ORM backed by an isolated PostgreSQL 17 database. The database container resides exclusively in an internal Docker network with zero exposed host ports.
 
 2. **Deterministic Rules with Decoupled AI Enrichment**  
    Core audits, market observations and signal evaluations are deterministic or manually curated. AI models are invoked only for optional semantic synthesis of technical SEO evidence. System integrity and market prices do not depend on model availability or non-deterministic output.
@@ -59,13 +59,24 @@ The codebase follows Clean Architecture and Domain-Driven Design (DDD) principle
 
 ```
 src/
+├── Analytics/                       # Traffic Analytics Context (Hexagonal)
+│   ├── Application/                 # TrafficAnalytics aggregate queries
+│   ├── Domain/                      # PageView VO and PageViewRepository
+│   └── Infrastructure/              # DoctrinePageViewRepository & PageViewSubscriber
 ├── Audit/                           # Technical SEO Audit Context (Hexagonal)
 │   ├── Application/                 # SiteAuditor, IssueGrouper, AI summary orchestration
 │   ├── Domain/                      # Deterministic AuditRuleEngine
 │   └── Infrastructure/              # Privacy-safe JSONL audit logger
 ├── Command/                         # CLI Console Commands
 │   ├── AuditCommand.php             # CLI interface for technical SEO audits
+│   ├── MigrateStorageToDatabaseCommand.php # Import legacy JSON/JSONL into Postgres
 │   └── SanitizeMarketDataCommand.php# Normalize legacy market records
+├── Entity/                          # Doctrine ORM Entities (PostgreSQL 17)
+│   ├── LeadEntity.php               # Leads table mapping
+│   ├── PageViewEntity.php           # Page views table mapping
+│   ├── PriceObservationEntity.php   # Price observations table mapping
+│   ├── PriceTipEntity.php           # Community price tips table mapping
+│   └── ProductRequestEntity.php     # Product requests table mapping
 ├── Controller/                      # Presentation Layer (HTTP Controllers)
 │   ├── Admin/                       # Authenticated admin views
 │   ├── AuditController.php          # SEO audit web UI, JSON API, contact leads

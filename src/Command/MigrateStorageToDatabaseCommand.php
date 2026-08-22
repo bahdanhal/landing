@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\LeadEntity;
+use App\Entity\PageViewEntity;
 use App\Entity\PriceObservationEntity;
 use App\Entity\PriceTipEntity;
 use App\Entity\ProductRequestEntity;
@@ -28,6 +29,7 @@ final class MigrateStorageToDatabaseCommand extends Command
         private readonly EntityManagerInterface $entityManager,
         private readonly string $marketDataDirectory,
         private readonly string $contactLeadDirectory,
+        private readonly string $analyticsDataDirectory,
     ) {
         parent::__construct();
     }
@@ -41,15 +43,17 @@ final class MigrateStorageToDatabaseCommand extends Command
         $leadCount = $this->importLeads($io);
         $requestCount = $this->importProductRequests($io);
         $tipCount = $this->importPriceTips($io);
+        $viewCount = $this->importPageViews($io);
 
         $this->entityManager->flush();
 
         $io->success(sprintf(
-            'Migration completed: %d observations, %d leads, %d product requests, %d price tips.',
+            'Migration completed: %d observations, %d leads, %d product requests, %d price tips, %d page views.',
             $observationCount,
             $leadCount,
             $requestCount,
-            $tipCount
+            $tipCount,
+            $viewCount
         ));
 
         return Command::SUCCESS;
@@ -204,6 +208,40 @@ final class MigrateStorageToDatabaseCommand extends Command
                 }
             } catch (\Throwable) {
                 continue;
+            }
+        }
+
+        return $count;
+    }
+
+    private function importPageViews(SymfonyStyle $io): int
+    {
+        $dir = rtrim($this->analyticsDataDirectory, '/');
+        $files = glob($dir . '/*.jsonl') ?: [];
+        $count = 0;
+
+        foreach ($files as $file) {
+            $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
+            foreach ($lines as $line) {
+                try {
+                    $item = json_decode($line, true, flags: JSON_THROW_ON_ERROR);
+                    if (!is_array($item) || !isset($item['occurred_at'], $item['visitor_hash'], $item['path'], $item['source'])) {
+                        continue;
+                    }
+
+                    $occurredAt = new \DateTimeImmutable((string) $item['occurred_at']);
+                    $entity = new PageViewEntity(
+                        $occurredAt,
+                        (string) $item['visitor_hash'],
+                        (string) $item['path'],
+                        (string) $item['source'],
+                        isset($item['referrer_host']) ? (string) $item['referrer_host'] : null,
+                    );
+                    $this->entityManager->persist($entity);
+                    ++$count;
+                } catch (\Throwable) {
+                    continue;
+                }
             }
         }
 

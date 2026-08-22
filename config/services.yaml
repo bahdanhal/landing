@@ -75,7 +75,11 @@ services:
       $secret: '%env(APP_SECRET)%'
 
   App\Analytics\Domain\PageViewRepository:
-    alias: App\Analytics\Infrastructure\JsonlPageViewRepository
+    alias: App\Analytics\Infrastructure\DoctrinePageViewRepository
+
+  App\Analytics\Infrastructure\DoctrinePageViewRepository:
+    arguments:
+      $retentionDays: '%analytics.retention_days%'
 
   App\Analytics\Infrastructure\JsonlPageViewRepository:
     arguments:
@@ -138,6 +142,7 @@ services:
     arguments:
       $marketDataDirectory: '%market.data_directory%'
       $contactLeadDirectory: '%contact.lead_directory%'
+      $analyticsDataDirectory: '%analytics.data_directory%'
 
   App\Controller\MarketController:
     arguments:
