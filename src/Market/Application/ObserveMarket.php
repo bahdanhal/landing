@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Market\Application;
 
 use App\Market\Domain\PriceObservation;
@@ -13,7 +15,7 @@ final readonly class ObserveMarket
 
     public function observe(string $slug, ?\DateTimeImmutable $at = null): PriceObservation
     {
-        $product = $this->catalog->get($slug) ?? throw new \InvalidArgumentException('Unknown market product: '.$slug);
+        $product = $this->catalog->get($slug) ?? throw new \InvalidArgumentException('Unknown market product: ' . $slug);
         $observation = $this->researcher->observe($product, $at ?? new \DateTimeImmutable('now', new \DateTimeZone('Europe/Warsaw')));
         $this->repository->save($observation);
 
@@ -24,7 +26,7 @@ final readonly class ObserveMarket
     public function observeMany(array $slugs, ?\DateTimeImmutable $at = null): array
     {
         $products = array_map(function (string $slug) {
-            return $this->catalog->get($slug) ?? throw new \InvalidArgumentException('Unknown market product: '.$slug);
+            return $this->catalog->get($slug) ?? throw new \InvalidArgumentException('Unknown market product: ' . $slug);
         }, $slugs);
         $observations = [];
         foreach (array_chunk($products, 8) as $batch) {

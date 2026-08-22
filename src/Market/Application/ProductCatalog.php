@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Market\Application;
 
 use App\Market\Domain\Product;
@@ -24,6 +26,19 @@ final class ProductCatalog
         return null;
     }
 
+    public function familyFor(string $slug): ?ProductFamily
+    {
+        foreach ($this->families() as $family) {
+            foreach ($family->configurations as $product) {
+                if ($product->slug === $slug) {
+                    return $family;
+                }
+            }
+        }
+
+        return null;
+    }
+
     /** @return list<ProductFamily> */
     public function families(): array
     {
@@ -36,7 +51,7 @@ final class ProductCatalog
             $first = $products[0];
             $familySlug = $this->familySlug($first);
             $name = match ($first->category) {
-                'smartphones' => 'Apple '.$first->specifications['generation'],
+                'smartphones' => 'Apple ' . $first->specifications['generation'],
                 'laptops' => sprintf('MacBook Air %s %s', $first->specifications['display'], $first->specifications['chip']),
                 'cars' => 'Peugeot 206 CC',
             };
@@ -44,8 +59,16 @@ final class ProductCatalog
                 'iphone-13' => ['/images/market/iphone-13.jpg', 'Kskhh', 'https://commons.wikimedia.org/wiki/File:IPhone_13.jpg'],
                 'iphone-14' => ['/images/market/iphone-14-plus.jpg', 'Kskhh', 'https://commons.wikimedia.org/wiki/File:IPhone_13_and_iPhone_14_Plus.jpg'],
                 'macbook-air-13-m1' => ['/images/market/macbook-air-m1.png', 'L', 'https://commons.wikimedia.org/wiki/File:Macbook_Air_M1_Silver_PNG.png'],
-                'macbook-air-13-m2' => ['/images/market/macbook-air-m2.jpg', 'KKPCW (Kyu3)', 'https://commons.wikimedia.org/wiki/File:M2_Macbook_Air_Midnight_model_-_1.jpg'],
-                'macbook-air-15-m2' => ['/images/market/macbook-air-15.jpg', 'KKPCW (Kyu3)', 'https://commons.wikimedia.org/wiki/File:Macbook_Air_15_inch_-_1.jpg'],
+                'macbook-air-13-m2' => [
+                    '/images/market/macbook-air-m2.jpg',
+                    'KKPCW (Kyu3)',
+                    'https://commons.wikimedia.org/wiki/File:M2_Macbook_Air_Midnight_model_-_1.jpg',
+                ],
+                'macbook-air-15-m2' => [
+                    '/images/market/macbook-air-15.jpg',
+                    'KKPCW (Kyu3)',
+                    'https://commons.wikimedia.org/wiki/File:Macbook_Air_15_inch_-_1.jpg',
+                ],
                 'peugeot-206-cc' => ['/images/market/peugeot-206-cc.jpg', 'Corvettec6r', 'https://commons.wikimedia.org/wiki/File:Peugeot_206_CC.jpg'],
             };
 
@@ -77,15 +100,25 @@ final class ProductCatalog
             return 'peugeot-206-cc';
         }
 
-        return strtolower(str_replace([' ', '-inch'], ['-', ''], sprintf('macbook-air-%s-%s', $product->specifications['display'], $product->specifications['chip'])));
+        return strtolower(str_replace(
+            [' ', '-inch'],
+            ['-', ''],
+            sprintf('macbook-air-%s-%s', $product->specifications['display'], $product->specifications['chip'])
+        ));
     }
 
     /** @return list<Product> */
     private function iphones(): array
     {
         $products = [];
+        $variants = [
+            '' => ['128', '256', '512'],
+            'plus' => ['128', '256', '512'],
+            'pro' => ['128', '256', '512', '1tb'],
+            'pro-max' => ['128', '256', '512', '1tb'],
+        ];
         foreach (['13', '14'] as $generation) {
-            foreach (['' => ['128', '256', '512'], 'plus' => ['128', '256', '512'], 'pro' => ['128', '256', '512', '1tb'], 'pro-max' => ['128', '256', '512', '1tb']] as $variant => $capacities) {
+            foreach ($variants as $variant => $capacities) {
                 if ($generation === '13' && $variant === 'plus') {
                     continue;
                 }
@@ -95,11 +128,18 @@ final class ProductCatalog
                     $capacitiesByVariant = $capacities;
                 }
                 foreach ($capacitiesByVariant as $capacity) {
-                    $variantName = $variant === '' ? '' : ' '.ucwords(str_replace('-', ' ', $variant));
-                    $storage = $capacity === '1tb' ? '1 TB' : $capacity.' GB';
+                    $variantName = $variant === '' ? '' : ' ' . ucwords(str_replace('-', ' ', $variant));
+                    $storage = $capacity === '1tb' ? '1 TB' : $capacity . ' GB';
                     $name = sprintf('Apple iPhone %s%s %s', $generation, $variantName, $storage);
-                    $slug = sprintf('iphone-%s%s-%s', $generation, $variant === '' ? '' : '-'.$variant, str_replace(' ', '', strtolower($storage)));
-                    $products[] = new Product($slug, $name, sprintf('Unlocked %s, used and fully functional, with intact screen. Include comparable Polish asking prices and exclude new, damaged, parts-only, locked, bundled and refurbished-as-new units.', $name), 'smartphones', ['generation' => 'iPhone '.$generation, 'variant' => trim($variantName) ?: 'Standard', 'storage' => $storage]);
+                    $slug = sprintf('iphone-%s%s-%s', $generation, $variant === '' ? '' : '-' . $variant, str_replace(' ', '', strtolower($storage)));
+                    $products[] = new Product(
+                        $slug,
+                        $name,
+                        // phpcs:ignore Generic.Files.LineLength
+                        sprintf('Unlocked %s, used and fully functional, with intact screen. Include comparable Polish asking prices and exclude new, damaged, parts-only, locked, bundled and refurbished-as-new units.', $name),
+                        'smartphones',
+                        ['generation' => 'iPhone ' . $generation, 'variant' => trim($variantName) ?: 'Standard', 'storage' => $storage]
+                    );
                 }
             }
         }
@@ -121,7 +161,14 @@ final class ProductCatalog
                 foreach ($family['storage'] as $storage) {
                     $name = sprintf('MacBook Air %s %s · %s RAM · %s SSD', $family['display'], $family['chip'], $memory, $storage);
                     $slug = strtolower(str_replace([' · ', ' ', '-inch'], ['-', '-', ''], $name));
-                    $products[] = new Product($slug, $name, sprintf('Used, fully functional Apple %s in Poland with the exact display, chip, unified-memory and SSD configuration shown. Exclude damaged, parts-only, locked, bundled and refurbished-as-new units.', $name), 'laptops', ['display' => $family['display'], 'chip' => $family['chip'], 'memory' => $memory, 'storage' => $storage]);
+                    $products[] = new Product(
+                        $slug,
+                        $name,
+                        // phpcs:ignore Generic.Files.LineLength
+                        sprintf('Used, fully functional Apple %s in Poland with the exact display, chip, unified-memory and SSD configuration shown. Exclude damaged, parts-only, locked, bundled and refurbished-as-new units.', $name),
+                        'laptops',
+                        ['display' => $family['display'], 'chip' => $family['chip'], 'memory' => $memory, 'storage' => $storage]
+                    );
                 }
             }
         }
@@ -136,6 +183,7 @@ final class ProductCatalog
             new Product(
                 'peugeot-206-cc-1-6-petrol',
                 'Peugeot 206 CC 1.6 petrol',
+                // phpcs:ignore Generic.Files.LineLength
                 'Used, registered and roadworthy Peugeot 206 CC with the 1.6-litre petrol engine in Poland. Include complete running cars with normal age-related wear. Exclude damaged, parts-only, non-running, heavily modified, imported-unregistered and dealer-new vehicles.',
                 'cars',
                 ['model' => '206 CC', 'engine' => '1.6 petrol', 'market' => 'Poland'],
@@ -143,6 +191,7 @@ final class ProductCatalog
             new Product(
                 'peugeot-206-cc-2-0-petrol',
                 'Peugeot 206 CC 2.0 petrol',
+                // phpcs:ignore Generic.Files.LineLength
                 'Used, registered and roadworthy Peugeot 206 CC with the 2.0-litre petrol engine in Poland. Include complete running cars with normal age-related wear. Exclude damaged, parts-only, non-running, heavily modified, imported-unregistered and dealer-new vehicles.',
                 'cars',
                 ['model' => '206 CC', 'engine' => '2.0 petrol', 'market' => 'Poland'],

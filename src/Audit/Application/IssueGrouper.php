@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Audit\Application;
 
 final class IssueGrouper
@@ -9,7 +11,7 @@ final class IssueGrouper
     {
         $groups = [];
         foreach ($issues as $issue) {
-            $key = $issue['severity'].'|'.$issue['code'];
+            $key = $issue['severity'] . '|' . $issue['code'];
             $groups[$key] ??= ['severity' => $issue['severity'], 'code' => $issue['code'], 'title' => $issue['title'], 'occurrences' => []];
             $groups[$key]['occurrences'][] = ['detail' => $issue['detail'], 'evidence' => $issue['evidence'] ?? []];
         }

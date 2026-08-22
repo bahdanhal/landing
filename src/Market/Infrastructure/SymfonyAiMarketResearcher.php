@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Market\Infrastructure;
 
 use App\Market\Application\MarketResearcher;
@@ -26,14 +28,17 @@ final readonly class SymfonyAiMarketResearcher implements MarketResearcher
         }
         $today = new \DateTimeImmutable('today', new \DateTimeZone('Europe/Warsaw'));
         $historicalRules = $at < $today
-            ? 'This is a retrospective estimate for the requested date. Prefer dated public information from around that date. Do not silently substitute current prices. Return a conservative estimate only when the period can be reasonably reconstructed; otherwise omit that product.'
-            : 'This is a current observation. Use current public market information.';
+            // phpcs:ignore Generic.Files.LineLength
+            ? 'This is a retrospective estimate for the requested date. Prefer dated profile information from around that date. Do not silently substitute current prices. Return a conservative estimate only when the period can be reasonably reconstructed; otherwise omit that product.'
+            : 'This is a current observation. Use current profile market information.';
         $definitions = array_map(
             static fn (Product $product): array => ['slug' => $product->slug, 'name' => $product->name, 'definition' => $product->definition],
             $products,
         );
         $text = $this->ai->complete(
+        // phpcs:ignore Generic.Files.LineLength
             'You conduct conservative, repeatable estimates of second-hand asking prices in Poland. Research all supplied products together to minimize cost. Use provider-hosted web search, but never reproduce, cite, name, quote, or return any marketplace, domain, seller, listing, or URL. Apply each exact product definition and exclude damaged, parts-only, new, refurbished-as-new, locked, bundled, obvious outliers and non-Polish offers. Return only one strict JSON object with an observations array. Each item must contain slug, median_pln, low_pln, high_pln, sample_size and confidence (low|medium|high). Prices are AI-assisted asking-price estimates, not scraped or completed-sale data. Omit a product rather than inventing figures when fewer than three comparables can be reasonably assessed.',
+            // phpcs:ignore Generic.Files.LineLength
             sprintf("Observation date: %s\n%s\nMarket: Poland, prices in PLN\nProducts: %s", $at->format('Y-m-d'), $historicalRules, json_encode($definitions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR)),
             AiUseCase::MarketResearch,
         );
@@ -49,18 +54,20 @@ final readonly class SymfonyAiMarketResearcher implements MarketResearcher
                 continue;
             }
             try {
+                $methodology = $at < $today
+                    ? PriceObservation::METHODOLOGY_RETROSPECTIVE
+                    : PriceObservation::METHODOLOGY_CURRENT;
+
                 $observations[] = new PriceObservation(
                     (string) $row['slug'],
                     $at,
-                    (int) ($row['median_pln'] ?? 0) * 100,
-                    (int) ($row['low_pln'] ?? 0) * 100,
-                    (int) ($row['high_pln'] ?? 0) * 100,
+                    (int) round(((float) ($row['median_pln'] ?? 0)) * 100),
+                    (int) round(((float) ($row['low_pln'] ?? 0)) * 100),
+                    (int) round(((float) ($row['high_pln'] ?? 0)) * 100),
                     (int) ($row['sample_size'] ?? 0),
                     (string) ($row['confidence'] ?? ''),
                     '',
-                    $at < $today
-                        ? 'Retrospective AI-assisted estimate from dated public market information; no marketplace identities, listings, or links retained.'
-                        : 'AI-assisted estimate from current public market information; no marketplace identities, listings, or links retained.',
+                    $methodology,
                 );
             } catch (\InvalidArgumentException) {
                 continue;

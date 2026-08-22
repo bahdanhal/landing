@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Market;
 
 use App\Market\Domain\PriceObservation;
@@ -17,7 +19,17 @@ final class PriceObservationTest extends TestCase
     public function testItRejectsAnInconsistentPriceRange(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        new PriceObservation('iphone-14-128gb', new \DateTimeImmutable('2026-08-21'), 150000, 160000, 140000, 8, 'medium', 'Summary', 'Method');
+        new PriceObservation(
+            'iphone-14-128gb',
+            new \DateTimeImmutable('2026-08-21'),
+            150000,
+            160000,
+            140000,
+            8,
+            'medium',
+            'Summary',
+            'Method'
+        );
     }
 
     public function testLegacyResearchProseIsDiscardedOnRead(): void
@@ -35,13 +47,23 @@ final class PriceObservationTest extends TestCase
     public function testApprovedRetrospectiveMethodologySurvivesStorage(): void
     {
         $data = $this->observation()->toArray();
-        $data['methodology'] = 'Retrospective AI-assisted estimate from dated public market information; no marketplace identities, listings, or links retained.';
+        $data['methodology'] = PriceObservation::METHODOLOGY_RETROSPECTIVE;
 
         self::assertSame($data['methodology'], PriceObservation::fromArray($data)->methodology);
     }
 
     private function observation(): PriceObservation
     {
-        return new PriceObservation('iphone-14-128gb', new \DateTimeImmutable('2026-08-21T12:00:00+02:00'), 150000, 130000, 170000, 8, 'medium', '', 'AI-assisted estimate from current public market information; no marketplace identities, listings, or links retained.');
+        return new PriceObservation(
+            'iphone-14-128gb',
+            new \DateTimeImmutable('2026-08-21T12:00:00+02:00'),
+            150000,
+            130000,
+            170000,
+            8,
+            'medium',
+            '',
+            PriceObservation::METHODOLOGY_CURRENT
+        );
     }
 }

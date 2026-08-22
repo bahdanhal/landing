@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use Symfony\Contracts\Cache\CacheInterface;
@@ -39,8 +41,8 @@ final class SiteAuditor
                 'concurrency' => $this->concurrency,
             ]);
 
-            $cacheKey = hash('sha256', 'v3|'.$target.'|'.$this->maxPages.'|'.$this->concurrency);
-            $aiCacheKey = hash('sha256', 'ai-v3|'.$cacheKey.'|'.$this->aiSummary->cacheVariant());
+            $cacheKey = hash('sha256', 'v3|' . $target . '|' . $this->maxPages . '|' . $this->concurrency);
+            $aiCacheKey = hash('sha256', 'ai-v3|' . $cacheKey . '|' . $this->aiSummary->cacheVariant());
             if ($refresh) {
                 $this->auditCache->delete($cacheKey);
                 $this->auditCache->delete($aiCacheKey);
@@ -92,7 +94,7 @@ final class SiteAuditor
         $started = hrtime(true);
         $initial = $this->fetcher->fetch($target);
         if ($initial['status'] === 0) {
-            throw new \RuntimeException('The website could not be reached: '.$initial['error']);
+            throw new \RuntimeException('The website could not be reached: ' . $initial['error']);
         }
 
         $origin = $this->origin($initial['final_url']);
@@ -101,9 +103,9 @@ final class SiteAuditor
             array_values($this->fetcher->fetchMany($this->redirectVariants($initial['final_url']))),
         );
 
-        $robotsFetch = $this->fetcher->fetch($origin.'/robots.txt');
+        $robotsFetch = $this->fetcher->fetch($origin . '/robots.txt');
         $robots = [
-            'url' => $origin.'/robots.txt',
+            'url' => $origin . '/robots.txt',
             'status' => $robotsFetch['status'],
             'body' => $robotsFetch['body'],
             'sitemaps' => $this->robotsSitemaps($robotsFetch['body']),
@@ -119,7 +121,7 @@ final class SiteAuditor
             'sitemap_errors' => count($sitemap['errors']),
         ]);
 
-        $crawl = $this->crawl($origin, [$initial['final_url'], $origin.'/'], $policy, $auditId);
+        $crawl = $this->crawl($origin, [$initial['final_url'], $origin . '/'], $policy, $auditId);
         $sitemap['sample_checks'] = $this->checkSitemapSample($sitemap['urls']);
         $trapProbes = $this->probeCrawlerTraps($origin, $crawl['pages']);
 
@@ -132,8 +134,8 @@ final class SiteAuditor
                     'code' => 'crawler-trap-probe',
                     'title' => 'Unbounded URL variant returns indexable content',
                     'detail' => $isArbitraryQueryProbe
-                        ? 'The site returned HTTP 200 for a synthetic unknown query string with no consolidating canonical or noindex signal. This indicates arbitrary parameters can create crawlable URL variants.'
-                        : $probe['url'].' returned HTTP 200 with no consolidating canonical or noindex signal.',
+                        ? 'The site returned HTTP 200 for a synthetic unknown query string with no consolidating canonical or noindex signal. This indicates arbitrary parameters can create crawlable URL variants.' // phpcs:ignore Generic.Files.LineLength
+                        : $probe['url'] . ' returned HTTP 200 with no consolidating canonical or noindex signal.',
                     'evidence' => $probe,
                 ];
             }
@@ -142,7 +144,7 @@ final class SiteAuditor
         $counts = ['critical' => 0, 'warning' => 0, 'info' => 0];
         $countedIssueTypes = [];
         foreach ($issues as $issue) {
-            $issueType = $issue['severity'].'|'.$issue['code'];
+            $issueType = $issue['severity'] . '|' . $issue['code'];
             if (isset($countedIssueTypes[$issueType])) {
                 continue;
             }
@@ -247,17 +249,17 @@ final class SiteAuditor
     {
         $parts = parse_url($url);
         $host = strtolower($parts['host'] ?? '');
-        $alternateHost = str_starts_with($host, 'www.') ? substr($host, 4) : 'www.'.$host;
+        $alternateHost = str_starts_with($host, 'www.') ? substr($host, 4) : 'www.' . $host;
         $path = $parts['path'] ?? '/';
         $path = $path === '' ? '/' : $path;
-        $slashVariant = $path === '/' ? $path : (str_ends_with($path, '/') ? rtrim($path, '/') : $path.'/');
+        $slashVariant = $path === '/' ? $path : (str_ends_with($path, '/') ? rtrim($path, '/') : $path . '/');
         $variants = [];
         foreach (['http', 'https'] as $scheme) {
             foreach ([$host, $alternateHost] as $variantHost) {
-                $variants[] = $scheme.'://'.$variantHost.$path;
+                $variants[] = $scheme . '://' . $variantHost . $path;
             }
         }
-        $variants[] = ($parts['scheme'] ?? 'https').'://'.$host.$slashVariant;
+        $variants[] = ($parts['scheme'] ?? 'https') . '://' . $host . $slashVariant;
 
         return array_values(array_unique($variants));
     }
@@ -292,13 +294,13 @@ final class SiteAuditor
 
     private function probeCrawlerTraps(string $origin, array $pages): array
     {
-        $probes = [$origin.'/?seo_audit_probe=1'];
+        $probes = [$origin . '/?seo_audit_probe=1'];
         foreach ($pages as $page) {
             foreach ($page['links'] as $link) {
                 parse_str((string) parse_url($link, PHP_URL_QUERY), $query);
                 if (array_key_exists('page', $query)) {
                     $parts = parse_url($link);
-                    $probes[] = $origin.($parts['path'] ?? '/').'?page=999999999';
+                    $probes[] = $origin . ($parts['path'] ?? '/') . '?page=999999999';
                 }
                 if (count($probes) >= 4) {
                     break 2;
@@ -351,13 +353,13 @@ final class SiteAuditor
         $query = [];
         parse_str($parts['query'] ?? '', $query);
         ksort($query);
-        return strtolower(($parts['scheme'] ?? '').'://'.($parts['host'] ?? '').$path.($query === [] ? '' : '?'.http_build_query($query)));
+        return strtolower(($parts['scheme'] ?? '') . '://' . ($parts['host'] ?? '') . $path . ($query === [] ? '' : '?' . http_build_query($query)));
     }
 
     private function origin(string $url): string
     {
         $parts = parse_url($url);
-        return ($parts['scheme'] ?? 'https').'://'.($parts['host'] ?? '').(isset($parts['port']) ? ':'.$parts['port'] : '');
+        return ($parts['scheme'] ?? 'https') . '://' . ($parts['host'] ?? '') . (isset($parts['port']) ? ':' . $parts['port'] : '');
     }
 
     private function robotsSitemaps(string $body): array

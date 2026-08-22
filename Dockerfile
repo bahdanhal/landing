@@ -34,6 +34,7 @@ COPY templates ./templates
 COPY translations ./translations
 COPY tests ./tests
 COPY phpunit.xml.dist ./phpunit.xml.dist
+COPY phpcs.xml.dist ./phpcs.xml.dist
 RUN composer dump-autoload --classmap-authoritative
 CMD ["vendor/bin/phpunit"]
 

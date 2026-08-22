@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 final class SitemapInspector
@@ -16,7 +18,7 @@ final class SitemapInspector
         preg_match_all('/^\s*Sitemap:\s*(\S+)/im', $robotsBody, $matches);
         $candidates = array_values(array_unique($matches[1] ?? []));
         if ($candidates === []) {
-            $candidates = [rtrim($origin, '/').'/sitemap.xml'];
+            $candidates = [rtrim($origin, '/') . '/sitemap.xml'];
         }
 
         $queue = $candidates;
@@ -49,7 +51,7 @@ final class SitemapInspector
             libxml_clear_errors();
             libxml_use_internal_errors($previous);
             if (!$loaded) {
-                $errors[] = $sitemapUrl.' is not valid XML.';
+                $errors[] = $sitemapUrl . ' is not valid XML.';
                 continue;
             }
 

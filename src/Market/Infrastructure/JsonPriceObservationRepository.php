@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Market\Infrastructure;
 
 use App\Market\Domain\PriceObservation;
@@ -15,7 +17,7 @@ final readonly class JsonPriceObservationRepository implements PriceObservationR
     {
         $this->ensureDirectory();
         $path = $this->path($observation->productSlug);
-        $handle = fopen($path.'.lock', 'c+');
+        $handle = fopen($path . '.lock', 'c+');
         if ($handle === false || !flock($handle, LOCK_EX)) {
             throw new \RuntimeException('Could not lock market observation storage.');
         }
@@ -23,12 +25,18 @@ final readonly class JsonPriceObservationRepository implements PriceObservationR
         try {
             $history = $this->read($path);
             $day = $observation->observedAt->format('Y-m-d');
-            $history = array_values(array_filter($history, static fn (PriceObservation $item) => $item->observedAt->format('Y-m-d') !== $day));
+            $history = array_values(array_filter(
+                $history,
+                static fn (PriceObservation $item) => $item->observedAt->format('Y-m-d') !== $day
+            ));
             $history[] = $observation;
             usort($history, static fn (PriceObservation $a, PriceObservation $b) => $a->observedAt <=> $b->observedAt);
-            $json = json_encode(array_map(static fn (PriceObservation $item) => $item->toArray(), $history), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
-            $temporary = $path.'.tmp';
-            if (file_put_contents($temporary, $json."\n", LOCK_EX) === false || !rename($temporary, $path)) {
+            $json = json_encode(
+                array_map(static fn (PriceObservation $item) => $item->toArray(), $history),
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
+            );
+            $temporary = $path . '.tmp';
+            if (file_put_contents($temporary, $json . "\n", LOCK_EX) === false || !rename($temporary, $path)) {
                 throw new \RuntimeException('Could not persist market observation.');
             }
         } finally {
@@ -63,13 +71,13 @@ final readonly class JsonPriceObservationRepository implements PriceObservationR
 
     private function ensureDirectory(): void
     {
-        if (!is_dir($this->directory) && !mkdir($concurrentDirectory = $this->directory, 0770, true) && !is_dir($concurrentDirectory)) {
+        if (!is_dir($this->directory) && !mkdir($this->directory, 0770, true) && !is_dir($this->directory)) {
             throw new \RuntimeException('Could not create market observation storage.');
         }
     }
 
     private function path(string $productSlug): string
     {
-        return rtrim($this->directory, '/').'/'.$productSlug.'.json';
+        return rtrim($this->directory, '/') . '/' . $productSlug . '.json';
     }
 }

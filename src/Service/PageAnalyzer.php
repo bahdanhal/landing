@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 final class PageAnalyzer
@@ -47,7 +49,9 @@ final class PageAnalyzer
 
         $xpath = new \DOMXPath($document);
         $result['title'] = $this->text($xpath->query('//title')->item(0));
+        // phpcs:ignore Generic.Files.LineLength
         $result['description'] = $this->attribute($xpath, '//meta[translate(@name,"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz")="description"]', 'content');
+        // phpcs:ignore Generic.Files.LineLength
         $canonicals = $xpath->query('//link[contains(concat(" ", translate(@rel,"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz"), " "), " canonical ")]');
         $result['canonical_count'] = $canonicals->length;
         $canonical = $canonicals->item(0)?->attributes?->getNamedItem('href')?->nodeValue;

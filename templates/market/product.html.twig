@@ -6,44 +6,152 @@
 {% block description %}<meta name="description" content="{{ 'market.product_meta.description'|trans({'%product%': product.name}) }}">{% endblock %}
 {% set canonical_url = 'https://bahdan-hal.ovh' ~ (app.request.locale == 'pl' ? '/pl/narzedzia/indeks-cen-uzywanych/' : '/tools/poland-used-price-index/') ~ product.slug %}
 {% block canonical %}
-  <link rel="canonical" href="{{ canonical_url }}">
-  <link rel="alternate" hreflang="en" href="https://bahdan-hal.ovh/tools/poland-used-price-index/{{ product.slug }}">
-  <link rel="alternate" hreflang="pl" href="https://bahdan-hal.ovh/pl/narzedzia/indeks-cen-uzywanych/{{ product.slug }}">
-  <link rel="alternate" hreflang="x-default" href="https://bahdan-hal.ovh/tools/poland-used-price-index/{{ product.slug }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="alternate" hreflang="en" href="https://bahdan-hal.ovh/tools/poland-used-price-index/{{ product.slug }}">
+    <link rel="alternate" hreflang="pl" href="https://bahdan-hal.ovh/pl/narzedzia/indeks-cen-uzywanych/{{ product.slug }}">
+    <link rel="alternate" hreflang="x-default" href="https://bahdan-hal.ovh/tools/poland-used-price-index/{{ product.slug }}">
 {% endblock %}
 {% block stylesheets %}<link rel="stylesheet" href="/tools.css"><link rel="stylesheet" href="/market.css"><link rel="stylesheet" href="/market-extra.css">{% endblock %}
 {% block language_switch %}<a class="language-switch" href="{{ path('market_product', {_locale: app.request.locale == 'pl' ? 'en' : 'pl', slug: product.slug}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
 {% block body %}
-<article class="tool-shell market-shell">
-  <a class="back" href="{{ path('market_home', {_locale: app.request.locale}) }}">← {{ 'market.back'|trans }}</a>
-  <div class="eyebrow">{{ 'market.product_eyebrow'|trans }}</div>
-  <h1 class="market-title">{{ product.name }}</h1>
-  <p class="lede">{{ 'market.product_lede'|trans }}</p>
-  <dl class="market-specs">
-    {% for key, value in product.specifications %}<div><dt>{{ ('market.spec.' ~ key)|trans }}</dt><dd>{{ value }}</dd></div>{% endfor %}
-  </dl>
+    <article class="tool-shell market-shell">
+        <a class="back" href="{{ path('market_home', {_locale: app.request.locale}) }}">← {{ 'market.back'|trans }}</a>
+        <div class="eyebrow">{{ 'market.product_eyebrow'|trans }}</div>
+        <h1 class="market-title">{{ product.name }}</h1>
+        <p class="lede">{{ 'market.product_lede'|trans }}</p>
 
-  {% if latest %}
-    <section class="market-latest">
-      <div><span>{{ 'market.median'|trans }}</span><strong>{{ _self.money(latest.medianGrosz, app.request.locale) }}</strong><small>{{ 'market.asking_price'|trans }}</small></div>
-      <div><span>{{ 'market.range'|trans }}</span><strong>{{ _self.money(latest.lowGrosz, app.request.locale) }}–{{ _self.money(latest.highGrosz, app.request.locale) }}</strong><small>{{ 'market.comparable_range'|trans }}</small></div>
-      <div><span>{{ 'market.updated'|trans }}</span><strong>{{ latest.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y') }}</strong><small>{{ 'market.weekly'|trans }}</small></div>
-    </section>
+        {% set sibling_configs = [] %}
+        {% if family %}
+            {% for sibling in family.configurations %}
+                {% set sibling_configs = sibling_configs|merge([{
+                    slug: sibling.slug,
+                    url: path('market_product', {_locale: app.request.locale, slug: sibling.slug}),
+                    specs: sibling.specifications
+                }]) %}
+            {% endfor %}
+        {% endif %}
 
-    <section class="market-summary"><h2>{{ 'market.snapshot'|trans }}</h2><p>{{ 'market.snapshot_text'|trans({'%product%': product.name, '%median%': _self.money(latest.medianGrosz, app.request.locale), '%low%': _self.money(latest.lowGrosz, app.request.locale), '%high%': _self.money(latest.highGrosz, app.request.locale), '%date%': latest.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y')}) }}</p></section>
-    <section class="section">
-      <div class="section-title"><h2>{{ 'market.history'|trans }}</h2><span>{{ history|length }} {{ 'market.observations'|trans }}</span></div>
-      <div class="table-wrap"><table><thead><tr><th>{{ 'market.date'|trans }}</th><th>{{ 'market.median'|trans }}</th><th>{{ 'market.range'|trans }}</th></tr></thead><tbody>
-        {% for observation in history %}<tr><td><time datetime="{{ observation.observedAt|date('c') }}">{{ observation.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y') }}</time></td><td><strong>{{ _self.money(observation.medianGrosz, app.request.locale) }}</strong></td><td>{{ _self.money(observation.lowGrosz, app.request.locale) }}–{{ _self.money(observation.highGrosz, app.request.locale) }}</td></tr>{% endfor %}
-      </tbody></table></div>
-    </section>
-    <section class="section market-evidence"><div class="section-title"><h2>{{ 'market.methodology_label'|trans }}</h2><span>{{ 'market.latest_snapshot'|trans }}</span></div><p>{{ 'market.method.public'|trans }}</p></section>
-    <section class="tool-faq"><h2>{{ 'market.faq.title'|trans }}</h2><details><summary>{{ 'market.faq.estimate.q'|trans }}</summary><p>{{ 'market.faq.estimate.a'|trans }}</p></details><details><summary>{{ 'market.faq.sources.q'|trans }}</summary><p>{{ 'market.faq.sources.a'|trans }}</p></details></section>
-  {% else %}
-    <section class="market-empty"><h2>{{ 'market.no_data.title'|trans }}</h2><p>{{ 'market.no_data.text'|trans }}</p></section>
-  {% endif %}
+        <dl class="market-specs"
+            data-sibling-configs="{{ sibling_configs|json_encode }}"
+            data-current-specs="{{ product.specifications|json_encode }}">
+            {% for key, value in product.specifications %}
+                {% set distinct_values = [] %}
+                {% if family %}
+                    {% for sibling in family.configurations %}
+                        {% if sibling.specifications[key] is defined and sibling.specifications[key] not in distinct_values %}
+                            {% set distinct_values = distinct_values|merge([sibling.specifications[key]]) %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
 
-  <aside class="market-caveat"><strong>{{ 'market.caveat.title'|trans }}</strong><p>{{ 'market.caveat.text'|trans }}</p></aside>
-</article>
-{% if latest %}<script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'Dataset','name':product.name ~ ' used asking-price history in Poland','description':'market.product_meta.description'|trans({'%product%': product.name}),'url':canonical_url,'inLanguage':app.request.locale,'dateModified':latest.observedAt|date('c'),'author':{'@id':'https://bahdan-hal.ovh/#bahdan'},'creator':{'@id':'https://bahdan-hal.ovh/#bahdan'},'publisher':{'@id':'https://bahdan-hal.ovh/#bahdan'},'spatialCoverage':{'@type':'Country','name':'Poland'},'variableMeasured':['Median asking price in PLN','Observed comparable range']},{'@type':'FAQPage','mainEntity':[{'@type':'Question','name':'market.faq.estimate.q'|trans,'acceptedAnswer':{'@type':'Answer','text':'market.faq.estimate.a'|trans}},{'@type':'Question','name':'market.faq.sources.q'|trans,'acceptedAnswer':{'@type':'Answer','text':'market.faq.sources.a'|trans}}]}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>{% endif %}
+                <div class="market-spec-badge">
+                    <dt>{{ ('market.spec.' ~ key)|trans }}</dt>
+                    {% if distinct_values|length > 1 %}
+                        <dd class="market-spec-select-wrap">
+                            <select class="market-spec-select" data-spec-key="{{ key }}" aria-label="{{ ('market.spec.' ~ key)|trans }}">
+                                {% for opt in distinct_values %}
+                                    <option value="{{ opt }}" {{ opt == value ? 'selected' : '' }}>{{ opt }}</option>
+                                {% endfor %}
+                            </select>
+                            <span class="market-spec-arrow" aria-hidden="true">▾</span>
+                        </dd>
+                    {% else %}
+                        <dd>{{ value }}</dd>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </dl>
+
+        {% if latest %}
+            {% set previous = history|length > 1 ? history[1] : null %}
+            {% set diff = previous ? (latest.medianGrosz - previous.medianGrosz) : 0 %}
+            {% set diff_pct = previous ? ((diff / previous.medianGrosz) * 100)|round(1) : 0 %}
+
+            <section class="market-latest">
+                <div>
+                    <span>{{ 'market.median'|trans }}</span>
+                    <strong>{{ _self.money(latest.medianGrosz, app.request.locale) }}</strong>
+                    {% if previous %}
+                        <span class="trend-badge trend-{{ diff < 0 ? 'down' : (diff > 0 ? 'up' : 'flat') }}">
+            {{ diff < 0 ? '📉' : (diff > 0 ? '📈' : '🟢') }} {{ diff > 0 ? '+' : '' }}{{ (diff / 100)|number_format(0) }} zł ({{ diff > 0 ? '+' : '' }}{{ diff_pct }}%)
+          </span>
+                    {% else %}
+                        <small>{{ 'market.asking_price'|trans }}</small>
+                    {% endif %}
+                </div>
+                <div><span>{{ 'market.range'|trans }}</span><strong>{{ _self.money(latest.lowGrosz, app.request.locale) }}–{{ _self.money(latest.highGrosz, app.request.locale) }}</strong><small>{{ 'market.comparable_range'|trans }}</small></div>
+                <div><span>{{ 'market.updated'|trans }}</span><strong>{{ latest.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y') }}</strong><small>{{ 'market.weekly'|trans }}</small></div>
+            </section>
+
+            <!-- ИНТЕРАКТИВНЫЙ ГРАФИК ЦЕН -->
+            {% if history|length >= 2 %}
+                {% set chart_data = [] %}
+                {% for item in history %}
+                    {% set chart_data = chart_data|merge([{
+                        date: item.observedAt|date('Y-m-d'),
+                        date_short: item.observedAt|date('d.m'),
+                        date_formatted: item.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y'),
+                        median_pln: item.medianGrosz / 100,
+                        low_pln: item.lowGrosz / 100,
+                        high_pln: item.highGrosz / 100
+                    }]) %}
+                {% endfor %}
+                <section class="market-chart-card">
+                    <div class="chart-header">
+                        <h2>{{ 'market.chart.title'|trans }}</h2>
+                        <div class="chart-legend">
+                            <span class="legend-median">{{ 'market.median'|trans }}</span>
+                            <span class="legend-corridor">{{ 'market.range'|trans }}</span>
+                        </div>
+                    </div>
+                    <div data-market-chart
+                         data-history="{{ chart_data|json_encode }}"
+                         data-label-median="{{ 'market.median'|trans }}"
+                         data-label-range="{{ 'market.range'|trans }}"></div>
+                </section>
+            {% endif %}
+
+            <!-- КАЛЬКУЛЯТОР ОЦЕНКИ ЦЕНЫ -->
+            <section class="deal-checker"
+                     data-deal-checker
+                     data-median="{{ latest.medianGrosz / 100 }}"
+                     data-low="{{ latest.lowGrosz / 100 }}"
+                     data-high="{{ latest.highGrosz / 100 }}"
+                     data-labels="{{ {
+                         enterPrice: 'market.checker.enter_price'|trans,
+                         greatDeal: 'market.checker.great'|trans,
+                         fairDeal: 'market.checker.fair'|trans,
+                         overpriced: 'market.checker.expensive'|trans,
+                         belowMedian: 'market.checker.below_median'|trans,
+                         aboveMedian: 'market.checker.above_median'|trans,
+                         withinRange: 'market.checker.within_range'|trans
+                     }|json_encode }}">
+                <h2>{{ 'market.checker.title'|trans }}</h2>
+                <p>{{ 'market.checker.text'|trans }}</p>
+                <div class="deal-controls">
+                    <div class="money-input">
+                        <input type="number" data-deal-input placeholder="{{ (latest.medianGrosz / 100)|round }}" inputmode="numeric">
+                        <span>PLN</span>
+                    </div>
+                    <div class="deal-status" data-deal-status>{{ 'market.checker.enter_price'|trans }}</div>
+                </div>
+            </section>
+
+            <section class="market-summary"><h2>{{ 'market.snapshot'|trans }}</h2><p>{{ 'market.snapshot_text'|trans({'%product%': product.name, '%median%': _self.money(latest.medianGrosz, app.request.locale), '%low%': _self.money(latest.lowGrosz, app.request.locale), '%high%': _self.money(latest.highGrosz, app.request.locale), '%date%': latest.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y')}) }}</p></section>
+            <section class="section">
+                <div class="section-title"><h2>{{ 'market.history'|trans }}</h2><span>{{ history|length }} {{ 'market.observations'|trans }}</span></div>
+                <div class="table-wrap"><table><thead><tr><th>{{ 'market.date'|trans }}</th><th>{{ 'market.median'|trans }}</th><th>{{ 'market.range'|trans }}</th></tr></thead><tbody>
+                        {% for observation in history %}<tr><td><time datetime="{{ observation.observedAt|date('c') }}">{{ observation.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y') }}</time></td><td><strong>{{ _self.money(observation.medianGrosz, app.request.locale) }}</strong></td><td>{{ _self.money(observation.lowGrosz, app.request.locale) }}–{{ _self.money(observation.highGrosz, app.request.locale) }}</td></tr>{% endfor %}
+                        </tbody></table></div>
+            </section>
+            <section class="section market-evidence"><div class="section-title"><h2>{{ 'market.methodology_label'|trans }}</h2><span>{{ 'market.latest_snapshot'|trans }}</span></div><p>{{ 'market.method.public'|trans }}</p></section>
+            <section class="tool-faq"><h2>{{ 'market.faq.title'|trans }}</h2><details><summary>{{ 'market.faq.estimate.q'|trans }}</summary><p>{{ 'market.faq.estimate.a'|trans }}</p></details><details><summary>{{ 'market.faq.sources.q'|trans }}</summary><p>{{ 'market.faq.sources.a'|trans }}</p></details></section>
+        {% else %}
+            <section class="market-empty"><h2>{{ 'market.no_data.title'|trans }}</h2><p>{{ 'market.no_data.text'|trans }}</p></section>
+        {% endif %}
+
+        <aside class="market-caveat"><strong>{{ 'market.caveat.title'|trans }}</strong><p>{{ 'market.caveat.text'|trans }}</p></aside>
+    </article>
+    {% if latest %}<script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'Dataset','name':product.name ~ ' used asking-price history in Poland','description':'market.product_meta.description'|trans({'%product%': product.name}),'url':canonical_url,'inLanguage':app.request.locale,'dateModified':latest.observedAt|date('c'),'author':{'@id':'https://bahdan-hal.ovh/#bahdan'},'creator':{'@id':'https://bahdan-hal.ovh/#bahdan'},'publisher':{'@id':'https://bahdan-hal.ovh/#bahdan'},'spatialCoverage':{'@type':'Country','name':'Poland'},'variableMeasured':['Median asking price in PLN','Observed comparable range']},{'@type':'FAQPage','mainEntity':[{'@type':'Question','name':'market.faq.estimate.q'|trans,'acceptedAnswer':{'@type':'Answer','text':'market.faq.estimate.a'|trans}},{'@type':'Question','name':'market.faq.sources.q'|trans,'acceptedAnswer':{'@type':'Answer','text':'market.faq.sources.a'|trans}}]}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>{% endif %}
 {% endblock %}
+{% block scripts %}<script src="/market-chart.js" defer></script>{% endblock %}

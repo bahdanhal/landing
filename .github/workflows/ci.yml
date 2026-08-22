@@ -1,0 +1,42 @@
+name: CI Quality Gate
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test-and-lint:
+    name: Build, Test & Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Test Image
+        run: |
+          docker build --target test -t bahdan-landing-test .
+
+      - name: Run PHPUnit Test Suite
+        run: |
+          docker run --rm --env-file .env.example -e APP_ENV=test bahdan-landing-test vendor/bin/phpunit
+
+      - name: Run JS Income Math Test Suite
+        run: |
+          docker run --rm -v "$PWD:/app" -w /app node:24-alpine node tests/js/income-math.test.js
+
+      - name: Lint Twig Templates
+        run: |
+          docker run --rm bahdan-landing-test php bin/console lint:twig templates
+
+      - name: Lint YAML Configurations & Translations
+        run: |
+          docker run --rm bahdan-landing-test php bin/console lint:yaml translations config
+
+      - name: Check PSR-12 Code Style
+        run: |
+          docker run --rm bahdan-landing-test vendor/bin/phpcs

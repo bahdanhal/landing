@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Service\SiteAuditor;
@@ -50,7 +52,7 @@ final class AuditCommand extends Command
             $output->writeln(json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
             return Command::SUCCESS;
         } catch (\Throwable $exception) {
-            $output->writeln('<error>'.$exception->getMessage().'</error>');
+            $output->writeln('<error>' . $exception->getMessage() . '</error>');
             return Command::FAILURE;
         }
     }

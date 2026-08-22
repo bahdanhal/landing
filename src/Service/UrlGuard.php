@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Exception\UnsafeUrlException;
@@ -14,7 +16,7 @@ final class UrlGuard
         }
 
         if (!preg_match('#^https?://#i', $input)) {
-            $input = 'https://'.$input;
+            $input = 'https://' . $input;
         }
 
         $parts = parse_url($input);
@@ -34,12 +36,12 @@ final class UrlGuard
         $host = strtolower(rtrim($parts['host'], '.'));
         $this->assertPublicHost($host);
 
-        $port = isset($parts['port']) ? ':'.$parts['port'] : '';
+        $port = isset($parts['port']) ? ':' . $parts['port'] : '';
         $path = $parts['path'] ?? '/';
         $path = $path === '' ? '/' : $path;
-        $query = isset($parts['query']) ? '?'.$parts['query'] : '';
+        $query = isset($parts['query']) ? '?' . $parts['query'] : '';
 
-        return $scheme.'://'.$host.$port.$path.$query;
+        return $scheme . '://' . $host . $port . $path . $query;
     }
 
     public function assertSafe(string $url): string
@@ -58,6 +60,15 @@ final class UrlGuard
 
     private function assertPublicHost(string $host): string
     {
+        $rawHost = trim($host, '[]');
+        if (filter_var($rawHost, FILTER_VALIDATE_IP)) {
+            if (filter_var($rawHost, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
+                throw new UnsafeUrlException('Private, reserved, and local network targets are not allowed.');
+            }
+
+            return $rawHost;
+        }
+
         if ($host === 'localhost' || str_ends_with($host, '.localhost') || !str_contains($host, '.')) {
             throw new UnsafeUrlException('Local and internal hostnames are not allowed.');
         }

@@ -35,6 +35,9 @@
             "bin/phpunit"
         ]
     },
+    "squizlabs/php_codesniffer": {
+        "version": "3.13.6"
+    },
     "symfony/ai-anthropic-platform": {
         "version": "0.12",
         "recipe": {

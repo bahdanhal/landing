@@ -2,6 +2,7 @@
 /.env.local
 /production.env
 /.phpunit.cache
+/.phpcs.cache
 /certbot-webroot/
 .DS_Store
 /.idea/
@@ -12,3 +13,4 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /phpunit.xml
+/graphify-out/

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Service;
 
 use App\Service\RobotsPolicy;
@@ -10,7 +12,14 @@ final class RobotsPolicyTest extends TestCase
     public function testAppliesAllowDisallowAndCrawlDelay(): void
     {
         $parser = new RobotsPolicy();
-        $policy = $parser->parse("User-agent: *\nDisallow: /private/\nAllow: /private/public\nDisallow: /*?preview=*$\nCrawl-delay: 2");
+        $robotsTxt = implode("\n", [
+            'User-agent: *',
+            'Disallow: /private/',
+            'Allow: /private/public',
+            'Disallow: /*?preview=*$',
+            'Crawl-delay: 2',
+        ]);
+        $policy = $parser->parse($robotsTxt);
 
         self::assertFalse($parser->allows('https://example.com/private/report', $policy));
         self::assertTrue($parser->allows('https://example.com/private/public', $policy));

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Audit\Application\IssueGrouper;
@@ -27,7 +29,11 @@ final class AuditController extends AbstractController
     ) {
     }
 
-    #[Route(path: ['en' => '/tools/seo-audit', 'pl' => '/pl/narzedzia/audyt-seo'], name: 'seo_audit_home', methods: ['GET'])]
+    #[Route(
+        path: ['en' => '/tools/seo-audit', 'pl' => '/pl/narzedzia/audyt-seo'],
+        name: 'seo_audit_home',
+        methods: ['GET']
+    )]
     public function home(): Response
     {
         return $this->render('audit/home.html.twig');
@@ -47,7 +53,7 @@ final class AuditController extends AbstractController
                 'report' => $report,
                 'issueGroups' => $this->issueGrouper->group($report['issues']),
             ]);
-        } catch (UnsafeUrlException|\RuntimeException $exception) {
+        } catch (UnsafeUrlException | \RuntimeException $exception) {
             return $this->render('audit/home.html.twig', [
                 'url' => $url,
                 'error' => $exception->getMessage(),
@@ -56,7 +62,7 @@ final class AuditController extends AbstractController
     }
 
     #[Route('/api/audit', name: 'api_audit', defaults: ['_locale' => 'en'], methods: ['POST'])]
-    public function api(Request $request): JsonResponse
+    public function api(Request $request): Response
     {
         if (($limited = $this->limitExceeded($request, true)) !== null) {
             return $limited;
@@ -66,7 +72,7 @@ final class AuditController extends AbstractController
         $refresh = is_array($payload) && filter_var($payload['refresh'] ?? false, FILTER_VALIDATE_BOOL);
         try {
             return $this->json($this->auditor->audit($url, $refresh));
-        } catch (UnsafeUrlException|\RuntimeException $exception) {
+        } catch (UnsafeUrlException | \RuntimeException $exception) {
             return $this->json(['error' => $exception->getMessage()], 422);
         }
     }
@@ -140,7 +146,6 @@ final class AuditController extends AbstractController
 
     private function dailyKey(Request $request): string
     {
-        return ($request->getClientIp() ?? 'unknown').'|'.gmdate('Y-m-d');
+        return ($request->getClientIp() ?? 'unknown') . '|' . gmdate('Y-m-d');
     }
-
 }

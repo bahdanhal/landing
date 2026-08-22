@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Market\Application\ProductCatalog;
@@ -24,7 +26,11 @@ final class MarketController extends AbstractController
     ) {
     }
 
-    #[Route(path: ['en' => '/tools/poland-used-price-index', 'pl' => '/pl/narzedzia/indeks-cen-uzywanych'], name: 'market_home', methods: ['GET'])]
+    #[Route(
+        path: ['en' => '/tools/poland-used-price-index', 'pl' => '/pl/narzedzia/indeks-cen-uzywanych'],
+        name: 'market_home',
+        methods: ['GET']
+    )]
     public function home(): Response
     {
         $families = array_map(fn ($family) => [
@@ -38,7 +44,12 @@ final class MarketController extends AbstractController
         return $this->render('market/home.html.twig', ['families' => $families]);
     }
 
-    #[Route(path: ['en' => '/tools/poland-used-price-index/{slug}', 'pl' => '/pl/narzedzia/indeks-cen-uzywanych/{slug}'], name: 'market_product', requirements: ['slug' => '[a-z0-9-]+'], methods: ['GET'])]
+    #[Route(
+        path: ['en' => '/tools/poland-used-price-index/{slug}', 'pl' => '/pl/narzedzia/indeks-cen-uzywanych/{slug}'],
+        name: 'market_product',
+        requirements: ['slug' => '[a-z0-9-]+'],
+        methods: ['GET']
+    )]
     public function product(string $slug): Response
     {
         $product = $this->catalog->get($slug);
@@ -47,10 +58,19 @@ final class MarketController extends AbstractController
         }
         $history = $this->observations->history($slug);
 
-        return $this->render('market/product.html.twig', ['product' => $product, 'history' => $history, 'latest' => $history[0] ?? null]);
+        return $this->render('market/product.html.twig', [
+            'product' => $product,
+            'history' => $history,
+            'latest' => $history[0] ?? null,
+        ]);
     }
 
-    #[Route(path: ['en' => '/tools/poland-used-price-index/request', 'pl' => '/pl/narzedzia/indeks-cen-uzywanych/zglos'], name: 'market_request', methods: ['POST'], priority: 10)]
+    #[Route(
+        path: ['en' => '/tools/poland-used-price-index/request', 'pl' => '/pl/narzedzia/indeks-cen-uzywanych/zglos'],
+        name: 'market_request',
+        methods: ['POST'],
+        priority: 10
+    )]
     public function requestProduct(Request $request): JsonResponse
     {
         $origin = $request->headers->get('Origin');
@@ -60,7 +80,8 @@ final class MarketController extends AbstractController
         if (trim((string) $request->request->get('company')) !== '') {
             return $this->json(['ok' => true, 'message' => $this->translator->trans('market.request.saved')]);
         }
-        $limit = $this->productRequestLimiter->create(($request->getClientIp() ?? 'unknown').'|'.gmdate('Y-m-d'))->consume();
+        $limitKey = ($request->getClientIp() ?? 'unknown') . '|' . gmdate('Y-m-d');
+        $limit = $this->productRequestLimiter->create($limitKey)->consume();
         if (!$limit->isAccepted()) {
             return $this->json(['error' => $this->translator->trans('market.request.too_many')], 429);
         }

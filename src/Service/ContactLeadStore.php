@@ -1,33 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
+
+use App\Lead\Application\CaptureLead;
+use App\Lead\Infrastructure\JsonlLeadRepository;
 
 final class ContactLeadStore
 {
+    private CaptureLead $captureLead;
+
     public function __construct(
-        private readonly string $directory,
-        private readonly string $secret,
+        string $directory,
+        string $secret,
+        ?CaptureLead $captureLead = null
     ) {
+        $this->captureLead = $captureLead ?? new CaptureLead(
+            new JsonlLeadRepository($directory),
+            $secret
+        );
     }
 
     public function store(string $email, string $ipAddress, string $source): void
     {
-        if (!is_dir($this->directory) && !@mkdir($this->directory, 0770, true) && !is_dir($this->directory)) {
-            throw new \RuntimeException('Unable to save your contact request right now.');
+        try {
+            $this->captureLead->execute($email, $ipAddress, $source);
+        } catch (\InvalidArgumentException $e) {
+            throw new \RuntimeException('Invalid contact details provided.', 0, $e);
+        } catch (\Exception $e) {
+            throw new \RuntimeException('Unable to save your contact request right now.', 0, $e);
         }
-
-        $record = [
-            'timestamp' => gmdate(DATE_ATOM),
-            'email' => strtolower(trim($email)),
-            'ip_hash' => substr(hash_hmac('sha256', $ipAddress, $this->secret), 0, 20),
-            'source' => preg_replace('/[^a-z0-9_-]/i', '', $source) ?: 'website',
-        ];
-        $line = json_encode($record, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n";
-        $file = $this->directory.'/leads-'.gmdate('Y-m').'.jsonl';
-
-        if (@file_put_contents($file, $line, FILE_APPEND | LOCK_EX) === false) {
-            throw new \RuntimeException('Unable to save your contact request right now.');
-        }
-        @chmod($file, 0660);
     }
 }

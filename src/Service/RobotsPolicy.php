@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 final class RobotsPolicy
@@ -61,7 +63,7 @@ final class RobotsPolicy
     {
         $path = (string) parse_url($url, PHP_URL_PATH);
         $query = parse_url($url, PHP_URL_QUERY);
-        $candidate = ($path === '' ? '/' : $path).($query === null ? '' : '?'.$query);
+        $candidate = ($path === '' ? '/' : $path) . ($query === null ? '' : '?' . $query);
         $matches = array_values(array_filter(
             $policy['rules'] ?? [],
             fn (array $rule) => $this->matches($candidate, $rule['path']),
@@ -84,7 +86,7 @@ final class RobotsPolicy
         }
         $pattern = str_replace('\\*', '.*', preg_quote($rule, '#'));
 
-        return preg_match('#^'.$pattern.($anchored ? '$' : '').'#u', $candidate) === 1;
+        return preg_match('#^' . $pattern . ($anchored ? '$' : '') . '#u', $candidate) === 1;
     }
 
     private function specificity(string $rule): int

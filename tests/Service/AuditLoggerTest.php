@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Service;
 
 use App\Service\AuditLogger;
@@ -9,7 +11,7 @@ final class AuditLoggerTest extends TestCase
 {
     public function testWritesReadableJsonWithoutQueryValues(): void
     {
-        $directory = sys_get_temp_dir().'/seo-audit-logger-'.bin2hex(random_bytes(4));
+        $directory = sys_get_temp_dir() . '/seo-audit-logger-' . bin2hex(random_bytes(4));
         $logger = new AuditLogger($directory, 14);
 
         try {
@@ -19,7 +21,7 @@ final class AuditLoggerTest extends TestCase
                 'error' => $logger->safeError('Failed at https://example.com/search?token=secret-value'),
             ]);
 
-            $files = glob($directory.'/audit-*.jsonl');
+            $files = glob($directory . '/audit-*.jsonl');
             self::assertCount(1, $files);
             $contents = file_get_contents($files[0]);
             self::assertIsString($contents);
@@ -28,7 +30,7 @@ final class AuditLoggerTest extends TestCase
             self::assertStringNotContainsString('secret-value', $contents);
             self::assertStringNotContainsString('sort=price', $contents);
         } finally {
-            foreach (glob($directory.'/*') ?: [] as $file) {
+            foreach (glob($directory . '/*') ?: [] as $file) {
                 @unlink($file);
             }
             @rmdir($directory);

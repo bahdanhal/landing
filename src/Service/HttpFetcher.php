@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -156,19 +158,19 @@ final class HttpFetcher
             return $reference;
         }
 
-        $origin = $baseParts['scheme'].'://'.$baseParts['host'].(isset($baseParts['port']) ? ':'.$baseParts['port'] : '');
+        $origin = $baseParts['scheme'] . '://' . $baseParts['host'] . (isset($baseParts['port']) ? ':' . $baseParts['port'] : '');
         if (str_starts_with($reference, '//')) {
-            return $baseParts['scheme'].':'.$reference;
+            return $baseParts['scheme'] . ':' . $reference;
         }
         if (str_starts_with($reference, '/')) {
-            return $origin.$reference;
+            return $origin . $reference;
         }
         if (str_starts_with($reference, '?')) {
-            return $origin.($baseParts['path'] ?? '/').$reference;
+            return $origin . ($baseParts['path'] ?? '/') . $reference;
         }
 
         $directory = preg_replace('#/[^/]*$#', '/', $baseParts['path'] ?? '/');
-        $path = $directory.$reference;
+        $path = $directory . $reference;
         $segments = [];
         foreach (explode('/', $path) as $segment) {
             if ($segment === '' || $segment === '.') {
@@ -181,7 +183,7 @@ final class HttpFetcher
             }
         }
 
-        return $origin.'/'.implode('/', $segments);
+        return $origin . '/' . implode('/', $segments);
     }
 
     private function duration(int $started): int

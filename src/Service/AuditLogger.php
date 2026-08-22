@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 final class AuditLogger
@@ -22,14 +24,15 @@ final class AuditLogger
             'event' => $event,
             ...$context,
         ];
-        $line = json_encode($record, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR).PHP_EOL;
+        $line = json_encode($record, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR) . PHP_EOL;
 
-        if (!is_dir($this->directory) && !@mkdir($this->directory, 0770, true) && !is_dir($this->directory)) {
+        $directory = rtrim($this->directory, '/');
+        if (!is_dir($directory) && !mkdir($directory, 0770, true) && !is_dir($directory)) {
             error_log(rtrim($line));
             return;
         }
 
-        @file_put_contents($this->logFile(), $line, FILE_APPEND | LOCK_EX);
+        file_put_contents($this->logFile(), $line, FILE_APPEND | LOCK_EX);
         error_log(rtrim($line));
 
         if (random_int(1, 100) === 1) {
@@ -48,9 +51,9 @@ final class AuditLogger
             return '[invalid-url]';
         }
 
-        $safe = ($parts['scheme'] ?? 'https').'://'.$parts['host'];
+        $safe = ($parts['scheme'] ?? 'https') . '://' . $parts['host'];
         if (isset($parts['port'])) {
-            $safe .= ':'.$parts['port'];
+            $safe .= ':' . $parts['port'];
         }
         $safe .= $parts['path'] ?? '/';
 
@@ -59,7 +62,7 @@ final class AuditLogger
             $keys = array_values(array_filter(array_map('strval', array_keys($query))));
             sort($keys);
             if ($keys !== []) {
-                $safe .= '?'.implode('&', $keys);
+                $safe .= '?' . implode('&', $keys);
             }
         }
 
@@ -81,13 +84,13 @@ final class AuditLogger
 
     private function logFile(): string
     {
-        return rtrim($this->directory, '/').'/audit-'.gmdate('Y-m-d').'.jsonl';
+        return rtrim($this->directory, '/') . '/audit-' . gmdate('Y-m-d') . '.jsonl';
     }
 
     private function removeExpiredLogs(): void
     {
         $cutoff = time() - max(1, $this->retentionDays) * 86400;
-        foreach (glob(rtrim($this->directory, '/').'/audit-*.jsonl') ?: [] as $file) {
+        foreach (glob(rtrim($this->directory, '/') . '/audit-*.jsonl') ?: [] as $file) {
             if (is_file($file) && filemtime($file) < $cutoff) {
                 @unlink($file);
             }

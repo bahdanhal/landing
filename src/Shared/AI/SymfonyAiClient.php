@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Shared\AI;
 
 use Symfony\AI\Platform\Message\Message;

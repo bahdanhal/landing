@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Market;
 
 use App\Market\Domain\PriceObservation;
@@ -12,12 +14,12 @@ final class JsonPriceObservationRepositoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->directory = sys_get_temp_dir().'/market-repository-'.bin2hex(random_bytes(5));
+        $this->directory = sys_get_temp_dir() . '/market-repository-' . bin2hex(random_bytes(5));
     }
 
     protected function tearDown(): void
     {
-        foreach (glob($this->directory.'/*') ?: [] as $file) {
+        foreach (glob($this->directory . '/*') ?: [] as $file) {
             unlink($file);
         }
         if (is_dir($this->directory)) {
@@ -41,6 +43,16 @@ final class JsonPriceObservationRepositoryTest extends TestCase
 
     private function observation(string $date, int $median): PriceObservation
     {
-        return new PriceObservation('iphone-14-128gb', new \DateTimeImmutable($date), $median, $median - 10000, $median + 10000, 12, 'medium', 'Summary', 'Method');
+        return new PriceObservation(
+            'iphone-14-128gb',
+            new \DateTimeImmutable($date),
+            $median,
+            $median - 10000,
+            $median + 10000,
+            12,
+            'medium',
+            'Summary',
+            'Method'
+        );
     }
 }

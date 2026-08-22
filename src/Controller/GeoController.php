@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Exception\UnsafeUrlException;
@@ -20,13 +22,21 @@ final class GeoController extends AbstractController
     ) {
     }
 
-    #[Route(path: ['en' => '/tools/geo-audit', 'pl' => '/pl/narzedzia/audyt-geo'], name: 'geo_home', methods: ['GET'])]
+    #[Route(
+        path: ['en' => '/tools/geo-audit', 'pl' => '/pl/narzedzia/audyt-geo'],
+        name: 'geo_home',
+        methods: ['GET']
+    )]
     public function home(): Response
     {
         return $this->render('geo/home.html.twig');
     }
 
-    #[Route(path: ['en' => '/geo-audit', 'pl' => '/pl/audyt-geo'], name: 'geo_audit', methods: ['POST'])]
+    #[Route(
+        path: ['en' => '/geo-audit', 'pl' => '/pl/audyt-geo'],
+        name: 'geo_audit',
+        methods: ['POST']
+    )]
     public function audit(Request $request): Response
     {
         $decision = $this->auditQuota->consume($request->getClientIp() ?? 'unknown');
@@ -43,8 +53,11 @@ final class GeoController extends AbstractController
             return $this->render('geo/report.html.twig', [
                 'report' => $this->analyzer->analyze($url, $request->request->getBoolean('refresh')),
             ]);
-        } catch (UnsafeUrlException|\RuntimeException $exception) {
-            return $this->render('geo/home.html.twig', ['url' => $url, 'error' => $exception->getMessage()], new Response(status: 422));
+        } catch (UnsafeUrlException | \RuntimeException $exception) {
+            return $this->render('geo/home.html.twig', [
+                'url' => $url,
+                'error' => $exception->getMessage(),
+            ], new Response(status: 422));
         }
     }
 }

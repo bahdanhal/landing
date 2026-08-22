@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mcp;
 
 use App\Market\Application\ProductCatalog;
@@ -13,7 +15,10 @@ final readonly class MarketPriceTools
     {
     }
 
-    #[McpTool(name: 'list_polish_used_price_products', description: 'List Apple product configurations tracked by Bahdan’s Toolbox for Polish second-hand asking-price history.')]
+    #[McpTool(
+        name: 'list_polish_used_price_products',
+        description: 'List Apple product configurations tracked by Bahdan’s Toolbox for Polish second-hand asking-price history.'
+    )]
     public function listProducts(): string
     {
         return $this->json([
@@ -29,7 +34,11 @@ final readonly class MarketPriceTools
         ]);
     }
 
-    #[McpTool(name: 'get_polish_used_price_history', description: 'Get dated AI-assisted Polish used asking-price estimates for one exact product configuration. Returns no marketplace names, listings, sellers, or URLs.')]
+    #[McpTool(
+        name: 'get_polish_used_price_history',
+        // phpcs:ignore Generic.Files.LineLength
+        description: 'Get dated AI-assisted Polish used asking-price estimates for one exact product configuration. Returns no marketplace names, listings, sellers, or URLs.'
+    )]
     public function getHistory(#[Schema(description: 'Product slug returned by list_polish_used_price_products.')] string $slug): string
     {
         $product = $this->catalog->get($slug);
@@ -49,14 +58,15 @@ final readonly class MarketPriceTools
                 'sample_size' => $item->sampleSize,
                 'confidence' => $item->confidence,
             ], $this->observations->history($slug)),
-            'methodology' => 'AI-assisted estimate of comparable public asking prices; not scraped data, completed-sale statistics, a valuation, or purchasing advice.',
+            // phpcs:ignore Generic.Files.LineLength
+            'methodology' => 'AI-assisted estimate of comparable profile asking prices; not scraped data, completed-sale statistics, a valuation, or purchasing advice.',
             'canonical_url' => $this->canonicalUrl($slug),
         ]);
     }
 
     private function canonicalUrl(string $slug): string
     {
-        return 'https://bahdan-hal.ovh/tools/poland-used-price-index/'.$slug;
+        return 'https://bahdan-hal.ovh/tools/poland-used-price-index/' . $slug;
     }
 
     private function json(array $data): string

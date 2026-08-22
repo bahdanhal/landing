@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use Symfony\Contracts\Cache\CacheInterface;
@@ -7,6 +9,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 
 final class GeoAnalyzer
 {
+    // phpcs:ignore Generic.Files.LineLength
     private const CONTENT_SCHEMA_TYPES = ['Article', 'NewsArticle', 'BlogPosting', 'FAQPage', 'HowTo', 'Product', 'Dataset', 'WebApplication', 'SoftwareApplication'];
     private const ENTITY_SCHEMA_TYPES = ['Organization', 'LocalBusiness', 'Person', 'WebSite'];
     private const AI_AGENTS = ['GPTBot', 'ChatGPT-User', 'ClaudeBot', 'PerplexityBot', 'Google-Extended'];
@@ -24,7 +27,7 @@ final class GeoAnalyzer
     public function analyze(string $input, bool $refresh = false): array
     {
         $target = $this->urlGuard->normalize($input);
-        $cacheKey = hash('sha256', 'geo-v1|'.$target);
+        $cacheKey = hash('sha256', 'geo-v1|' . $target);
         if ($refresh) {
             $this->auditCache->delete($cacheKey);
         }
@@ -46,7 +49,7 @@ final class GeoAnalyzer
         $started = hrtime(true);
         $fetch = $this->fetcher->fetch($target);
         if ($fetch['status'] === 0) {
-            throw new \RuntimeException('The page could not be reached: '.$fetch['error']);
+            throw new \RuntimeException('The page could not be reached: ' . $fetch['error']);
         }
         if (!str_contains($fetch['content_type'], 'html')) {
             throw new \RuntimeException('The URL did not return an HTML page.');
@@ -54,8 +57,8 @@ final class GeoAnalyzer
 
         $page = $this->pageAnalyzer->analyze($fetch);
         $origin = $this->origin($fetch['final_url']);
-        $robotsFetch = $this->fetcher->fetch($origin.'/robots.txt');
-        $llmsFetch = $this->fetcher->fetch($origin.'/llms.txt');
+        $robotsFetch = $this->fetcher->fetch($origin . '/robots.txt');
+        $llmsFetch = $this->fetcher->fetch($origin . '/llms.txt');
         $document = $this->document($fetch['body']);
         $xpath = new \DOMXPath($document);
         $robotsBody = $robotsFetch['status'] === 200 ? $robotsFetch['body'] : '';
@@ -84,25 +87,49 @@ final class GeoAnalyzer
         $checks = [];
         $this->add($checks, 'access', $fetch['status'] === 200 ? 10 : 0, 10, ['status' => $fetch['status'], 'final_url' => $fetch['final_url']]);
         $indexable = $fetch['status'] === 200 && $robotsAllowed && !str_contains($metaRobots, 'noindex') && !str_contains($xRobots, 'noindex');
-        $this->add($checks, 'indexability', $indexable ? 10 : 0, 10, ['robots_allowed' => $robotsAllowed, 'meta_robots' => $page['robots'], 'x_robots_tag' => $xRobots ?: null]);
+        $this->add($checks, 'indexability', $indexable ? 10 : 0, 10, [
+            'robots_allowed' => $robotsAllowed,
+            'meta_robots' => $page['robots'],
+            'x_robots_tag' => $xRobots ?: null,
+        ]);
         $canonicalPoints = $page['canonical'] === null ? 0 : ($this->sameUrl($page['canonical'], $fetch['final_url']) ? 5 : 2);
         $this->add($checks, 'canonical', $canonicalPoints, 5, ['canonical' => $page['canonical'], 'final_url' => $fetch['final_url']]);
         $metadataPoints = ($page['title'] ? 3 : 0) + ($page['description'] ? 3 : 0) + (count($page['h1']) === 1 ? 2 : 0);
-        $this->add($checks, 'metadata', $metadataPoints, 8, ['title' => $page['title'], 'description' => $page['description'], 'h1_count' => count($page['h1'])]);
+        $this->add($checks, 'metadata', $metadataPoints, 8, [
+            'title' => $page['title'],
+            'description' => $page['description'],
+            'h1_count' => count($page['h1']),
+        ]);
         $this->add($checks, 'language', $page['lang'] ? 3 : 0, 3, ['html_lang' => $page['lang']]);
         $answerPoints = $paragraphWords >= 25 && $paragraphWords <= 120 ? 10 : ($paragraphWords > 0 ? 5 : 0);
-        $this->add($checks, 'direct_answer', $answerPoints, 10, ['first_paragraph_words' => $paragraphWords, 'sample' => $this->truncate($firstParagraph, 240)]);
+        $this->add($checks, 'direct_answer', $answerPoints, 10, [
+            'first_paragraph_words' => $paragraphWords,
+            'sample' => $this->truncate($firstParagraph, 240),
+        ]);
+        // phpcs:ignore Generic.Files.LineLength
         $structurePoints = ($h2Count >= 2 ? 3 : ($h2Count === 1 ? 1 : 0)) + ($hasListOrTable ? 2 : 0) + ($hasMainContent ? 2 : 0) + ($paragraphCount >= 3 ? 1 : 0);
-        $this->add($checks, 'structure', $structurePoints, 8, ['h2_count' => $h2Count, 'content_paragraphs' => $paragraphCount, 'list_or_table' => $hasListOrTable, 'main_or_article' => $hasMainContent]);
+        $this->add($checks, 'structure', $structurePoints, 8, [
+            'h2_count' => $h2Count,
+            'content_paragraphs' => $paragraphCount,
+            'list_or_table' => $hasListOrTable,
+            'main_or_article' => $hasMainContent,
+        ]);
         $schemaPoints = ($schema['valid_count'] > 0 ? 4 : 0) + ($hasEntitySchema ? 4 : 0) + ($hasContentSchema ? 4 : 0);
-        $this->add($checks, 'schema', $schemaPoints, 12, ['valid_json_ld_blocks' => $schema['valid_count'], 'invalid_json_ld_blocks' => $schema['invalid_count'], 'types' => $types]);
+        $this->add($checks, 'schema', $schemaPoints, 12, [
+            'valid_json_ld_blocks' => $schema['valid_count'],
+            'invalid_json_ld_blocks' => $schema['invalid_count'],
+            'types' => $types,
+        ]);
         $provenancePoints = ($hasAuthor ? 4 : 0) + ($hasPublisher ? 3 : 0) + ($hasDate ? 3 : 0);
         $this->add($checks, 'provenance', $provenancePoints, 10, ['author' => $hasAuthor, 'publisher' => $hasPublisher, 'dated' => $hasDate]);
         $citationPoints = count($externalLinks) >= 3 ? 8 : (count($externalLinks) > 0 ? 4 : 0);
         $this->add($checks, 'citations', $citationPoints, 8, ['external_links' => count($externalLinks), 'sample' => array_slice($externalLinks, 0, 5)]);
+        // phpcs:ignore Generic.Files.LineLength
         $this->add($checks, 'faq', $hasFaq ? 5 : ($questionCount > 0 ? 2 : 0), 5, ['faq_schema' => in_array('FAQPage', $types, true), 'question_headings' => $questionCount]);
         $this->add($checks, 'freshness', $hasDate ? 5 : 0, 5, ['date_in_schema_or_time' => $hasDate]);
+
         $entityPoints = ($hasEntitySchema ? 2 : 0) + ($hasAboutContact ? 2 : 0) + ($hasSiteName ? 2 : 0);
+        // phpcs:ignore Generic.Files.LineLength
         $this->add($checks, 'entity', $entityPoints, 6, ['entity_schema' => $hasEntitySchema, 'about_or_contact_link' => $hasAboutContact, 'site_name' => $hasSiteName]);
 
         $score = array_sum(array_column($checks, 'earned'));
@@ -183,7 +210,14 @@ final class GeoAnalyzer
         }
         sort($types);
 
-        return ['types' => array_values(array_unique($types)), 'valid_count' => $valid, 'invalid_count' => $invalid, 'has_author' => $hasAuthor, 'has_publisher' => $hasPublisher, 'has_date' => $hasDate];
+        return [
+            'types' => array_values(array_unique($types)),
+            'valid_count' => $valid,
+            'invalid_count' => $invalid,
+            'has_author' => $hasAuthor,
+            'has_publisher' => $hasPublisher,
+            'has_date' => $hasDate,
+        ];
     }
 
     private function collectTypes(mixed $value, array &$types): void
@@ -238,7 +272,7 @@ final class GeoAnalyzer
     {
         $text = trim(preg_replace('/\s+/u', ' ', $xpath->query('//body')->item(0)?->textContent ?? ''));
 
-        return preg_match('/\b(?:'.$pattern.')\b/iu', $text) === 1;
+        return preg_match('/\b(?:' . $pattern . ')\b/iu', $text) === 1;
     }
 
     private function questionHeadingCount(\DOMXPath $xpath): int
@@ -256,7 +290,7 @@ final class GeoAnalyzer
     private function hasAboutContactLink(\DOMXPath $xpath): bool
     {
         foreach ($xpath->query('//a[@href]') as $anchor) {
-            $value = strtolower($anchor->getAttribute('href').' '.$anchor->textContent);
+            $value = strtolower($anchor->getAttribute('href') . ' ' . $anchor->textContent);
             if (preg_match('/about|contact|o-nas|o nas|kontakt|redakcja/u', $value)) {
                 return true;
             }
@@ -327,11 +361,11 @@ final class GeoAnalyzer
     {
         $parts = parse_url($url);
 
-        return ($parts['scheme'] ?? 'https').'://'.($parts['host'] ?? '').(isset($parts['port']) ? ':'.$parts['port'] : '');
+        return ($parts['scheme'] ?? 'https') . '://' . ($parts['host'] ?? '') . (isset($parts['port']) ? ':' . $parts['port'] : '');
     }
 
     private function truncate(string $value, int $length): string
     {
-        return mb_strlen($value) <= $length ? $value : mb_substr($value, 0, $length - 1).'…';
+        return mb_strlen($value) <= $length ? $value : mb_substr($value, 0, $length - 1) . '…';
     }
 }

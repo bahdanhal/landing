@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Market\Application\ObserveMarket;
@@ -45,14 +47,25 @@ final class ObserveMarketCommand extends Command
                 $names[$product->slug] = $product->name;
             }
             foreach ($observations as $observation) {
-                $output->writeln(sprintf('<info>%s: %.2f PLN (%s, n=%d, %s)</info>', $names[$observation->productSlug] ?? $observation->productSlug, $observation->medianGrosz / 100, $observation->confidence, $observation->sampleSize, $observation->observedAt->format('Y-m-d')));
+                $output->writeln(sprintf(
+                    '<info>%s: %.2f PLN (%s, n=%d, %s)</info>',
+                    $names[$observation->productSlug] ?? $observation->productSlug,
+                    $observation->medianGrosz / 100,
+                    $observation->confidence,
+                    $observation->sampleSize,
+                    $observation->observedAt->format('Y-m-d')
+                ));
             }
         } catch (\Throwable $exception) {
             $output->writeln(sprintf('<error>%s</error>', $exception->getMessage()));
             return Command::FAILURE;
         }
 
-        $output->writeln(sprintf('<comment>Stored %d of %d requested observations in batched research calls.</comment>', count($observations), count($products)));
+        $output->writeln(sprintf(
+            '<comment>Stored %d of %d requested observations in batched research calls.</comment>',
+            count($observations),
+            count($products)
+        ));
 
         return Command::SUCCESS;
     }
@@ -66,6 +79,6 @@ final class ObserveMarketCommand extends Command
             throw new \InvalidArgumentException('--at must use YYYY-MM-DD.');
         }
 
-        return new \DateTimeImmutable($value.' 12:00:00', new \DateTimeZone('Europe/Warsaw'));
+        return new \DateTimeImmutable($value . ' 12:00:00', new \DateTimeZone('Europe/Warsaw'));
     }
 }

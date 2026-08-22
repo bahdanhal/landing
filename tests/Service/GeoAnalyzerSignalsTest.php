@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Service;
 
 use App\Service\GeoAnalyzer;
@@ -24,12 +26,16 @@ final class GeoAnalyzerSignalsTest extends TestCase
 
     public function testExtractsSchemaTypesAndProvenance(): void
     {
+        $jsonLd = json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'Article',
+            'author' => ['@type' => 'Person', 'name' => 'A'],
+            'publisher' => ['@type' => 'Organization', 'name' => 'P'],
+            'dateModified' => '2026-08-21',
+        ], JSON_UNESCAPED_SLASHES);
+
         $document = new \DOMDocument();
-        $document->loadHTML(<<<'HTML'
-<!doctype html><html><head><script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"A"},"publisher":{"@type":"Organization","name":"P"},"dateModified":"2026-08-21"}
-</script></head><body></body></html>
-HTML);
+        $document->loadHTML(sprintf('<!doctype html><html><head><script type="application/ld+json">%s</script></head><body></body></html>', $jsonLd));
         $schema = $this->invoke('schema', new \DOMXPath($document));
 
         self::assertSame(['Article', 'Organization', 'Person'], $schema['types']);
@@ -41,6 +47,6 @@ HTML);
 
     private function invoke(string $method, mixed ...$arguments): mixed
     {
-        return (new \ReflectionMethod(GeoAnalyzer::class, $method))->invoke($this->analyzer, ...$arguments);
+        return new \ReflectionMethod(GeoAnalyzer::class, $method)->invoke($this->analyzer, ...$arguments);
     }
 }

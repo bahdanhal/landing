@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Shared\AI\AiClient;
@@ -30,6 +32,7 @@ final class AiSummaryService
 
         try {
             $text = $this->ai->complete(
+            // phpcs:ignore Generic.Files.LineLength
                 'You are a technical SEO analyst. Use only the supplied deterministic evidence. Return strict JSON with overview (2-3 concise sentences) and priorities (up to 5 objects with title, why, action). Do not use markdown or invent facts. The seo_audit_probe query is a synthetic test proving that arbitrary unknown query strings are accepted; never describe it as a real site feature or recommend blocking that probe name specifically.',
                 json_encode($evidence, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
                 AiUseCase::Summary,
@@ -41,7 +44,12 @@ final class AiSummaryService
             }
             $priorities = [];
             foreach (array_slice($summary['priorities'], 0, 5) as $priority) {
-                if (is_array($priority) && is_string($priority['title'] ?? null) && is_string($priority['why'] ?? null) && is_string($priority['action'] ?? null)) {
+                if (
+                    is_array($priority)
+                    && is_string($priority['title'] ?? null)
+                    && is_string($priority['why'] ?? null)
+                    && is_string($priority['action'] ?? null)
+                ) {
                     $priorities[] = [
                         'title' => $priority['title'],
                         'why' => $priority['why'],

@@ -1,0 +1,9 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests
+    excludePaths:
+        - tests/bootstrap.php
+    checkGenericClassInNonGenericObjectType: false
+    checkMissingIterableValueType: false

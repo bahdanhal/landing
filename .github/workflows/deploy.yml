@@ -1,0 +1,64 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  test:
+    name: Verification Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker Test Image
+        run: |
+          docker build --target test -t bahdan-landing-test .
+
+      - name: Run PHPUnit Test Suite
+        run: |
+          docker run --rm --env-file .env.example -e APP_ENV=test bahdan-landing-test vendor/bin/phpunit
+
+      - name: Run JS Income Math Test Suite
+        run: |
+          docker run --rm -v "$PWD:/app" -w /app node:24-alpine node tests/js/income-math.test.js
+
+  deploy:
+    name: Deploy to Server
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install SSH Key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add Server Host Key
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.SSH_HOST || '62.238.1.164' }} >> ~/.ssh/known_hosts
+
+      - name: Rsync Files to Production Server
+        run: |
+          rsync -az --delete \
+            --exclude='.git*' \
+            --exclude='.idea' \
+            --exclude='production.env' \
+            --exclude='.env.local' \
+            --exclude='certbot-webroot' \
+            --exclude='var/' \
+            ./ ${{ secrets.SSH_USER || 'root' }}@${{ secrets.SSH_HOST || '62.238.1.164' }}:/home/bahdan-landing/
+
+      - name: Rebuild & Restart Production Containers
+        run: |
+          ssh ${{ secrets.SSH_USER || 'root' }}@${{ secrets.SSH_HOST || '62.238.1.164' }} \
+            'cd /home/bahdan-landing && docker compose -p seo --env-file production.env up -d --build'
+
+      - name: Health Check Verification
+        run: |
+          sleep 5
+          curl -f -I --retry 3 --retry-delay 2 https://bahdan-hal.ovh/healthz || exit 1

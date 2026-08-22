@@ -20,7 +20,19 @@ cd /home/bahdan-landing
 
 The SSH key and `production.env` are private. Do not commit either one.
 
-## Deploy the current checkout
+## Automated deployment via GitHub Actions
+
+Pushing to `master` automatically triggers the `.github/workflows/deploy.yml` workflow, which runs tests and deploys to the production server.
+
+### Required GitHub Repository Secrets
+Under **Settings > Secrets and variables > Actions** on GitHub:
+- `SSH_PRIVATE_KEY`: Private SSH key authorized for `root@62.238.1.164` (e.g. contents of `~/.ssh/id_ed25519`).
+- `SSH_HOST` (optional): `62.238.1.164` (defaults to server IP).
+- `SSH_USER` (optional): `root` (defaults to `root`).
+
+---
+
+## Manual deploy from local checkout
 
 Run from the local `bahdan-landing` checkout:
 

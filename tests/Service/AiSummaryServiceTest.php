@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Service;
 
 use App\Service\AiSummaryService;
@@ -33,6 +35,7 @@ final class AiSummaryServiceTest extends TestCase
         $ai = new class implements AiClient {
             public function complete(string $systemPrompt, string $userPrompt, AiUseCase $useCase): string
             {
+                // phpcs:ignore Generic.Files.LineLength
                 return '{"overview":"Fix canonicalization first.","priorities":[{"title":"Canonicals","why":"Duplicates split signals.","action":"Add self-referencing canonicals."}]}';
             }
         };

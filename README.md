@@ -71,3 +71,10 @@ docker compose -p seo --env-file production.env exec app sh -lc \
 ## Production
 
 The Docker Compose stack contains PHP-FPM and Caddy. Caddy normalizes HTTP/HTTPS and www/non-www to `https://bahdan-hal.ovh`, serves Certbot certificates and emits JSON access logs. Persistent volumes hold caches, rate limits, audit logs, contact leads and market history.
+
+## Development standards & guidelines
+
+- **[CONTRIBUTING.md](CONTRIBUTING.md)**: Engineering standards, strict English language policy for code/comments, Clean Code, SOLID, Domain-Driven Design (DDD), Docker workflows, and testing quality gates.
+- **[AGENTS.md](AGENTS.md)**: Instructions and constraints for AI coding assistants.
+- **[ARCHITECTURE.md](ARCHITECTURE.md)**: Detailed system architecture, bounded contexts, zero-DB persistence model, and SSRF security design.
+
