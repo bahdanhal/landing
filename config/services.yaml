@@ -65,6 +65,17 @@ services:
       $directory: '%contact.lead_directory%'
       $secret: '%env(APP_SECRET)%'
 
+  App\Lead\Domain\LeadRepository:
+    alias: App\Lead\Infrastructure\JsonlLeadRepository
+
+  App\Lead\Infrastructure\JsonlLeadRepository:
+    arguments:
+      $directory: '%contact.lead_directory%'
+
+  App\Lead\Application\CaptureLead:
+    arguments:
+      $secret: '%env(APP_SECRET)%'
+
   App\Controller\AuditController:
     arguments:
       $auditQuota: '@App\Shared\Application\DailyQuota'

@@ -30,7 +30,15 @@ This document provides mandatory directives for all AI coding agents, autonomous
 
 ---
 
-## 3. Architecture & Design Principles
+## 3. Spec-Driven Development (SDD) Directives
+
+- **Specs Are the Single Source of Truth**: All domain rules, calculation formulas, and MCP tool schemas originate from `specs/` (`income-calculator.spec.json`, `seo-audit-rules.spec.json`, `geo-readiness.spec.json`, `mcp-tools.spec.json`).
+- **Do Not Drift**: When modifying or adding calculation logic, audit rules, or tools, always consult and update the JSON specification in `specs/` first.
+- **Specification Compliance**: All changes must pass `tests/Spec/SpecificationComplianceTest.php`.
+
+---
+
+## 4. Architecture & Design Principles
 
 - **Clean Architecture & Domain-Driven Design (DDD)**:
   - Isolate business logic in `src/<BoundedContext>/Domain/` (pure PHP, zero external/framework dependencies).

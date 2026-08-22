@@ -30,9 +30,28 @@ The only exceptions to the English-only rule are:
 
 ---
 
-## 2. Code Quality, SOLID & Domain-Driven Design (DDD)
+## 2. Spec-Driven Development (SDD) Workflow
 
-The codebase is built on **Clean Architecture** and **Domain-Driven Design (DDD)** principles. Maintain clear boundaries between layers and bounded contexts.
+This project enforces **Spec-Driven Development (SDD)**. Formal domain specifications in the `specs/` directory serve as the machine-readable single source of truth for business logic, calculation models, and API contracts.
+
+```
+specs/
+├── income-calculator.spec.json  # 2026 Polish tax rules & mathematical benchmark vectors
+├── seo-audit-rules.spec.json    # Issue code catalog, severities, and trigger conditions
+├── geo-readiness.spec.json      # LLM crawler bots, schema types, and GEO signals
+└── mcp-tools.spec.json          # Tool signatures & schemas exposed over /mcp
+```
+
+### SDD Principles:
+1. **Spec-First Invariant**: Never modify core calculation formulas, audit rule codes, or MCP tool contracts without first updating or reviewing the relevant specification in `specs/`.
+2. **Deterministic Benchmark Vectors**: Specifications must include concrete input/output test vectors covering boundary conditions (e.g. Polish tax brackets, ZUS tiers).
+3. **Automated Compliance Verification**: All specifications are automatically asserted against domain code via `tests/Spec/SpecificationComplianceTest.php`.
+
+---
+
+## 3. Code Quality, SOLID & Domain-Driven Design (DDD)
+
+The codebase is built on **Hexagonal Architecture (Ports & Adapters)**, **Clean Architecture**, and **Domain-Driven Design (DDD)** principles. Maintain clear boundaries between layers and bounded contexts.
 
 ```
 src/
