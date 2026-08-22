@@ -94,6 +94,12 @@ final class ProductCatalogTest extends TestCase
             self::assertNotEmpty($family->imageCredit);
             self::assertNotEmpty($family->imageSource);
             self::assertNotNull($family->defaultConfiguration());
+            self::assertStringStartsNotWith('/images/market/iphone-device.svg', $family->image);
+            self::assertStringStartsNotWith('/images/market/macbook-pro.svg', $family->image);
+            self::assertStringStartsNotWith('/images/market/ram-module.svg', $family->image);
+
+            $publicPath = dirname(__DIR__, 2) . '/public' . $family->image;
+            self::assertFileExists($publicPath, "Image file {$family->image} for family {$family->slug} must exist in public directory.");
         }
     }
 }

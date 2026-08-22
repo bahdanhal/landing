@@ -80,8 +80,8 @@ final readonly class MarketPriceTools
         #[Schema(description: 'Optional observation date in YYYY-MM-DD or ISO 8601 format (defaults to current date).')] ?string $observed_at = null,
         #[Schema(description: 'Optional summary note or verification details.')] ?string $summary = null,
     ): string {
-        $expectedToken = (string) ($_ENV['MARKET_ADMIN_TOKEN'] ?? $_ENV['APP_SECRET'] ?? 'bahdan-market-admin-token');
-        if (!hash_equals($expectedToken, $token)) {
+        $expectedToken = (string) ($_ENV['MARKET_ADMIN_TOKEN'] ?? $_ENV['APP_SECRET'] ?? '');
+        if ($expectedToken === '' || !hash_equals($expectedToken, $token)) {
             return $this->json(['error' => 'Unauthorized: Invalid admin token.']);
         }
 

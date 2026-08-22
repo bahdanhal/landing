@@ -10,64 +10,79 @@
     <link rel="alternate" hreflang="en" href="https://bahdanhal.pl/tools/poland-used-price-index/{{ product.slug }}">
     <link rel="alternate" hreflang="pl" href="https://bahdanhal.pl/pl/narzedzia/indeks-cen-uzywanych/{{ product.slug }}">
     <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/tools/poland-used-price-index/{{ product.slug }}">
+    {% if family and family.image %}
+        <meta property="og:image" content="https://bahdanhal.pl{{ family.image }}">
+    {% endif %}
 {% endblock %}
 {% block stylesheets %}<link rel="stylesheet" href="/tools.css"><link rel="stylesheet" href="/market.css"><link rel="stylesheet" href="/market-extra.css">{% endblock %}
 {% block language_switch %}<a class="language-switch" href="{{ path('market_product', {_locale: app.request.locale == 'pl' ? 'en' : 'pl', slug: product.slug}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
 {% block body %}
     <article class="tool-shell market-shell">
         <a class="back" href="{{ path('market_home', {_locale: app.request.locale}) }}">← {{ 'market.back'|trans }}</a>
-        <div class="eyebrow">{{ 'market.product_eyebrow'|trans }}</div>
-        <h1 class="market-title">{{ product.name }}</h1>
-        <p class="lede">{{ 'market.product_lede'|trans }}</p>
 
-        {% set sibling_configs = [] %}
-        {% if family %}
-            {% for sibling in family.configurations %}
-                {% set sibling_configs = sibling_configs|merge([{
-                    slug: sibling.slug,
-                    url: path('market_product', {_locale: app.request.locale, slug: sibling.slug}),
-                    specs: sibling.specifications
-                }]) %}
-            {% endfor %}
-        {% endif %}
+        <div class="market-product-hero">
+            <div class="market-product-hero-body">
+                <div class="eyebrow">{{ 'market.product_eyebrow'|trans }}</div>
+                <h1 class="market-title">{{ product.name }}</h1>
+                <p class="lede">{{ 'market.product_lede'|trans }}</p>
 
-        <dl class="market-specs"
-            data-sibling-configs="{{ sibling_configs|json_encode }}"
-            data-current-specs="{{ product.specifications|json_encode }}">
-            {% for key, value in product.specifications %}
-                {% set distinct_values = [] %}
+                {% set sibling_configs = [] %}
                 {% if family %}
                     {% for sibling in family.configurations %}
-                        {% if sibling.specifications[key] is defined and sibling.specifications[key] not in distinct_values %}
-                            {% set distinct_values = distinct_values|merge([sibling.specifications[key]]) %}
-                        {% endif %}
+                        {% set sibling_configs = sibling_configs|merge([{
+                            slug: sibling.slug,
+                            url: path('market_product', {_locale: app.request.locale, slug: sibling.slug}),
+                            specs: sibling.specifications
+                        }]) %}
                     {% endfor %}
                 {% endif %}
 
-                <div class="market-spec-badge">
-                    <dt>{{ ('market.spec.' ~ key)|trans }}</dt>
-                    {% if distinct_values|length > 1 %}
-                        <dd class="market-spec-select-wrap">
-                            <select class="market-spec-select" data-spec-key="{{ key }}" aria-label="{{ ('market.spec.' ~ key)|trans }}">
-                                {% for opt in distinct_values %}
-                                    <option value="{{ opt }}" {{ opt == value ? 'selected' : '' }}>{{ opt }}</option>
-                                {% endfor %}
-                            </select>
-                            <span class="market-spec-arrow" aria-hidden="true">▾</span>
-                        </dd>
-                    {% else %}
-                        <dd>{{ value }}</dd>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        </dl>
-        {% if family and family.configurations|length > 1 %}
-            <nav class="market-configurations-list market-product-siblings" aria-label="{{ 'market.choose_configuration'|trans }}">
-                {% for sibling in family.configurations %}
-                    <a class="market-config-chip {{ sibling.slug == product.slug ? 'active' : '' }}" href="{{ path('market_product', {_locale: app.request.locale, slug: sibling.slug}) }}">{{ sibling.name|replace({(family.name ~ ' '): ''}) }}</a>
-                {% endfor %}
-            </nav>
-        {% endif %}
+                <dl class="market-specs"
+                    data-sibling-configs="{{ sibling_configs|json_encode }}"
+                    data-current-specs="{{ product.specifications|json_encode }}">
+                    {% for key, value in product.specifications %}
+                        {% set distinct_values = [] %}
+                        {% if family %}
+                            {% for sibling in family.configurations %}
+                                {% if sibling.specifications[key] is defined and sibling.specifications[key] not in distinct_values %}
+                                    {% set distinct_values = distinct_values|merge([sibling.specifications[key]]) %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                        <div class="market-spec-badge">
+                            <dt>{{ ('market.spec.' ~ key)|trans }}</dt>
+                            {% if distinct_values|length > 1 %}
+                                <dd class="market-spec-select-wrap">
+                                    <select class="market-spec-select" data-spec-key="{{ key }}" aria-label="{{ ('market.spec.' ~ key)|trans }}">
+                                        {% for opt in distinct_values %}
+                                            <option value="{{ opt }}" {{ opt == value ? 'selected' : '' }}>{{ opt }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <span class="market-spec-arrow" aria-hidden="true">▾</span>
+                                </dd>
+                            {% else %}
+                                <dd>{{ value }}</dd>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </dl>
+                {% if family and family.configurations|length > 1 %}
+                    <nav class="market-configurations-list market-product-siblings" aria-label="{{ 'market.choose_configuration'|trans }}">
+                        {% for sibling in family.configurations %}
+                            <a class="market-config-chip {{ sibling.slug == product.slug ? 'active' : '' }}" href="{{ path('market_product', {_locale: app.request.locale, slug: sibling.slug}) }}">{{ sibling.name|replace({(family.name ~ ' '): ''}) }}</a>
+                        {% endfor %}
+                    </nav>
+                {% endif %}
+            </div>
+
+            {% if family and family.image %}
+                <figure class="market-product-hero-media">
+                    <img src="{{ family.image }}" alt="{{ product.name }}" width="640" height="480" loading="eager">
+                    <figcaption><a href="{{ family.imageSource }}" target="_blank" rel="noopener noreferrer">{{ family.imageCredit }}</a> · <a href="{{ family.imageSource }}" target="_blank" rel="noopener noreferrer">Commons</a></figcaption>
+                </figure>
+            {% endif %}
+        </div>
 
         {% if latest %}
             {% set previous = history|length > 1 ? history[1] : null %}

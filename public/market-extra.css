@@ -331,3 +331,73 @@
     font-weight: 600;
     line-height: 1.4;
 }
+
+/* =========================================================
+   6. PRODUCT PAGE HERO MEDIA
+   ========================================================= */
+.market-product-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 32px;
+    align-items: start;
+    margin-top: 20px;
+    margin-bottom: 24px;
+}
+
+.market-product-hero-body {
+    min-width: 0;
+}
+
+.market-product-hero-media {
+    position: relative;
+    margin: 0;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    max-height: 300px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #e9e3d6;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(0, 5, 15, 0.14);
+}
+
+.market-product-hero-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.market-product-hero-media figcaption {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(21, 21, 21, 0.75);
+    color: #fff;
+    font-size: 10px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.market-product-hero-media figcaption a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.market-product-hero-media figcaption a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 850px) {
+    .market-product-hero {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .market-product-hero-media {
+        max-height: 240px;
+    }
+}
+

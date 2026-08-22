@@ -30,7 +30,7 @@ final class MarketAdminControllerTest extends TestCase
         $twig = $this->createMock(Environment::class);
         $twig->expects(self::once())
             ->method('render')
-            ->with('admin/login.html.twig', self::isType('array'))
+            ->with('admin/login.html.twig', self::isArray())
             ->willReturn('<html>login</html>');
 
         $container = new Container();
@@ -55,7 +55,7 @@ final class MarketAdminControllerTest extends TestCase
         $observeMarket = new ObserveMarket($catalog, $researcher, $observations);
         $secret = 'test-secret-key';
 
-        $router = $this->createMock(\Symfony\Component\Routing\Generator\UrlGeneratorInterface::class);
+        $router = $this->createStub(\Symfony\Component\Routing\Generator\UrlGeneratorInterface::class);
         $router->method('generate')->willReturn('/admin/market');
 
         $container = new Container();
@@ -92,7 +92,7 @@ final class MarketAdminControllerTest extends TestCase
         $observeMarket = new ObserveMarket($catalog, $researcher, $observations);
         $secret = 'test-secret-key';
 
-        $router = $this->createMock(\Symfony\Component\Routing\Generator\UrlGeneratorInterface::class);
+        $router = $this->createStub(\Symfony\Component\Routing\Generator\UrlGeneratorInterface::class);
         $router->method('generate')->willReturn('/admin/market');
 
         $container = new Container();

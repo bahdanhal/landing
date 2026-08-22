@@ -88,15 +88,60 @@ final class ProductCatalog
     private function familyImage(string $familySlug, string $category): array
     {
         return match ($familySlug) {
+            'iphone-x' => [
+                '/images/market/iphone-x.jpg',
+                'freestocks.org',
+                'https://commons.wikimedia.org/wiki/File:IPhone_6s,_iPhone_8_plus_and_iPhone_X.jpg',
+            ],
+            'iphone-xr' => [
+                '/images/market/iphone-xr.jpg',
+                '茅野ふたば',
+                'https://commons.wikimedia.org/wiki/File:IPhone_XR_Coral.jpg',
+            ],
+            'iphone-xs' => [
+                '/images/market/iphone-xs.jpg',
+                'Cullen Steber',
+                'https://commons.wikimedia.org/wiki/File:IPhone_XS.jpg',
+            ],
+            'iphone-11' => [
+                '/images/market/iphone-11.jpg',
+                'Ahmadkurdi44',
+                'https://commons.wikimedia.org/wiki/File:IPhone_11_all_color.jpg',
+            ],
+            'iphone-se-2020' => [
+                '/images/market/iphone-se-2020.jpg',
+                'Seth Whales',
+                'https://commons.wikimedia.org/wiki/File:IPhone_SE_(2020)_Product_Red.jpg',
+            ],
+            'iphone-12' => [
+                '/images/market/iphone-12.jpg',
+                'ajay_suresh',
+                'https://commons.wikimedia.org/wiki/File:Apple_iPhone_12_Pro_-_Cameras_(50535314721).jpg',
+            ],
             'iphone-13' => [
                 '/images/market/iphone-13.jpg',
                 'Kskhh',
                 'https://commons.wikimedia.org/wiki/File:IPhone_13.jpg',
             ],
+            'iphone-se-2022' => [
+                '/images/market/iphone-se-2022.jpg',
+                'Toad40',
+                'https://commons.wikimedia.org/wiki/File:IPhone_SE_3rd_Gen.jpg',
+            ],
             'iphone-14' => [
                 '/images/market/iphone-14-plus.jpg',
                 'Kskhh',
                 'https://commons.wikimedia.org/wiki/File:IPhone_13_and_iPhone_14_Plus.jpg',
+            ],
+            'iphone-15' => [
+                '/images/market/iphone-15.jpg',
+                'メイド理世',
+                'https://commons.wikimedia.org/wiki/File:Apple_iPhone_15_Pink_(November_1,_2024).jpg',
+            ],
+            'iphone-16' => [
+                '/images/market/iphone-16.jpg',
+                'メイド理世',
+                'https://commons.wikimedia.org/wiki/File:Back_view_of_iPhone_16_Ultramarine.jpg',
             ],
             'macbook-air-13-m1' => [
                 '/images/market/macbook-air-m1.png',
@@ -113,6 +158,36 @@ final class ProductCatalog
                 'KKPCW (Kyu3)',
                 'https://commons.wikimedia.org/wiki/File:Macbook_Air_15_inch_-_1.jpg',
             ],
+            'macbook-air-13-m3' => [
+                '/images/market/macbook-air-13-m3.jpg',
+                'Thomas Amberg',
+                'https://commons.wikimedia.org/wiki/File:Hardware_PXL_20240701_181416002_(53829190029).jpg',
+            ],
+            'macbook-air-15-m3' => [
+                '/images/market/macbook-air-15.jpg',
+                'KKPCW (Kyu3)',
+                'https://commons.wikimedia.org/wiki/File:Macbook_Air_15_inch_-_1.jpg',
+            ],
+            'ram-ddr4-desktop' => [
+                '/images/market/ram-ddr4-desktop.jpg',
+                'ElooKoN',
+                'https://commons.wikimedia.org/wiki/File:RAM_Module_(SDRAM-DDR4).jpg',
+            ],
+            'ram-ddr5-desktop' => [
+                '/images/market/ram-ddr5-desktop.jpg',
+                'Jacek Halicki',
+                'https://commons.wikimedia.org/wiki/File:2023_Pami%C4%99ci_Corsair_Vengeance_RGB.jpg',
+            ],
+            'ram-ddr4-laptop' => [
+                '/images/market/ram-ddr4-laptop.jpg',
+                'D-Kuru',
+                'https://commons.wikimedia.org/wiki/File:DDR_4_RAM_SO-DIMM_16GB_by_Micron-top_front_PNr%C2%B00840.jpg',
+            ],
+            'ram-ddr5-laptop' => [
+                '/images/market/ram-ddr5-laptop.jpg',
+                '4300streetcar',
+                'https://commons.wikimedia.org/wiki/File:SK_Hynix_DDR5_form_factors.jpg',
+            ],
             'peugeot-206-cc' => [
                 '/images/market/peugeot-206-cc.jpg',
                 'Corvettec6r',
@@ -120,26 +195,36 @@ final class ProductCatalog
             ],
             default => match ($category) {
                 'smartphones' => [
-                    '/images/market/iphone-device.svg',
-                    'Bahdan’s Toolbox',
-                    'https://bahdanhal.pl/tools/poland-used-price-index',
+                    '/images/market/iphone-13.jpg',
+                    'Kskhh',
+                    'https://commons.wikimedia.org/wiki/File:IPhone_13.jpg',
                 ],
-                'laptops' => [
-                    str_contains($familySlug, 'macbook-pro')
-                        ? '/images/market/macbook-pro.svg'
-                        : '/images/market/macbook-air-m1.png',
-                    'Bahdan’s Toolbox',
-                    'https://bahdanhal.pl/tools/poland-used-price-index',
-                ],
+                'laptops' => str_contains($familySlug, 'macbook-pro')
+                    ? (str_contains($familySlug, '16')
+                        ? [
+                            '/images/market/macbook-pro-16.jpg',
+                            'SimonWaldherr',
+                            'https://commons.wikimedia.org/wiki/File:Apple_MacBook_Pro_16%22_M2_Max_5.jpg',
+                        ]
+                        : [
+                            '/images/market/macbook-pro-14.jpg',
+                            'Kyu3a',
+                            'https://commons.wikimedia.org/wiki/File:M3_Macbook_Pro_14_inch_Space_Grey_model_(cropped).jpg',
+                        ])
+                    : [
+                        '/images/market/macbook-air-m1.png',
+                        'L',
+                        'https://commons.wikimedia.org/wiki/File:Macbook_Air_M1_Silver_PNG.png',
+                    ],
                 'ram' => [
-                    '/images/market/ram-module.svg',
-                    'Bahdan’s Toolbox',
-                    'https://bahdanhal.pl/tools/poland-used-price-index',
+                    '/images/market/ram-ddr4-desktop.jpg',
+                    'ElooKoN',
+                    'https://commons.wikimedia.org/wiki/File:RAM_Module_(SDRAM-DDR4).jpg',
                 ],
                 default => [
-                    '/images/market/iphone-device.svg',
-                    'Bahdan’s Toolbox',
-                    'https://bahdanhal.pl/tools/poland-used-price-index',
+                    '/images/market/iphone-13.jpg',
+                    'Kskhh',
+                    'https://commons.wikimedia.org/wiki/File:IPhone_13.jpg',
                 ],
             },
         };

@@ -15,7 +15,7 @@ final class MarketPriceToolsTest extends TestCase
     public function testListProductsReturnsJson(): void
     {
         $catalog = new ProductCatalog();
-        $repository = $this->createMock(PriceObservationRepository::class);
+        $repository = $this->createStub(PriceObservationRepository::class);
         $tools = new MarketPriceTools($catalog, $repository);
 
         $json = $tools->listProducts();
@@ -28,7 +28,7 @@ final class MarketPriceToolsTest extends TestCase
     public function testGetHistoryReturnsHistory(): void
     {
         $catalog = new ProductCatalog();
-        $repository = $this->createMock(PriceObservationRepository::class);
+        $repository = $this->createStub(PriceObservationRepository::class);
         $repository->method('history')->willReturn([
             new PriceObservation(
                 'iphone-13-128gb',
@@ -53,11 +53,26 @@ final class MarketPriceToolsTest extends TestCase
 
     public function testAdminUpdateObservationUnauthorized(): void
     {
+        $_ENV['MARKET_ADMIN_TOKEN'] = 'test-token-123';
         $catalog = new ProductCatalog();
-        $repository = $this->createMock(PriceObservationRepository::class);
+        $repository = $this->createStub(PriceObservationRepository::class);
         $tools = new MarketPriceTools($catalog, $repository);
 
         $json = $tools->updateObservation('wrong-token', 'iphone-13-128gb', 950);
+        $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+
+        self::assertArrayHasKey('error', $data);
+        self::assertStringContainsString('Unauthorized', $data['error']);
+    }
+
+    public function testAdminUpdateObservationFailsClosedWhenUnconfigured(): void
+    {
+        unset($_ENV['MARKET_ADMIN_TOKEN'], $_ENV['APP_SECRET']);
+        $catalog = new ProductCatalog();
+        $repository = $this->createStub(PriceObservationRepository::class);
+        $tools = new MarketPriceTools($catalog, $repository);
+
+        $json = $tools->updateObservation('bahdan-market-admin-token', 'iphone-13-128gb', 950);
         $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
 
         self::assertArrayHasKey('error', $data);
