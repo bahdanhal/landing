@@ -18,3 +18,4 @@
 /.agents/
 /.codex/
 /.gemini/
+/compose.override.yaml

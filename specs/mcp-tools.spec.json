@@ -161,6 +161,17 @@
           "required": false
         }
       ]
+    },
+    {
+      "name": "inspect_domain_security",
+      "description": "Inspect domain email security and deliverability standards: DMARC (BIMI compliance), BIMI DNS & SVG reachability, MTA-STS (RFC 8461), SMTP TLS-RPT (RFC 8460), SPF and MX records.",
+      "parameters": [
+        {
+          "name": "domain",
+          "type": "string",
+          "required": true
+        }
+      ]
     }
   ]
 }

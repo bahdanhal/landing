@@ -9,11 +9,15 @@ base:
         geo: "Analizator GEO"
         seo: "Analizator SEO"
         market: "Ceny używanych rzeczy"
+        bimi: "BIMI Studio"
+        domain_inspector: "Inspektor domen"
     context:
         income: "Kalkulator wynagrodzeń"
         geo: "Analizator GEO"
         seo: "Analizator SEO"
         market: "Indeks cen używanych rzeczy w Polsce"
+        bimi: "BIMI Studio i konwerter SVG"
+        domain_inspector: "Inspektor bezpieczeństwa domen i BIMI"
     footer: "Przydatne i przejrzyste narzędzia · Bez rejestracji · Bez pikseli śledzących"
     contact: "Kontakt"
 
@@ -42,6 +46,12 @@ home:
     market:
         title: "Indeks cen używanych w Polsce"
         text: "Śledź ręcznie weryfikowane przez Bahdana obserwacje porównywalnych cen ofertowych z historią i jawnymi ograniczeniami."
+    bimi:
+        title: "BIMI Studio i symulator skrzynek pocztowych"
+        text: "Przygotuj zgodne logo SVG Tiny 1.2 PS z marginesami bezpiecznymi i przetestuj awatar na żywo w Gmailu, Apple Mail i Yahoo."
+    domain_inspector:
+        title: "Inspektor bezpieczeństwa domen i dostarczalności"
+        text: "Szybka weryfikacja polityk DMARC, rekordów BIMI, szyfrowania MTA-STS, raportów SMTP TLS-RPT oraz SPF."
     principles:
         private:
             title: "Prywatność domyślnie"
@@ -106,6 +116,101 @@ vat:
         a3: "Tak. Wybierz scenariusz przyszły, wpisz proponowany procent i szacowaną datę wejścia. Wynik pozostanie jednoznacznie oznaczony jako symulacja."
     disclaimer: "Kalkulator informacyjny, nie porada podatkowa. Potwierdź właściwą stawkę, klasyfikację, sposób zaokrąglenia i datę obowiązywania w oficjalnych źródłach lub u doradcy."
     schema_name: "Polski kalkulator VAT netto brutto"
+
+bimi:
+    meta:
+        title: "BIMI Studio · Konwerter SVG Tiny 1.2 PS i symulator skrzynek"
+        description: "Konwertuj i waliduj logo marki do formatu SVG Tiny 1.2 PS, zadbaj o marginesy bezpieczne i przetestuj awatar w Gmailu, Apple Mail i Yahoo."
+    eyebrow: "BRANDING POCZTY · SVG TINY 1.2 PS"
+    heading: "BIMI Studio i symulator skrzynek pocztowych"
+    lede: "Przekształć dowolne logo w zgodny ze standardem plik SVG Tiny 1.2 PS z odpowiednimi marginesami i sprawdź na żywo, jak awatar prezentuje się w skrzynkach odbiorców."
+    title: "BIMI Studio"
+    upload:
+        title: "1. Prześlij logo marki"
+        text: "Przeciągnij dowolny plik wektorowy SVG, PNG, JPG lub WebP."
+        drop_prompt: "Przeciągnij logo tutaj lub kliknij, aby wybrać plik"
+        formats: "SVG (Figma / Illustrator), PNG, JPG, WebP"
+    controls:
+        padding: "Margines bezpieczny (padding):"
+        scale: "Skala / Powiększenie:"
+        offset_x: "Przesunięcie w poziomie (X):"
+        offset_y: "Przesunięcie w pionie (Y):"
+        align_presets: "Szybkie wyrównanie:"
+        center_btn: "Środek 0,0"
+        background: "Wypełnienie tła:"
+        bg_transparent: "Przezroczyste"
+        bg_white: "Białe"
+        bg_dark: "Ciemne (#111827)"
+        bg_custom: "Własny kolor"
+        circle_guide: "Pokaż okrągłą siatkę przycięcia (Apple Mail / Yahoo)"
+        drag_hint: "Przeciągnij myszą na płótnie, aby przesunąć logo · Kółko myszy = zoom"
+        reset_position: "Wyzeruj pozycję i skalę"
+        contrast_hint: "Zapewnia czytelność i ostrość logo zarówno w jasnym, jak i ciemnym motywie skrzynki pocztowej."
+    preview:
+        canvas_title: "2. Podgląd zgodnego SVG Tiny 1.2 PS"
+        canvas_text: "Oczyszczony kwadrat 1:1 z usuniętymi skryptami i zbędnymi przestrzeniami nazw."
+    download:
+        button: "Pobierz zgodne logo-bimi.svg"
+    sim:
+        title: "3. Symulator skrzynek pocztowych"
+        subtitle: "Podgląd w popularnych programach pocztowych w 1 kliknięcie"
+        sender_label: "Nazwa nadawcy w symulatorze:"
+        subject_label: "Temat wiadomości w symulatorze:"
+    dns:
+        title: "4. Wygeneruj rekord BIMI DNS"
+        text: "Dodaj ten rekord TXT u swojego dostawcy DNS (Cloudflare, OVH, Cyberfolks, Route53)."
+        domain_label: "Nazwa domeny:"
+        svg_label: "Publiczny adres HTTPS do pliku logo-bimi.svg:"
+        vmc_label: "Adres certyfikatu VMC (opcjonalnie):"
+        copy_btn: "Kopiuj rekord DNS TXT"
+    requirements:
+        title: "Wymogi standardu BIMI"
+        svg: "Ścisły profil SVG Tiny 1.2 PS, proporcja viewBox 1:1, brak skryptów i zewnętrznych linków."
+        ratio: "Wycentrowane na kwadratowym polu z marginesami chroniącymi przed ucięciem w okrągłych awatarach."
+        dmarc: "Polityka DMARC musi być ustawiona na p=quarantine (pct=100) lub p=reject."
+        vmc: "Apple Mail i Yahoo obsługują self-asserted BIMI; Gmail wymaga certyfikatu VMC."
+        check_domain_link: "Sprawdź domenę w Inspektorze domen"
+
+domain_inspector:
+    meta:
+        title: "Inspektor domen · Sprawdzanie DMARC, BIMI, MTA-STS i SPF w 1 kliknięcie"
+        description: "Zweryfikuj standardy bezpieczeństwa poczty i dostarczalności: zgodność DMARC z BIMI, dostępność rekordu BIMI i logo, MTA-STS RFC 8461, SMTP TLS-RPT oraz SPF."
+    eyebrow: "BEZPIECZEŃSTWO POCZTY I DOSTARCZALNOŚĆ"
+    heading: "Inspektor domen i weryfikacja BIMI"
+    lede: "Sprawdź łańcuch uwierzytelniania poczty w domenie w 1 kliknięcie. Zbadaj zgodność polityki DMARC z BIMI, wymuszenie szyfrowania MTA-STS, raporty TLS oraz SPF."
+    title: "Inspektor domen"
+    input_label: "Wpisz nazwę domeny do sprawdzenia:"
+    check_btn: "Sprawdź domenę"
+    examples_label: "Przykłady"
+    features:
+        dmarc:
+            title: "Polityka DMARC i zgodność z BIMI"
+            text: "Sprawdza, czy polityka spełnia wymogi wyświetlania awatarów BIMI (p=quarantine pct=100 lub p=reject) i chroni przed podszywaniem się."
+        bimi:
+            title: "Rekord BIMI i weryfikacja pliku logo"
+            text: "Wyszukuje rekord default._bimi, sprawdza dostępność przez HTTPS, poprawność nagłówka Content-Type oraz profilu SVG Tiny 1.2."
+        mta_sts:
+            title: "MTA-STS Strict Transport (RFC 8461)"
+            text: "Weryfikuje rekord DNS oraz plik https://mta-sts.domena/.well-known/mta-sts.txt w celu wymuszenia bezpiecznego TLS."
+        tls_rpt:
+            title: "SMTP TLS-RPT (RFC 8460)"
+            text: "Sprawdza konfigurację raportowania błędów negocjacji TLS, aby otrzymywać powiadomienia o problemach z doręczaniem."
+    report:
+        title: "Raport bezpieczeństwa poczty dla %domain% · Narzędzia Bahdana"
+        back: "Sprawdź inną domenę"
+        score_label: "Ocena bezpieczeństwa i dostarczalności: %score%/100"
+        time_label: "Sprawdzono: %time%"
+    bimi_status:
+        ready: "Gotowa na BIMI"
+        dmarc_needed: "Wymaga wzmocnienia DMARC dla BIMI"
+        eligible_no_bimi: "DMARC spełniony · Brak rekordu BIMI"
+        not_ready: "BIMI nieskonfigurowane"
+    recheck_btn: "Sprawdź ponownie"
+    fix_header: "Zalecany wpis DNS:"
+    copy: "Kopiuj"
+    copied: "Skopiowano!"
+    detected_logo: "Wykryte i zweryfikowane logo BIMI"
+    open_bimi_studio: "Otwórz BIMI Studio, aby przygotować lub sformatować logo"
 
 audit:
     meta:

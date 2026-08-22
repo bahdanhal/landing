@@ -1,0 +1,234 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ 'domain_inspector.report.title'|trans({'%domain%': report.domain}) }}{% endblock %}
+{% block robots %}<meta name="robots" content="noindex,nofollow">{% endblock %}
+{% block stylesheets %}
+  <link rel="stylesheet" href="/domain-inspector.css">
+{% endblock %}
+{% block language_switch %}
+  <a class="language-switch" href="{{ path('domain_inspector_home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
+{% endblock %}
+{% block tool_name %}{{ 'domain_inspector.title'|trans }}{% endblock %}
+
+{% block body %}
+<section class="hero inspector-hero">
+  <div style="margin-bottom: 1rem;">
+    <a href="{{ path('domain_inspector_home', {_locale: app.request.locale}) }}" style="color: #9ca3af; text-decoration: none; font-size: 0.9rem;">
+      ← {{ 'domain_inspector.report.back'|trans }}
+    </a>
+  </div>
+
+  <div class="inspector-shell">
+    <!-- Score & BIMI Readiness Banner -->
+    <div class="report-summary-card">
+      <div class="grade-badge grade-{{ report.grade|lower|replace({'+': '-plus'}) }}">
+        {{ report.grade }}
+      </div>
+
+      <div class="score-meta">
+        <h2>{{ report.domain }}</h2>
+        <p>{{ 'domain_inspector.report.score_label'|trans({'%score%': report.score}) }} · {{ 'domain_inspector.report.time_label'|trans({'%time%': report.inspectedAt}) }}</p>
+      </div>
+
+      <div>
+        {% if report.bimiReadiness == 'ready' %}
+          <span class="bimi-readiness-pill pill-ready">✨ {{ 'domain_inspector.bimi_status.ready'|trans }}</span>
+        {% elseif report.bimiReadiness == 'dmarc_upgrade_needed' %}
+          <span class="bimi-readiness-pill pill-action-needed">⚠️ {{ 'domain_inspector.bimi_status.dmarc_needed'|trans }}</span>
+        {% elseif report.bimiReadiness == 'eligible_missing_bimi' %}
+          <span class="bimi-readiness-pill pill-action-needed">ℹ️ {{ 'domain_inspector.bimi_status.eligible_no_bimi'|trans }}</span>
+        {% else %}
+          <span class="bimi-readiness-pill pill-not-ready">❌ {{ 'domain_inspector.bimi_status.not_ready'|trans }}</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Re-check Form -->
+    <div class="inspector-form-card" style="padding: 1rem 1.5rem;">
+      <form action="{{ path('domain_inspector_check', {_locale: app.request.locale}) }}" method="POST" style="display: flex; gap: 0.75rem; align-items: center;">
+        <input type="text" name="domain" class="inspector-domain-input" value="{{ report.domain }}" style="padding: 0.5rem 0.75rem; font-size: 0.95rem;">
+        <button type="submit" class="btn-primary-action" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+          🔄 {{ 'domain_inspector.recheck_btn'|trans }}
+        </button>
+      </form>
+    </div>
+
+    <!-- Protocol Findings Grid -->
+    <div class="protocol-grid">
+      <!-- 1. DMARC Card -->
+      <div class="protocol-card">
+        <div class="protocol-header">
+          <div class="protocol-title">
+            <span>🛡️ DMARC Policy</span>
+            <span class="protocol-rfc">RFC 7489</span>
+          </div>
+          <span class="status-badge status-{{ report.dmarc.status }}">{{ report.dmarc.status }}</span>
+        </div>
+        <p class="protocol-summary">{{ report.dmarc.summary }}</p>
+
+        {% if report.dmarc.rawRecord %}
+          <div class="raw-record-box">
+            <code>{{ report.dmarc.rawRecord }}</code>
+          </div>
+        {% endif %}
+
+        {% if report.dmarc.recommendedFix %}
+          <div class="fix-recommendation-box">
+            <h4>💡 {{ 'domain_inspector.fix_header'|trans }}</h4>
+            <div class="fix-code-block">
+              <code>{{ report.dmarc.recommendedFix }}</code>
+              <button class="copy-mini-btn" onclick="navigator.clipboard.writeText('{{ report.dmarc.recommendedFix|e('js') }}'); this.textContent='{{ 'domain_inspector.copied'|trans }}';">📋 {{ 'domain_inspector.copy'|trans }}</button>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- 2. BIMI Card -->
+      <div class="protocol-card">
+        <div class="protocol-header">
+          <div class="protocol-title">
+            <span>🟣 BIMI Brand Avatar</span>
+            <span class="protocol-rfc">BIMI Group / Draft RFC</span>
+          </div>
+          <span class="status-badge status-{{ report.bimi.status }}">{{ report.bimi.status }}</span>
+        </div>
+        <p class="protocol-summary">{{ report.bimi.summary }}</p>
+
+        {% if report.bimi.rawRecord %}
+          <div class="raw-record-box">
+            <code>{{ report.bimi.rawRecord }}</code>
+          </div>
+        {% endif %}
+
+        {% if report.bimi.logoUrl and report.bimi.isSvgReachable %}
+          <div class="bimi-detected-logo">
+            <img src="{{ report.bimi.logoUrl }}" alt="Detected BIMI Logo" class="bimi-detected-avatar">
+            <div>
+              <strong style="font-size: 0.9rem; color: #f3f4f6;">{{ 'domain_inspector.detected_logo'|trans }}</strong>
+              <div style="font-size: 0.8rem; color: #9ca3af; word-break: break-all;">{{ report.bimi.logoUrl }}</div>
+            </div>
+          </div>
+        {% endif %}
+
+        {% if report.bimi.recommendedFix %}
+          <div class="fix-recommendation-box">
+            <h4>💡 {{ 'domain_inspector.fix_header'|trans }}</h4>
+            <div class="fix-code-block">
+              <code>{{ report.bimi.recommendedFix }}</code>
+              <button class="copy-mini-btn" onclick="navigator.clipboard.writeText('{{ report.bimi.recommendedFix|e('js') }}'); this.textContent='{{ 'domain_inspector.copied'|trans }}';">📋 {{ 'domain_inspector.copy'|trans }}</button>
+            </div>
+            <div style="margin-top: 0.5rem;">
+              <a href="{{ path('bimi_studio', {_locale: app.request.locale}) }}" style="color: #60a5fa; font-size: 0.85rem; text-decoration: underline;">
+                ✨ {{ 'domain_inspector.open_bimi_studio'|trans }} →
+              </a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- 3. MTA-STS Card -->
+      <div class="protocol-card">
+        <div class="protocol-header">
+          <div class="protocol-title">
+            <span>🔒 MTA-STS Strict Transport Security</span>
+            <span class="protocol-rfc">RFC 8461</span>
+          </div>
+          <span class="status-badge status-{{ report.mtaSts.status }}">{{ report.mtaSts.status }}</span>
+        </div>
+        <p class="protocol-summary">{{ report.mtaSts.summary }}</p>
+
+        {% if report.mtaSts.rawDnsRecord %}
+          <div class="raw-record-box">
+            <code>{{ report.mtaSts.rawDnsRecord }}</code>
+          </div>
+        {% endif %}
+
+        {% if report.mtaSts.recommendedFix %}
+          <div class="fix-recommendation-box">
+            <h4>💡 {{ 'domain_inspector.fix_header'|trans }}</h4>
+            <div class="fix-code-block">
+              <code>{{ report.mtaSts.recommendedFix }}</code>
+              <button class="copy-mini-btn" onclick="navigator.clipboard.writeText('{{ report.mtaSts.recommendedFix|e('js') }}'); this.textContent='{{ 'domain_inspector.copied'|trans }}';">📋 {{ 'domain_inspector.copy'|trans }}</button>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- 4. SMTP TLS-RPT Card -->
+      <div class="protocol-card">
+        <div class="protocol-header">
+          <div class="protocol-title">
+            <span>📊 SMTP TLS Reporting (TLS-RPT)</span>
+            <span class="protocol-rfc">RFC 8460</span>
+          </div>
+          <span class="status-badge status-{{ report.tlsRpt.status }}">{{ report.tlsRpt.status }}</span>
+        </div>
+        <p class="protocol-summary">{{ report.tlsRpt.summary }}</p>
+
+        {% if report.tlsRpt.rawRecord %}
+          <div class="raw-record-box">
+            <code>{{ report.tlsRpt.rawRecord }}</code>
+          </div>
+        {% endif %}
+
+        {% if report.tlsRpt.recommendedFix %}
+          <div class="fix-recommendation-box">
+            <h4>💡 {{ 'domain_inspector.fix_header'|trans }}</h4>
+            <div class="fix-code-block">
+              <code>{{ report.tlsRpt.recommendedFix }}</code>
+              <button class="copy-mini-btn" onclick="navigator.clipboard.writeText('{{ report.tlsRpt.recommendedFix|e('js') }}'); this.textContent='{{ 'domain_inspector.copied'|trans }}';">📋 {{ 'domain_inspector.copy'|trans }}</button>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- 5. SPF Card -->
+      <div class="protocol-card">
+        <div class="protocol-header">
+          <div class="protocol-title">
+            <span>✉️ SPF Sender Policy Framework</span>
+            <span class="protocol-rfc">RFC 7208</span>
+          </div>
+          <span class="status-badge status-{{ report.spf.status }}">{{ report.spf.status }}</span>
+        </div>
+        <p class="protocol-summary">{{ report.spf.summary }}</p>
+
+        {% if report.spf.rawRecord %}
+          <div class="raw-record-box">
+            <code>{{ report.spf.rawRecord }}</code>
+          </div>
+        {% endif %}
+
+        {% if report.spf.recommendedFix %}
+          <div class="fix-recommendation-box">
+            <h4>💡 {{ 'domain_inspector.fix_header'|trans }}</h4>
+            <div class="fix-code-block">
+              <code>{{ report.spf.recommendedFix }}</code>
+              <button class="copy-mini-btn" onclick="navigator.clipboard.writeText('{{ report.spf.recommendedFix|e('js') }}'); this.textContent='{{ 'domain_inspector.copied'|trans }}';">📋 {{ 'domain_inspector.copy'|trans }}</button>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- 6. MX Records Card -->
+      <div class="protocol-card">
+        <div class="protocol-header">
+          <div class="protocol-title">
+            <span>📮 Mail Exchangers (MX)</span>
+            <span class="protocol-rfc">RFC 5321</span>
+          </div>
+          <span class="status-badge status-{{ report.mx.status }}">{{ report.mx.status }}</span>
+        </div>
+        <p class="protocol-summary">{{ report.mx.summary }}</p>
+
+        {% if report.mx.records is not empty %}
+          <div class="raw-record-box">
+            {% for rec in report.mx.records %}
+              <div>Priority {{ rec.priority }}: {{ rec.host }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

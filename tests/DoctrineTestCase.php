@@ -21,6 +21,10 @@ abstract class DoctrineTestCase extends TestCase
             paths: [dirname(__DIR__) . '/src/Entity'],
             isDevMode: true,
         );
+        $config->setNamingStrategy(new \Doctrine\ORM\Mapping\UnderscoreNamingStrategy(CASE_LOWER, true));
+        if (method_exists($config, 'enableNativeLazyObjects')) {
+            $config->enableNativeLazyObjects(true);
+        }
 
         $connection = DriverManager::getConnection([
             'driver' => 'pdo_sqlite',

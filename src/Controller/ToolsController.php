@@ -36,6 +36,16 @@ final class ToolsController extends AbstractController
     }
 
     #[Route(
+        path: ['en' => '/tools/bimi-studio', 'pl' => '/pl/narzedzia/bimi-studio'],
+        name: 'bimi_studio',
+        methods: ['GET']
+    )]
+    public function bimiStudio(): Response
+    {
+        return $this->render('tools/bimi.html.twig');
+    }
+
+    #[Route(
         path: ['en' => '/tools/polish-vat-calculator', 'pl' => '/pl/narzedzia/kalkulator-vat'],
         name: 'legacy_vat_calculator',
         methods: ['GET']

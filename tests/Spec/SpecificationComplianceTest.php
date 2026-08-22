@@ -88,7 +88,7 @@ final class SpecificationComplianceTest extends TestCase
         self::assertFileExists($specPath);
 
         $spec = json_decode((string) file_get_contents($specPath), true, flags: JSON_THROW_ON_ERROR);
-        self::assertCount(11, $spec['tools']);
+        self::assertCount(12, $spec['tools']);
 
         $names = array_column($spec['tools'], 'name');
         self::assertContains('list_polish_used_price_products', $names);
@@ -102,5 +102,23 @@ final class SpecificationComplianceTest extends TestCase
         self::assertContains('list_admin_product_requests', $names);
         self::assertContains('list_admin_price_tips', $names);
         self::assertContains('list_admin_recent_audits', $names);
+        self::assertContains('inspect_domain_security', $names);
+    }
+
+    public function testDomainInspectorSpecStructure(): void
+    {
+        $specPath = dirname(__DIR__, 2) . '/specs/domain-inspector.spec.json';
+        self::assertFileExists($specPath);
+
+        $spec = json_decode((string) file_get_contents($specPath), true, flags: JSON_THROW_ON_ERROR);
+        self::assertNotEmpty($spec['protocols']);
+        self::assertSame(100, $spec['scoring']['max_score']);
+
+        $protocolNames = array_column($spec['protocols'], 'name');
+        self::assertContains('dmarc', $protocolNames);
+        self::assertContains('bimi', $protocolNames);
+        self::assertContains('mta_sts', $protocolNames);
+        self::assertContains('tls_rpt', $protocolNames);
+        self::assertContains('spf', $protocolNames);
     }
 }

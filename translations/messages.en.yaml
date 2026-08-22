@@ -9,11 +9,15 @@ base:
         geo: "GEO analyzer"
         seo: "SEO analyzer"
         market: "Used goods prices"
+        bimi: "BIMI Studio"
+        domain_inspector: "Domain inspector"
     context:
         income: "Polish income calculator"
         geo: "GEO analyzer"
         seo: "SEO analyzer"
         market: "Poland used-goods price index"
+        bimi: "BIMI Studio & SVG Converter"
+        domain_inspector: "Domain email security inspector"
     footer: "Useful, transparent tools · No signup · No tracking pixel"
     contact: "Contact"
 
@@ -42,6 +46,12 @@ home:
     market:
         title: "Poland used-goods price index"
         text: "Follow Bahdan’s manually reviewed snapshots of comparable second-hand asking prices, with history and transparent limitations."
+    bimi:
+        title: "BIMI Studio & Live Inbox Simulator"
+        text: "Prepare strict SVG Tiny 1.2 PS brand marks with safe-zone padding and live inbox simulator for Gmail, Apple Mail, and Yahoo."
+    domain_inspector:
+        title: "Domain security & deliverability"
+        text: "1-click verification of DMARC policies, BIMI records, MTA-STS strict transport security, SMTP TLS-RPT, and SPF."
     principles:
         private:
             title: "Private by default"
@@ -106,6 +116,101 @@ vat:
         a3: "Yes. Choose the future scenario, enter the proposed percentage and an estimated start date. The result remains clearly marked as a simulation."
     disclaimer: "Informational calculator, not tax advice. Confirm the applicable rate, classification, rounding method, and effective date with official guidance or a qualified adviser."
     schema_name: "Polish net and gross VAT calculator"
+
+bimi:
+    meta:
+        title: "BIMI Studio · SVG Tiny 1.2 PS Converter & Live Inbox Simulator"
+        description: "Convert and sanitize brand logos into strict SVG Tiny 1.2 PS, ensure circular safe zones, and simulate avatars across Gmail, Apple Mail, and Yahoo."
+    eyebrow: "EMAIL BRANDING · SVG TINY 1.2 PS"
+    heading: "BIMI Studio & Live Inbox Simulator"
+    lede: "Convert any SVG or logo into strict, BIMI-compliant SVG Tiny 1.2 PS with safe-zone padding and preview your brand avatar live across major email inboxes."
+    title: "BIMI Studio"
+    upload:
+        title: "1. Upload Brand Logo"
+        text: "Drop any vector SVG, PNG, JPG, or WebP logo file."
+        drop_prompt: "Drop logo here or click to browse"
+        formats: "SVG (Figma / Illustrator), PNG, JPG, WebP"
+    controls:
+        padding: "Circular Safe-Zone Padding:"
+        scale: "Scale / Zoom:"
+        offset_x: "Horizontal Offset (X):"
+        offset_y: "Vertical Offset (Y):"
+        align_presets: "Quick Alignment:"
+        center_btn: "Center 0,0"
+        background: "Background Fill:"
+        bg_transparent: "Transparent"
+        bg_white: "White"
+        bg_dark: "Dark (#111827)"
+        bg_custom: "Custom"
+        circle_guide: "Show Apple Mail / Yahoo circular crop guide"
+        drag_hint: "Click & drag on canvas to reposition logo · Scroll to zoom"
+        reset_position: "Reset position & scale"
+        contrast_hint: "Ensures your logo remains sharp and legible in both light and dark email client themes."
+    preview:
+        canvas_title: "2. Clean SVG Tiny 1.2 PS Preview"
+        canvas_text: "Sanitized 1:1 canvas with XML namespaces and scripts removed."
+    download:
+        button: "Download Compliant logo-bimi.svg"
+    sim:
+        title: "3. Live Inbox Simulator"
+        subtitle: "Multi-client inbox preview in 1 click"
+        sender_label: "Simulated Sender Name:"
+        subject_label: "Simulated Subject Line:"
+    dns:
+        title: "4. Generate BIMI DNS Record"
+        text: "Add this TXT record to your DNS host (Cloudflare, Route53, Namecheap)."
+        domain_label: "Domain Name:"
+        svg_label: "Public HTTPS URL to logo-bimi.svg:"
+        vmc_label: "VMC Certificate URL (optional):"
+        copy_btn: "Copy DNS TXT Record"
+    requirements:
+        title: "BIMI Requirements Checklist"
+        svg: "Strict SVG Tiny 1.2 PS, root viewBox 1:1, no external links/scripts."
+        ratio: "Centered in 1:1 square with safe margins for circular cropping."
+        dmarc: "DMARC policy must be p=quarantine (pct=100) or p=reject."
+        vmc: "Apple Mail & Yahoo support self-asserted BIMI; Gmail requires VMC."
+        check_domain_link: "Test your domain with Domain Inspector"
+
+domain_inspector:
+    meta:
+        title: "Domain Inspector · 1-Click DMARC, BIMI, MTA-STS & SPF Checker"
+        description: "Verify email security and deliverability standards: DMARC BIMI eligibility, BIMI DNS & logo reachability, MTA-STS RFC 8461, SMTP TLS-RPT, and SPF."
+    eyebrow: "EMAIL DELIVERABILITY & SECURITY"
+    heading: "Domain Email Security & BIMI Inspector"
+    lede: "Verify your domain's email authentication chain in 1 click. Check DMARC compliance for BIMI, MTA-STS strict transport encryption, SMTP TLS reporting, and SPF anti-spoofing."
+    title: "Domain Inspector"
+    input_label: "Enter domain name to inspect:"
+    check_btn: "Inspect Domain"
+    examples_label: "Try examples"
+    features:
+        dmarc:
+            title: "DMARC & BIMI Policy"
+            text: "Evaluates whether your policy qualifies for BIMI avatars (p=quarantine pct=100 or p=reject) and prevents email spoofing."
+        bimi:
+            title: "BIMI DNS & Logo Probe"
+            text: "Finds default._bimi records, verifies HTTPS reachability, checks content types and SVG Tiny 1.2 profile conformance."
+        mta_sts:
+            title: "MTA-STS Strict Transport (RFC 8461)"
+            text: "Checks for DNS records and queries https://mta-sts.domain/.well-known/mta-sts.txt to enforce TLS delivery."
+        tls_rpt:
+            title: "SMTP TLS-RPT (RFC 8460)"
+            text: "Validates aggregate SMTP TLS reporting records so you receive diagnostic telemetry on delivery failures."
+    report:
+        title: "Email Security Report for %domain% · Bahdan’s Toolbox"
+        back: "Inspect another domain"
+        score_label: "Deliverability Security Score: %score%/100"
+        time_label: "Inspected at %time%"
+    bimi_status:
+        ready: "BIMI Ready"
+        dmarc_needed: "DMARC Upgrade Needed for BIMI"
+        eligible_no_bimi: "DMARC Eligible · Missing BIMI Record"
+        not_ready: "BIMI Not Configured"
+    recheck_btn: "Re-inspect Domain"
+    fix_header: "Recommended DNS Record:"
+    copy: "Copy"
+    copied: "Copied!"
+    detected_logo: "Verified BIMI Logo Preview"
+    open_bimi_studio: "Open BIMI Studio to format or convert your logo"
 
 audit:
     meta:

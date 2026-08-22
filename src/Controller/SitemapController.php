@@ -27,6 +27,8 @@ final readonly class SitemapController
             ['/tools/geo-audit', '/pl/narzedzia/audyt-geo'],
             ['/tools/seo-audit', '/pl/narzedzia/audyt-seo'],
             ['/tools/poland-used-price-index', '/pl/narzedzia/indeks-cen-uzywanych'],
+            ['/tools/bimi-studio', '/pl/narzedzia/bimi-studio'],
+            ['/tools/domain-inspector', '/pl/narzedzia/inspektor-domen'],
         ];
         $entries = [];
         foreach ($pairs as [$en, $pl]) {

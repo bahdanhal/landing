@@ -1,0 +1,301 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ 'bimi.meta.title'|trans }}{% endblock %}
+{% block robots %}<meta name="robots" content="index,follow">{% endblock %}
+{% block description %}<meta name="description" content="{{ 'bimi.meta.description'|trans }}">{% endblock %}
+{% block canonical %}
+  <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/bimi-studio' : 'https://bahdanhal.pl/tools/bimi-studio' }}">
+  <link rel="alternate" hreflang="en" href="https://bahdanhal.pl/tools/bimi-studio">
+  <link rel="alternate" hreflang="pl" href="https://bahdanhal.pl/pl/narzedzia/bimi-studio">
+  <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/tools/bimi-studio">
+{% endblock %}
+{% block stylesheets %}
+  <link rel="stylesheet" href="/bimi-studio.css">
+{% endblock %}
+{% block language_switch %}
+  <a class="language-switch" href="{{ path('bimi_studio', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
+{% endblock %}
+{% block tool_name %}{{ 'bimi.title'|trans }}{% endblock %}
+
+{% block body %}
+<section class="hero bimi-hero">
+  <div class="eyebrow">{{ 'bimi.eyebrow'|trans }}</div>
+  <h1>{{ 'bimi.heading'|trans }}</h1>
+  <p class="lede">{{ 'bimi.lede'|trans }}</p>
+
+  <div class="bimi-studio-container">
+    <!-- Studio Grid: Upload & Controls + Canvas Preview -->
+    <div class="studio-grid">
+      <div class="studio-panel">
+        <h3>{{ 'bimi.upload.title'|trans }}</h3>
+        <p class="studio-subtext">{{ 'bimi.upload.text'|trans }}</p>
+
+        <div id="drop-zone" class="drop-zone">
+          <span class="drop-zone-icon">📥</span>
+          <strong>{{ 'bimi.upload.drop_prompt'|trans }}</strong>
+          <div class="drop-zone-hint">{{ 'bimi.upload.formats'|trans }}</div>
+          <input type="file" id="file-input" accept=".svg,.png,.jpg,.jpeg,.webp" style="display: none;">
+        </div>
+
+        <div class="studio-controls">
+          <div class="control-row">
+            <label for="padding-slider">
+              <span>{{ 'bimi.controls.padding'|trans }}</span>
+              <span id="padding-val">15%</span>
+            </label>
+            <input type="range" id="padding-slider" min="0" max="35" value="15">
+          </div>
+
+          <div class="control-row">
+            <label for="scale-slider">
+              <span>{{ 'bimi.controls.scale'|trans }}</span>
+              <span id="scale-val">100%</span>
+            </label>
+            <input type="range" id="scale-slider" min="30" max="250" value="100">
+          </div>
+
+          <div class="control-row">
+            <label for="offset-x-slider">
+              <span>{{ 'bimi.controls.offset_x'|trans }}</span>
+              <span id="offset-x-val">0px</span>
+            </label>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <input type="range" id="offset-x-slider" min="-180" max="180" value="0" style="flex-grow: 1;">
+              <input type="number" id="offset-x-num" min="-180" max="180" value="0" class="mini-number-input">
+            </div>
+          </div>
+
+          <div class="control-row">
+            <label for="offset-y-slider">
+              <span>{{ 'bimi.controls.offset_y'|trans }}</span>
+              <span id="offset-y-val">0px</span>
+            </label>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <input type="range" id="offset-y-slider" min="-180" max="180" value="0" style="flex-grow: 1;">
+              <input type="number" id="offset-y-num" min="-180" max="180" value="0" class="mini-number-input">
+            </div>
+          </div>
+
+          <div class="control-row">
+            <label><small>{{ 'bimi.controls.align_presets'|trans }}</small></label>
+            <div class="align-preset-bar">
+              <button type="button" class="btn-align-preset" data-pan-x="0" data-pan-y="0">🎯 {{ 'bimi.controls.center_btn'|trans }}</button>
+              <button type="button" class="btn-align-preset" data-pan-x="0" data-pan-y="-30">⬆️ Top</button>
+              <button type="button" class="btn-align-preset" data-pan-x="0" data-pan-y="30">⬇️ Bottom</button>
+              <button type="button" class="btn-align-preset" data-pan-x="-30" data-pan-y="0">⬅️ Left</button>
+              <button type="button" class="btn-align-preset" data-pan-x="30" data-pan-y="0">➡️ Right</button>
+            </div>
+          </div>
+
+          <div class="control-row">
+            <label>{{ 'bimi.controls.background'|trans }}</label>
+            <div class="bg-options-row">
+              <label class="bg-option-label">
+                <input type="radio" name="bg-type" value="transparent" checked> {{ 'bimi.controls.bg_transparent'|trans }}
+              </label>
+              <label class="bg-option-label">
+                <input type="radio" name="bg-type" value="white"> {{ 'bimi.controls.bg_white'|trans }}
+              </label>
+              <label class="bg-option-label">
+                <input type="radio" name="bg-type" value="dark"> {{ 'bimi.controls.bg_dark'|trans }}
+              </label>
+              <label class="bg-option-label">
+                <input type="radio" name="bg-type" value="custom"> {{ 'bimi.controls.bg_custom'|trans }}
+                <input type="color" id="custom-color-input" value="#2563eb" style="display: none;">
+              </label>
+            </div>
+          </div>
+
+          <div class="control-row" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+            <label class="bg-option-label">
+              <input type="checkbox" id="circle-mask-check" checked>
+              {{ 'bimi.controls.circle_guide'|trans }}
+            </label>
+            <button type="button" id="reset-transform-btn" class="btn-mini-reset">
+              ↺ {{ 'bimi.controls.reset_position'|trans }}
+            </button>
+          </div>
+
+          <div class="contrast-panel">
+            <div class="contrast-badges">
+              <span id="contrast-light" class="contrast-badge badge-pass">Light: Checking</span>
+              <span id="contrast-dark" class="contrast-badge badge-pass">Dark: Checking</span>
+            </div>
+            <p id="contrast-note" class="contrast-note">{{ 'bimi.controls.contrast_hint'|trans }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="studio-panel">
+        <h3>{{ 'bimi.preview.canvas_title'|trans }}</h3>
+        <p class="studio-subtext">{{ 'bimi.preview.canvas_text'|trans }}</p>
+
+        <div id="canvas-preview-wrapper" class="canvas-preview-wrapper">
+          <div id="canvas-preview"></div>
+          <div id="circle-guide-overlay" class="circle-guide-overlay"></div>
+        </div>
+
+        <div class="drag-hint-bar">
+          <span class="drag-hint-text">✋ {{ 'bimi.controls.drag_hint'|trans }}</span>
+        </div>
+
+        <div style="text-align: center; margin-top: 1rem;">
+          <button id="download-bimi-btn" class="btn-primary-action">
+            ⬇ {{ 'bimi.download.button'|trans }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Multi-Client Inbox Simulator -->
+    <div class="simulator-section">
+      <div class="sim-header-bar">
+        <div>
+          <h3>{{ 'bimi.sim.title'|trans }}</h3>
+          <span class="studio-subtext">{{ 'bimi.sim.subtitle'|trans }}</span>
+        </div>
+        <div class="sim-nav-tabs">
+          <button class="client-btn active" data-client="gmail-mobile">📱 Gmail Mobile</button>
+          <button class="client-btn" data-client="gmail-desktop">💻 Gmail Desktop</button>
+          <button class="client-btn" data-client="apple-mail">🍎 Apple Mail</button>
+          <button class="client-btn" data-client="yahoo-mail">🟣 Yahoo Mail</button>
+        </div>
+        <div class="sim-theme-toggle">
+          <button class="theme-btn active" data-theme="light">☀️ Light</button>
+          <button class="theme-btn" data-theme="dark">🌙 Dark</button>
+        </div>
+      </div>
+
+      <div class="sim-customizer-bar">
+        <div>
+          <label class="control-row"><small>{{ 'bimi.sim.sender_label'|trans }}</small></label>
+          <input type="text" id="sim-sender-input" value="Acme Corp" placeholder="Acme Security">
+        </div>
+        <div>
+          <label class="control-row"><small>{{ 'bimi.sim.subject_label'|trans }}</small></label>
+          <input type="text" id="sim-subject-input" value="Your Security Verification Code" placeholder="Monthly Statement">
+        </div>
+      </div>
+
+      <!-- Simulator Viewport -->
+      <div class="inbox-theme-wrapper theme-light-mode">
+        <!-- 1. Gmail Mobile Preview -->
+        <div id="preview-gmail-mobile" class="sim-preview-container gmail-mobile-box">
+          <div class="gmail-header-bar">
+            <span>Primary</span>
+            <span>9:41 AM</span>
+          </div>
+          <div class="sim-inbox-row gmail-list-item">
+            <div class="gmail-avatar-wrap">
+              <img class="sim-avatar-img" src="" alt="Avatar">
+            </div>
+            <div class="gmail-meta">
+              <div class="gmail-sender-row">
+                <span class="sim-sender-text">Acme Corp</span>
+                <small style="font-weight: normal; opacity: 0.7;">10:24 AM</small>
+              </div>
+              <div class="gmail-subject sim-subject-text">Your Security Verification Code</div>
+              <div class="gmail-snippet">Hello, here is your authentication code for today's login session...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Gmail Desktop Preview -->
+        <div id="preview-gmail-desktop" class="sim-preview-container gmail-mobile-box" style="display: none;">
+          <div class="sim-inbox-row gmail-list-item" style="padding: 1rem 0.5rem;">
+            <div class="gmail-avatar-wrap" style="width: 36px; height: 36px;">
+              <img class="sim-avatar-img" src="" alt="Avatar">
+            </div>
+            <div style="font-weight: 700; width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" class="sim-sender-text">Acme Corp</div>
+            <div style="flex-grow: 1; display: flex; gap: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.88rem;">
+              <strong class="sim-subject-text">Your Security Verification Code</strong>
+              <span style="opacity: 0.7;">— Hello, here is your authentication code for today's login session...</span>
+            </div>
+            <span style="font-size: 0.8rem; opacity: 0.7;">10:24 AM</span>
+          </div>
+        </div>
+
+        <!-- 3. Apple Mail Preview -->
+        <div id="preview-apple-mail" class="sim-preview-container apple-mail-box" style="display: none;">
+          <div class="sim-inbox-row apple-mail-row">
+            <div class="apple-avatar-wrap">
+              <img class="sim-avatar-img" src="" alt="Avatar">
+            </div>
+            <div class="apple-mail-content">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="apple-sender-title sim-sender-text">Acme Corp</span>
+                <small style="opacity: 0.6;">Yesterday &gt;</small>
+              </div>
+              <div class="apple-subject-line sim-subject-text">Your Security Verification Code</div>
+              <div class="apple-preview-text">Please find your temporary authentication token attached to this message...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Yahoo Mail Preview -->
+        <div id="preview-yahoo-mail" class="sim-preview-container yahoo-mail-box" style="display: none;">
+          <div class="sim-inbox-row yahoo-row">
+            <div class="yahoo-avatar">
+              <img class="sim-avatar-img" src="" alt="Avatar">
+            </div>
+            <div style="flex-grow: 1;">
+              <div style="display: flex; justify-content: space-between;">
+                <strong class="sim-sender-text">Acme Corp</strong>
+                <small style="opacity: 0.6;">10:24 AM</small>
+              </div>
+              <div style="font-size: 0.9rem; font-weight: 600;" class="sim-subject-text">Your Security Verification Code</div>
+              <div style="font-size: 0.82rem; opacity: 0.7;">Verification code: 849-201. Do not share this code with anyone...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Export & DNS Record Generator -->
+    <div class="export-section">
+      <div class="studio-panel">
+        <h3>{{ 'bimi.dns.title'|trans }}</h3>
+        <p class="studio-subtext">{{ 'bimi.dns.text'|trans }}</p>
+
+        <div class="control-row" style="margin-bottom: 0.75rem;">
+          <label><small>{{ 'bimi.dns.domain_label'|trans }}</small></label>
+          <input type="text" id="dns-domain-input" value="yourcompany.com" placeholder="example.com" class="inspector-domain-input" style="padding: 0.5rem 0.75rem; font-size: 0.9rem;">
+        </div>
+
+        <div class="control-row" style="margin-bottom: 0.75rem;">
+          <label><small>{{ 'bimi.dns.svg_label'|trans }}</small></label>
+          <input type="text" id="dns-svg-url-input" value="https://yourcompany.com/logo-bimi.svg" placeholder="https://..." class="inspector-domain-input" style="padding: 0.5rem 0.75rem; font-size: 0.9rem;">
+        </div>
+
+        <div class="control-row" style="margin-bottom: 1rem;">
+          <label><small>{{ 'bimi.dns.vmc_label'|trans }}</small></label>
+          <input type="text" id="dns-vmc-url-input" value="" placeholder="https://yourcompany.com/bimi.pem (Optional)" class="inspector-domain-input" style="padding: 0.5rem 0.75rem; font-size: 0.9rem;">
+        </div>
+
+        <div class="dns-code-block">
+          <code id="dns-snippet-code">default._bimi.yourcompany.com IN TXT "v=BIMI1; l=https://yourcompany.com/logo-bimi.svg;"</code>
+        </div>
+        <button id="copy-dns-btn" class="btn-secondary-action">📋 {{ 'bimi.dns.copy_btn'|trans }}</button>
+      </div>
+
+      <div class="studio-panel">
+        <h3>{{ 'bimi.requirements.title'|trans }}</h3>
+        <ul style="padding-left: 1.25rem; font-size: 0.9rem; line-height: 1.6; color: #d1d5db;">
+          <li><strong>SVG Tiny 1.2 PS:</strong> {{ 'bimi.requirements.svg'|trans }}</li>
+          <li><strong>1:1 Aspect Ratio:</strong> {{ 'bimi.requirements.ratio'|trans }}</li>
+          <li><strong>DMARC Alignment:</strong> {{ 'bimi.requirements.dmarc'|trans }}</li>
+          <li><strong>VMC / CMC:</strong> {{ 'bimi.requirements.vmc'|trans }}</li>
+        </ul>
+        <div style="margin-top: 1.25rem;">
+          <a href="{{ path('domain_inspector_home', {_locale: app.request.locale}) }}" class="btn-secondary-action">
+            🔍 {{ 'bimi.requirements.check_domain_link'|trans }} →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="/bimi-studio.js"></script>
+{% endblock %}

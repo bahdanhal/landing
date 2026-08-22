@@ -67,15 +67,21 @@ src/
 │   ├── AuditCommand.php             # CLI interface for technical SEO audits
 │   └── SanitizeMarketDataCommand.php# Normalize legacy market records
 ├── Controller/                      # Presentation Layer (HTTP Controllers)
+│   ├── Admin/                       # Authenticated admin views
 │   ├── AuditController.php          # SEO audit web UI, JSON API, contact leads
+│   ├── DomainInspectorController.php# Domain security, DMARC & BIMI inspector UI/API
 │   ├── GeoController.php            # GEO analysis web UI & reports
 │   ├── MarketController.php         # Used price index UI, configuration views
 │   ├── SitemapController.php        # Dynamic XML sitemap with XSL stylesheet
-│   └── ToolsController.php          # Portfolio landing, tools index, income calculator
+│   └── ToolsController.php          # Portfolio landing, toolbox home, income, BIMI Studio
 ├── Crawl/                           # Shared safe web retrieval context
 │   ├── Application/                 # Page and sitemap analysis
 │   ├── Domain/                      # Robots policy and unsafe URL exception
 │   └── Infrastructure/              # SSRF-safe HTTP fetcher and URL guard
+├── DomainInspector/                 # Email Security & Deliverability Context (Hexagonal)
+│   ├── Application/                 # DomainInspector, DnsResolverInterface
+│   ├── Domain/                      # DmarcCheck, BimiCheck, MtaStsCheck, TlsRptCheck, SpfCheck, MxCheck
+│   └── Infrastructure/              # NativeDnsResolver
 ├── Geo/                             # Generative Engine Optimization context
 │   └── Application/                 # Deterministic GEO readiness analyzer
 ├── Income/                          # Polish Income & Tax Calculator Context
@@ -103,7 +109,9 @@ src/
 │       ├── JsonProductRequestStore.php        # Append-only JSONL request store
 │       └── JsonPriceTipRepository.php          # Private 90-day review queue
 ├── Mcp/                             # Model Context Protocol (MCP) Tools for AI Agents
+│   ├── AdminTools.php               # Admin monitoring & data ingestion tools
 │   ├── AuditTools.php               # audit_website_seo MCP tool
+│   ├── DomainInspectorTools.php     # inspect_domain_security MCP tool
 │   ├── GeoTools.php                 # analyze_geo_readiness MCP tool
 │   ├── IncomeCalculatorTools.php    # calculate_polish_income_comparison MCP tool
 │   └── MarketPriceTools.php         # list_products, get_history MCP tools

@@ -20,9 +20,10 @@ jobs:
         run: |
           docker run --rm --env-file .env.example -e APP_ENV=test bahdan-landing-test vendor/bin/phpunit
 
-      - name: Run JS Income Math Test Suite
+      - name: Run JS Income Math & BIMI Test Suites
         run: |
           docker run --rm -v "$PWD:/app" -w /app node:24-alpine node tests/js/income-math.test.js
+          docker run --rm -v "$PWD:/app" -w /app node:24-alpine node tests/js/bimi-sanitizer.test.js
 
   deploy:
     name: Deploy to Server

@@ -33,6 +33,14 @@
       <span class="tool-number">04</span><span class="tool-state">{{ 'home.available'|trans }}</span>
       <h2>{{ 'home.market.title'|trans }}</h2><p>{{ 'home.market.text'|trans }}</p><strong>{{ 'home.open'|trans }} →</strong>
     </a>
+    <a class="tool-card" href="{{ path('bimi_studio', {_locale: app.request.locale}) }}">
+      <span class="tool-number">05</span><span class="tool-state">{{ 'home.available'|trans }}</span>
+      <h2>{{ 'home.bimi.title'|trans }}</h2><p>{{ 'home.bimi.text'|trans }}</p><strong>{{ 'home.open'|trans }} →</strong>
+    </a>
+    <a class="tool-card" href="{{ path('domain_inspector_home', {_locale: app.request.locale}) }}">
+      <span class="tool-number">06</span><span class="tool-state">{{ 'home.available'|trans }}</span>
+      <h2>{{ 'home.domain_inspector.title'|trans }}</h2><p>{{ 'home.domain_inspector.text'|trans }}</p><strong>{{ 'home.open'|trans }} →</strong>
+    </a>
   </div>
 
   <section class="toolbox-principles">

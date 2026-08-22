@@ -60,6 +60,9 @@ services:
       $directory: '%audit.log_directory%'
       $retentionDays: '%audit.log_retention_days%'
 
+  App\DomainInspector\Application\DnsResolverInterface:
+    alias: App\DomainInspector\Infrastructure\NativeDnsResolver
+
   App\Lead\Domain\LeadRepository:
     alias: App\Lead\Infrastructure\DoctrineLeadRepository
 
