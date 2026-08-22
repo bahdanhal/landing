@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="/toolbox.css">
   <link rel="stylesheet" href="/grouped-findings.css">
   <link rel="stylesheet" href="/contact.css">
+  <link rel="stylesheet" href="/identity.css">
   {% block stylesheets %}{% endblock %}
   <script src="/contact.js" defer></script>
   <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'WebSite','@id':'https://bahdan-hal.ovh/#website','url':'https://bahdan-hal.ovh/','name':'Bahdan’s Toolbox','inLanguage':['en','pl'],'publisher':{'@id':'https://bahdan-hal.ovh/#bahdan'}},{'@type':'Person','@id':'https://bahdan-hal.ovh/#bahdan','name':'Bahdan Hal','url':'https://bahdan-hal.ovh/','sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://www.upwork.com/freelancers/~014111a2d384da6af9']}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
@@ -39,7 +40,7 @@
     </nav>
   </header>
   <main>{% block body %}{% endblock %}</main>
-  <footer>{{ 'base.footer'|trans }}<br><span class="copyright">© {{ "now"|date("Y") }} Bahdan Hal</span></footer>
+  <footer>{{ 'base.footer'|trans }} · <a class="footer-contact" href="mailto:bahdan.hal@hotmail.com">{{ 'base.contact'|trans }}</a><br><span class="copyright">© {{ "now"|date("Y") }} Bahdan Hal</span></footer>
   {% block scripts %}{% endblock %}
 </body>
 </html>

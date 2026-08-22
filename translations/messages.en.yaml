@@ -15,6 +15,7 @@ base:
     seo: "SEO analyzer"
     market: "Poland used-price index"
   footer: "Useful, transparent tools · No signup · No tracking pixel"
+  contact: "Contact"
 
 common:
   all_tools: "All tools"
