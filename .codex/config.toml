@@ -1,0 +1,19 @@
+[mcp_servers.bahdan-toolbox]
+command = "docker"
+args = [
+    "run",
+    "-i",
+    "--rm",
+    "-v",
+    "/Users/bahdan/usio/bahdanhal/bahdan-landing/var:/app/var",
+    "--env-file",
+    "/Users/bahdan/usio/bahdanhal/bahdan-landing/.env.example",
+    "-e",
+    "APP_ENV=prod",
+    "-e",
+    "MARKET_ADMIN_TOKEN=bahdan-market-admin-token",
+    "bahdan-landing-test",
+    "php",
+    "bin/console",
+    "mcp:server"
+]
