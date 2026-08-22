@@ -12,9 +12,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 final class PageViewSubscriberTest extends TestCase
 {
+    public function testRunsAfterSymfonyResponseNormalization(): void
+    {
+        self::assertSame(
+            [KernelEvents::RESPONSE => ['onResponse', -10]],
+            PageViewSubscriber::getSubscribedEvents(),
+        );
+    }
+
     public function testStoresOnlyPrivacyPreservingPageViewData(): void
     {
         $stored = null;

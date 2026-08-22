@@ -24,7 +24,7 @@ final readonly class PageViewSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents(): array
     {
-        return [KernelEvents::RESPONSE => 'onResponse'];
+        return [KernelEvents::RESPONSE => ['onResponse', -10]];
     }
 
     public function onResponse(ResponseEvent $event): void
