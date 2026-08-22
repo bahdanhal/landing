@@ -30,9 +30,13 @@ final readonly class SitemapController
             $entries[] = $this->entry($pl, $en, $pl);
         }
         foreach ($this->catalog->all() as $product) {
+            $latest = $this->observations->latest($product->slug);
+            if ($latest === null) {
+                continue;
+            }
             $en = '/tools/poland-used-price-index/'.$product->slug;
             $pl = '/pl/narzedzia/indeks-cen-uzywanych/'.$product->slug;
-            $lastModified = $this->observations->latest($product->slug)?->observedAt->format('Y-m-d');
+            $lastModified = $latest->observedAt->format('Y-m-d');
             $entries[] = $this->entry($en, $en, $pl, $lastModified);
             $entries[] = $this->entry($pl, $en, $pl, $lastModified);
         }
