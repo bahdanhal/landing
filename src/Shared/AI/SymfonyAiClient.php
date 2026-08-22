@@ -5,6 +5,8 @@ namespace App\Shared\AI;
 use Symfony\AI\Platform\Message\Message;
 use Symfony\AI\Platform\Message\MessageBag;
 use Symfony\AI\Platform\PlatformInterface;
+use Symfony\AI\Platform\Result\MultiPartResult;
+use Symfony\AI\Platform\Result\TextResult;
 
 final readonly class SymfonyAiClient implements AiClient
 {
@@ -38,9 +40,15 @@ final readonly class SymfonyAiClient implements AiClient
         if ($useCase === AiUseCase::MarketResearch) {
             $options = $this->withProviderSearch($options);
         }
-        $result = $platform->invoke($model, new MessageBag(Message::forSystem($systemPrompt), Message::ofUser($userPrompt)), $options);
+        $deferred = $platform->invoke($model, new MessageBag(Message::forSystem($systemPrompt), Message::ofUser($userPrompt)), $options);
+        $result = $deferred->getResult();
+        $text = match (true) {
+            $result instanceof TextResult => $result->getContent(),
+            $result instanceof MultiPartResult => $result->asText(),
+            default => $deferred->asText(),
+        };
 
-        return trim($result->asText());
+        return trim($text);
     }
 
     private function withProviderSearch(array $options): array
