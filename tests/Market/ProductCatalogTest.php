@@ -29,4 +29,71 @@ final class ProductCatalogTest extends TestCase
         self::assertSame('iphone-13', $family->slug);
         self::assertNull($catalog->familyFor('non-existent-slug'));
     }
+
+    public function testContainsAllIphoneGenerationsFromXTo16(): void
+    {
+        $catalog = new ProductCatalog();
+        $expectedGenerations = [
+            'iphone-x',
+            'iphone-xr',
+            'iphone-xs',
+            'iphone-11',
+            'iphone-se-2020',
+            'iphone-12',
+            'iphone-13',
+            'iphone-se-2022',
+            'iphone-14',
+            'iphone-15',
+            'iphone-16',
+        ];
+
+        $familySlugs = array_map(static fn ($f) => $f->slug, $catalog->families());
+        foreach ($expectedGenerations as $expected) {
+            self::assertContains($expected, $familySlugs, "Expected family {$expected} to exist in catalog.");
+        }
+    }
+
+    public function testContainsMacbookProFamilies(): void
+    {
+        $catalog = new ProductCatalog();
+        $familySlugs = array_map(static fn ($f) => $f->slug, $catalog->families());
+
+        self::assertContains('macbook-pro-14-m1-pro', $familySlugs);
+        self::assertContains('macbook-pro-16-m1-max', $familySlugs);
+        self::assertContains('macbook-pro-14-m3-pro', $familySlugs);
+    }
+
+    public function testContainsRamMemoryKits(): void
+    {
+        $catalog = new ProductCatalog();
+        $familySlugs = array_map(static fn ($f) => $f->slug, $catalog->families());
+
+        self::assertContains('ram-ddr4-desktop', $familySlugs);
+        self::assertContains('ram-ddr5-desktop', $familySlugs);
+        self::assertContains('ram-ddr4-laptop', $familySlugs);
+        self::assertContains('ram-ddr5-laptop', $familySlugs);
+    }
+
+    public function testAllProductsHaveValidUrlSafeSlugsAndNonEmptyImages(): void
+    {
+        $catalog = new ProductCatalog();
+        $products = $catalog->all();
+        self::assertNotEmpty($products);
+
+        $slugs = [];
+        foreach ($products as $product) {
+            self::assertMatchesRegularExpression('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $product->slug);
+            self::assertNotEmpty($product->name);
+            self::assertNotEmpty($product->definition);
+            self::assertNotContains($product->slug, $slugs, "Duplicate slug found: {$product->slug}");
+            $slugs[] = $product->slug;
+        }
+
+        foreach ($catalog->families() as $family) {
+            self::assertNotEmpty($family->image);
+            self::assertNotEmpty($family->imageCredit);
+            self::assertNotEmpty($family->imageSource);
+            self::assertNotNull($family->defaultConfiguration());
+        }
+    }
 }

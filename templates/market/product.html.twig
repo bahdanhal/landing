@@ -66,6 +66,8 @@
             {% set previous = history|length > 1 ? history[1] : null %}
             {% set diff = previous ? (latest.medianGrosz - previous.medianGrosz) : 0 %}
             {% set diff_pct = previous ? ((diff / previous.medianGrosz) * 100)|round(1) : 0 %}
+            {% set month_diff = one_month_ago ? (latest.medianGrosz - one_month_ago.medianGrosz) : null %}
+            {% set month_pct = one_month_ago ? ((month_diff / one_month_ago.medianGrosz) * 100)|round(1) : null %}
 
             <section class="market-latest">
                 <div>
@@ -73,17 +75,27 @@
                     <strong>{{ _self.money(latest.medianGrosz, app.request.locale) }}</strong>
                     {% if previous %}
                         <span class="trend-badge trend-{{ diff < 0 ? 'down' : (diff > 0 ? 'up' : 'flat') }}">
-            {{ diff < 0 ? '📉' : (diff > 0 ? '📈' : '🟢') }} {{ diff > 0 ? '+' : '' }}{{ (diff / 100)|number_format(0) }} zł ({{ diff > 0 ? '+' : '' }}{{ diff_pct }}%)
-          </span>
+                            {{ diff < 0 ? '📉' : (diff > 0 ? '📈' : '🟢') }} {{ diff > 0 ? '+' : '' }}{{ (diff / 100)|number_format(0) }} zł ({{ diff > 0 ? '+' : '' }}{{ diff_pct }}%)
+                        </span>
                     {% else %}
                         <small>{{ 'market.asking_price'|trans }}</small>
+                    {% endif %}
+                </div>
+                <div>
+                    <span>{{ 'market.month_change'|trans }}</span>
+                    {% if one_month_ago %}
+                        <strong>{{ month_diff < 0 ? '📉 ' : (month_diff > 0 ? '📈 +' : '🟢 ') }}{{ (month_diff / 100)|number_format(0) }} zł</strong>
+                        <small>{{ 'market.month_ago'|trans }}: {{ _self.money(one_month_ago.medianGrosz, app.request.locale) }} ({{ month_diff > 0 ? '+' : '' }}{{ month_pct }}%)</small>
+                    {% else %}
+                        <strong>—</strong>
+                        <small>{{ 'market.no_month_data'|trans }}</small>
                     {% endif %}
                 </div>
                 <div><span>{{ 'market.range'|trans }}</span><strong>{{ _self.money(latest.lowGrosz, app.request.locale) }}–{{ _self.money(latest.highGrosz, app.request.locale) }}</strong><small>{{ 'market.comparable_range'|trans }}</small></div>
                 <div><span>{{ 'market.updated'|trans }}</span><strong>{{ latest.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y') }}</strong><small>{{ 'market.weekly'|trans }}</small></div>
             </section>
 
-            <!-- ИНТЕРАКТИВНЫЙ ГРАФИК ЦЕН -->
+            <!-- ИНТЕРАКТИВНЫЙ ГРАФIK ЦЕН -->
             {% if history|length >= 2 %}
                 {% set chart_data = [] %}
                 {% for item in history %}
@@ -145,13 +157,27 @@
                         </tbody></table></div>
             </section>
             <section class="section market-evidence"><div class="section-title"><h2>{{ 'market.methodology_label'|trans }}</h2><span>{{ 'market.latest_snapshot'|trans }}</span></div><p>{{ 'market.method.public'|trans }}</p></section>
-            <section class="tool-faq"><h2>{{ 'market.faq.title'|trans }}</h2><details><summary>{{ 'market.faq.estimate.q'|trans }}</summary><p>{{ 'market.faq.estimate.a'|trans }}</p></details><details><summary>{{ 'market.faq.sources.q'|trans }}</summary><p>{{ 'market.faq.sources.a'|trans }}</p></details></section>
+            <section class="tool-faq">
+                <h2>{{ 'market.faq.title'|trans }}</h2>
+                <details open>
+                    <summary>{{ 'market.faq.price_now.q'|trans({'%product%': product.name}) }}</summary>
+                    <p>{{ 'market.faq.price_now.a'|trans({'%product%': product.name, '%median%': _self.money(latest.medianGrosz, app.request.locale), '%low%': _self.money(latest.lowGrosz, app.request.locale), '%high%': _self.money(latest.highGrosz, app.request.locale)}) }}</p>
+                </details>
+                {% if one_month_ago %}
+                    <details open>
+                        <summary>{{ 'market.faq.month_ago.q'|trans({'%product%': product.name}) }}</summary>
+                        <p>{{ 'market.faq.month_ago.a'|trans({'%product%': product.name, '%median%': _self.money(one_month_ago.medianGrosz, app.request.locale), '%diff%': (month_diff > 0 ? '+' : '') ~ ((month_diff / 100)|number_format(0)) ~ ' zł', '%diff_pct%': (month_diff > 0 ? '+' : '') ~ month_pct}) }}</p>
+                    </details>
+                {% endif %}
+                <details><summary>{{ 'market.faq.estimate.q'|trans }}</summary><p>{{ 'market.faq.estimate.a'|trans }}</p></details>
+                <details><summary>{{ 'market.faq.sources.q'|trans }}</summary><p>{{ 'market.faq.sources.a'|trans }}</p></details>
+            </section>
         {% else %}
             <section class="market-empty"><h2>{{ 'market.no_data.title'|trans }}</h2><p>{{ 'market.no_data.text'|trans }}</p></section>
         {% endif %}
 
         <aside class="market-caveat"><strong>{{ 'market.caveat.title'|trans }}</strong><p>{{ 'market.caveat.text'|trans }}</p></aside>
     </article>
-    {% if latest %}<script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'Dataset','name':product.name ~ ' used asking-price history in Poland','description':'market.product_meta.description'|trans({'%product%': product.name}),'url':canonical_url,'inLanguage':app.request.locale,'dateModified':latest.observedAt|date('c'),'author':{'@id':'https://bahdan-hal.ovh/#bahdan'},'creator':{'@id':'https://bahdan-hal.ovh/#bahdan'},'publisher':{'@id':'https://bahdan-hal.ovh/#bahdan'},'spatialCoverage':{'@type':'Country','name':'Poland'},'variableMeasured':['Median asking price in PLN','Observed comparable range']},{'@type':'FAQPage','mainEntity':[{'@type':'Question','name':'market.faq.estimate.q'|trans,'acceptedAnswer':{'@type':'Answer','text':'market.faq.estimate.a'|trans}},{'@type':'Question','name':'market.faq.sources.q'|trans,'acceptedAnswer':{'@type':'Answer','text':'market.faq.sources.a'|trans}}]}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>{% endif %}
+    {% if latest %}<script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'Dataset','name':product.name ~ ' fair asking-price history in Poland','description':'market.product_meta.description'|trans({'%product%': product.name}),'url':canonical_url,'inLanguage':app.request.locale,'dateModified':latest.observedAt|date('c'),'author':{'@id':'https://bahdan-hal.ovh/#bahdan'},'creator':{'@id':'https://bahdan-hal.ovh/#bahdan'},'publisher':{'@id':'https://bahdan-hal.ovh/#bahdan'},'spatialCoverage':{'@type':'Country','name':'Poland'},'variableMeasured':['Median fair asking price in PLN','Observed comparable range']},{'@type':'FAQPage','mainEntity':[{'@type':'Question','name':'market.faq.price_now.q'|trans({'%product%': product.name}),'acceptedAnswer':{'@type':'Answer','text':'market.faq.price_now.a'|trans({'%product%': product.name, '%median%': _self.money(latest.medianGrosz, app.request.locale), '%low%': _self.money(latest.lowGrosz, app.request.locale), '%high%': _self.money(latest.highGrosz, app.request.locale)})}},{'@type':'Question','name':'market.faq.estimate.q'|trans,'acceptedAnswer':{'@type':'Answer','text':'market.faq.estimate.a'|trans}},{'@type':'Question','name':'market.faq.sources.q'|trans,'acceptedAnswer':{'@type':'Answer','text':'market.faq.sources.a'|trans}}]}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>{% endif %}
 {% endblock %}
 {% block scripts %}<script src="/market-chart.js" defer></script>{% endblock %}

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" width="640" height="480">
+  <defs>
+    <linearGradient id="ram-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#08101a"/>
+      <stop offset="100%" stop-color="#0f1f33"/>
+    </linearGradient>
+    <linearGradient id="ram-pcb" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="ram-heat" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="ram-gold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="rgb-bar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff5c35"/>
+      <stop offset="50%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="480" fill="url(#ram-bg)"/>
+  <circle cx="320" cy="240" r="180" fill="rgba(168, 85, 247, 0.05)"/>
+  <!-- Heatsink Top RGB Diffuser -->
+  <path d="M 80 170 L 560 170 L 540 190 L 100 190 Z" fill="url(#rgb-bar)"/>
+  <!-- Metal Heat Spreader Body -->
+  <rect x="70" y="190" width="500" height="120" rx="8" fill="url(#ram-heat)" stroke="#475569" stroke-width="2"/>
+  <!-- Geometric Cuts / Styling on Heatsink -->
+  <path d="M 120 210 L 220 210 L 250 260 L 150 260 Z" fill="#0f172a" opacity="0.6"/>
+  <path d="M 270 210 L 370 210 L 400 260 L 300 260 Z" fill="#0f172a" opacity="0.6"/>
+  <path d="M 420 210 L 520 210 L 550 260 L 450 260 Z" fill="#0f172a" opacity="0.6"/>
+  <text x="320" y="248" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" letter-spacing="4" text-anchor="middle">MEMORY</text>
+  <!-- PCB Layer Bottom -->
+  <rect x="80" y="310" width="480" height="30" fill="url(#ram-pcb)"/>
+  <!-- Gold Contact Pins -->
+  <rect x="90" y="325" width="210" height="15" fill="url(#ram-gold)"/>
+  <!-- Key Notch -->
+  <rect x="300" y="325" width="20" height="15" fill="url(#ram-bg)"/>
+  <rect x="320" y="325" width="230" height="15" fill="url(#ram-gold)"/>
+  <!-- Individual Pin Lines -->
+  <line x1="90" y1="325" x2="300" y2="325" stroke="#78350f" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="320" y1="325" x2="550" y2="325" stroke="#78350f" stroke-width="1" stroke-dasharray="3,3"/>
+</svg>

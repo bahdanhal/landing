@@ -57,11 +57,30 @@ final class MarketController extends AbstractController
             throw $this->createNotFoundException();
         }
         $history = $this->observations->history($slug);
+        $family = $this->catalog->familyFor($slug);
+
+        $latest = $history[0] ?? null;
+        $oneMonthAgo = null;
+        if ($latest !== null) {
+            $targetTimestamp = $latest->observedAt->getTimestamp() - (30 * 86400);
+            $closestDiff = null;
+            foreach (array_slice($history, 1) as $item) {
+                $diff = abs($item->observedAt->getTimestamp() - $targetTimestamp);
+                if ($diff <= 15 * 86400) {
+                    if ($closestDiff === null || $diff < $closestDiff) {
+                        $closestDiff = $diff;
+                        $oneMonthAgo = $item;
+                    }
+                }
+            }
+        }
 
         return $this->render('market/product.html.twig', [
             'product' => $product,
+            'family' => $this->catalog->familyFor($slug),
             'history' => $history,
-            'latest' => $history[0] ?? null,
+            'latest' => $latest,
+            'one_month_ago' => $oneMonthAgo,
         ]);
     }
 

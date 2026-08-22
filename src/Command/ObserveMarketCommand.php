@@ -25,6 +25,8 @@ final class ObserveMarketCommand extends Command
     {
         $this
             ->addArgument('slug', InputArgument::OPTIONAL, 'One product slug; omit to update the complete catalog.')
+            ->addOption('family', null, InputOption::VALUE_REQUIRED, 'Observe all configurations for one product family (e.g. iphone-13).')
+            ->addOption('category', null, InputOption::VALUE_REQUIRED, 'Observe products in a specific category (smartphones, laptops, ram, cars).')
             ->addOption('families', null, InputOption::VALUE_NONE, 'Observe the default configuration for each displayed product family.')
             ->addOption('at', null, InputOption::VALUE_REQUIRED, 'Observation date in YYYY-MM-DD format. Past dates require archived evidence.');
     }
@@ -32,9 +34,34 @@ final class ObserveMarketCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $requested = $input->getArgument('slug');
-        $products = is_string($requested) && $requested !== ''
-            ? [$this->catalog->get($requested)]
-            : ($input->getOption('families') ? $this->catalog->familyDefaults() : $this->catalog->all());
+        $familyOption = $input->getOption('family');
+        $categoryOption = $input->getOption('category');
+
+        if (is_string($requested) && $requested !== '') {
+            $products = [$this->catalog->get($requested)];
+        } elseif (is_string($familyOption) && $familyOption !== '') {
+            $foundFamily = null;
+            foreach ($this->catalog->families() as $fam) {
+                if ($fam->slug === $familyOption) {
+                    $foundFamily = $fam;
+                    break;
+                }
+            }
+            if ($foundFamily === null) {
+                $output->writeln(sprintf('<error>Unknown family: %s</error>', $familyOption));
+                return Command::INVALID;
+            }
+            $products = $foundFamily->configurations;
+        } elseif (is_string($categoryOption) && $categoryOption !== '') {
+            $products = array_values(array_filter(
+                $this->catalog->all(),
+                static fn ($p) => $p->category === $categoryOption
+            ));
+        } elseif ($input->getOption('families')) {
+            $products = $this->catalog->familyDefaults();
+        } else {
+            $products = $this->catalog->all();
+        }
         if (in_array(null, $products, true)) {
             $output->writeln('<error>Unknown product slug.</error>');
             return Command::INVALID;

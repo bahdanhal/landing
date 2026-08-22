@@ -7,12 +7,12 @@
   "tools": [
     {
       "name": "list_polish_used_price_products",
-      "description": "List Apple product configurations tracked for Polish second-hand price history.",
+      "description": "List product configurations (smartphones, laptops, RAM, cars) tracked for Polish marketplace fair price history.",
       "parameters": []
     },
     {
       "name": "get_polish_used_price_history",
-      "description": "Get dated Polish second-hand price estimates for one exact product slug.",
+      "description": "Get dated Polish marketplace fair price estimates for one exact product slug.",
       "parameters": [
         {
           "name": "slug",

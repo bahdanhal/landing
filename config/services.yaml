@@ -108,6 +108,10 @@ services:
     arguments:
       $productRequestLimiter: '@limiter.product_request'
 
+  App\Controller\Admin\MarketAdminController:
+    arguments:
+      $secret: '%env(APP_SECRET)%'
+
   app.audit_cache:
     class: Symfony\Component\Cache\Adapter\FilesystemAdapter
     arguments:

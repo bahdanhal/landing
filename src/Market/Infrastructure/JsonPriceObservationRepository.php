@@ -58,6 +58,40 @@ final readonly class JsonPriceObservationRepository implements PriceObservationR
         return $this->history($productSlug)[0] ?? null;
     }
 
+    public function delete(string $productSlug, string $date): void
+    {
+        $this->ensureDirectory();
+        $path = $this->path($productSlug);
+        if (!is_file($path)) {
+            return;
+        }
+
+        $handle = fopen($path . '.lock', 'c+');
+        if ($handle === false || !flock($handle, LOCK_EX)) {
+            throw new \RuntimeException('Could not lock market observation storage.');
+        }
+
+        try {
+            $history = $this->read($path);
+            $history = array_values(array_filter(
+                $history,
+                static fn (PriceObservation $item) => $item->observedAt->format('Y-m-d') !== $date
+            ));
+            usort($history, static fn (PriceObservation $a, PriceObservation $b) => $a->observedAt <=> $b->observedAt);
+            $json = json_encode(
+                array_map(static fn (PriceObservation $item) => $item->toArray(), $history),
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
+            );
+            $temporary = $path . '.tmp';
+            if (file_put_contents($temporary, $json . "\n", LOCK_EX) === false || !rename($temporary, $path)) {
+                throw new \RuntimeException('Could not persist market observation.');
+            }
+        } finally {
+            flock($handle, LOCK_UN);
+            fclose($handle);
+        }
+    }
+
     /** @return list<PriceObservation> */
     private function read(string $path): array
     {

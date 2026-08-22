@@ -12,4 +12,6 @@ interface PriceObservationRepository
     public function history(string $productSlug): array;
 
     public function latest(string $productSlug): ?PriceObservation;
+
+    public function delete(string $productSlug, string $date): void;
 }
