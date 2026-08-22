@@ -64,7 +64,7 @@ jobs:
       - name: Rebuild & Restart Production Containers
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            'cd /home/bahdan-landing && rm -rf .agents .codex .gemini 2>/dev/null || true; chmod -R u+rwX,go+rX . 2>/dev/null || true; docker compose -p seo --env-file production.env up -d --build'
+            'cd /home/bahdan-landing && rm -rf .agents .codex .gemini 2>/dev/null || true; chmod -R u+rwX,go+rX . 2>/dev/null || true; docker compose -p seo --env-file production.env up -d --build && docker compose -p seo --env-file production.env exec -T app php bin/console doctrine:schema:update --force && docker compose -p seo --env-file production.env exec -T app php bin/console app:import-json-to-database'
 
       - name: Health Check Verification
         run: |

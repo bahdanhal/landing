@@ -6,8 +6,8 @@ namespace App\Controller;
 
 use App\Market\Application\ProductCatalog;
 use App\Market\Domain\PriceObservationRepository;
-use App\Market\Infrastructure\JsonPriceTipRepository;
-use App\Market\Infrastructure\JsonProductRequestStore;
+use App\Market\Domain\PriceTipRepository;
+use App\Market\Domain\ProductRequestStore;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,9 +21,9 @@ final class MarketController extends AbstractController
     public function __construct(
         private readonly ProductCatalog $catalog,
         private readonly PriceObservationRepository $observations,
-        private readonly JsonProductRequestStore $productRequests,
+        private readonly ProductRequestStore $productRequests,
         private readonly RateLimiterFactory $productRequestLimiter,
-        private readonly JsonPriceTipRepository $priceTips,
+        private readonly PriceTipRepository $priceTips,
         private readonly RateLimiterFactory $priceTipLimiter,
         private readonly TranslatorInterface $translator,
     ) {

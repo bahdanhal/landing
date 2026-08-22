@@ -11,8 +11,8 @@ use App\Lead\Domain\LeadRepository;
 use App\Market\Application\ProductCatalog;
 use App\Market\Domain\PriceObservationRepository;
 use App\Market\Domain\PriceTip;
-use App\Market\Infrastructure\JsonPriceTipRepository;
-use App\Market\Infrastructure\JsonProductRequestStore;
+use App\Market\Domain\PriceTipRepository;
+use App\Market\Domain\ProductRequestStore;
 use Mcp\Capability\Attribute\McpTool;
 use Mcp\Capability\Attribute\Schema;
 
@@ -21,8 +21,8 @@ final readonly class AdminTools
     public function __construct(
         private AdminAccess $access,
         private LeadRepository $leads,
-        private JsonProductRequestStore $productRequests,
-        private JsonPriceTipRepository $priceTips,
+        private ProductRequestStore $productRequests,
+        private PriceTipRepository $priceTips,
         private ProductCatalog $catalog,
         private PriceObservationRepository $observations,
         private AuditLogger $auditLogger,

@@ -1,5 +1,8 @@
 FROM php:8.5-fpm-alpine AS php-base
 
+RUN apk add --no-cache postgresql-dev sqlite-dev \
+    && docker-php-ext-install pdo_pgsql pdo_sqlite
+
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 

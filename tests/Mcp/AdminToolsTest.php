@@ -14,6 +14,8 @@ use App\Market\Domain\PriceObservation;
 use App\Market\Infrastructure\JsonPriceObservationRepository;
 use App\Market\Infrastructure\JsonPriceTipRepository;
 use App\Market\Infrastructure\JsonProductRequestStore;
+use App\Market\Domain\PriceTipRepository;
+use App\Market\Domain\ProductRequestStore;
 use App\Mcp\AdminAccess;
 use App\Mcp\AdminTools;
 use PHPUnit\Framework\TestCase;
@@ -132,10 +134,10 @@ final class AdminToolsTest extends TestCase
 
     private function tools(
         bool $authenticated,
-        ?JsonlLeadRepository $leads = null,
-        ?JsonProductRequestStore $requests = null,
-        ?JsonPriceTipRepository $tips = null,
-        ?JsonPriceObservationRepository $observations = null,
+        ?LeadRepository $leads = null,
+        ?ProductRequestStore $requests = null,
+        ?PriceTipRepository $tips = null,
+        ?PriceObservationRepository $observations = null,
         ?AuditLogger $auditLogger = null,
     ): AdminTools {
         $requestStack = new RequestStack();

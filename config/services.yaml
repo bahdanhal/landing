@@ -61,7 +61,7 @@ services:
       $retentionDays: '%audit.log_retention_days%'
 
   App\Lead\Domain\LeadRepository:
-    alias: App\Lead\Infrastructure\JsonlLeadRepository
+    alias: App\Lead\Infrastructure\DoctrineLeadRepository
 
   App\Lead\Infrastructure\JsonlLeadRepository:
     arguments:
@@ -101,7 +101,21 @@ services:
       $limiter: '@limiter.audit'
 
   App\Market\Domain\PriceObservationRepository:
-    alias: App\Market\Infrastructure\JsonPriceObservationRepository
+    alias: App\Market\Infrastructure\DoctrinePriceObservationRepository
+
+  App\Market\Domain\ProductRequestStore:
+    alias: App\Market\Infrastructure\DoctrineProductRequestStore
+
+  App\Market\Domain\PriceTipRepository:
+    alias: App\Market\Infrastructure\DoctrinePriceTipRepository
+
+  App\Market\Infrastructure\DoctrineProductRequestStore:
+    arguments:
+      $secret: '%env(APP_SECRET)%'
+
+  App\Market\Infrastructure\DoctrinePriceTipRepository:
+    arguments:
+      $secret: '%env(APP_SECRET)%'
 
   App\Market\Infrastructure\JsonPriceObservationRepository:
     arguments:
@@ -116,6 +130,11 @@ services:
     arguments:
       $directory: '%market.data_directory%'
       $secret: '%env(APP_SECRET)%'
+
+  App\Command\MigrateStorageToDatabaseCommand:
+    arguments:
+      $marketDataDirectory: '%market.data_directory%'
+      $contactLeadDirectory: '%contact.lead_directory%'
 
   App\Controller\MarketController:
     arguments:

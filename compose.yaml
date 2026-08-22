@@ -25,6 +25,10 @@ services:
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       AI_PROVIDER: ${AI_PROVIDER:-anthropic}
       AI_SUMMARY_MODEL: ${AI_SUMMARY_MODEL:-claude-haiku-4-5-20251001}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER:-bahdan}:${POSTGRES_PASSWORD:-postgres_secret}@db:5432/${POSTGRES_DB:-bahdan_toolbox}?serverVersion=17&charset=utf8}
+    depends_on:
+      db:
+        condition: service_started
     read_only: true
     tmpfs:
       - /app/var:size=128m,uid=82,gid=82,mode=0770
@@ -35,6 +39,17 @@ services:
       - rate_limits:/app/var/rate-limits
       - market_data:/app/var/market-data
       - analytics_data:/app/var/analytics-data
+    networks: [internal]
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-bahdan_toolbox}
+      POSTGRES_USER: ${POSTGRES_USER:-bahdan}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres_secret}
+    volumes:
+      - db_data:/var/lib/postgresql/data
     networks: [internal]
 
   web:
@@ -60,6 +75,7 @@ networks:
   internal:
 
 volumes:
+  db_data:
   audit_cache:
   audit_logs:
   contact_leads:

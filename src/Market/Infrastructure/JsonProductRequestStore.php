@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Market\Infrastructure;
 
-final readonly class JsonProductRequestStore
+use App\Market\Domain\ProductRequestStore;
+
+final readonly class JsonProductRequestStore implements ProductRequestStore
 {
     public function __construct(
         private string $directory,

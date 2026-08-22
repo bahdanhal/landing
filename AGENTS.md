@@ -67,7 +67,7 @@ This document provides mandatory directives for all AI coding agents, autonomous
 
 ## 6. Security & Privacy Non-Negotiables
 
-- **Zero External Database**: Stick to atomic JSON storage and append-only JSONL files.
+- **Database & Network Isolation**: The PostgreSQL database runs exclusively within the private internal Docker network without mapped host ports. External network access to port 5432 is strictly forbidden. Database credentials must be defined only in `production.env` on the host.
 - **SSRF Guard**: Always validate target URLs against private/reserved IP ranges and pin DNS resolution.
-- **Marketplace tip privacy**: Marketplace URLs may be accepted only when a visitor voluntarily submits a public listing for Bahdan's private manual price review. Never fetch these URLs automatically, publish them, store seller details or listing text, or retain query parameters/fragments. Keep each normalized URL in private storage for at most 90 days, restrict it to the authenticated admin view, and hash the submitter IP address with HMAC-SHA256.
+- **Marketplace tip privacy**: Marketplace URLs may be accepted only when a visitor voluntarily submits a public listing for Bahdan's private manual price review. Never fetch these URLs automatically, publish them, store seller details or listing text, or retain query parameters/fragments. Keep each normalized URL in storage for at most 90 days, restrict it to the authenticated admin view, and hash the submitter IP address with HMAC-SHA256 before persistence.
 - **Logging privacy**: Never write marketplace URLs, seller information, raw query parameters, email addresses, phone numbers, or contact messages to application logs. Always hash client IP addresses with HMAC-SHA256 before persistence.

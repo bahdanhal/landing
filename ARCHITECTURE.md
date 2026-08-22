@@ -26,20 +26,18 @@ graph TD
         AuditContext -->|Target Web Crawl with SSRF Guard| InternetTarget[External Websites]
     end
 
-    subgraph "Zero-DB File Persistence"
+    subgraph "Persistence Layer"
+        PHP --> PostgreSQL[(PostgreSQL 17 Database: Internal Network)]
         AuditContext --> AuditCache[(Audit Cache: Filesystem)]
         AuditContext --> AuditLogs[(Audit Event Logs: JSONL)]
-        MarketContext --> MarketData[(Market Observations: JSON)]
-        MarketContext --> ProductReqs[(Product Requests: JSONL)]
-        MarketContext --> PriceTips[(Private Price Tips: Expiring JSON)]
         PHP --> RateLimits[(Rate Limits: Filesystem)]
     end
 ```
 
 ### Architectural Principles
 
-1. **Zero External Database (File-Based Storage & Event Logs)**  
-   The application operates without an RDBMS or document database. State is maintained across durable, append-only JSONL files (`audit-*.jsonl`, `leads-*.jsonl`, `product-requests-*.jsonl`), atomic versioned JSON records (`{slug}.json`), and filesystem cache adapters.
+1. **Hardened Database & Clean Architecture Persistence**  
+   Primary domain entities (Price Observations, Leads, Product Requests, Price Tips) are managed via Doctrine ORM backed by an isolated PostgreSQL 17 database. The database container resides exclusively in an internal Docker network with zero exposed host ports.
 
 2. **Deterministic Rules with Decoupled AI Enrichment**  
    Core audits, market observations and signal evaluations are deterministic or manually curated. AI models are invoked only for optional semantic synthesis of technical SEO evidence. System integrity and market prices do not depend on model availability or non-deterministic output.
