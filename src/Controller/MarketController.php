@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Market\Application\ProductCatalog;
 use App\Market\Domain\PriceObservationRepository;
+use App\Market\Infrastructure\JsonPriceTipRepository;
 use App\Market\Infrastructure\JsonProductRequestStore;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,6 +23,8 @@ final class MarketController extends AbstractController
         private readonly PriceObservationRepository $observations,
         private readonly JsonProductRequestStore $productRequests,
         private readonly RateLimiterFactory $productRequestLimiter,
+        private readonly JsonPriceTipRepository $priceTips,
+        private readonly RateLimiterFactory $priceTipLimiter,
         private readonly TranslatorInterface $translator,
     ) {
     }
@@ -59,7 +62,7 @@ final class MarketController extends AbstractController
         $history = $this->observations->history($slug);
         $family = $this->catalog->familyFor($slug);
 
-        $latest = $history[0] ?? null;
+        $latest = array_first($history);
         $oneMonthAgo = null;
         if ($latest !== null) {
             $targetTimestamp = $latest->observedAt->getTimestamp() - (30 * 86400);
@@ -116,5 +119,45 @@ final class MarketController extends AbstractController
         }
 
         return $this->json(['ok' => true, 'message' => $this->translator->trans('market.request.saved')]);
+    }
+
+    #[Route(
+        path: ['en' => '/tools/poland-used-price-index/{slug}/price-tip', 'pl' => '/pl/narzedzia/indeks-cen-uzywanych/{slug}/okazja'],
+        name: 'market_price_tip',
+        requirements: ['slug' => '[a-z0-9-]+'],
+        methods: ['POST'],
+        priority: 20,
+    )]
+    public function submitPriceTip(string $slug, Request $request): JsonResponse
+    {
+        $origin = $request->headers->get('Origin');
+        if ($origin !== null && parse_url($origin, PHP_URL_HOST) !== $request->getHost()) {
+            return $this->json(['error' => $this->translator->trans('market.tip.invalid')], 403);
+        }
+        if (trim((string) $request->request->get('company')) !== '') {
+            return $this->json(['ok' => true, 'message' => $this->translator->trans('market.tip.saved')]);
+        }
+        if ($this->catalog->get($slug) === null) {
+            return $this->json(['error' => $this->translator->trans('market.tip.invalid')], 404);
+        }
+        $limitKey = ($request->getClientIp() ?? 'unknown') . '|' . gmdate('Y-m-d');
+        if (!$this->priceTipLimiter->create($limitKey)->consume()->isAccepted()) {
+            return $this->json(['error' => $this->translator->trans('market.tip.too_many')], 429);
+        }
+
+        try {
+            $this->priceTips->submit(
+                $slug,
+                (string) $request->request->get('listing_url'),
+                (string) $request->request->get('email'),
+                $request->getClientIp() ?? 'unknown',
+            );
+        } catch (\InvalidArgumentException) {
+            return $this->json(['error' => $this->translator->trans('market.tip.invalid')], 422);
+        } catch (\RuntimeException) {
+            return $this->json(['error' => $this->translator->trans('market.tip.failed')], 503);
+        }
+
+        return $this->json(['ok' => true, 'message' => $this->translator->trans('market.tip.saved')]);
     }
 }

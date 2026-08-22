@@ -24,7 +24,6 @@ graph TD
 
     subgraph "External Integrations"
         AuditContext -->|Target Web Crawl with SSRF Guard| InternetTarget[External Websites]
-        MarketContext -->|Batched Market Research| SymfonyAI[Symfony AI: Anthropic / Gemini]
     end
 
     subgraph "Zero-DB File Persistence"
@@ -32,6 +31,7 @@ graph TD
         AuditContext --> AuditLogs[(Audit Event Logs: JSONL)]
         MarketContext --> MarketData[(Market Observations: JSON)]
         MarketContext --> ProductReqs[(Product Requests: JSONL)]
+        MarketContext --> PriceTips[(Private Price Tips: Expiring JSON)]
         PHP --> RateLimits[(Rate Limits: Filesystem)]
     end
 ```
@@ -42,16 +42,16 @@ graph TD
    The application operates without an RDBMS or document database. State is maintained across durable, append-only JSONL files (`audit-*.jsonl`, `leads-*.jsonl`, `product-requests-*.jsonl`), atomic versioned JSON records (`{slug}.json`), and filesystem cache adapters.
 
 2. **Deterministic Rules with Decoupled AI Enrichment**  
-   Core audits and signal evaluations are 100% deterministic algorithms. AI models (Anthropic Claude / Google Gemini) are invoked only for optional semantic synthesis (e.g., executive summaries, batched second-hand price estimates). System integrity does not depend on model availability or non-deterministic outputs.
+   Core audits, market observations and signal evaluations are deterministic or manually curated. AI models are invoked only for optional semantic synthesis of technical SEO evidence. System integrity and market prices do not depend on model availability or non-deterministic output.
 
 3. **Strict Privacy & Anti-Scraping Protection**  
-   The market price index stores statistical price aggregates (median, low, high, sample size, confidence) without recording marketplace identities, listing URLs, seller information, or scraped listings. Logged URLs are sanitized by stripping query parameters to eliminate token/credential exposure. Client IPs in contact and request forms are irreversibly hashed using HMAC-SHA256.
+   The public market index contains only manually reviewed aggregates. Voluntarily submitted listing URLs are private review material: query strings and fragments are removed, pages are never fetched automatically, and each tip expires after 90 days. Seller details and listing text are never stored. Client IPs are irreversibly hashed using HMAC-SHA256.
 
 4. **SSRF Guard with DNS Pinning**  
    The HTTP fetcher enforces multi-layered Server-Side Request Forgery (SSRF) defenses: private, reserved, and local IP rejection (`FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE`), hostname validation, and strict DNS resolution pinning to prevent DNS rebinding attacks during crawling.
 
 5. **Multi-Platform AI Abstraction**  
-   All AI capabilities are unified under the `AiClient` interface and powered by Symfony AI Platform, enabling configuration switching between Anthropic (Claude Sonnet / Haiku) and Google Gemini with built-in tool augmentation (e.g., search tools).
+   Optional audit summaries use the `AiClient` interface and Symfony AI Platform, allowing configuration switching between Anthropic and Google Gemini without coupling deterministic audit rules to a model.
 
 ---
 
@@ -62,21 +62,24 @@ The codebase follows Clean Architecture and Domain-Driven Design (DDD) principle
 ```
 src/
 ├── Audit/                           # Technical SEO Audit Context (Hexagonal)
-│   ├── Application/                 # SiteAuditor, IssueGrouper, Fetch/Log Ports
-│   ├── Domain/                      # AuditRuleEngine, RobotsPolicy rules
-│   └── Infrastructure/              # HttpFetcher, UrlGuard, PageAnalyzer, JsonlLogger
+│   ├── Application/                 # SiteAuditor, IssueGrouper, AI summary orchestration
+│   ├── Domain/                      # Deterministic AuditRuleEngine
+│   └── Infrastructure/              # Privacy-safe JSONL audit logger
 ├── Command/                         # CLI Console Commands
 │   ├── AuditCommand.php             # CLI interface for technical SEO audits
-│   ├── ObserveMarketCommand.php     # CLI interface for batched AI market research
-│   └── SanitizeMarketDataCommand.php# CLI data sanitizer for market records
+│   └── SanitizeMarketDataCommand.php# Normalize legacy market records
 ├── Controller/                      # Presentation Layer (HTTP Controllers)
 │   ├── AuditController.php          # SEO audit web UI, JSON API, contact leads
 │   ├── GeoController.php            # GEO analysis web UI & reports
 │   ├── MarketController.php         # Used price index UI, configuration views
 │   ├── SitemapController.php        # Dynamic XML sitemap with XSL stylesheet
 │   └── ToolsController.php          # Portfolio landing, tools index, income calculator
-├── Exception/
-│   └── UnsafeUrlException.php       # Domain exception for unsafe/invalid URLs
+├── Crawl/                           # Shared safe web retrieval context
+│   ├── Application/                 # Page and sitemap analysis
+│   ├── Domain/                      # Robots policy and unsafe URL exception
+│   └── Infrastructure/              # SSRF-safe HTTP fetcher and URL guard
+├── Geo/                             # Generative Engine Optimization context
+│   └── Application/                 # Deterministic GEO readiness analyzer
 ├── Income/                          # Polish Income & Tax Calculator Context
 │   └── Domain/
 │       └── PolishIncomeCalculator.php# 2026 progressive, linear, lump, UoP, UZ tax math
@@ -90,31 +93,26 @@ src/
 │       └── JsonlLeadRepository.php  # Append-only JSONL lead store
 ├── Market/                          # Used Price Index Context (Hexagonal)
 │   ├── Application/
-│   │   ├── MarketResearcher.php     # Contract for market price estimation
-│   │   ├── ObserveMarket.php        # Use case: orchestrate market observation
 │   │   └── ProductCatalog.php       # Catalog of product families & configurations
 │   ├── Domain/
 │   │   ├── PriceObservation.php     # Core Value Object with integer grosz math
 │   │   ├── PriceObservationRepository.php # Repository interface
+│   │   ├── PriceTip.php             # Expiring private community submission
 │   │   ├── Product.php              # Product entity with specification attributes
 │   │   └── ProductFamily.php        # Aggregation of product configurations
 │   └── Infrastructure/
 │       ├── JsonPriceObservationRepository.php # Atomic locked JSON storage
 │       ├── JsonProductRequestStore.php        # Append-only JSONL request store
-│       └── SymfonyAiMarketResearcher.php      # Batched AI research adapter
+│       └── JsonPriceTipRepository.php          # Private 90-day review queue
 ├── Mcp/                             # Model Context Protocol (MCP) Tools for AI Agents
 │   ├── AuditTools.php               # audit_website_seo MCP tool
 │   ├── GeoTools.php                 # analyze_geo_readiness MCP tool
 │   ├── IncomeCalculatorTools.php    # calculate_polish_income_comparison MCP tool
 │   └── MarketPriceTools.php         # list_products, get_history MCP tools
-├── Service/                         # Service Facades & Analyzers
-│   ├── AiSummaryService.php         # LLM synthesis of deterministic findings
-│   ├── GeoAnalyzer.php              # Generative Engine Optimization analyzer
-│   └── ...                          # Backwards-compatible service facades
 └── Shared/                          # Shared Kernel
     ├── AI/                          # Multi-platform AI abstraction (Anthropic / Gemini)
     │   ├── AiClient.php             # Interface for text/tool completions
-    │   ├── AiUseCase.php            # Enum: Summary, MarketResearch
+    │   ├── AiUseCase.php            # Enum: Summary
     │   └── SymfonyAiClient.php      # Symfony AI Platform adapter (Anthropic/Gemini)
     ├── Application/
     │   └── DailyQuota.php           # Fixed daily window rate quota manager
@@ -167,34 +165,23 @@ sequenceDiagram
     Controller-->>User: Rendered HTML Report / JSON Response
 ```
 
-### 3.2 Batched Market Research Pipeline
+### 3.2 Manual Market Review Pipeline
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor AdminCLI as Console CLI / Cron
-    participant Command as ObserveMarketCommand
-    participant UseCase as ObserveMarket
+    actor Visitor
+    actor Bahdan as Authenticated Admin
     participant Catalog as ProductCatalog
-    participant Researcher as SymfonyAiMarketResearcher
-    participant AIPlatform as SymfonyAiClient
+    participant Tips as JsonPriceTipRepository
     participant Repository as JsonPriceObservationRepository
 
-    AdminCLI->>Command: php bin/console app:market:observe --families
-    Command->>Catalog: familyDefaults()
-    Command->>UseCase: observeMany(productSlugs, observationDate)
-    UseCase->>Catalog: get(slug) for each slug
-    UseCase->>Researcher: observeMany(products[chunk=8], at)
-    Researcher->>AIPlatform: complete(systemPrompt, batchedPayload, useCase: MarketResearch)
-    AIPlatform->>AIPlatform: invoke model with provider web search enabled
-    AIPlatform-->>Researcher: Structured JSON observations array
-    Researcher->>Researcher: Parse & validate PriceObservation value objects
-    loop For each observation
-        UseCase->>Repository: save(observation)
-        Repository->>Repository: flock(LOCK_EX), update history, write tmp & atomic rename
-    end
-    UseCase-->>Command: Stored observations
-    Command-->>AdminCLI: Stored N of M observations (Console Summary)
+    Visitor->>Tips: Submit public listing URL
+    Tips->>Tips: Strip query/fragment, hash IP, set 90-day expiry
+    Bahdan->>Tips: Review private community suggestions
+    Bahdan->>Catalog: Confirm exact product definition
+    Bahdan->>Repository: Save manually reviewed aggregate observation
+    Repository->>Repository: flock, validate history, atomic rename
 ```
 
 ---
@@ -212,10 +199,12 @@ External user-supplied URLs present SSRF (Server-Side Request Forgery) risks. Th
 - **SEO & GEO Audits**: 10 audits per client IP per day via `DailyQuota`, backed by a dedicated filesystem rate limit pool (`app.rate_limit_cache`).
 - **Contact Leads**: 5 submissions per IP per day + Honeypot check (`company` input field must be empty) + Cross-Origin check (`Origin` header matching host).
 - **Product Requests**: 5 submissions per IP per day + Honeypot check + Origin validation.
+- **Price Tips**: 5 submissions per IP per day + Honeypot + Origin validation + private 90-day retention.
 
 ### 4.3 Atomic File Storage & Concurrency
 - `JsonPriceObservationRepository`: Acquires an exclusive lock (`.lock` file via `flock(LOCK_EX)`), reads current historical entries, merges the updated daily observation, sorts chronologically, serializes to a `.tmp` file, and executes an atomic POSIX `rename()` to replace the target file safely under concurrent read/write loads.
-- `AuditLogger`, `ContactLeadStore`, `JsonProductRequestStore`: Use `file_put_contents` with `FILE_APPEND | LOCK_EX`.
+- `JsonPriceTipRepository`: Stores each normalized community tip separately so expired material can be deleted without rewriting unrelated records. The repository never performs an HTTP request.
+- `AuditLogger`, `JsonlLeadRepository`, `JsonProductRequestStore`: Use `file_put_contents` with `FILE_APPEND | LOCK_EX`.
 
 ---
 
@@ -228,6 +217,14 @@ The project exposes a native **Model Context Protocol** endpoint at `/mcp` via `
 - **Tools**:
   - `list_polish_used_price_products`: Returns tracked product families, configurations, categories, canonical URLs, and observation availability.
   - `get_polish_used_price_history`: Returns dated asking-price estimates (median, low, high in PLN, sample size, confidence) for a specific product configuration slug.
+  - `get_admin_dashboard_statistics`: Returns submission trends and market observation coverage to an authenticated administrator.
+  - `list_admin_contact_leads`: Returns recent private consultation requests to an authenticated administrator.
+  - `list_admin_product_requests`: Returns requested price-index products to an authenticated administrator.
+  - `list_admin_price_tips`: Returns active, expiring listing links awaiting private manual review.
+  - `list_admin_recent_audits`: Returns recent sanitized SEO audit runs and operational outcomes.
+  - `update_polish_used_price_observation`: Writes a manually reviewed aggregate observation.
+- **Administrative authorization**: Admin tools require `Authorization: Bearer <MARKET_ADMIN_TOKEN>`, fail closed when the token is unset, and never accept credentials as tool arguments.
+- **Private output**: Administrative list tools omit IP hashes. Their response bodies may still contain contact details or review URLs and must not be logged or forwarded.
 
 ---
 

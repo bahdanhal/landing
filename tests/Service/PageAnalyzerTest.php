@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use App\Service\HttpFetcher;
-use App\Service\PageAnalyzer;
-use App\Service\UrlGuard;
+use App\Crawl\Infrastructure\HttpFetcher;
+use App\Crawl\Application\PageAnalyzer;
+use App\Crawl\Infrastructure\UrlGuard;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 

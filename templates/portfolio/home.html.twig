@@ -8,9 +8,9 @@
     <link rel="alternate" hreflang="pl" href="https://bahdanhal.pl/pl/">
     <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/">
 {% endblock %}
-{% block stylesheets %}<link rel="stylesheet" href="/portfolio.css">{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="/portfolio.css"><link rel="stylesheet" href="/portfolio-services.css">{% endblock %}
 {% block head_scripts %}
-    <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'FAQPage','@id':'https://bahdanhal.pl/#faq','inLanguage':app.request.locale,'dateModified':'2026-08-21','author':{'@id':'https://bahdanhal.pl/#bahdan'},'publisher':{'@id':'https://bahdanhal.pl/#bahdan'},'mainEntity':[{'@type':'Question','name':'profile.faq.q1'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a1'|trans}},{'@type':'Question','name':'profile.faq.q2'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a2'|trans}}]}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'ProfessionalService','@id':'https://bahdanhal.pl/#services','name':'Bahdan Hal — web engineering, AI integration and production support','url':'https://bahdanhal.pl/','areaServed':['Poland','European Union','Remote'],'provider':{'@id':'https://bahdanhal.pl/#bahdan'},'serviceType':['Web development','Systems integration','AI integration consulting','MCP server development','Workflow automation','Production deployment','Legacy modernization','Performance optimization','Technical audit']},{'@type':'FAQPage','@id':'https://bahdanhal.pl/#faq','inLanguage':app.request.locale,'dateModified':'2026-08-22','author':{'@id':'https://bahdanhal.pl/#bahdan'},'publisher':{'@id':'https://bahdanhal.pl/#bahdan'},'mainEntity':[{'@type':'Question','name':'profile.faq.q1'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a1'|trans}},{'@type':'Question','name':'profile.faq.q2'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a2'|trans}},{'@type':'Question','name':'profile.faq.q3'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a3'|trans}},{'@type':'Question','name':'profile.faq.q4'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a4'|trans}}]}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
 {% endblock %}
 {% block brand_lockup %}
     <a class="brand" href="{{ path('landing', {_locale: app.request.locale}) }}" aria-label="Bahdan Hal">
@@ -28,7 +28,7 @@
                 <div class="profile-intro">
                     <p>{{ 'profile.intro'|trans }}</p>
                     <div class="profile-actions">
-                        <a class="profile-primary" href="mailto:bahdan.hal@hotmail.com">{{ 'profile.contact'|trans }}</a>
+                        <a class="profile-primary" href="#consultation">{{ 'profile.contact'|trans }}</a>
                         <a href="{{ path('home', {_locale: app.request.locale}) }}">{{ 'profile.tools'|trans }} →</a>
                     </div>
                 </div>
@@ -49,6 +49,15 @@
             <div><span class="profile-number">01</span><h2>{{ 'profile.backend.title'|trans }}</h2><p>{{ 'profile.backend.text'|trans }}</p></div>
             <div><span class="profile-number">02</span><h2>{{ 'profile.infrastructure.title'|trans }}</h2><p>{{ 'profile.infrastructure.text'|trans }}</p></div>
             <div><span class="profile-number">03</span><h2>{{ 'profile.ai.title'|trans }}</h2><p>{{ 'profile.ai.text'|trans }}</p></div>
+        </section>
+
+        <section class="profile-services" id="services">
+            <div class="profile-section-title"><span>{{ 'profile.services.eyebrow'|trans }}</span><h2>{{ 'profile.services.title'|trans }}</h2><p>{{ 'profile.services.intro'|trans }}</p></div>
+            <div class="profile-service-grid">
+                {% for key in ['presence', 'delivery', 'ai_integration', 'automation', 'duty', 'investigation', 'legacy', 'audit'] %}
+                    <article><span>0{{ loop.index }}</span><h3>{{ ('profile.services.' ~ key ~ '.title')|trans }}</h3><p>{{ ('profile.services.' ~ key ~ '.text')|trans }}</p></article>
+                {% endfor %}
+            </div>
         </section>
 
         <section class="profile-work">
@@ -82,7 +91,25 @@
                     <summary><h3>{{ 'profile.faq.q2'|trans }}</h3></summary>
                     <p>{{ 'profile.faq.a2'|trans }}</p>
                 </details>
+                <details>
+                    <summary><h3>{{ 'profile.faq.q3'|trans }}</h3></summary>
+                    <p>{{ 'profile.faq.a3'|trans }}</p>
+                </details>
+                <details>
+                    <summary><h3>{{ 'profile.faq.q4'|trans }}</h3></summary>
+                    <p>{{ 'profile.faq.a4'|trans }}</p>
+                </details>
             </div>
+        </section>
+
+        <section class="profile-consultation" id="consultation">
+            <div>
+                <span class="eyebrow">{{ 'profile.consultation.eyebrow'|trans }}</span>
+                <h2>{{ 'profile.consultation.title'|trans }}</h2>
+                <p>{{ 'profile.consultation.text'|trans }}</p>
+                <ul><li>{{ 'profile.consultation.one'|trans }}</li><li>{{ 'profile.consultation.two'|trans }}</li><li>{{ 'profile.consultation.three'|trans }}</li><li>{{ 'profile.consultation.four'|trans }}</li></ul>
+            </div>
+            {% include 'audit/_contact_form.html.twig' with {source: 'landing'} %}
         </section>
 
         <section class="profile-contact">
@@ -92,6 +119,7 @@
                 <a href="https://www.linkedin.com/in/bahdan-hal/" rel="me">LinkedIn</a>
                 <a href="https://github.com/bahdanhal" rel="me">GitHub</a>
                 <a href="https://www.instagram.com/bahdan.hal/" rel="me">Instagram</a>
+                <a href="https://www.facebook.com/profile.php?id=100008404566585" rel="me">Facebook</a>
                 <a href="https://www.upwork.com/freelancers/~014111a2d384da6af9" rel="me">Upwork</a>
             </nav>
         </section>

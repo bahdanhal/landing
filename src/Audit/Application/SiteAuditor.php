@@ -2,27 +2,36 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Audit\Application;
 
+use App\Audit\Domain\AuditRuleEngine;
+use App\Audit\Domain\EditorialAdvisoryCatalog;
+use App\Audit\Infrastructure\AuditLogger;
+use App\Crawl\Application\PageAnalyzer;
+use App\Crawl\Application\SitemapInspector;
+use App\Crawl\Domain\RobotsPolicy;
+use App\Crawl\Infrastructure\HttpFetcher;
+use App\Crawl\Infrastructure\UrlGuard;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
-final class SiteAuditor
+final readonly class SiteAuditor
 {
     public function __construct(
-        private readonly UrlGuard $urlGuard,
-        private readonly HttpFetcher $fetcher,
-        private readonly PageAnalyzer $pageAnalyzer,
-        private readonly SitemapInspector $sitemapInspector,
-        private readonly AuditRuleEngine $ruleEngine,
-        private readonly RobotsPolicy $robotsPolicy,
-        private readonly AiSummaryService $aiSummary,
-        private readonly AuditLogger $auditLogger,
-        private readonly CacheInterface $auditCache,
-        private readonly int $maxPages,
-        private readonly int $concurrency,
-        private readonly int $batchDelayMs,
-        private readonly int $cacheTtl,
+        private UrlGuard $urlGuard,
+        private HttpFetcher $fetcher,
+        private PageAnalyzer $pageAnalyzer,
+        private SitemapInspector $sitemapInspector,
+        private AuditRuleEngine $ruleEngine,
+        private EditorialAdvisoryCatalog $editorialAdvisories,
+        private RobotsPolicy $robotsPolicy,
+        private AiSummaryService $aiSummary,
+        private AuditLogger $auditLogger,
+        private CacheInterface $auditCache,
+        private int $maxPages,
+        private int $concurrency,
+        private int $batchDelayMs,
+        private int $cacheTtl,
     ) {
     }
 
@@ -63,6 +72,7 @@ final class SiteAuditor
                 'hit' => !$computed,
                 'ttl_seconds' => $this->cacheTtl,
             ];
+            $report['editorial_advisories'] = $this->editorialAdvisories->all();
 
             $this->auditLogger->log('audit_completed', [
                 'audit_id' => $auditId,

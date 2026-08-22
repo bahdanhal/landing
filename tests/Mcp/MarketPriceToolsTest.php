@@ -7,8 +7,11 @@ namespace App\Tests\Mcp;
 use App\Market\Application\ProductCatalog;
 use App\Market\Domain\PriceObservation;
 use App\Market\Domain\PriceObservationRepository;
+use App\Mcp\AdminAccess;
 use App\Mcp\MarketPriceTools;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 final class MarketPriceToolsTest extends TestCase
 {
@@ -53,14 +56,13 @@ final class MarketPriceToolsTest extends TestCase
 
     public function testAdminUpdateObservationUnauthorized(): void
     {
-        $_ENV['MARKET_ADMIN_TOKEN'] = 'test-token-123';
         $catalog = new ProductCatalog();
         $repository = $this->createStub(PriceObservationRepository::class);
-        $requestStack = new \Symfony\Component\HttpFoundation\RequestStack();
-        $request = new \Symfony\Component\HttpFoundation\Request();
+        $requestStack = new RequestStack();
+        $request = new Request();
         $request->headers->set('Authorization', 'Bearer wrong-token');
         $requestStack->push($request);
-        $tools = new MarketPriceTools($catalog, $repository, $requestStack);
+        $tools = new MarketPriceTools($catalog, $repository, new AdminAccess($requestStack, 'test-token-123'));
 
         $json = $tools->updateObservation('iphone-13-128gb', 950);
         $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
@@ -71,10 +73,9 @@ final class MarketPriceToolsTest extends TestCase
 
     public function testAdminUpdateObservationFailsClosedWhenUnconfigured(): void
     {
-        unset($_ENV['MARKET_ADMIN_TOKEN'], $_ENV['APP_SECRET']);
         $catalog = new ProductCatalog();
         $repository = $this->createStub(PriceObservationRepository::class);
-        $tools = new MarketPriceTools($catalog, $repository);
+        $tools = new MarketPriceTools($catalog, $repository, new AdminAccess(new RequestStack(), ''));
 
         $json = $tools->updateObservation('iphone-13-128gb', 950);
         $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
@@ -85,10 +86,9 @@ final class MarketPriceToolsTest extends TestCase
 
     public function testAdminUpdateObservationFailsWithoutHeader(): void
     {
-        $_ENV['MARKET_ADMIN_TOKEN'] = 'test-token-123';
         $catalog = new ProductCatalog();
         $repository = $this->createStub(PriceObservationRepository::class);
-        $tools = new MarketPriceTools($catalog, $repository);
+        $tools = new MarketPriceTools($catalog, $repository, new AdminAccess(new RequestStack(), 'test-token-123'));
 
         $json = $tools->updateObservation('iphone-13-128gb', 950);
         $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
@@ -97,19 +97,18 @@ final class MarketPriceToolsTest extends TestCase
         self::assertStringContainsString('Unauthorized', $data['error']);
     }
 
-    public function testAdminUpdateObservationSavesSuccessfullyWithTokenParam(): void
+    public function testAdminUpdateObservationSavesSuccessfullyWithBearerToken(): void
     {
-        $_ENV['MARKET_ADMIN_TOKEN'] = 'test-token-123';
         $catalog = new ProductCatalog();
         $repository = $this->createMock(PriceObservationRepository::class);
         $repository->expects(self::once())->method('save');
 
-        $requestStack = new \Symfony\Component\HttpFoundation\RequestStack();
-        $request = new \Symfony\Component\HttpFoundation\Request();
+        $requestStack = new RequestStack();
+        $request = new Request();
         $request->headers->set('Authorization', 'Bearer test-token-123');
         $requestStack->push($request);
 
-        $tools = new MarketPriceTools($catalog, $repository, $requestStack);
+        $tools = new MarketPriceTools($catalog, $repository, new AdminAccess($requestStack, 'test-token-123'));
         $json = $tools->updateObservation(
             'iphone-13-128gb',
             950,
@@ -128,17 +127,16 @@ final class MarketPriceToolsTest extends TestCase
 
     public function testAdminUpdateObservationSavesSuccessfullyWithAuthorizationHeader(): void
     {
-        $_ENV['MARKET_ADMIN_TOKEN'] = 'test-token-123';
         $catalog = new ProductCatalog();
         $repository = $this->createMock(PriceObservationRepository::class);
         $repository->expects(self::once())->method('save');
 
-        $requestStack = new \Symfony\Component\HttpFoundation\RequestStack();
-        $request = new \Symfony\Component\HttpFoundation\Request();
+        $requestStack = new RequestStack();
+        $request = new Request();
         $request->headers->set('Authorization', 'Bearer test-token-123');
         $requestStack->push($request);
 
-        $tools = new MarketPriceTools($catalog, $repository, $requestStack);
+        $tools = new MarketPriceTools($catalog, $repository, new AdminAccess($requestStack, 'test-token-123'));
         $json = $tools->updateObservation(
             'iphone-13-128gb',
             950,

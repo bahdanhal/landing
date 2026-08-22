@@ -29,4 +29,29 @@ final readonly class JsonlLeadRepository implements LeadRepository
         }
         @chmod($file, 0660);
     }
+
+    public function all(): array
+    {
+        $files = glob(rtrim($this->directory, '/') . '/leads-*.jsonl') ?: [];
+        rsort($files);
+        $leads = [];
+
+        foreach ($files as $file) {
+            $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
+            foreach (array_reverse($lines) as $line) {
+                try {
+                    $data = json_decode($line, true, flags: JSON_THROW_ON_ERROR);
+                    if (is_array($data)) {
+                        $leads[] = Lead::fromArray($data);
+                    }
+                } catch (\Throwable) {
+                    continue;
+                }
+            }
+        }
+
+        usort($leads, static fn (Lead $left, Lead $right): int => $right->createdAt <=> $left->createdAt);
+
+        return $leads;
+    }
 }

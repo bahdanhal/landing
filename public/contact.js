@@ -16,7 +16,7 @@ document.querySelectorAll('[data-contact-form]').forEach(form => {
       status.textContent = result.message || result.error || form.dataset.fallback;
       status.classList.toggle('lead-success', response.ok);
       if (response.ok) {
-        form.querySelector('input[name="email"]').disabled = true;
+        form.querySelectorAll('input:not([type="hidden"]), textarea').forEach(field => { field.disabled = true; });
         button.hidden = true;
       } else {
         button.disabled = false;

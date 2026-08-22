@@ -53,6 +53,7 @@ final class SpecificationComplianceTest extends TestCase
 
         $spec = json_decode((string) file_get_contents($specPath), true, flags: JSON_THROW_ON_ERROR);
         self::assertNotEmpty($spec['rules']);
+        self::assertCount(6, $spec['editorial_advisories']);
 
         foreach ($spec['rules'] as $rule) {
             self::assertArrayHasKey('code', $rule);
@@ -60,6 +61,12 @@ final class SpecificationComplianceTest extends TestCase
             self::assertContains($rule['severity'], $spec['severities']);
             self::assertArrayHasKey('title', $rule);
             self::assertArrayHasKey('description', $rule);
+        }
+
+        foreach ($spec['editorial_advisories'] as $advisory) {
+            self::assertArrayHasKey('code', $advisory);
+            self::assertArrayHasKey('title', $advisory);
+            self::assertArrayHasKey('description', $advisory);
         }
     }
 
@@ -81,7 +88,7 @@ final class SpecificationComplianceTest extends TestCase
         self::assertFileExists($specPath);
 
         $spec = json_decode((string) file_get_contents($specPath), true, flags: JSON_THROW_ON_ERROR);
-        self::assertCount(6, $spec['tools']);
+        self::assertCount(11, $spec['tools']);
 
         $names = array_column($spec['tools'], 'name');
         self::assertContains('list_polish_used_price_products', $names);
@@ -90,5 +97,10 @@ final class SpecificationComplianceTest extends TestCase
         self::assertContains('analyze_geo_readiness', $names);
         self::assertContains('calculate_polish_income_comparison', $names);
         self::assertContains('update_polish_used_price_observation', $names);
+        self::assertContains('get_admin_dashboard_statistics', $names);
+        self::assertContains('list_admin_contact_leads', $names);
+        self::assertContains('list_admin_product_requests', $names);
+        self::assertContains('list_admin_price_tips', $names);
+        self::assertContains('list_admin_recent_audits', $names);
     }
 }

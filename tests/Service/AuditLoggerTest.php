@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use App\Service\AuditLogger;
+use App\Audit\Infrastructure\AuditLogger;
 use PHPUnit\Framework\TestCase;
 
 final class AuditLoggerTest extends TestCase
@@ -29,6 +29,10 @@ final class AuditLoggerTest extends TestCase
             self::assertStringContainsString('https://example.com/search?sort&token', $contents);
             self::assertStringNotContainsString('secret-value', $contents);
             self::assertStringNotContainsString('sort=price', $contents);
+
+            $events = $logger->events();
+            self::assertCount(1, $events);
+            self::assertSame('audit_requested', $events[0]['event']);
         } finally {
             foreach (glob($directory . '/*') ?: [] as $file) {
                 @unlink($file);

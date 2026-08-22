@@ -44,12 +44,12 @@ final class PriceObservationTest extends TestCase
         self::assertStringNotContainsString('Legacy', $observation->methodology);
     }
 
-    public function testApprovedRetrospectiveMethodologySurvivesStorage(): void
+    public function testLegacyMethodologyIsNormalizedToManualReview(): void
     {
         $data = $this->observation()->toArray();
-        $data['methodology'] = PriceObservation::METHODOLOGY_RETROSPECTIVE;
+        $data['methodology'] = 'AI-assisted legacy methodology';
 
-        self::assertSame($data['methodology'], PriceObservation::fromArray($data)->methodology);
+        self::assertSame(PriceObservation::METHODOLOGY_MANUAL, PriceObservation::fromArray($data)->methodology);
     }
 
     private function observation(): PriceObservation
@@ -63,7 +63,7 @@ final class PriceObservationTest extends TestCase
             8,
             'medium',
             '',
-            PriceObservation::METHODOLOGY_CURRENT
+            PriceObservation::METHODOLOGY_MANUAL
         );
     }
 }

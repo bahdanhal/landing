@@ -41,7 +41,7 @@ home:
         text: "Znajdź błędy przekierowań, pułapki crawlerów, duplikaty adresów, problemy canonical i luki w mapie witryny."
     market:
         title: "Indeks cen używanych w Polsce"
-        text: "Śledź cotygodniowe estymacje porównywalnych cen ofertowych z historią, poziomem pewności i jawnymi ograniczeniami."
+        text: "Śledź ręcznie weryfikowane przez Bahdana obserwacje porównywalnych cen ofertowych z historią i jawnymi ograniczeniami."
     principles:
         private:
             title: "Prywatność domyślnie"
@@ -153,6 +153,10 @@ audit:
         findings: "Ustalenia"
         finding_types: "typów ustaleń"
         empty: "W próbce nie wykryto istotnych problemów."
+        editorial_review: "Ręczny przegląd redakcyjny"
+        not_scored: "REKOMENDACJE · POZA PUNKTACJĄ"
+        editorial_intro: "Crawler potrafi sprawdzić dostarczenie i strukturę, ale nie rozstrzygnie, czy strona jest oryginalna, dokładna, użyteczna i godna zaufania. Sprawdź te kwestie przed publikacją kolejnych podstron."
+        people_first_source: "Wytyczne Google dotyczące treści people-first"
         found_in: "Znaleziono w %count% miejscach. Otwórz wystąpienie, aby zobaczyć adres i dowody."
         redirect_matrix: "Macierz hostów i przekierowań"
         variants: "wariantów"
@@ -185,17 +189,41 @@ audit:
         sitemap-parameters: "Mapa witryny zawiera adresy z parametrami"
         sitemap-coverage: "Dostępnych stron brakuje w mapie witryny"
         crawler-trap-probe: "Nieograniczony wariant URL zwraca indeksowalną treść"
+    advisories:
+        site-purpose:
+            title: "Określ jeden jasny cel witryny"
+            text: "Wyjaśnij, komu służy strona i dlaczego jej różne sekcje należą do jednej całości. Osobisty toolbox może być takim spoiwem, jeśli jest to powiedziane wprost."
+        people-first-value:
+            title: "Daj pełną odpowiedź albo działający rezultat"
+            text: "Stawiaj na oryginalne narzędzia, dowody i własną analizę zamiast stron tworzonych wyłącznie pod warianty zapytań."
+        authorship-and-expertise:
+            title: "Pokaż autorstwo i możliwe do sprawdzenia doświadczenie"
+            text: "Wskaż, kto stworzył lub sprawdził ważną treść, i podlinkuj użyteczną stronę autora albo O mnie."
+        sources-and-methodology:
+            title: "Publikuj źródła, założenia i metodologię"
+            text: "Wyjaśnij, jak powstały obliczenia, porównania i ważne twierdzenia oraz kiedy sprawdzono ich dane wejściowe."
+        maintenance-and-dates:
+            title: "Używaj znaczących dat przeglądu"
+            text: "Zmieniaj datę przeglądu lub modyfikacji dopiero po rzeczywistym sprawdzeniu treści albo danych."
+        human-review:
+            title: "Zakończ prawdziwym ręcznym przeglądem"
+            text: "Sygnały techniczne nie potwierdzają dokładności, oryginalności, użyteczności ani zaufania. Przeczytaj stronę i wykonaj jej zadanie jak zwykły użytkownik."
 
 contact:
     email: "Twój e-mail"
+    email_optional: "E-mail (opcjonalny, jeśli zostawisz telefon)"
+    phone_optional: "Telefon (opcjonalny, jeśli zostawisz e-mail)"
+    message_optional: "W czym mogę pomóc? (opcjonalnie)"
+    message_placeholder: "Wystarczy link i dwa zdania."
     submit: "Poproś Bahdana"
     company: "Firma"
-    note: "Adres zostanie zapisany prywatnie na tym serwerze, aby Bahdan mógł się odezwać. Bez listy mailingowej."
+    note: "Dane zostaną zapisane prywatnie na tym serwerze, aby Bahdan mógł się odezwać. Bez newslettera i automatycznej sprzedaży."
     invalid_origin: "Nieprawidłowe źródło formularza."
-    saved: "Dziękuję — adres e-mail został zapisany. Bahdan się odezwie."
+    saved: "Dziękuję — zgłoszenie zostało zapisane. Bahdan się odezwie."
     too_many: "Zbyt wiele zgłoszeń kontaktowych dzisiaj. Użyj kontaktu bezpośredniego."
     invalid_email: "Wpisz poprawny adres e-mail."
-    failed: "Nie udało się teraz zapisać adresu. Użyj kontaktu bezpośredniego."
+    invalid_contact: "Wpisz poprawny e-mail albo numer telefonu."
+    failed: "Nie udało się teraz zapisać zgłoszenia. Użyj kontaktu bezpośredniego."
     saving: "Zapisywanie…"
 
 geo:
@@ -308,7 +336,7 @@ market:
     product_meta:
         title: "Ile kosztuje używany %product%? Aktualna cena i historia w Polsce"
         description: "Sprawdź, ile kosztuje używany %product% w Polsce. Aktualna mediana cen ofertowych, wykres zmian, porównywalny zakres cen i kalkulator opłacalności zakupu."
-    eyebrow: "POLSKA · SPRAWIEDLIWE CENY RYNKOWE · CO TYDZIEŃ"
+    eyebrow: "POLSKA · SPOŁECZNOŚCIOWY PRZEWODNIK CEN · RĘCZNA WERYFIKACJA"
     heading_start: "Ile sprzęt na marketplace"
     heading_emphasis: "jest naprawdę warty?"
     lede: "Sprawiedliwe ceny rynkowe i historia wycen w Polsce. Odkryj, ile realnie kosztuje sprzęt na rynku wtórnym i jak zmieniała się jego cena w ubiegłym miesiącu."
@@ -319,15 +347,16 @@ market:
         cars: "SAMOCHODY"
     observed: "Obserwacja"
     awaiting: "Oczekiwanie na pierwszą obserwację"
-    awaiting_note: "Historia rozpocznie się po najbliższym zweryfikowanym cotygodniowym badaniu."
+    awaiting_note: "Historia rozpocznie się po najbliższym ręcznym przeglądzie rynku przez Bahdana."
     open_history: "Otwórz historię ceny"
     method:
         title: "Dlaczego to jest użyteczne — i uczciwe"
-        text: "To seria obserwacji w czasie, a nie scrapowana baza marketplace i nie dane o zakończonych transakcjach. Każdy cotygodniowy punkt używa tej samej ścisłej definicji produktu."
-        one: "AI z dostępem do internetu szacuje bieżący poziom rynku bez crawlowania ani parsowania marketplace przez nasz serwer."
-        two: "Obserwacja jest odrzucana bez użytecznej próby i spójnego zakresu. Ogłoszenia, nazwy i linki marketplace nie są zapisywane ani publikowane."
-        public: "Skonfigurowany model AI analizuje aktualne publiczne informacje rynkowe według jednej stałej definicji produktu. Aplikacja zapisuje zwróconą medianę, zakres i deklarowaną próbę dopiero po sprawdzeniu spójności. Ten serwer nie crawluje, nie parsuje, nie kopiuje ani nie publikuje ogłoszeń lub linków marketplace."
-        verified_by_bahdan: "Wszystkie punkty cenowe są stale weryfikowane z rzeczywistymi ogłoszeniami z rynku wtórnego oraz w kluczowych kategoriach osobiście sprawdzane i kalibrowane przez Bahdana."
+        text: "To seria obserwacji w czasie, a nie scrapowana baza marketplace i nie dane o zakończonych transakcjach. Każdy przegląd używa tej samej ścisłej definicji produktu."
+        one: "Bahdan ręcznie przegląda porównywalne publiczne ogłoszenia dla dokładnej konfiguracji. Żaden crawler marketplace nie jest używany."
+        two: "Publicznie trafia tylko zagregowana mediana, zakres, liczebność próby i data przeglądu. Nadesłane linki pozostają w prywatnej kolejce."
+        three: "Zgłoszenia społeczności pomagają znaleźć dobre oferty, ale każdy opublikowany punkt pozostaje ręczną decyzją redakcyjną Bahdana."
+        public: "Bahdan ręcznie przegląda małą próbę porównywalnych ofert według jednej definicji produktu. Publiczna strona pokazuje wyłącznie zagregowany zakres, medianę, liczebność próby i datę. Nadesłane linki są prywatne, nigdy nie są automatycznie pobierane ani publikowane i są usuwane po 90 dniach."
+        verified_by_bahdan: "Każdy opublikowany punkt jest osobiście sprawdzany i kalibrowany przez Bahdana względem porównywalnych publicznych ofert."
         verified_badge: "Zweryfikowane i dopracowane przez Bahdana"
     back: "Wszystkie historie cen"
     product_eyebrow: "SPRAWIEDLIWA CENA I HISTORIA RYNKOWA W POLSCE"
@@ -338,12 +367,12 @@ market:
     comparable_range: "Typowy przedział cenowy"
     evidence: "Próba badawcza"
     updated: "Data pomiaru"
-    weekly: "Aktualizacja co tydzień"
+    weekly: "Aktualizacja po ręcznym przeglądzie"
     month_ago: "Miesiąc temu (30 dni)"
     month_change: "Zmiana w 30 dni"
     no_month_data: "Zbieranie historii 30 dni"
     snapshot: "Co mówi najnowsza wycena rynkowa"
-    snapshot_text: "W dniu %date% szacowana sprawiedliwa mediana ceny ofertowej %product% na polskim rynku wynosiła %median%. Typowy przedział cenowy to %low%–%high%. Nazwy serwisów, ogłoszenia ani linki nie są zachowywane lub publikowane."
+    snapshot_text: "W dniu %date% ręcznie zweryfikowana przez Bahdana mediana ceny ofertowej %product% wynosiła %median%. Porównywalny zakres to %low%–%high%. Pojedyncze ogłoszenia nie są publikowane."
     spec:
         generation: "Generacja"
         variant: "Wariant"
@@ -375,10 +404,23 @@ market:
         invalid: "Wpisz produkt oraz poprawny e-mail, jeśli go podajesz."
         failed: "Nie udało się teraz zapisać zgłoszenia."
         too_many: "Zbyt wiele zgłoszeń z tego połączenia. Spróbuj ponownie jutro."
+    tip:
+        eyebrow: "ZNALEŹLIŚCIE TANIEJ?"
+        title: "Pomóż poprawić tę cenę"
+        text: "Podeślij publiczne ogłoszenie dokładnie tej konfiguracji. Bahdan sprawdzi je ręcznie, zanim zmieni opublikowaną wartość."
+        url: "Link do publicznego ogłoszenia"
+        email: "E-mail (opcjonalnie)"
+        submit: "Wyślij okazję"
+        note: "Tylko do prywatnej weryfikacji. Parametry i fragmenty URL są usuwane, strona nigdy nie jest pobierana automatycznie, IP jest haszowane, a zgłoszenie znika po 90 dniach."
+        saving: "Wysyłanie…"
+        saved: "Dzięki — link trafił do prywatnej kolejki Bahdana."
+        invalid: "Podaj poprawny publiczny link HTTP lub HTTPS oraz poprawny e-mail, jeśli go wpisujesz."
+        failed: "Nie udało się teraz zapisać zgłoszenia."
+        too_many: "Zbyt wiele zgłoszeń cenowych z tego połączenia. Spróbuj ponownie jutro."
     mcp:
         eyebrow: "OTWARTY SERWER MCP"
-        title: "Użyj historii cen w asystencie AI"
-        text: "Publiczny serwer MCP tylko do odczytu pozwala zgodnym asystentom wyświetlać śledzone produkty i pobierać historię cen z datami. Nie wymaga konta ani klucza API."
+        title: "Użyj historii cen we własnych narzędziach"
+        text: "Publiczny serwer MCP tylko do odczytu pozwala zgodnym klientom wyświetlać śledzone produkty i pobierać historię cen z datami. Nie wymaga konta ani klucza API."
     choose_configuration: "Wybierz konfigurację"
     faq:
         title: "Często zadawane pytania o ceny"
@@ -390,10 +432,10 @@ market:
             a: "Około 30 dni temu szacowana mediana wynosiła %median%, co oznacza zmianę o %diff% (%diff_pct%%)."
         estimate:
             q: "Czy to cena transakcyjna albo oficjalna wycena?"
-            a: "Nie. To wspomagana przez AI estymacja porównywalnych cen ofertowych dla jednej dokładnej konfiguracji i wskazanej daty. Nie jest to statystyka zakończonych transakcji ani gwarancja ceny."
+            a: "Nie. To ręcznie sprawdzona przez Bahdana obserwacja porównywalnych cen ofertowych dla jednej dokładnej konfiguracji i wskazanej daty. Nie jest to statystyka zakończonych transakcji ani gwarancja ceny."
         sources:
             q: "Czy strona publikuje ogłoszenia lub nazwy serwisów?"
-            a: "Nie. Etap badawczy zwraca wyłącznie zagregowane wartości cen i liczebność próby. Aplikacja nie zachowuje ani nie publikuje nazw serwisów, danych sprzedawców, treści ogłoszeń ani linków."
+            a: "Nie. Publicznie pokazujemy tylko zagregowane ceny i liczebność próby. Linki od społeczności pozostają prywatne do ręcznej weryfikacji i są automatycznie usuwane po 90 dniach."
     history: "Historia ceny"
     observations: "obserwacji"
     date: "Data"
@@ -407,10 +449,10 @@ market:
     latest_snapshot: "najnowsza obserwacja"
     no_data:
         title: "Oczekiwanie na pierwsze notowanie"
-        text: "Strona jest gotowa, ale nie generuje sztucznych cen początkowych. Historia rozpocznie się dopiero, gdy badanie przejdzie reguły jakości materiału."
+        text: "Strona jest gotowa, ale nie generuje sztucznych cen początkowych. Historia rozpocznie się dopiero po ręcznym przeglądzie porównywalnej próby przez Bahdana."
     caveat:
         title: "Jak poprawnie czytać tę liczbę"
-        text: "To wspomagane przez AI estymacje rynku, a nie dane scrapowane, oficjalne statystyki, ceny transakcyjne, wycena ani porada zakupowa. Dostępność ofert i dostęp modelu mogą zmieniać próbę."
+        text: "To ręcznie sprawdzane obserwacje cen ofertowych, a nie dane scrapowane, oficjalne statystyki, ceny transakcyjne, wycena ani porada zakupowa. Ogłoszenia znikają, a stan przedmiotów bywa różny."
     chart:
         title: "Wykres dynamiki cen"
     checker:
@@ -479,14 +521,14 @@ income:
 
 profile:
     meta:
-        title: "Bahdan Hal · Backend Engineer w Gdańsku"
-        description: "Backend engineer pracujący z PHP, Symfony, Laravelem, infrastrukturą Linux i praktycznymi integracjami AI. Gdańsk, Polska."
-    role_short: "Backend Engineer"
-    eyebrow: "BACKEND ENGINEER · GDAŃSK"
-    heading: "Buduję systemy,"
-    heading_emphasis: "które pozostają użyteczne."
-    intro: "Jestem backend engineerem z ponad pięcioletnim doświadczeniem w modernizacji aplikacji PHP, utrzymaniu infrastruktury Linux i wdrażaniu praktycznych integracji AI. Lubię jasne systemy, świadome kompromisy i oprogramowanie, które radzi sobie na produkcji."
-    contact: "Napisz do mnie"
+        title: "Bahdan Hal · Strony, integracje AI, MCP i wsparcie produkcji"
+        description: "Strony, integracje AI, serwery MCP i automatyzacja workflow pod klucz oraz systemy PHP, wsparcie produkcji i uczciwe konsultacje techniczne."
+    role_short: "Web & Backend Engineer"
+    eyebrow: "OBECNOŚĆ ONLINE · SYSTEMY · PRODUKCJA"
+    heading: "Od pierwszego pomysłu"
+    heading_emphasis: "do stabilnej produkcji."
+    intro: "Buduję i biorę odpowiedzialność za systemy online od początku do końca: strony, integracje oraz narzędzia oparte na AI i MCP — od pierwszej uczciwej decyzji technicznej przez wdrożenie i monitoring aż po dziwną awarię, której nikt nie potrafi odtworzyć."
+    contact: "Bezpłatna konsultacja"
     tools: "Otwórz toolbox"
     facts_label: "Podsumowanie zawodowe"
     years: "lat w branży"
@@ -497,8 +539,36 @@ profile:
         title: "Praktyczna infrastruktura"
         text: "Docker, hardening Linuksa, migracje na opłacalne VPS-y i bare metal, dostarczalność poczty, usuwanie skutków incydentów i diagnostyka produkcji."
     ai:
-        title: "AI do konkretnych zadań"
-        text: "Integracje modeli i narzędzia agentowe tam, gdzie rozwiązują konkretny problem: procesy treściowe, narzędzia wewnętrzne, ustrukturyzowany research i produktywność programistów."
+        title: "AI, MCP i narzędzia pod klucz"
+        text: "Integracje AI, serwery MCP, API, narzędzia wewnętrzne i automatyzacja workflow zaprojektowane wokół realnej pracy. Sam aktywnie ich używam i je testuję, więc doradzam z praktyki, nie tylko z prezentacji."
+    services:
+        eyebrow: "CO MOGĘ WZIĄĆ NA SIEBIE"
+        title: "Jedna osoba na całą drogę techniczną"
+        intro: "Mogę dowieźć konkretny projekt, dołączyć do istniejącego zespołu albo zbadać jeden uparty problem. Dostajesz bezpośrednią opinię, jasne kompromisy i człowieka, który zostaje na produkcji."
+        presence:
+            title: "Obecność w internecie"
+            text: "Szybka dwujęzyczna strona, landing, portal usługowy albo praktyczne narzędzie razem z domeną, pocztą, decyzjami analitycznymi, podstawami SEO i wdrożeniem."
+        delivery:
+            title: "Realizacja od początku do końca"
+            text: "Rozpoznanie, architektura, backend, integracje, infrastruktura, publikacja i przekazanie. Bez luki między „feature gotowy” a „działa dla prawdziwych użytkowników”."
+        ai_integration:
+            title: "Integracje AI i serwery MCP"
+            text: "Dobór modeli, bezpieczny dostęp do narzędzi, retrieval, structured outputs, serwery MCP, workflow agentowe, ewaluacja i obserwowalność — w istniejącym produkcie albo nowym narzędziu."
+        automation:
+            title: "Automatyzacja workflow i wdrożenie w zespole"
+            text: "Rozpisuję powtarzalną pracę, prototypuję użyteczny fragment, łączę systemy i pomagam zespołowi z tego korzystać. Doradzę, co automatyzować, co zostawić człowiekowi i jak sprawdzać wynik."
+        duty:
+            title: "Nocna migracja albo deployment"
+            text: "Ostrożne przełączenia, migracje danych, plan wycofania i obecność na produkcji, kiedy najbezpieczniejsze okno wypada w środku nocy."
+        investigation:
+            title: "Skandale, intrygi, śledztwa"
+            text: "Strona laguje we wtorki o losowej minucie między 12:00 a 12:10, kod wygląda niewinnie, a użytecznych logów brak? Dodam obserwowalność, odtworzę problem i pójdę za dowodami."
+        legacy:
+            title: "Legacy, aktualizacje i przyspieszenia"
+            text: "Aktualizacje frameworka i PHP, naprawa zależności, testy wokół ryzykownego kodu, tuning bazy i cache oraz stopniowa modernizacja bez lekkomyślnego rewrite’u."
+        audit:
+            title: "Audyt z human touch"
+            text: "Architektura, niezawodność, bezpieczeństwo, wydajność, SEO i infrastruktura ocenione w kontekście. Dostajesz uczciwą opinię i kolejność działań, nie ceremonialny PDF."
     work:
         eyebrow: "WYBRANE DOŚWIADCZENIE"
         title: "Ostatnie projekty"
@@ -508,7 +578,15 @@ profile:
         consulting: "Bezpieczeństwo Linuksa, migracje, dostarczalność SMTP, integracje API i konkretne prace backendowe dla klientów z realnymi systemami i rozsądnymi budżetami."
     present: "obecnie"
     contact_eyebrow: "KONTAKT"
-    contact_heading: "Masz ciekawe wyzwanie?"
+    contact_heading: "Masz wyzwanie albo po prostu ciekawy pomysł?"
+    consultation:
+        eyebrow: "PIERWSZA KONSULTACJA GRATIS"
+        title: "Opowiedz, co się dzieje"
+        text: "Zostaw e-mail albo telefon i krótki opis. Uczciwie powiem, czy mogę pomóc, co zbadałbym najpierw i czy problem w ogóle wymaga płatnej pracy. Chętnie też porozmawiam o AI, systemach albo nietypowym pomyśle."
+        one: "Bez newslettera i automatycznej sekwencji sprzedażowej."
+        two: "Pięć zgłoszeń dziennie na połączenie, honeypot i haszowane adresy IP."
+        three: "Na początek zwykle wystarczy link i dwa zdania."
+        four: "Nie potrzebujesz gotowego briefu — zawsze chętnie porozmawiam o ciekawym temacie technicznym."
     socials: "Kontakt i profile"
     summit_alt: "Bahdan Hal na szczycie górskim"
     summit_eyebrow: "PRZYGOTOWANIE I ODPORNOŚĆ"
@@ -519,4 +597,8 @@ profile:
         q1: "W jakim stosie technologicznym i rozwiązaniach się specjalizujesz?"
         a1: "Moja główna specjalizacja to backend w PHP (Symfony, Laravel), bazy PostgreSQL i MySQL, Redis, systemy Linux, konteneryzacja w Dockerze oraz deterministyczne i agentowe integracje AI."
         q2: "Jakie formy współpracy i zadania realizujesz?"
-        a2: "Realizuję projekty w zakresie architektury backendowej, migracji aplikacji legacy, budowy API, optymalizacji wydajności oraz niezależnego doradztwa technicznego w modelu B2B."
+        a2: "Podejmuję konkretne naprawy, audyty, migracje i integracje oraz realizację stron lub narzędzi od początku do końca. Mogę pracować samodzielnie albo z istniejącym zespołem w modelu B2B."
+        q3: "Czy pierwsza konsultacja naprawdę jest bezpłatna?"
+        a3: "Tak. Pierwsza rozmowa i uczciwa wstępna ocena są bezpłatne. Jeśli następny sensowny krok wymaga dochodzenia albo wdrożenia, ustalimy zakres przed rozpoczęciem płatnej pracy."
+        q4: "Czy możemy porozmawiać, jeśli nie mam jeszcze zdefiniowanego projektu?"
+        a4: "Jasne. Zawsze jestem otwarty na ciekawą rozmowę techniczną, szczególnie o wdrażaniu AI, MCP, automatyzacji, architekturze albo upartym problemie systemowym."

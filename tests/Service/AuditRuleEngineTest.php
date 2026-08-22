@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use App\Service\AuditRuleEngine;
+use App\Audit\Domain\AuditRuleEngine;
 use PHPUnit\Framework\TestCase;
 
 final class AuditRuleEngineTest extends TestCase

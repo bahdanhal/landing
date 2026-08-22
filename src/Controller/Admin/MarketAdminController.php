@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Market\Application\ObserveMarket;
 use App\Market\Application\ProductCatalog;
 use App\Market\Domain\PriceObservation;
 use App\Market\Domain\PriceObservationRepository;
+use App\Market\Infrastructure\JsonPriceTipRepository;
 use App\Market\Infrastructure\JsonProductRequestStore;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -23,7 +23,7 @@ final class MarketAdminController extends AbstractController
         private readonly ProductCatalog $catalog,
         private readonly PriceObservationRepository $observations,
         private readonly JsonProductRequestStore $productRequests,
-        private readonly ObserveMarket $observeMarket,
+        private readonly JsonPriceTipRepository $priceTips,
         private readonly string $secret,
     ) {
     }
@@ -67,6 +67,7 @@ final class MarketAdminController extends AbstractController
             'all_products' => $allProducts,
             'families' => $this->catalog->families(),
             'requests' => $this->productRequests->all(),
+            'price_tips' => $this->priceTips->all(),
             'current_category' => $category,
             'search' => $search,
             'status' => $request->query->get('status'),
@@ -149,7 +150,7 @@ final class MarketAdminController extends AbstractController
                 max(3, $sampleSize),
                 in_array($confidence, ['low', 'medium', 'high'], true) ? $confidence : 'high',
                 '',
-                PriceObservation::METHODOLOGY_CURRENT
+                PriceObservation::METHODOLOGY_MANUAL
             );
 
             $this->observations->save($observation);
@@ -177,46 +178,6 @@ final class MarketAdminController extends AbstractController
         }
 
         return $this->redirectToRoute('market_admin_dashboard', ['status' => 'Deleted observation for ' . $slug . ' (' . $date . ')']);
-    }
-
-    #[Route('/admin/market/observe-ai', name: 'market_admin_observe_ai', methods: ['POST'])]
-    public function observeAi(Request $request): Response
-    {
-        if (!$this->isAuthenticated($request)) {
-            return $this->json(['error' => 'Unauthorized'], 401);
-        }
-
-        $slug = trim((string) $request->request->get('slug'));
-        $familySlug = trim((string) $request->request->get('family'));
-
-        try {
-            if ($slug !== '') {
-                $obs = $this->observeMarket->observe($slug);
-                return $this->redirectToRoute('market_admin_dashboard', ['status' => sprintf('AI observed %s: %.2f PLN', $slug, $obs->medianGrosz / 100)]);
-            }
-
-            if ($familySlug !== '') {
-                $family = null;
-                foreach ($this->catalog->families() as $f) {
-                    if ($f->slug === $familySlug) {
-                        $family = $f;
-                        break;
-                    }
-                }
-                if ($family === null) {
-                    return $this->redirectToRoute('market_admin_dashboard', ['error' => 'Family not found: ' . $familySlug]);
-                }
-                $slugs = array_map(static fn ($p): string => $p->slug, $family->configurations);
-                $obsList = $this->observeMarket->observeMany($slugs);
-                $statusMessage = sprintf('AI observed family %s (%d configs)', $familySlug, count($obsList));
-
-                return $this->redirectToRoute('market_admin_dashboard', ['status' => $statusMessage]);
-            }
-        } catch (\Throwable $e) {
-            return $this->redirectToRoute('market_admin_dashboard', ['error' => 'AI observation failed: ' . $e->getMessage()]);
-        }
-
-        return $this->redirectToRoute('market_admin_dashboard', ['error' => 'Please select a product or family.']);
     }
 
     private function isAuthenticated(Request $request): bool

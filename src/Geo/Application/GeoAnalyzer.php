@@ -2,12 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Geo\Application;
 
+use App\Crawl\Application\PageAnalyzer;
+use App\Crawl\Domain\RobotsPolicy;
+use App\Crawl\Infrastructure\HttpFetcher;
+use App\Crawl\Infrastructure\UrlGuard;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
-final class GeoAnalyzer
+final readonly class GeoAnalyzer
 {
     // phpcs:ignore Generic.Files.LineLength
     private const CONTENT_SCHEMA_TYPES = ['Article', 'NewsArticle', 'BlogPosting', 'FAQPage', 'HowTo', 'Product', 'Dataset', 'WebApplication', 'SoftwareApplication'];
@@ -15,12 +19,12 @@ final class GeoAnalyzer
     private const AI_AGENTS = ['GPTBot', 'ChatGPT-User', 'ClaudeBot', 'PerplexityBot', 'Google-Extended'];
 
     public function __construct(
-        private readonly UrlGuard $urlGuard,
-        private readonly HttpFetcher $fetcher,
-        private readonly PageAnalyzer $pageAnalyzer,
-        private readonly RobotsPolicy $robotsPolicy,
-        private readonly CacheInterface $auditCache,
-        private readonly int $cacheTtl,
+        private UrlGuard $urlGuard,
+        private HttpFetcher $fetcher,
+        private PageAnalyzer $pageAnalyzer,
+        private RobotsPolicy $robotsPolicy,
+        private CacheInterface $auditCache,
+        private int $cacheTtl,
     ) {
     }
 

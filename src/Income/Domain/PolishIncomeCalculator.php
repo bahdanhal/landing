@@ -6,7 +6,7 @@ namespace App\Income\Domain;
 
 use App\Shared\Domain\Grosz;
 
-final class PolishIncomeCalculator
+final readonly class PolishIncomeCalculator
 {
     /**
      * @param array{

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use App\Service\AiSummaryService;
+use App\Audit\Application\AiSummaryService;
 use App\Shared\AI\AiClient;
 use App\Shared\AI\AiUseCase;
 use PHPUnit\Framework\TestCase;

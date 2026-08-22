@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Crawl\Infrastructure;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 

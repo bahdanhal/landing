@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Crawl\Domain;
 
-final class RobotsPolicy
+final readonly class RobotsPolicy
 {
     /** @return array{rules:list<array{path:string,allow:bool}>,crawl_delay_ms:int} */
     public function parse(string $body): array

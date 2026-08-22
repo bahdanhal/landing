@@ -2,8 +2,40 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Technical SEO Audit Rules Specification",
   "description": "Deterministic rule definitions, issue severity classifications, and trigger conditions for the SEO crawler.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "severities": ["critical", "warning", "info"],
+  "editorial_advisories": [
+    {
+      "code": "site-purpose",
+      "title": "State one clear purpose for the site",
+      "description": "Explain who the site serves and why its different sections belong together. This is a human review and does not affect the technical score."
+    },
+    {
+      "code": "people-first-value",
+      "title": "Give visitors a complete answer or working outcome",
+      "description": "Prefer original tools, evidence, experience and analysis over pages created only to capture query variations."
+    },
+    {
+      "code": "authorship-and-expertise",
+      "title": "Make authorship and relevant experience easy to verify",
+      "description": "Show who created or reviewed important content and link to a useful author or about page."
+    },
+    {
+      "code": "sources-and-methodology",
+      "title": "Publish sources, assumptions and methodology",
+      "description": "For calculations, audits, comparisons and YMYL topics, explain how the result was produced and when its inputs were checked."
+    },
+    {
+      "code": "maintenance-and-dates",
+      "title": "Use meaningful review dates",
+      "description": "Display a reviewed or modified date only when the content or underlying data was substantively checked."
+    },
+    {
+      "code": "human-review",
+      "title": "Review the result as a person, not only as a crawler",
+      "description": "Technical signals cannot establish accuracy, originality, helpfulness or trust. Finish with a manual editorial and user-experience review."
+    }
+  ],
   "rules": [
     {
       "code": "host-canonicalization",

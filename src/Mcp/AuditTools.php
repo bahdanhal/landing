@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Mcp;
 
-use App\Service\SiteAuditor;
+use App\Audit\Application\SiteAuditor;
 use Mcp\Capability\Attribute\McpTool;
 use Mcp\Capability\Attribute\Schema;
 

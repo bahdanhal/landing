@@ -14,6 +14,7 @@
 /public/bundles/
 /phpunit.xml
 /graphify-out/
+/repomix-output.xml
 /.agents/
 /.codex/
 /.gemini/

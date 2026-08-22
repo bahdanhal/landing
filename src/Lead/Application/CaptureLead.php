@@ -15,10 +15,10 @@ final readonly class CaptureLead
     ) {
     }
 
-    public function execute(string $email, string $ipAddress, string $source): Lead
+    public function execute(string $email, string $phone, string $message, string $ipAddress, string $source): Lead
     {
         $ipHash = substr(hash_hmac('sha256', $ipAddress, $this->secret), 0, 20);
-        $lead = Lead::create($email, $ipHash, $source);
+        $lead = Lead::create($email, $phone, $message, $ipHash, $source);
         $this->repository->save($lead);
 
         return $lead;

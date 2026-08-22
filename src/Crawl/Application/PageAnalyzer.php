@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Crawl\Application;
 
-final class PageAnalyzer
+use App\Crawl\Infrastructure\HttpFetcher;
+
+final readonly class PageAnalyzer
 {
-    public function __construct(private readonly HttpFetcher $fetcher)
+    public function __construct(private HttpFetcher $fetcher)
     {
     }
 

@@ -117,7 +117,6 @@
                 <div><span>{{ 'market.updated'|trans }}</span><strong>{{ latest.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y') }}</strong><small>{{ 'market.weekly'|trans }}</small></div>
             </section>
 
-            <!-- ИНТЕРАКТИВНЫЙ ГРАФIK ЦЕН -->
             {% if history|length >= 2 %}
                 {% set chart_data = [] %}
                 {% for item in history %}
@@ -145,7 +144,6 @@
                 </section>
             {% endif %}
 
-            <!-- КАЛЬКУЛЯТОР ОЦЕНКИ ЦЕНЫ -->
             <section class="deal-checker"
                      data-deal-checker
                      data-median="{{ latest.medianGrosz / 100 }}"
@@ -197,6 +195,26 @@
         {% else %}
             <section class="market-empty"><h2>{{ 'market.no_data.title'|trans }}</h2><p>{{ 'market.no_data.text'|trans }}</p></section>
         {% endif %}
+
+        <section class="market-request market-price-tip">
+            <div>
+                <span class="market-category">{{ 'market.tip.eyebrow'|trans }}</span>
+                <h2>{{ 'market.tip.title'|trans }}</h2>
+                <p>{{ 'market.tip.text'|trans }}</p>
+            </div>
+            <form class="lead-form" method="post" action="{{ path('market_price_tip', {_locale: app.request.locale, slug: product.slug}) }}" data-contact-form data-saving="{{ 'market.tip.saving'|trans }}" data-fallback="{{ 'market.tip.failed'|trans }}">
+                <label for="price-tip-url">{{ 'market.tip.url'|trans }}</label>
+                <input id="price-tip-url" name="listing_url" type="url" maxlength="2048" inputmode="url" placeholder="https://…" required>
+                <label for="price-tip-email">{{ 'market.tip.email'|trans }}</label>
+                <div class="lead-row">
+                    <input id="price-tip-email" name="email" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com">
+                    <button type="submit">{{ 'market.tip.submit'|trans }}</button>
+                </div>
+                <label class="lead-trap" aria-hidden="true">{{ 'contact.company'|trans }}<input name="company" tabindex="-1" autocomplete="off"></label>
+                <small>{{ 'market.tip.note'|trans }}</small>
+                <p class="lead-status" data-contact-status aria-live="polite"></p>
+            </form>
+        </section>
 
         <aside class="market-caveat"><strong>{{ 'market.caveat.title'|trans }}</strong><p>{{ 'market.caveat.text'|trans }}</p></aside>
     </article>

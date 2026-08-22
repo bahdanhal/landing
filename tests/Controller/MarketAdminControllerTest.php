@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use App\Controller\Admin\MarketAdminController;
-use App\Market\Application\MarketResearcher;
-use App\Market\Application\ObserveMarket;
 use App\Market\Application\ProductCatalog;
 use App\Market\Domain\PriceObservation;
 use App\Market\Domain\PriceObservationRepository;
 use App\Market\Infrastructure\JsonProductRequestStore;
+use App\Market\Infrastructure\JsonPriceTipRepository;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,8 +22,7 @@ final class MarketAdminControllerTest extends TestCase
         $catalog = new ProductCatalog();
         $observations = $this->createStub(PriceObservationRepository::class);
         $productRequests = new JsonProductRequestStore(sys_get_temp_dir(), 'secret');
-        $researcher = $this->createStub(MarketResearcher::class);
-        $observeMarket = new ObserveMarket($catalog, $researcher, $observations);
+        $priceTips = new JsonPriceTipRepository(sys_get_temp_dir(), 'secret');
         $secret = 'test-secret-key';
 
         $twig = $this->createMock(Environment::class);
@@ -36,7 +34,7 @@ final class MarketAdminControllerTest extends TestCase
         $container = new Container();
         $container->set('twig', $twig);
 
-        $controller = new MarketAdminController($catalog, $observations, $productRequests, $observeMarket, $secret);
+        $controller = new MarketAdminController($catalog, $observations, $productRequests, $priceTips, $secret);
         $controller->setContainer($container);
 
         $request = new Request();
@@ -51,8 +49,7 @@ final class MarketAdminControllerTest extends TestCase
         $catalog = new ProductCatalog();
         $observations = $this->createStub(PriceObservationRepository::class);
         $productRequests = new JsonProductRequestStore(sys_get_temp_dir(), 'secret');
-        $researcher = $this->createStub(MarketResearcher::class);
-        $observeMarket = new ObserveMarket($catalog, $researcher, $observations);
+        $priceTips = new JsonPriceTipRepository(sys_get_temp_dir(), 'secret');
         $secret = 'test-secret-key';
 
         $router = $this->createStub(\Symfony\Component\Routing\Generator\UrlGeneratorInterface::class);
@@ -61,7 +58,7 @@ final class MarketAdminControllerTest extends TestCase
         $container = new Container();
         $container->set('router', $router);
 
-        $controller = new MarketAdminController($catalog, $observations, $productRequests, $observeMarket, $secret);
+        $controller = new MarketAdminController($catalog, $observations, $productRequests, $priceTips, $secret);
         $controller->setContainer($container);
 
         $request = new Request(request: ['password' => 'test-secret-key']);
@@ -88,8 +85,7 @@ final class MarketAdminControllerTest extends TestCase
             }));
 
         $productRequests = new JsonProductRequestStore(sys_get_temp_dir(), 'secret');
-        $researcher = $this->createStub(MarketResearcher::class);
-        $observeMarket = new ObserveMarket($catalog, $researcher, $observations);
+        $priceTips = new JsonPriceTipRepository(sys_get_temp_dir(), 'secret');
         $secret = 'test-secret-key';
 
         $router = $this->createStub(\Symfony\Component\Routing\Generator\UrlGeneratorInterface::class);
@@ -98,7 +94,7 @@ final class MarketAdminControllerTest extends TestCase
         $container = new Container();
         $container->set('router', $router);
 
-        $controller = new MarketAdminController($catalog, $observations, $productRequests, $observeMarket, $secret);
+        $controller = new MarketAdminController($catalog, $observations, $productRequests, $priceTips, $secret);
         $controller->setContainer($container);
 
         $authCookie = hash_hmac('sha256', 'market_admin_authenticated', $secret);

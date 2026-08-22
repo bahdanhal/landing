@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Audit\Domain;
 
-final class AuditRuleEngine
+final readonly class AuditRuleEngine
 {
     public function evaluate(array $pages, array $redirectMatrix, array $robots, array $sitemap): array
     {

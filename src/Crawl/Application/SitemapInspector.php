@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Crawl\Application;
 
-final class SitemapInspector
+use App\Crawl\Infrastructure\HttpFetcher;
+
+final readonly class SitemapInspector
 {
     private const MAX_SITEMAPS = 10;
     private const MAX_URLS = 10_000;
 
-    public function __construct(private readonly HttpFetcher $fetcher)
+    public function __construct(private HttpFetcher $fetcher)
     {
     }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use App\Service\RobotsPolicy;
+use App\Crawl\Domain\RobotsPolicy;
 use PHPUnit\Framework\TestCase;
 
 final class RobotsPolicyTest extends TestCase

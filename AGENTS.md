@@ -47,7 +47,7 @@ This document provides mandatory directives for all AI coding agents, autonomous
   - Keep presentation in `src/Controller/` and `src/Command/`.
 - **SOLID Principles**:
   - Single Responsibility: Keep classes small and cohesive.
-  - Open/Closed: Program to interfaces (e.g. `AiClient`, `MarketResearcher`, `PriceObservationRepository`).
+  - Open/Closed: Program to interfaces (e.g. `AiClient`, `HttpFetcher`, `PriceObservationRepository`).
   - Dependency Inversion: Inject abstractions via constructors.
 - **Clean Code & PHP Standards**:
   - Always add `declare(strict_types=1);` at the top of PHP files.
@@ -58,15 +58,16 @@ This document provides mandatory directives for all AI coding agents, autonomous
 
 ---
 
-## 4. Local Execution & Docker Recommendations
+## 5. Local Execution & Docker Recommendations
 
 - Recommend running and executing all commands inside Docker containers to preserve environment parity (PHP 8.5, Caddy 2.10, Alpine, exact extensions).
 - Run console commands via `docker compose --env-file .env.local exec app php bin/console <command>`.
 
 ---
 
-## 5. Security & Privacy Non-Negotiables
+## 6. Security & Privacy Non-Negotiables
 
 - **Zero External Database**: Stick to atomic JSON storage and append-only JSONL files.
 - **SSRF Guard**: Always validate target URLs against private/reserved IP ranges and pin DNS resolution.
-- **Privacy**: Never store marketplace URLs, seller info, or raw query parameters in logs. Always hash client IP addresses with HMAC-SHA256.
+- **Marketplace tip privacy**: Marketplace URLs may be accepted only when a visitor voluntarily submits a public listing for Bahdan's private manual price review. Never fetch these URLs automatically, publish them, store seller details or listing text, or retain query parameters/fragments. Keep each normalized URL in private storage for at most 90 days, restrict it to the authenticated admin view, and hash the submitter IP address with HMAC-SHA256.
+- **Logging privacy**: Never write marketplace URLs, seller information, raw query parameters, email addresses, phone numbers, or contact messages to application logs. Always hash client IP addresses with HMAC-SHA256 before persistence.

@@ -58,30 +58,33 @@ src/
 ├── Audit/                  # Technical SEO Audit bounded context
 ├── Command/                # CLI entry points (Symfony Console)
 ├── Controller/             # HTTP presentation layer (Web UI & JSON APIs)
-├── Exception/              # Domain & infrastructure exceptions
+├── Crawl/                  # Shared safe web retrieval bounded context
 ├── Geo/                    # Generative Engine Optimization analyzer context
+├── Income/                 # Polish income calculator bounded context
+├── Lead/                   # Contact capture bounded context
 ├── Market/                 # Poland used-goods price index bounded context
 │   ├── Application/        # Use cases, orchestrators, contracts/interfaces
 │   ├── Domain/             # Core business models, entities, value objects
 │   └── Infrastructure/     # Concrete file stores, AI adapters
 ├── Mcp/                    # Model Context Protocol tools & schemas
-└── Service/                # Deterministic signal analysis & shared services
+└── Shared/                 # Small cross-context value objects, AI, and quotas
 ```
 
 ### Domain-Driven Design (DDD) Rules
-- **Bounded Contexts**: Keep domain logic isolated within its respective context (`Audit`, `Geo`, `Market`, `Income`, `Mcp`). Do not bleed context-specific logic across unrelated domains.
+- **Bounded Contexts**: Keep domain logic isolated within its respective context (`Audit`, `Crawl`, `Geo`, `Market`, `Income`, `Lead`, `Mcp`). Do not bleed context-specific logic across unrelated domains.
 - **Layer Separation**:
   - **`Domain/`**: Contains pure business logic, Entities (e.g. `Product`), Aggregates (`ProductFamily`), Value Objects (`PriceObservation`), and Repository interfaces (`PriceObservationRepository`). **Zero dependencies on external frameworks, HTTP clients, or persistence mechanics.**
-  - **`Application/`**: Contains use case orchestrators (e.g. `ObserveMarket`), DTOs, and application-level service contracts (e.g. `MarketResearcher`).
-  - **`Infrastructure/`**: Implements domain/application contracts (e.g. `JsonPriceObservationRepository`, `SymfonyAiMarketResearcher`, `JsonProductRequestStore`). Handles file I/O, AI SDKs, and network transport.
+  - **`Application/`**: Contains use case orchestrators, DTOs, and application-level service contracts.
+  - **`Infrastructure/`**: Implements domain/application contracts (e.g. `JsonPriceObservationRepository`, `JsonPriceTipRepository`, `JsonProductRequestStore`). Handles file I/O, AI SDKs, and network transport.
   - **`Controller/` & `Command/`**: Presentation and transport adapters. Never embed core business rules directly into controllers or CLI commands.
 - **Ubiquitous Language & Precision**:
   - Domain models must accurately reflect real-world semantics.
-  - Financial calculations must avoid floating-point rounding errors: use integer `grosz` arithmetic in Value Objects (e.g. `PriceObservation`).
+- Financial calculations must avoid floating-point rounding errors: use integer `grosz` arithmetic in Value Objects (e.g. `PriceObservation`).
+- Community-submitted marketplace URLs are private review material: strip query strings and fragments, never fetch or republish them, and delete them automatically after 90 days.
 
 ### SOLID Principles
 - **Single Responsibility Principle (SRP)**: Each class should have one focused responsibility. For example, keep deterministic SEO rule evaluation (`AuditRuleEngine`), crawl fetching (`HttpFetcher`), AI enrichment (`AiSummaryService`), and telemetry logging (`AuditLogger`) decoupled.
-- **Open/Closed Principle (OCP)**: Design modules to be extensible via interfaces (e.g., `AiClient`, `MarketResearcher`, `PriceObservationRepository`) without modifying core domain algorithms.
+- **Open/Closed Principle (OCP)**: Design modules to be extensible via interfaces (e.g., `AiClient`, `PriceObservationRepository`) without modifying core domain algorithms.
 - **Liskov Substitution Principle (LSP)**: Implementations must honor their interface contracts unconditionally without unexpected side effects.
 - **Interface Segregation Principle (ISP)**: Create narrow, role-focused interfaces rather than bloated god interfaces.
 - **Dependency Inversion Principle (DIP)**: High-level business logic must depend on abstractions/interfaces, not concrete infrastructure classes. Inject dependencies via constructor injection.

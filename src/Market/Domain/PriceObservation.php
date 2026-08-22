@@ -40,19 +40,11 @@ final readonly class PriceObservation
         ];
     }
 
-    public const METHODOLOGY_CURRENT =
-        'AI-assisted estimate from current profile market information; no marketplace identities, listings, or links retained.';
-    public const METHODOLOGY_RETROSPECTIVE =
-        'Retrospective AI-assisted estimate from dated profile market information; no marketplace identities, listings, or links retained.';
+    public const METHODOLOGY_MANUAL =
+        'Manually reviewed snapshot of comparable public asking prices; submitted source links are retained privately for verification only.';
 
     public static function fromArray(array $data): self
     {
-        $candidateMethodology = (string) ($data['methodology'] ?? '');
-        $allowedMethodologies = [self::METHODOLOGY_CURRENT, self::METHODOLOGY_RETROSPECTIVE];
-        $methodology = in_array($candidateMethodology, $allowedMethodologies, true)
-            ? $candidateMethodology
-            : self::METHODOLOGY_CURRENT;
-
         return new self(
             (string) $data['product_slug'],
             new \DateTimeImmutable((string) $data['observed_at']),
@@ -62,7 +54,7 @@ final readonly class PriceObservation
             (int) $data['sample_size'],
             (string) $data['confidence'],
             '',
-            $methodology
+            self::METHODOLOGY_MANUAL
         );
     }
 }

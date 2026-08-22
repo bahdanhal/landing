@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Audit\Application\IssueGrouper;
-use App\Exception\UnsafeUrlException;
+use App\Audit\Application\SiteAuditor;
+use App\Crawl\Domain\UnsafeUrlException;
+use App\Lead\Application\CaptureLead;
 use App\Shared\Application\DailyQuota;
-use App\Service\ContactLeadStore;
-use App\Service\SiteAuditor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +21,7 @@ final class AuditController extends AbstractController
 {
     public function __construct(
         private readonly SiteAuditor $auditor,
-        private readonly ContactLeadStore $contactLeadStore,
+        private readonly CaptureLead $captureLead,
         private readonly DailyQuota $auditQuota,
         private readonly RateLimiterFactory $contactLimiter,
         private readonly TranslatorInterface $translator,
@@ -100,13 +100,24 @@ final class AuditController extends AbstractController
         }
 
         $email = strtolower(trim((string) $request->request->get('email')));
-        if (strlen($email) > 254 || filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-            return $this->json(['error' => $this->translator->trans('contact.invalid_email')], 422);
+        $phone = trim((string) $request->request->get('phone'));
+        $message = trim((string) $request->request->get('message'));
+        if (
+            strlen($email) > 254
+            || mb_strlen($phone) > 30
+            || mb_strlen($message) > 1000
+            || ($email === '' && $phone === '')
+            || ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL) === false)
+            || ($phone !== '' && !preg_match('/^\+?[0-9 ()-]{7,30}$/', $phone))
+        ) {
+            return $this->json(['error' => $this->translator->trans('contact.invalid_contact')], 422);
         }
 
         try {
-            $this->contactLeadStore->store(
+            $this->captureLead->execute(
                 $email,
+                $phone,
+                $message,
                 $request->getClientIp() ?? 'unknown',
                 (string) $request->request->get('source', 'website'),
             );

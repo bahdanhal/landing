@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Audit\Application;
 
 use App\Shared\AI\AiClient;
 use App\Shared\AI\AiUseCase;
 
-final class AiSummaryService
+final readonly class AiSummaryService
 {
     public function __construct(
-        private readonly AiClient $ai,
-        private readonly string $configurationFingerprint,
+        private AiClient $ai,
+        private string $configurationFingerprint,
     ) {
     }
 

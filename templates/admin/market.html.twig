@@ -105,37 +105,8 @@
                     <button type="submit" class="admin-btn" style="width: 100%; margin-top: 8px;">Save Observation</button>
                 </form>
             </div>
-
-            <!-- ON-DEMAND AI RESEARCH -->
-            <div class="admin-card">
-                <h2>🤖 On-Demand AI Observation</h2>
-                <p style="font-size: 13px; color: var(--muted); margin-bottom: 16px;">Trigger batched web-search AI market research for a whole product family or single product.</p>
-                <form method="post" action="{{ path('market_admin_observe_ai') }}">
-                    <div class="admin-form-group">
-                        <label for="ai-family">Observe Whole Family (Batch Call)</label>
-                        <select id="ai-family" name="family">
-                            <option value="">-- Choose Family --</option>
-                            {% for fam in families %}
-                                <option value="{{ fam.slug }}">{{ fam.name }} ({{ fam.configurations|length }} configs)</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="text-align: center; color: var(--muted); font-size: 12px; margin: 10px 0;">— OR SINGLE PRODUCT —</div>
-                    <div class="admin-form-group">
-                        <label for="ai-single">Single Product Slug</label>
-                        <select id="ai-single" name="slug">
-                            <option value="">-- Choose Single Product --</option>
-                            {% for prod in all_products %}
-                                <option value="{{ prod.slug }}">{{ prod.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <button type="submit" class="admin-btn admin-btn-secondary" style="width: 100%; margin-top: 8px;" onclick="return confirm('Launch AI research run?');">Run AI Research</button>
-                </form>
-            </div>
         </div>
 
-        <!-- PRODUCTS TABLE -->
         <section class="section" style="margin-top: 0;">
             <div class="section-title">
                 <h2>Catalog Products ({{ products|length }})</h2>
@@ -211,7 +182,6 @@
             </div>
         </section>
 
-        <!-- USER PRODUCT REQUESTS -->
         <section class="section" style="margin-top: 32px;">
             <div class="section-title">
                 <h2>User Product Requests ({{ requests|length }})</h2>
@@ -239,6 +209,31 @@
                         <tr>
                             <td colspan="4" style="text-align: center; color: var(--muted); padding: 24px;">No user product requests submitted yet.</td>
                         </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section" style="margin-top: 32px;">
+            <div class="section-title">
+                <h2>Community Price Tips ({{ price_tips|length }})</h2>
+                <span style="font-size: 12px; color: var(--muted);">Private review queue · automatically removed after 90 days</span>
+            </div>
+            <div class="table-wrap" style="max-height: 320px; overflow-y: auto;">
+                <table class="admin-table">
+                    <thead><tr><th>Date</th><th>Product</th><th>Submitted listing</th><th>Email</th><th>Expires</th></tr></thead>
+                    <tbody>
+                    {% for tip in price_tips %}
+                        <tr>
+                            <td>{{ tip.submittedAt|date('Y-m-d H:i') }}</td>
+                            <td><code>{{ tip.productSlug }}</code></td>
+                            <td><a href="{{ tip.listingUrl }}" target="_blank" rel="noopener noreferrer nofollow">Open listing ↗</a></td>
+                            <td>{{ tip.email ?: '—' }}</td>
+                            <td>{{ tip.expiresAt|date('Y-m-d') }}</td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="5" style="text-align: center; color: var(--muted); padding: 24px;">No price tips submitted yet.</td></tr>
                     {% endfor %}
                     </tbody>
                 </table>

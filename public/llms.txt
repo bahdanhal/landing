@@ -7,7 +7,7 @@
 - [About Bahdan Hal](https://bahdanhal.pl/): backend work, infrastructure, AI integrations and contact profiles
 - [Toolbox in English](https://bahdanhal.pl/tools): overview of all tools
 - [Toolbox in Polish](https://bahdanhal.pl/pl/narzedzia): polska wersja zestawu narzędzi
-- [Polish used-goods price index](https://bahdanhal.pl/tools/poland-used-price-index): weekly AI-assisted estimates with historical observations
+- [Polish used-goods price index](https://bahdanhal.pl/tools/poland-used-price-index): manually reviewed, dated asking-price snapshots with historical observations
 - [Indeks cen używanych](https://bahdanhal.pl/pl/narzedzia/indeks-cen-uzywanych): polska wersja indeksu
 - [GEO analyzer](https://bahdanhal.pl/tools/geo-audit): deterministic generative-engine-readiness checks
 - [SEO analyzer](https://bahdanhal.pl/tools/seo-audit): technical crawling and indexability checks
@@ -21,4 +21,4 @@
 
 ## Important limitations
 
-Used-goods price values are AI-assisted estimates of comparable asking prices, not scraped listings, completed-sale statistics, valuations, or purchasing advice. Marketplace identities, seller data, listing text, and marketplace links are not stored or published.
+Used-goods price values are manually reviewed aggregates of comparable public asking prices, not scraped listings, completed-sale statistics, valuations, or purchasing advice. Visitors may privately submit a public listing link for manual review; links are never fetched automatically or published, and seller data or listing text is not retained.

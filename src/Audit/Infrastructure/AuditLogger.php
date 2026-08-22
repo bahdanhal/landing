@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Audit\Infrastructure;
 
-final class AuditLogger
+final readonly class AuditLogger
 {
     public function __construct(
-        private readonly string $directory,
-        private readonly int $retentionDays,
+        private string $directory,
+        private int $retentionDays,
     ) {
     }
 
@@ -80,6 +80,32 @@ final class AuditLogger
             fn (array $matches): string => $this->safeUrl($matches[0]) ?? '[url]',
             $message,
         );
+    }
+
+    /** @return list<array<string, mixed>> */
+    public function events(): array
+    {
+        $files = glob(rtrim($this->directory, '/') . '/audit-*.jsonl') ?: [];
+        rsort($files);
+        $events = [];
+
+        foreach ($files as $file) {
+            $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
+            foreach (array_reverse($lines) as $line) {
+                try {
+                    $event = json_decode($line, true, flags: JSON_THROW_ON_ERROR);
+                    if (is_array($event) && isset($event['timestamp'], $event['event'])) {
+                        $events[] = $event;
+                    }
+                } catch (\Throwable) {
+                    continue;
+                }
+            }
+        }
+
+        usort($events, static fn (array $left, array $right): int => $right['timestamp'] <=> $left['timestamp']);
+
+        return $events;
     }
 
     private function logFile(): string

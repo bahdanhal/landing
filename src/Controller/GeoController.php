@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Exception\UnsafeUrlException;
-use App\Service\GeoAnalyzer;
+use App\Crawl\Domain\UnsafeUrlException;
+use App\Geo\Application\GeoAnalyzer;
 use App\Shared\Application\DailyQuota;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

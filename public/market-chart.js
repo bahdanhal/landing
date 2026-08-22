@@ -39,7 +39,7 @@
       `;
         }
 
-        // Точки и даты
+        // Data points and dates
         let pointsSvg = '';
         data.forEach((d, i) => {
             const x = getX(i);

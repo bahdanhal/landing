@@ -41,7 +41,7 @@ home:
         text: "Find redirect mistakes, crawler traps, duplicate URL spaces, canonical problems, and sitemap gaps."
     market:
         title: "Poland used-goods price index"
-        text: "Follow weekly AI-assisted estimates of comparable second-hand asking prices, with history, confidence and transparent limitations."
+        text: "Follow Bahdan’s manually reviewed snapshots of comparable second-hand asking prices, with history and transparent limitations."
     principles:
         private:
             title: "Private by default"
@@ -153,6 +153,10 @@ audit:
         findings: "Findings"
         finding_types: "finding types"
         empty: "No material issues were detected in the sampled crawl."
+        editorial_review: "Human editorial review"
+        not_scored: "RECOMMENDATIONS · NOT SCORED"
+        editorial_intro: "A crawler can verify delivery and structure, but it cannot decide whether a site is original, accurate, useful or trustworthy. Review these questions before publishing more pages."
+        people_first_source: "Google’s people-first content guidance"
         found_in: "Found in %count% places. Open an occurrence to see its URL and evidence."
         redirect_matrix: "Host & redirect matrix"
         variants: "variants"
@@ -185,17 +189,41 @@ audit:
         sitemap-parameters: "Sitemap contains parameter URLs"
         sitemap-coverage: "Crawlable pages are absent from the sitemap"
         crawler-trap-probe: "Unbounded URL variant returns indexable content"
+    advisories:
+        site-purpose:
+            title: "State one clear purpose for the site"
+            text: "Explain who the site serves and why its different sections belong together. A personal toolbox can be the focus when that connection is explicit."
+        people-first-value:
+            title: "Deliver a complete answer or working outcome"
+            text: "Prefer original tools, evidence and first-hand analysis over pages created only to capture query variations."
+        authorship-and-expertise:
+            title: "Make authorship and experience verifiable"
+            text: "Show who created or reviewed important content and link to a useful author or about page."
+        sources-and-methodology:
+            title: "Publish sources, assumptions and methodology"
+            text: "Explain how calculations, comparisons and important claims were produced and when their inputs were checked."
+        maintenance-and-dates:
+            title: "Use meaningful review dates"
+            text: "Change a reviewed or modified date only after the content or underlying data was substantively checked."
+        human-review:
+            title: "Finish with a real human review"
+            text: "Technical signals cannot establish accuracy, originality, helpfulness or trust. Read the page and complete its task as a visitor would."
 
 contact:
     email: "Your email"
+    email_optional: "Email (optional if you leave a phone number)"
+    phone_optional: "Phone (optional if you leave an email)"
+    message_optional: "What can I help with? (optional)"
+    message_placeholder: "A link and two sentences are enough."
     submit: "Ask Bahdan"
     company: "Company"
-    note: "Stored privately on this server so Bahdan can follow up. No mailing list."
+    note: "Stored privately on this server so Bahdan can follow up. No mailing list or automated sales sequence."
     invalid_origin: "Invalid form origin."
-    saved: "Thanks — your email is saved. Bahdan will follow up."
+    saved: "Thanks — your contact request is saved. Bahdan will follow up."
     too_many: "Too many contact requests today. Please use a direct contact link instead."
     invalid_email: "Please enter a valid email address."
-    failed: "Could not save your email right now. Please use a direct contact link."
+    invalid_contact: "Please enter a valid email address or phone number."
+    failed: "Could not save your contact request right now. Please use a direct contact link."
     saving: "Saving…"
 
 geo:
@@ -303,12 +331,12 @@ geo:
 
 market:
     meta:
-        title: "Poland Fair Marketplace Prices · Weekly Value Guide"
+        title: "Poland Fair Marketplace Prices · Community Value Guide"
         description: "Explore fair market prices and asking price histories for electronics and cars in Poland. Check real market values for iPhone, MacBook, or RAM without marketplace scraping."
     product_meta:
         title: "How much does a used %product% cost? Asking Price & History in Poland"
-        description: "Check how much a used %product% costs in Poland. Weekly median asking price, price trend chart, comparable range, and deal checker."
-    eyebrow: "POLAND · FAIR MARKET VALUE · WEEKLY"
+        description: "Check how much a used %product% costs in Poland. Manually reviewed median asking price, price history, comparable range, and deal checker."
+    eyebrow: "POLAND · COMMUNITY PRICE GUIDE · MANUALLY REVIEWED"
     heading_start: "What is second-hand gear"
     heading_emphasis: "really worth on the marketplace?"
     lede: "Fair marketplace prices and dated valuation histories in Poland. Discover what devices actually cost right now and how prices trended over the past month."
@@ -319,18 +347,19 @@ market:
         cars: "CARS"
     observed: "Observed"
     awaiting: "First observation pending"
-    awaiting_note: "The history will begin after the next verified weekly research run."
+    awaiting_note: "The history will begin after Bahdan’s next manual market review."
     open_history: "Open price history"
     method:
         title: "What makes this useful—and honest"
-        text: "This is a longitudinal observation series, not a scraped marketplace database and not a claim about completed transactions. Each weekly point uses the same exact product definition."
-        one: "AI web research estimates current market levels without our server crawling or parsing marketplaces."
-        two: "A snapshot is rejected unless the model reports a usable comparable sample and a consistent range. Marketplace listings, names and links are not stored or republished."
-        public: "A configured AI model reviews current public market information using one fixed product definition. The application records the returned median, range and reported sample only after consistency checks. This server does not crawl, parse, copy or republish marketplace listings or links."
-        verified_by_bahdan: "All market price points are continuously cross-checked against actual secondary market listings, with key product categories personally verified and calibrated by Bahdan."
+        text: "This is a longitudinal observation series, not a scraped marketplace database and not a claim about completed transactions. Every review uses the same exact product definition."
+        one: "Bahdan manually reviews comparable public listings for the exact configuration. No automated marketplace crawler is used."
+        two: "Only an aggregate median, range, sample size and review date are published. Submitted source links stay in a private review queue."
+        three: "Community tips help find unusually good offers, but every published price point remains Bahdan’s manual editorial decision."
+        public: "Bahdan manually reviews a small comparable sample using one fixed product definition. The public page contains only the resulting aggregate range, median, sample size and date. Submitted listing links are private, are never republished or fetched automatically, and are removed after 90 days."
+        verified_by_bahdan: "Every published market point is personally reviewed and calibrated by Bahdan against comparable public listings."
         verified_badge: "Verified & curated by Bahdan"
     back: "All fair price histories"
-    product_eyebrow: "WEEKLY POLISH FAIR MARKET VALUE OBSERVATION"
+    product_eyebrow: "MANUALLY REVIEWED POLISH ASKING-PRICE HISTORY"
     product_lede: "This page tracks comparable, fully working units on the Polish secondary market over time. New, damaged, parts-only, bundled, locked, and refurbished-as-new offers are excluded consistently."
     median: "Fair Market Median"
     asking_price: "Observed fair asking price"
@@ -338,12 +367,12 @@ market:
     comparable_range: "Typical market price range"
     evidence: "Evidence"
     updated: "Observed"
-    weekly: "Updated weekly"
+    weekly: "Updated after manual review"
     month_ago: "1 month ago (30 days)"
     month_change: "30-day change"
     no_month_data: "Gathering 30-day baseline"
     snapshot: "What the latest market valuation says"
-    snapshot_text: "On %date%, the estimated fair median asking price for %product% in Poland was %median%. The typical range was %low%–%high%. No marketplace identity, listing, or link is retained or published."
+    snapshot_text: "On %date%, Bahdan’s manually reviewed median asking price for %product% in Poland was %median%. The comparable range was %low%–%high%. Individual listings are not republished."
     spec:
         generation: "Generation"
         variant: "Variant"
@@ -375,10 +404,23 @@ market:
         invalid: "Enter a product name and, if supplied, a valid email."
         failed: "The request could not be saved right now."
         too_many: "Too many requests from this connection today. Please try again tomorrow."
+    tip:
+        eyebrow: "FOUND IT CHEAPER?"
+        title: "Help improve this price"
+        text: "Send a public listing for this exact configuration. Bahdan will review it manually before changing any published number."
+        url: "Public listing URL"
+        email: "Email (optional)"
+        submit: "Send price tip"
+        note: "Private review only. Query parameters and fragments are removed, the page is never fetched automatically, your IP is hashed, and the tip is deleted after 90 days."
+        saving: "Sending…"
+        saved: "Thank you — the listing is in Bahdan’s private review queue."
+        invalid: "Enter a valid public HTTP or HTTPS listing URL and, if supplied, a valid email."
+        failed: "The price tip could not be saved right now."
+        too_many: "Too many price tips from this connection today. Please try again tomorrow."
     mcp:
         eyebrow: "OPEN MCP SERVER"
-        title: "Use the price history from an AI assistant"
-        text: "The public, read-only MCP endpoint lets compatible assistants list tracked products and retrieve dated price history. No account or API key is required."
+        title: "Use the price history in your own tools"
+        text: "The public, read-only MCP endpoint lets compatible clients list tracked products and retrieve dated price history. No account or API key is required."
     choose_configuration: "Choose a configuration"
     faq:
         title: "Frequently asked pricing questions"
@@ -390,10 +432,10 @@ market:
             a: "Around 30 days ago, the estimated median was %median%, representing a change of %diff% (%diff_pct%%)."
         estimate:
             q: "Is this a completed-sale price or an appraisal?"
-            a: "No. It is an AI-assisted estimate of comparable asking prices observed for one exact configuration on a stated date. It is not a completed-sale statistic or appraisal."
+            a: "No. It is Bahdan’s manually reviewed snapshot of comparable asking prices for one exact configuration on a stated date. It is not a completed-sale statistic or appraisal."
         sources:
             q: "Does this page publish marketplace listings or names?"
-            a: "No. The research step returns only aggregate price fields and a sample count. The application does not retain or publish marketplace identities, seller details, listing text, or marketplace links."
+            a: "No. Only aggregate price fields and a sample count are published. Community-submitted links stay private for manual review and are automatically removed after 90 days."
     history: "Price history"
     observations: "observations"
     date: "Date"
@@ -406,11 +448,11 @@ market:
     methodology_label: "Observation methodology"
     latest_snapshot: "latest observation"
     no_data:
-        title: "The first weekly point is not published yet"
-        text: "This page is ready, but it will not invent a starting price. It becomes a price history only after a research run passes the evidence rules."
+        title: "The first reviewed price point is not published yet"
+        text: "This page is ready, but it will not invent a starting price. Its history begins only after Bahdan manually reviews a comparable sample."
     caveat:
         title: "Read the number correctly"
-        text: "These are AI-assisted market estimates, not scraped data, official statistics, completed-sale prices, a valuation, or purchasing advice. Marketplace availability and model access can change the sample."
+        text: "These are manually reviewed asking-price snapshots, not scraped data, official statistics, completed-sale prices, a valuation, or purchasing advice. Listings can disappear and condition varies."
     chart:
         title: "Price trend over time"
     checker:
@@ -479,14 +521,14 @@ income:
 
 profile:
     meta:
-        title: "Bahdan Hal · Backend Engineer in Gdańsk"
-        description: "Backend engineer working with PHP, Symfony, Laravel, Linux infrastructure and practical AI integrations. Based in Gdańsk, Poland."
-    role_short: "Backend Engineer"
-    eyebrow: "BACKEND ENGINEER · GDAŃSK"
-    heading: "I build systems"
-    heading_emphasis: "that stay useful."
-    intro: "I’m a backend engineer with more than five years of experience modernising PHP applications, operating Linux infrastructure, and shipping practical AI integrations. I like clear systems, measured trade-offs, and software that survives contact with production."
-    contact: "Email me"
+        title: "Bahdan Hal · Websites, AI integrations, MCP and production support"
+        description: "Websites, AI integrations, MCP servers and workflow automation delivered end to end, plus PHP systems, production support and honest technical consulting."
+    role_short: "Web & Backend Engineer"
+    eyebrow: "WEB PRESENCE · SYSTEMS · PRODUCTION"
+    heading: "From first idea"
+    heading_emphasis: "to reliable production."
+    intro: "I build and take responsibility for online systems end to end: websites, integrations, AI and MCP-powered tools, from the first honest technical decision through deployment, monitoring and the awkward production incident nobody can reproduce."
+    contact: "Free consultation"
     tools: "Open the toolbox"
     facts_label: "Professional summary"
     years: "years in software"
@@ -497,8 +539,36 @@ profile:
         title: "Practical infrastructure"
         text: "Docker, Linux hardening, migrations to cost-effective VPS and bare metal, mail deliverability, incident recovery, and production debugging."
     ai:
-        title: "AI with a job to do"
-        text: "Model integrations and agent tooling where they solve a concrete problem: content workflows, internal tools, structured research, and developer productivity."
+        title: "AI, MCP and custom tools"
+        text: "AI integrations, MCP servers, APIs, internal tools and workflow automation designed around a real job. I actively use and test these systems myself, so the advice comes from production practice rather than demos alone."
+    services:
+        eyebrow: "WHAT I CAN TAKE OFF YOUR PLATE"
+        title: "One person for the whole technical journey"
+        intro: "I can own a focused delivery, join an existing team, or investigate one stubborn problem. You get a direct technical opinion, clear trade-offs and somebody who stays for production."
+        presence:
+            title: "Online presence"
+            text: "A fast bilingual website, landing page, service portal or practical tool with domains, email, analytics choices, SEO foundations and deployment handled together."
+        delivery:
+            title: "End-to-end delivery"
+            text: "Discovery, architecture, backend, integrations, infrastructure, release and handover. No gap between ‘the feature is coded’ and ‘it works for real users’."
+        ai_integration:
+            title: "AI integrations and MCP servers"
+            text: "Model selection, secure tool access, retrieval, structured outputs, MCP servers, agent workflows, evaluation and observability—integrated into an existing product or built as a focused new tool."
+        automation:
+            title: "Workflow automation and adoption"
+            text: "I map repetitive work, prototype the useful part, connect the systems and help the team adopt it. I can consult on what to automate, what to keep human and how to verify the result."
+        duty:
+            title: "Night migration or deployment duty"
+            text: "Careful cutovers, data migrations, rollback plans and live production support when the safest window happens to be at night."
+        investigation:
+            title: "Strange production mysteries"
+            text: "The site stalls on Tuesdays at a random minute between 12:00 and 12:10, the code looks innocent and useful logs do not exist? I instrument, reproduce and follow the evidence."
+        legacy:
+            title: "Legacy, upgrades and speed"
+            text: "Framework and PHP upgrades, dependency recovery, test coverage around risky code, database and cache tuning, and gradual modernization without a reckless rewrite."
+        audit:
+            title: "Audit with a human touch"
+            text: "Architecture, reliability, security, performance, SEO and infrastructure reviewed in context. You get an honest opinion and a prioritised plan, not a ceremonial PDF."
     work:
         eyebrow: "SELECTED EXPERIENCE"
         title: "Recent work"
@@ -508,7 +578,15 @@ profile:
         consulting: "Linux security, migrations, SMTP deliverability, API integrations, and focused backend work for clients running real systems on practical budgets."
     present: "present"
     contact_eyebrow: "CONTACT"
-    contact_heading: "Have an interesting challenge?"
+    contact_heading: "Have a challenge—or simply an interesting idea?"
+    consultation:
+        eyebrow: "FREE FIRST CONSULTATION"
+        title: "Tell me what is happening"
+        text: "Leave an email or phone number and a short description. I will tell you honestly whether I can help, what I would check first and whether the problem needs paid work at all. A curious conversation about AI, systems or an unusual idea is welcome too."
+        one: "No mailing list and no sales sequence."
+        two: "Five submissions per connection per day, honeypot protection and hashed IP addresses."
+        three: "A link and two sentences are usually enough to start."
+        four: "No polished project brief is required; I am always happy to discuss an interesting technical idea."
     socials: "Contact and profiles"
     summit_alt: "Bahdan Hal on a mountain summit"
     summit_eyebrow: "RESILIENCE & PREPARATION"
@@ -519,4 +597,8 @@ profile:
         q1: "What backend stack and technologies do you specialise in?"
         a1: "My focus is PHP (Symfony, Laravel), PostgreSQL, MySQL, Redis, Linux systems, Docker containerisation, and deterministic or agentic AI integrations."
         q2: "What collaboration models and projects do you take on?"
-        a2: "I work on backend architecture, legacy migrations, API development, performance optimization, and independent consulting on B2B terms."
+        a2: "I take focused fixes, audits, migrations and integrations as well as end-to-end website or tool delivery. I can work independently or alongside an existing team on B2B terms."
+        q3: "Is the first consultation really free?"
+        a3: "Yes. The first conversation and an honest initial assessment are free. If the next useful step requires investigation or implementation, I will define the scope before any paid work."
+        q4: "Can we talk even if I do not have a defined project yet?"
+        a4: "Absolutely. I am always open to an interesting technical conversation, especially around AI adoption, MCP, automation, architecture or a stubborn system problem."

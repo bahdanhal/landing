@@ -7,7 +7,7 @@ A bilingual Symfony 8.1 / PHP 8.5 collection of focused practical tools, deploye
 - Polish contract income calculator: browser-only UoP, umowa zlecenie, umowa o dzieło and B2B comparison from one company budget using explicit 2026 assumptions.
 - GEO readiness audit: one-page deterministic checks for retrieval, answer structure, schema, provenance, citations, freshness and entity clarity. AI crawler policies are reported but not scored.
 - Technical SEO audit: redirects, canonical consolidation, crawl traps, parameter spaces, robots.txt, sitemap coverage and indexability.
-- Poland used-goods price index: weekly AI market estimates stored as a validated history without server-side marketplace crawling or public marketplace citations.
+- Poland used-goods price index: manually reviewed asking-price snapshots with a private, rate-limited community tip queue and no marketplace crawling.
 
 Every indexable page has English and Polish routes, self-canonicals, reciprocal `hreflang` links and sitemap entries. Crawl result pages are `noindex`.
 
@@ -35,18 +35,15 @@ SEO and GEO audits share a fixed allowance of 10 submissions per client IP per U
 
 The Symfony client rejects private and reserved network destinations, uses a bounded response size and timeout, respects robots.txt for multi-page SEO crawls, limits concurrency and spaces request batches.
 
-## Weekly market observations
+## Manually reviewed market observations
 
-The market vertical follows domain/application/infrastructure boundaries. Claude performs live web research through its provider; this server does not crawl or parse marketplace pages. No marketplace listing, seller, domain, quote or URL is stored, rendered or indexed. The application accepts only a consistent PLN range and a reported comparable sample. Accepted AI-estimate snapshots are stored in the private `market_data` volume.
+Bahdan reviews small samples of comparable public asking prices and records only aggregate observations through the authenticated admin panel. The server never crawls marketplace pages. Visitors may submit a listing URL as a private price tip; query strings and fragments are stripped, no page is fetched automatically, the IP address is HMAC-hashed, and the individual tip file is removed after 90 days. Submitted links are visible only in the authenticated admin review queue and are never republished.
 
-`ANTHROPIC_MODEL` is used for short audit summaries. `MARKET_RESEARCH_MODEL` is intentionally separate so the weekly research job can use a stronger model without increasing the cost of ordinary audits.
+The complete submission and retention policy is documented in [docs/market-price-tips.md](docs/market-price-tips.md).
 
-Run the complete catalog manually with:
+The MCP endpoint also exposes Bearer-protected administrative tools for viewing consultation leads, product requests, active price tips, recent SEO audit outcomes, submission trends and market coverage. Tokens are supplied only through the HTTP `Authorization` header; they are never tool arguments. Setup and privacy rules are documented in [docs/admin-mcp.md](docs/admin-mcp.md).
 
-```bash
-cd /home/bahdan-landing
-docker compose -p seo --env-file production.env exec app php bin/console app:market:observe
-```
+`AI_SUMMARY_MODEL` is used only for optional English summaries of deterministic SEO audit evidence. It does not participate in market observations.
 
 ## Contact leads
 
@@ -77,4 +74,8 @@ The Docker Compose stack contains PHP-FPM and Caddy. Caddy normalizes HTTP/HTTPS
 - **[CONTRIBUTING.md](CONTRIBUTING.md)**: Engineering standards, strict English language policy for code/comments, Clean Code, SOLID, Domain-Driven Design (DDD), Docker workflows, and testing quality gates.
 - **[AGENTS.md](AGENTS.md)**: Instructions and constraints for AI coding assistants.
 - **[ARCHITECTURE.md](ARCHITECTURE.md)**: Detailed system architecture, bounded contexts, zero-DB persistence model, and SSRF security design.
+- **[docs/admin-mcp.md](docs/admin-mcp.md)**: Administrative MCP authentication, tools, operation, and private-data handling.
 
+## License
+
+The application source code is available under the [MIT License](LICENSE). Third-party market images retain the licenses and attribution documented in [public/images/market/ATTRIBUTION.md](public/images/market/ATTRIBUTION.md). Personal photographs and the Bahdan Hal name, portrait, biography, and branding are not granted for reuse by the MIT software license.

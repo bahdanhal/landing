@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Audit\Application;
 
-final class IssueGrouper
+final readonly class IssueGrouper
 {
     /** @return list<array{severity:string,code:string,title:string,occurrences:list<array{detail:string,evidence:array}>}> */
     public function group(array $issues): array

@@ -11,7 +11,6 @@ parameters:
   market.data_directory: '%env(MARKET_DATA_DIRECTORY)%'
   ai.provider: '%env(AI_PROVIDER)%'
   ai.summary_model: '%env(AI_SUMMARY_MODEL)%'
-  ai.research_model: '%env(AI_RESEARCH_MODEL)%'
 
 services:
   _defaults:
@@ -22,7 +21,7 @@ services:
     resource: '../src/'
     exclude: '../src/{DependencyInjection,Entity,Kernel.php}'
 
-  App\Service\SiteAuditor:
+  App\Audit\Application\SiteAuditor:
     arguments:
       $maxPages: '%audit.max_pages%'
       $concurrency: '%audit.concurrency%'
@@ -30,12 +29,12 @@ services:
       $cacheTtl: '%audit.cache_ttl%'
       $auditCache: '@app.audit_cache'
 
-  App\Service\GeoAnalyzer:
+  App\Geo\Application\GeoAnalyzer:
     arguments:
       $cacheTtl: '%audit.cache_ttl%'
       $auditCache: '@app.audit_cache'
 
-  App\Service\AiSummaryService:
+  App\Audit\Application\AiSummaryService:
     arguments:
       $configurationFingerprint: '%ai.provider%:%ai.summary_model%'
 
@@ -45,25 +44,19 @@ services:
       $geminiPlatform: '@ai.platform.gemini'
       $provider: '%ai.provider%'
       $summaryModel: '%ai.summary_model%'
-      $researchModel: '%ai.research_model%'
 
   App\Shared\AI\AiClient:
     alias: App\Shared\AI\SymfonyAiClient
 
-  App\Service\HttpFetcher:
+  App\Crawl\Infrastructure\HttpFetcher:
     arguments:
       $timeoutSeconds: '%audit.timeout_seconds%'
       $maxBodyBytes: '%audit.max_body_bytes%'
 
-  App\Service\AuditLogger:
+  App\Audit\Infrastructure\AuditLogger:
     arguments:
       $directory: '%audit.log_directory%'
       $retentionDays: '%audit.log_retention_days%'
-
-  App\Service\ContactLeadStore:
-    arguments:
-      $directory: '%contact.lead_directory%'
-      $secret: '%env(APP_SECRET)%'
 
   App\Lead\Domain\LeadRepository:
     alias: App\Lead\Infrastructure\JsonlLeadRepository
@@ -75,6 +68,10 @@ services:
   App\Lead\Application\CaptureLead:
     arguments:
       $secret: '%env(APP_SECRET)%'
+
+  App\Mcp\AdminAccess:
+    arguments:
+      $token: '%env(MARKET_ADMIN_TOKEN)%'
 
   App\Controller\AuditController:
     arguments:
@@ -92,9 +89,6 @@ services:
   App\Market\Domain\PriceObservationRepository:
     alias: App\Market\Infrastructure\JsonPriceObservationRepository
 
-  App\Market\Application\MarketResearcher:
-    alias: App\Market\Infrastructure\SymfonyAiMarketResearcher
-
   App\Market\Infrastructure\JsonPriceObservationRepository:
     arguments:
       $directory: '%market.data_directory%'
@@ -104,9 +98,15 @@ services:
       $directory: '%market.data_directory%'
       $secret: '%env(APP_SECRET)%'
 
+  App\Market\Infrastructure\JsonPriceTipRepository:
+    arguments:
+      $directory: '%market.data_directory%'
+      $secret: '%env(APP_SECRET)%'
+
   App\Controller\MarketController:
     arguments:
       $productRequestLimiter: '@limiter.product_request'
+      $priceTipLimiter: '@limiter.price_tip'
 
   App\Controller\Admin\MarketAdminController:
     arguments:

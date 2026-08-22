@@ -7,7 +7,7 @@ namespace App\Market\Application;
 use App\Market\Domain\Product;
 use App\Market\Domain\ProductFamily;
 
-final class ProductCatalog
+final readonly class ProductCatalog
 {
     /** @return list<Product> */
     public function all(): array
@@ -48,7 +48,7 @@ final class ProductCatalog
         }
 
         return array_map(function (array $products): ProductFamily {
-            $first = $products[0];
+            $first = array_first($products);
             $familySlug = $this->familySlug($first);
             $name = match ($first->category) {
                 'smartphones' => 'Apple ' . $first->specifications['generation'],
@@ -73,15 +73,6 @@ final class ProductCatalog
                 $products,
             );
         }, array_values($families));
-    }
-
-    /** @return list<Product> */
-    public function familyDefaults(): array
-    {
-        return array_map(
-            static fn (ProductFamily $family): Product => $family->defaultConfiguration(),
-            $this->families()
-        );
     }
 
     /** @return array{0: string, 1: string, 2: string} */

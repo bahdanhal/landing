@@ -52,7 +52,7 @@ final class SitemapControllerTest extends TestCase
                     8,
                     'medium',
                     '',
-                    'AI-assisted estimate from current profile market information; no marketplace identities, listings, or links retained.',
+                    PriceObservation::METHODOLOGY_MANUAL,
                 );
             }
 

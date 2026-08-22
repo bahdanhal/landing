@@ -8,14 +8,13 @@ use App\Market\Application\ProductCatalog;
 use App\Market\Domain\PriceObservationRepository;
 use Mcp\Capability\Attribute\McpTool;
 use Mcp\Capability\Attribute\Schema;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 final readonly class MarketPriceTools
 {
     public function __construct(
         private ProductCatalog $catalog,
         private PriceObservationRepository $observations,
-        private ?RequestStack $requestStack = null,
+        private ?AdminAccess $adminAccess = null,
     ) {
     }
 
@@ -41,7 +40,7 @@ final readonly class MarketPriceTools
     #[McpTool(
         name: 'get_polish_used_price_history',
         // phpcs:ignore Generic.Files.LineLength
-        description: 'Get dated AI-assisted Polish used asking-price estimates for one exact product configuration. Returns no marketplace names, listings, sellers, or URLs.'
+        description: 'Get dated, manually reviewed Polish used asking-price observations for one exact product configuration.'
     )]
     public function getHistory(#[Schema(description: 'Product slug returned by list_polish_used_price_products.')] string $slug): string
     {
@@ -63,7 +62,7 @@ final readonly class MarketPriceTools
                 'confidence' => $item->confidence,
             ], $this->observations->history($slug)),
             // phpcs:ignore Generic.Files.LineLength
-            'methodology' => 'AI-assisted estimate of comparable profile asking prices; not scraped data, completed-sale statistics, a valuation, or purchasing advice.',
+            'methodology' => 'Manually reviewed aggregate of comparable public asking prices; not scraped data, completed-sale statistics, a valuation, or purchasing advice.',
             'canonical_url' => $this->canonicalUrl($slug),
         ]);
     }
@@ -83,23 +82,7 @@ final readonly class MarketPriceTools
         #[Schema(description: 'Optional observation date in YYYY-MM-DD or ISO 8601 format (defaults to current date).')] ?string $observed_at = null,
         #[Schema(description: 'Optional summary note or verification details.')] ?string $summary = null,
     ): string {
-        $expectedToken = (string) ($_ENV['MARKET_ADMIN_TOKEN'] ?? $_ENV['APP_SECRET'] ?? '');
-        if ($expectedToken === '') {
-            return $this->json(['error' => 'Unauthorized: Invalid admin token.']);
-        }
-
-        $providedToken = '';
-        if ($this->requestStack !== null) {
-            $request = $this->requestStack->getCurrentRequest();
-            if ($request !== null) {
-                $authHeader = $request->headers->get('Authorization') ?? '';
-                if (preg_match('/^Bearer\s+(.+)$/i', $authHeader, $matches)) {
-                    $providedToken = trim($matches[1]);
-                }
-            }
-        }
-
-        if ($providedToken === '' || !hash_equals($expectedToken, $providedToken)) {
+        if ($this->adminAccess?->isGranted() !== true) {
             return $this->json(['error' => 'Unauthorized: Invalid admin token.']);
         }
 
@@ -133,8 +116,6 @@ final readonly class MarketPriceTools
         }
 
         $note = $summary ?? 'Verified and calibrated against Polish secondary market listings.';
-        // phpcs:ignore Generic.Files.LineLength
-        $methodology = 'Manual verified calibration against Polish second-hand market listings; verified and curated personally by Bahdan.';
 
         $observation = new \App\Market\Domain\PriceObservation(
             $slug,
@@ -145,7 +126,7 @@ final readonly class MarketPriceTools
             $sampleSize,
             $confidenceLevel,
             $note,
-            $methodology
+            \App\Market\Domain\PriceObservation::METHODOLOGY_MANUAL
         );
 
         $this->observations->save($observation);

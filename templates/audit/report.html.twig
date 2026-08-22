@@ -77,6 +77,24 @@
     {% endif %}
   </section>
 
+  <section class="section editorial-review">
+    <div class="section-title">
+      <h2>{{ 'audit.report.editorial_review'|trans }}</h2>
+      <span>{{ 'audit.report.not_scored'|trans }}</span>
+    </div>
+    <p>{{ 'audit.report.editorial_intro'|trans }}</p>
+    <div class="priority-grid">
+      {% for advisory in report.editorial_advisories %}
+        <article>
+          <b>{{ loop.index < 10 ? '0' ~ loop.index : loop.index }}</b>
+          <h3>{{ ('audit.advisories.' ~ advisory.code ~ '.title')|trans }}</h3>
+          <p>{{ ('audit.advisories.' ~ advisory.code ~ '.text')|trans }}</p>
+        </article>
+      {% endfor %}
+    </div>
+    <p><a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" rel="noopener noreferrer">{{ 'audit.report.people_first_source'|trans }} ↗</a></p>
+  </section>
+
   <section class="section">
     <div class="section-title"><h2>{{ 'audit.report.redirect_matrix'|trans }}</h2><span>{{ report.redirect_matrix|length }} {{ 'audit.report.variants'|trans }}</span></div>
     <div class="table-wrap"><table><thead><tr><th>Requested</th><th>Status</th><th>Hops</th><th>Final URL</th><th>Time</th></tr></thead><tbody>

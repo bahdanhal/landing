@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Crawl\Infrastructure;
 
-use App\Exception\UnsafeUrlException;
+use App\Crawl\Domain\UnsafeUrlException;
 
-class UrlGuard
+final readonly class UrlGuard
 {
     public function normalize(string $input): string
     {

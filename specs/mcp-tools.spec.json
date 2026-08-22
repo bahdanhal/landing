@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Model Context Protocol (MCP) Tools Specification",
   "description": "Formal contract definition for all MCP tools exposed to external AI agents.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "endpoint": "/mcp",
   "tools": [
     {
@@ -12,7 +12,7 @@
     },
     {
       "name": "get_polish_used_price_history",
-      "description": "Get dated Polish marketplace fair price estimates for one exact product slug.",
+      "description": "Get dated, manually reviewed Polish marketplace asking-price observations for one exact product slug.",
       "parameters": [
         {
           "name": "slug",
@@ -112,7 +112,55 @@
           "required": false
         }
       ]
+    },
+    {
+      "name": "get_admin_dashboard_statistics",
+      "description": "Admin-only aggregate statistics for private submissions and market coverage. Requires Bearer authorization.",
+      "parameters": []
+    },
+    {
+      "name": "list_admin_contact_leads",
+      "description": "Admin-only list of recent private consultation requests. Requires Bearer authorization.",
+      "parameters": [
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "list_admin_product_requests",
+      "description": "Admin-only list of requested products for the price index. Requires Bearer authorization.",
+      "parameters": [
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "list_admin_price_tips",
+      "description": "Admin-only list of active listing links awaiting manual price review. Requires Bearer authorization.",
+      "parameters": [
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "list_admin_recent_audits",
+      "description": "Admin-only list of recent SEO audit runs with sanitized operational details. Requires Bearer authorization.",
+      "parameters": [
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false
+        }
+      ]
     }
   ]
 }
-

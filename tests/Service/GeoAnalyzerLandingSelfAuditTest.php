@@ -6,11 +6,11 @@ namespace App\Tests\Service;
 
 use App\Kernel;
 use App\Mcp\GeoTools;
-use App\Service\GeoAnalyzer;
-use App\Service\HttpFetcher;
-use App\Service\PageAnalyzer;
-use App\Service\RobotsPolicy;
-use App\Service\UrlGuard;
+use App\Geo\Application\GeoAnalyzer;
+use App\Crawl\Infrastructure\HttpFetcher;
+use App\Crawl\Application\PageAnalyzer;
+use App\Crawl\Domain\RobotsPolicy;
+use App\Crawl\Infrastructure\UrlGuard;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
