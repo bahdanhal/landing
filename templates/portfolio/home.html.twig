@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% block body_class %}portfolio-page{% endblock %}
 {% block title %}{{ 'profile.meta.title'|trans }}{% endblock %}
 {% block robots %}<meta name="robots" content="index,follow">{% endblock %}
 {% block description %}<meta name="description" content="{{ 'profile.meta.description'|trans }}">{% endblock %}
@@ -45,6 +46,8 @@
             <span>5+ {{ 'profile.years'|trans }}</span>
         </section>
 
+        <p class="profile-scope">{{ 'profile.scope'|trans }}</p>
+
         <section class="profile-grid">
             <div><span class="profile-number">01</span><h2>{{ 'profile.backend.title'|trans }}</h2><p>{{ 'profile.backend.text'|trans }}</p></div>
             <div><span class="profile-number">02</span><h2>{{ 'profile.infrastructure.title'|trans }}</h2><p>{{ 'profile.infrastructure.text'|trans }}</p></div>
@@ -67,6 +70,31 @@
                 <li><article><time datetime="2022/2026">2022–2026</time><h3>Gdańskie Wydawnictwo Oświatowe</h3><p>{{ 'profile.work.gwo'|trans }}</p></article></li>
                 <li><article><time datetime="2022">2022–{{ 'profile.present'|trans }}</time><h3>{{ 'profile.work.consulting_title'|trans }}</h3><p>{{ 'profile.work.consulting'|trans }}</p></article></li>
             </ul>
+        </section>
+
+        <section class="profile-testimonials" aria-labelledby="testimonials-title">
+            <div class="profile-section-title">
+                <span>UPWORK</span>
+                <h2 id="testimonials-title">{{ 'profile.testimonials.title'|trans }}</h2>
+                <a href="https://www.upwork.com/freelancers/~014111a2d384da6af9" rel="me">{{ 'profile.testimonials.link'|trans }} →</a>
+            </div>
+            <div class="profile-testimonial-grid">
+                <figure>
+                    <div role="img" aria-label="{{ 'profile.testimonials.stars'|trans }}">★★★★★</div>
+                    <blockquote>“Easy to work with. Great communication. Excellent ability.”</blockquote>
+                    <figcaption>{{ 'profile.testimonials.rollup'|trans }}</figcaption>
+                </figure>
+                <figure>
+                    <div role="img" aria-label="{{ 'profile.testimonials.stars'|trans }}">★★★★★</div>
+                    <blockquote>“Perfect freelancer! Was a pleasure to work with him.”</blockquote>
+                    <figcaption>{{ 'profile.testimonials.transfer'|trans }}</figcaption>
+                </figure>
+                <aside>
+                    <strong>100%</strong>
+                    <span>{{ 'profile.testimonials.success'|trans }}</span>
+                    <small>{{ 'profile.testimonials.status'|trans }}</small>
+                </aside>
+            </div>
         </section>
 
         <figure class="profile-summit-feature">

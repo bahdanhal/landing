@@ -21,7 +21,7 @@
   <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'WebSite','@id':'https://bahdanhal.pl/#website','url':'https://bahdanhal.pl/','name':'Bahdan Hal','inLanguage':['en','pl'],'publisher':{'@id':'https://bahdanhal.pl/#bahdan'},'author':{'@id':'https://bahdanhal.pl/#bahdan'},'dateModified':'2026-08-22'},{'@type':'Person','@id':'https://bahdanhal.pl/#bahdan','name':'Bahdan Hal','url':'https://bahdanhal.pl/','jobTitle':'Backend Engineer','sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.instagram.com/bahdan.hal/','https://www.facebook.com/profile.php?id=100008404566585','https://www.upwork.com/freelancers/~014111a2d384da6af9']}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
   {% block head_scripts %}{% endblock %}
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
   <header class="topbar">
     <div class="brand-lockup">
       {% block brand_lockup %}
@@ -38,6 +38,9 @@
       <a href="{{ path('geo_home', {_locale: app.request.locale}) }}">{{ 'base.nav.geo'|trans }}</a>
       <a href="{{ path('seo_audit_home', {_locale: app.request.locale}) }}">{{ 'base.nav.seo'|trans }}</a>
       <a href="{{ path('market_home', {_locale: app.request.locale}) }}">{{ 'base.nav.market'|trans }}</a>
+      {% if app.request.attributes.get('_route') == 'landing' %}
+        <a class="mobile-toolbox-link" href="{{ path('home', {_locale: app.request.locale}) }}">{{ 'base.brand'|trans }}</a>
+      {% endif %}
       {% block language_switch %}
         <a class="language-switch" href="{{ path('home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
       {% endblock %}

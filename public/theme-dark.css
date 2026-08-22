@@ -99,3 +99,18 @@ th { background: #172840; }
   .tool-intro h1, .income-shell h1 { font-size: clamp(36px, 10vw, 52px); }
   .hero, .report-shell { padding-top: 44px; }
 }
+
+.portfolio-page .profile-shell {
+  --muted: #a9b8cc;
+}
+.portfolio-page .brand-credit {
+  color: #a9b8cc;
+  font-size: 11px;
+}
+.portfolio-page .profile-actions .profile-primary {
+  background: linear-gradient(145deg, #5aa9ff, #3578df);
+  box-shadow: 0 12px 28px rgba(34, 116, 218, .28);
+}
+.portfolio-page .profile-actions .profile-primary:hover {
+  background: linear-gradient(145deg, #73b7ff, #4488ed);
+}
