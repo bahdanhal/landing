@@ -35,6 +35,11 @@
                         </select>
                         <strong data-market-price>{{ initial.latest ? _self.money(initial.latest.medianGrosz, app.request.locale) : 'market.awaiting'|trans }}</strong>
                         <small data-market-note>{{ initial.latest ? ('market.observed'|trans ~ ' ' ~ initial.latest.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y')) : 'market.awaiting_note'|trans }}</small>
+                        <div class="market-configurations-list" aria-label="{{ 'market.choose_configuration'|trans }}">
+                            {% for configuration in item.configurations %}
+                                <a class="market-config-chip" href="{{ path('market_product', {_locale: app.request.locale, slug: configuration.product.slug}) }}">{{ configuration.product.name|replace({(item.family.name ~ ' '): ''}) }}</a>
+                            {% endfor %}
+                        </div>
                         <a class="market-open" data-market-link href="{{ path('market_product', {_locale: app.request.locale, slug: initial.product.slug}) }}">{{ 'market.open_history'|trans }} →</a>
                     </div>
                 </article>

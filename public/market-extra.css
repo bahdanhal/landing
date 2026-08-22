@@ -282,3 +282,43 @@
 @media (max-width: 700px) {
     .deal-controls { grid-template-columns: 1fr; }
 }
+
+.market-configurations-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+}
+
+.market-config-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.market-config-chip:hover {
+    color: var(--ink);
+    border-color: var(--orange);
+    background: rgba(255, 122, 0, 0.1);
+}
+
+.market-config-chip.active {
+    color: var(--ink);
+    border-color: var(--orange);
+    background: rgba(255, 122, 0, 0.2);
+}
+
+.market-product-siblings {
+    margin: -16px 0 28px;
+}
+
+
+

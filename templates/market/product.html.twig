@@ -61,6 +61,13 @@
                 </div>
             {% endfor %}
         </dl>
+        {% if family and family.configurations|length > 1 %}
+            <nav class="market-configurations-list market-product-siblings" aria-label="{{ 'market.choose_configuration'|trans }}">
+                {% for sibling in family.configurations %}
+                    <a class="market-config-chip {{ sibling.slug == product.slug ? 'active' : '' }}" href="{{ path('market_product', {_locale: app.request.locale, slug: sibling.slug}) }}">{{ sibling.name|replace({(family.name ~ ' '): ''}) }}</a>
+                {% endfor %}
+            </nav>
+        {% endif %}
 
         {% if latest %}
             {% set previous = history|length > 1 ? history[1] : null %}
