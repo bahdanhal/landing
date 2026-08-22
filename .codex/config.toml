@@ -5,7 +5,7 @@ args = [
     "-i",
     "--rm",
     "-v",
-    "/Users/bahdan/usio/bahdanhal/bahdan-landing/var:/app/var",
+    "/Users/bahdan/usio/bahdanhal/bahdan-landing/var/market-data:/app/var/market-data",
     "--env-file",
     "/Users/bahdan/usio/bahdanhal/bahdan-landing/.env.example",
     "-e",
