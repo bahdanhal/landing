@@ -1,8 +1,8 @@
 :root {
   color-scheme: dark;
   --ink: #e7eef8;
-  --paper: #09111f;
-  --panel: #111d2f;
+  --paper: #0d1828;
+  --panel: #16263b;
   --muted: #9aaac0;
   --line: #293b55;
   --orange: #5aa9ff;
@@ -12,17 +12,19 @@
   --green: #63d6aa;
 }
 
-html { background: #09111f; }
+html { background: #0d1828; }
 body {
   background:
-    radial-gradient(circle at 14% 0%, rgba(55, 112, 181, .20), transparent 34rem),
-    radial-gradient(circle at 88% 22%, rgba(41, 91, 160, .13), transparent 30rem),
+    radial-gradient(circle at 12% 2%, rgba(82, 146, 224, .30), transparent 38rem),
+    radial-gradient(circle at 88% 26%, rgba(53, 112, 190, .21), transparent 34rem),
+    linear-gradient(155deg, #12233a 0%, #0d1828 46%, #101d31 100%),
     var(--paper);
+  background-attachment: fixed;
 }
 ::selection { background: #287bc5; color: #fff; }
 
 .topbar {
-  background: rgba(9, 17, 31, .88);
+  background: rgba(12, 24, 40, .86);
   border-color: rgba(101, 137, 180, .28);
   box-shadow: 0 1px 0 rgba(255, 255, 255, .025);
 }
@@ -88,6 +90,8 @@ th { background: #172840; }
 .profile-grid > div, .feature-grid article, .geo-explainer article,
 .toolbox-principles > div { border-color: #507daf; }
 .profile-contact { background: linear-gradient(135deg, #07101e, #102a4a); }
+.market-latest { grid-template-columns: repeat(3, 1fr); }
+.market-request { background: rgba(22, 38, 59, .94); }
 
 @media (max-width: 800px) {
   .hero h1, .geo-home h1, .market-shell h1 { font-size: clamp(38px, 11vw, 54px); }

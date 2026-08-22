@@ -19,4 +19,21 @@ final readonly class ObserveMarket
 
         return $observation;
     }
+
+    /** @param list<string> $slugs @return list<PriceObservation> */
+    public function observeMany(array $slugs, ?\DateTimeImmutable $at = null): array
+    {
+        $products = array_map(function (string $slug) {
+            return $this->catalog->get($slug) ?? throw new \InvalidArgumentException('Unknown market product: '.$slug);
+        }, $slugs);
+        $observations = [];
+        foreach (array_chunk($products, 8) as $batch) {
+            foreach ($this->researcher->observeMany($batch, $at ?? new \DateTimeImmutable('now', new \DateTimeZone('Europe/Warsaw'))) as $observation) {
+                $this->repository->save($observation);
+                $observations[] = $observation;
+            }
+        }
+
+        return $observations;
+    }
 }

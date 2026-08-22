@@ -30,16 +30,28 @@
           <label for="configuration-{{ item.family.slug }}">{{ 'market.choose_configuration'|trans }}</label>
           <select id="configuration-{{ item.family.slug }}" data-market-select>
             {% for configuration in item.configurations %}
-              <option value="{{ path('market_product', {_locale: app.request.locale, slug: configuration.product.slug}) }}" data-price="{{ configuration.latest ? _self.money(configuration.latest.medianGrosz, app.request.locale) : 'market.awaiting'|trans }}" data-note="{{ configuration.latest ? ('market.observed'|trans ~ ' ' ~ configuration.latest.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y') ~ ' · n=' ~ configuration.latest.sampleSize) : 'market.awaiting_note'|trans }}">{{ configuration.product.name|replace({(item.family.name ~ ' '): ''}) }}</option>
+              <option value="{{ path('market_product', {_locale: app.request.locale, slug: configuration.product.slug}) }}" data-price="{{ configuration.latest ? _self.money(configuration.latest.medianGrosz, app.request.locale) : 'market.awaiting'|trans }}" data-note="{{ configuration.latest ? ('market.observed'|trans ~ ' ' ~ configuration.latest.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y')) : 'market.awaiting_note'|trans }}">{{ configuration.product.name|replace({(item.family.name ~ ' '): ''}) }}</option>
             {% endfor %}
           </select>
           <strong data-market-price>{{ initial.latest ? _self.money(initial.latest.medianGrosz, app.request.locale) : 'market.awaiting'|trans }}</strong>
-          <small data-market-note>{{ initial.latest ? ('market.observed'|trans ~ ' ' ~ initial.latest.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y') ~ ' · n=' ~ initial.latest.sampleSize) : 'market.awaiting_note'|trans }}</small>
+          <small data-market-note>{{ initial.latest ? ('market.observed'|trans ~ ' ' ~ initial.latest.observedAt|date(app.request.locale == 'pl' ? 'd.m.Y' : 'M j, Y')) : 'market.awaiting_note'|trans }}</small>
           <a class="market-open" data-market-link href="{{ path('market_product', {_locale: app.request.locale, slug: initial.product.slug}) }}">{{ 'market.open_history'|trans }} →</a>
         </div>
       </article>
     {% endfor %}
   </div>
+
+  <section class="market-request">
+    <div><span class="market-category">{{ 'market.request.eyebrow'|trans }}</span><h2>{{ 'market.request.title'|trans }}</h2><p>{{ 'market.request.text'|trans }}</p></div>
+    <form class="lead-form" method="post" action="{{ path('market_request', {_locale: app.request.locale}) }}" data-product-request-form data-saving="{{ 'market.request.saving'|trans }}" data-fallback="{{ 'market.request.failed'|trans }}">
+      <label for="requested-product">{{ 'market.request.product'|trans }}</label>
+      <input id="requested-product" name="product" maxlength="160" placeholder="{{ 'market.request.placeholder'|trans }}" required>
+      <label for="request-email">{{ 'market.request.email'|trans }}</label>
+      <div class="lead-row"><input id="request-email" name="email" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com"><button type="submit">{{ 'market.request.submit'|trans }}</button></div>
+      <label class="lead-trap" aria-hidden="true">Company<input name="company" tabindex="-1" autocomplete="off"></label>
+      <small>{{ 'market.request.note'|trans }}</small><p class="lead-status" data-contact-status aria-live="polite"></p>
+    </form>
+  </section>
 
   <aside class="market-method"><strong>{{ 'market.method.title'|trans }}</strong><p>{{ 'market.method.text'|trans }}</p><ul><li>{{ 'market.method.one'|trans }}</li><li>{{ 'market.method.two'|trans }}</li><li>{{ 'market.method.three'|trans }}</li></ul></aside>
   <section class="market-mcp"><div><span class="market-category">{{ 'market.mcp.eyebrow'|trans }}</span><h2>{{ 'market.mcp.title'|trans }}</h2><p>{{ 'market.mcp.text'|trans }}</p></div><code>https://bahdan-hal.ovh/mcp</code></section>

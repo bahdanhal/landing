@@ -38,18 +38,23 @@ final class ObserveMarketCommand extends Command
             return Command::INVALID;
         }
         $at = $this->observationDate($input->getOption('at'));
-        $failures = 0;
-        foreach ($products as $product) {
-            try {
-                $observation = $this->observeMarket->observe($product->slug, $at);
-                $output->writeln(sprintf('<info>%s: %.2f PLN (%s, n=%d, %s)</info>', $product->name, $observation->medianGrosz / 100, $observation->confidence, $observation->sampleSize, $observation->observedAt->format('Y-m-d')));
-            } catch (\Throwable $exception) {
-                ++$failures;
-                $output->writeln(sprintf('<error>%s: %s</error>', $product->name, $exception->getMessage()));
+        try {
+            $observations = $this->observeMarket->observeMany(array_map(static fn ($product): string => $product->slug, $products), $at);
+            $names = [];
+            foreach ($products as $product) {
+                $names[$product->slug] = $product->name;
             }
+            foreach ($observations as $observation) {
+                $output->writeln(sprintf('<info>%s: %.2f PLN (%s, n=%d, %s)</info>', $names[$observation->productSlug] ?? $observation->productSlug, $observation->medianGrosz / 100, $observation->confidence, $observation->sampleSize, $observation->observedAt->format('Y-m-d')));
+            }
+        } catch (\Throwable $exception) {
+            $output->writeln(sprintf('<error>%s</error>', $exception->getMessage()));
+            return Command::FAILURE;
         }
 
-        return $failures === count($products) ? Command::FAILURE : Command::SUCCESS;
+        $output->writeln(sprintf('<comment>Stored %d of %d requested observations in batched research calls.</comment>', count($observations), count($products)));
+
+        return Command::SUCCESS;
     }
 
     private function observationDate(mixed $value): ?\DateTimeImmutable

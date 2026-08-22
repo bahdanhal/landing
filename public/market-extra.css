@@ -7,3 +7,6 @@
 .market-specs dt{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em}
 .market-specs dd{margin:4px 0 0;font-weight:800}
 @media(max-width:850px){.market-mcp{grid-template-columns:1fr}}
+.market-request{display:grid;grid-template-columns:minmax(0,.8fr) minmax(320px,1.2fr);gap:32px;align-items:start;margin-top:28px;padding:28px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.market-request h2{font-family:Georgia,serif;font-size:30px;margin:10px 0}.market-request p{color:var(--muted);line-height:1.55}.market-request .lead-form{margin:0}.market-request .lead-form>input{width:100%;margin-bottom:14px;border:1px solid var(--line);border-radius:8px;background:#f4f7fb;color:#10213a;font:inherit;padding:12px}
+@media(max-width:850px){.market-request{grid-template-columns:1fr}}

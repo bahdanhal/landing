@@ -10,7 +10,7 @@ final class ProductCatalog
     /** @return list<Product> */
     public function all(): array
     {
-        return [...$this->iphones(), ...$this->macBooks()];
+        return [...$this->iphones(), ...$this->macBooks(), ...$this->cars()];
     }
 
     public function get(string $slug): ?Product
@@ -35,15 +35,18 @@ final class ProductCatalog
         return array_map(function (array $products): ProductFamily {
             $first = $products[0];
             $familySlug = $this->familySlug($first);
-            $name = $first->category === 'smartphones'
-                ? 'Apple '.$first->specifications['generation']
-                : sprintf('MacBook Air %s %s', $first->specifications['display'], $first->specifications['chip']);
+            $name = match ($first->category) {
+                'smartphones' => 'Apple '.$first->specifications['generation'],
+                'laptops' => sprintf('MacBook Air %s %s', $first->specifications['display'], $first->specifications['chip']),
+                'cars' => 'Peugeot 206 CC',
+            };
             [$image, $credit, $source] = match ($familySlug) {
                 'iphone-13' => ['/images/market/iphone-13.jpg', 'Kskhh', 'https://commons.wikimedia.org/wiki/File:IPhone_13.jpg'],
                 'iphone-14' => ['/images/market/iphone-14-plus.jpg', 'Kskhh', 'https://commons.wikimedia.org/wiki/File:IPhone_13_and_iPhone_14_Plus.jpg'],
                 'macbook-air-13-m1' => ['/images/market/macbook-air-m1.png', 'L', 'https://commons.wikimedia.org/wiki/File:Macbook_Air_M1_Silver_PNG.png'],
                 'macbook-air-13-m2' => ['/images/market/macbook-air-m2.jpg', 'KKPCW (Kyu3)', 'https://commons.wikimedia.org/wiki/File:M2_Macbook_Air_Midnight_model_-_1.jpg'],
                 'macbook-air-15-m2' => ['/images/market/macbook-air-15.jpg', 'KKPCW (Kyu3)', 'https://commons.wikimedia.org/wiki/File:Macbook_Air_15_inch_-_1.jpg'],
+                'peugeot-206-cc' => ['/images/market/peugeot-206-cc.jpg', 'Corvettec6r', 'https://commons.wikimedia.org/wiki/File:Peugeot_206_CC.jpg'],
             };
 
             return new ProductFamily(
@@ -68,6 +71,10 @@ final class ProductCatalog
     {
         if ($product->category === 'smartphones') {
             return strtolower(str_replace(' ', '-', $product->specifications['generation']));
+        }
+
+        if ($product->category === 'cars') {
+            return 'peugeot-206-cc';
         }
 
         return strtolower(str_replace([' ', '-inch'], ['-', ''], sprintf('macbook-air-%s-%s', $product->specifications['display'], $product->specifications['chip'])));
@@ -120,5 +127,26 @@ final class ProductCatalog
         }
 
         return $products;
+    }
+
+    /** @return list<Product> */
+    private function cars(): array
+    {
+        return [
+            new Product(
+                'peugeot-206-cc-1-6-petrol',
+                'Peugeot 206 CC 1.6 petrol',
+                'Used, registered and roadworthy Peugeot 206 CC with the 1.6-litre petrol engine in Poland. Include complete running cars with normal age-related wear. Exclude damaged, parts-only, non-running, heavily modified, imported-unregistered and dealer-new vehicles.',
+                'cars',
+                ['model' => '206 CC', 'engine' => '1.6 petrol', 'market' => 'Poland'],
+            ),
+            new Product(
+                'peugeot-206-cc-2-0-petrol',
+                'Peugeot 206 CC 2.0 petrol',
+                'Used, registered and roadworthy Peugeot 206 CC with the 2.0-litre petrol engine in Poland. Include complete running cars with normal age-related wear. Exclude damaged, parts-only, non-running, heavily modified, imported-unregistered and dealer-new vehicles.',
+                'cars',
+                ['model' => '206 CC', 'engine' => '2.0 petrol', 'market' => 'Poland'],
+            ),
+        ];
     }
 }

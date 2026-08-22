@@ -88,6 +88,15 @@ services:
     arguments:
       $directory: '%market.data_directory%'
 
+  App\Market\Infrastructure\JsonProductRequestStore:
+    arguments:
+      $directory: '%market.data_directory%'
+      $secret: '%env(APP_SECRET)%'
+
+  App\Controller\MarketController:
+    arguments:
+      $productRequestLimiter: '@limiter.product_request'
+
   app.audit_cache:
     class: Symfony\Component\Cache\Adapter\FilesystemAdapter
     arguments:
