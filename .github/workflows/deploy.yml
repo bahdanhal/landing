@@ -47,6 +47,8 @@ jobs:
           rsync -az --delete \
             --exclude='.git*' \
             --exclude='.idea' \
+            --exclude='.agents' \
+            --exclude='.codex' \
             --exclude='production.env' \
             --exclude='.env.local' \
             --exclude='certbot-webroot' \
@@ -56,7 +58,7 @@ jobs:
       - name: Rebuild & Restart Production Containers
         run: |
           ssh ${{ secrets.SSH_USER || 'root' }}@${{ secrets.SSH_HOST || '62.238.1.164' }} \
-            'cd /home/bahdan-landing && docker compose -p seo --env-file production.env up -d --build'
+            'cd /home/bahdan-landing && chmod -R u+rwX,go+rX . 2>/dev/null || true; docker compose -p seo --env-file production.env up -d --build'
 
       - name: Health Check Verification
         run: |
