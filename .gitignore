@@ -4,6 +4,7 @@
 /.phpunit.cache
 /certbot-webroot/
 .DS_Store
+/.idea/
 /vendor/
 /var/
 /.env.local.php
