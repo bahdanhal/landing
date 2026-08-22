@@ -75,7 +75,7 @@ src/
 - **Layer Separation**:
   - **`Domain/`**: Contains pure business logic, Entities (e.g. `Product`), Aggregates (`ProductFamily`), Value Objects (`PriceObservation`), and Repository interfaces (`PriceObservationRepository`). **Zero dependencies on external frameworks, HTTP clients, or persistence mechanics.**
   - **`Application/`**: Contains use case orchestrators, DTOs, and application-level service contracts.
-  - **`Infrastructure/`**: Implements domain/application contracts (e.g. `JsonPriceObservationRepository`, `JsonPriceTipRepository`, `JsonProductRequestStore`). Handles file I/O, AI SDKs, and network transport.
+  - **`Infrastructure/`**: Implements domain/application contracts (for example Doctrine repositories). Handles persistence, file I/O, AI SDKs, and network transport.
   - **`Controller/` & `Command/`**: Presentation and transport adapters. Never embed core business rules directly into controllers or CLI commands.
 - **Ubiquitous Language & Precision**:
   - Domain models must accurately reflect real-world semantics.
@@ -101,10 +101,11 @@ src/
 
 ## 3. Persistence, Privacy & Security Rules
 
-1. **Zero External Database (File-Based Storage)**:
-   - The application does not use an RDBMS or document database.
-   - Use atomic locked JSON records with temporary file swapping for single-record entities (e.g. `{slug}.json`).
-   - Use append-only JSONL files for telemetry and event logs (e.g. `audit-*.jsonl`, `leads-*.jsonl`, `product-requests-*.jsonl`).
+1. **Private PostgreSQL Persistence**:
+   - Domain repositories are implemented with Doctrine ORM and PostgreSQL 17.
+   - The database must remain on the private Compose network without published host ports.
+   - Schema changes require a versioned Doctrine migration committed with the code change.
+   - Filesystem JSON/JSONL adapters exist only for legacy import and bounded audit logging; do not bind them as primary repositories.
 2. **SSRF Guard & Network Isolation**:
    - All outbound HTTP requests must pass through multi-layered Server-Side Request Forgery defenses.
    - Reject private, reserved, and loopback IP ranges (`FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE`).
@@ -126,7 +127,7 @@ Using **Docker** is strongly recommended for all local development to ensure par
    ```bash
    cp .env.example .env.local
    ```
-2. Configure a strong `APP_SECRET` and any optional API keys in `.env.local`.
+2. Configure strong `APP_SECRET` and `POSTGRES_PASSWORD` values and add any optional API keys in `.env.local`.
 3. Start the containers:
    ```bash
    docker compose --env-file .env.local up --build
@@ -139,8 +140,8 @@ Run Symfony console commands or development utilities inside the running app con
 # Clear cache
 docker compose --env-file .env.local exec app php bin/console cache:clear
 
-# Run market observation job
-docker compose --env-file .env.local exec app php bin/console app:market:observe --families
+# Check migration status
+docker compose --env-file .env.local exec app php bin/console doctrine:migrations:status
 
 # Check container logs
 docker compose --env-file .env.local logs -f app web
@@ -163,14 +164,14 @@ docker run --rm --env-file .env.example -e APP_ENV=test bahdan-landing-test vend
 vendor/bin/phpunit
 ```
 
-### 2. JavaScript Math Test Suite
-Verify the client-side Polish income tax and contract calculation engine:
+### 2. JavaScript Test Suites
+Verify all browser-side calculation, sanitization, and transpilation logic:
 ```bash
 # Via Docker (recommended)
-docker run --rm -v "$PWD:/app" -w /app node:24-alpine node tests/js/income-math.test.js
+docker run --rm -v "$PWD:/app" -w /app node:24-alpine sh -lc 'for test in tests/js/*.test.js; do node "$test" || exit 1; done'
 
 # Or locally (if Node.js is installed)
-node tests/js/income-math.test.js
+for test in tests/js/*.test.js; do node "$test" || exit 1; done
 ```
 
 ### 3. Template & Configuration Linters
@@ -192,6 +193,14 @@ composer cs:check
 composer cs:fix
 ```
 
+### 5. Static Analysis
+
+Run PHPStan at level 8. The committed baseline records pre-existing findings; new findings fail CI. Reduce the baseline when touching affected code and never regenerate it merely to make a change pass.
+
+```bash
+docker run --rm bahdan-landing-test vendor/bin/phpstan analyse --no-progress --memory-limit=512M
+```
+
 ---
 
 ## 6. Pre-Commit Checklist
@@ -202,6 +211,7 @@ Before opening a pull request or pushing changes:
 - [ ] `declare(strict_types=1);` is present on all new/modified PHP files.
 - [ ] Code complies with PSR-12 (`composer cs:check` passes).
 - [ ] Architecture layers and bounded contexts are respected (Clean Architecture / DDD).
-- [ ] All automated tests pass 100% (`vendor/bin/phpunit` and `node tests/js/income-math.test.js`).
+- [ ] All automated tests pass 100% (PHPUnit and every file in `tests/js/`).
+- [ ] PHPStan passes without adding new baseline entries.
 - [ ] Twig and YAML configurations are valid (`lint:twig`, `lint:yaml`).
 - [ ] Privacy and SSRF guard requirements are satisfied.

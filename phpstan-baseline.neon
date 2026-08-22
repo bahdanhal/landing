@@ -1,0 +1,745 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method App\\Analytics\\Application\\TrafficAnalytics\:\:daily\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Analytics/Application/TrafficAnalytics.php
+
+		-
+			message: '#^Method App\\Analytics\\Application\\TrafficAnalytics\:\:frequencies\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Analytics/Application/TrafficAnalytics.php
+
+		-
+			message: '#^Method App\\Analytics\\Application\\TrafficAnalytics\:\:period\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Analytics/Application/TrafficAnalytics.php
+
+		-
+			message: '#^Method App\\Analytics\\Application\\TrafficAnalytics\:\:summary\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Analytics/Application/TrafficAnalytics.php
+
+		-
+			message: '#^Method App\\Analytics\\Infrastructure\\PageViewSubscriber\:\:matchesHost\(\) has parameter \$patterns with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Analytics/Infrastructure/PageViewSubscriber.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\AiSummaryService\:\:summarize\(\) has parameter \$report with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/AiSummaryService.php
+
+		-
+			message: '#^Parameter \#1 \$string of function trim expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Audit/Application/AiSummaryService.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\IssueGrouper\:\:group\(\) has parameter \$issues with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/IssueGrouper.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\IssueGrouper\:\:group\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/IssueGrouper.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\SiteAuditor\:\:audit\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\SiteAuditor\:\:checkSitemapSample\(\) has parameter \$urls with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\SiteAuditor\:\:checkSitemapSample\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\SiteAuditor\:\:crawl\(\) has parameter \$robotsPolicy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\SiteAuditor\:\:crawl\(\) has parameter \$startUrls with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\SiteAuditor\:\:crawl\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\SiteAuditor\:\:performAudit\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\SiteAuditor\:\:probeCrawlerTraps\(\) has parameter \$pages with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\SiteAuditor\:\:probeCrawlerTraps\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\SiteAuditor\:\:redirectVariants\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\SiteAuditor\:\:robotsSitemaps\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\SiteAuditor\:\:summarizeFetch\(\) has parameter \$fetch with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Method App\\Audit\\Application\\SiteAuditor\:\:summarizeFetch\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Offset 1 on array\{list\<string\>, list\<non\-empty\-string\>\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Parameter \#1 \$string of function strtolower expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Parameter \#2 \$length of function array_chunk expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Audit/Application/SiteAuditor.php
+
+		-
+			message: '#^Method App\\Audit\\Domain\\AuditRuleEngine\:\:evaluate\(\) has parameter \$pages with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Domain/AuditRuleEngine.php
+
+		-
+			message: '#^Method App\\Audit\\Domain\\AuditRuleEngine\:\:evaluate\(\) has parameter \$redirectMatrix with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Domain/AuditRuleEngine.php
+
+		-
+			message: '#^Method App\\Audit\\Domain\\AuditRuleEngine\:\:evaluate\(\) has parameter \$robots with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Domain/AuditRuleEngine.php
+
+		-
+			message: '#^Method App\\Audit\\Domain\\AuditRuleEngine\:\:evaluate\(\) has parameter \$sitemap with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Domain/AuditRuleEngine.php
+
+		-
+			message: '#^Method App\\Audit\\Domain\\AuditRuleEngine\:\:evaluate\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Domain/AuditRuleEngine.php
+
+		-
+			message: '#^Method App\\Audit\\Infrastructure\\AuditLogger\:\:log\(\) has parameter \$context with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Audit/Infrastructure/AuditLogger.php
+
+		-
+			message: '#^Ternary operator condition is always false\.$#'
+			identifier: ternary.alwaysFalse
+			count: 1
+			path: src/CaddyTranspiler/Domain/Engine/NginxTranspiler.php
+
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 1
+			path: src/Controller/DomainInspectorController.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Controller/DomainInspectorController.php
+
+		-
+			message: '#^Access to an undefined property DOMNameSpaceNode\|DOMNode\:\:\$attributes\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Crawl/Application/PageAnalyzer.php
+
+		-
+			message: '#^Argument of an invalid type DOMNodeList\<DOMNameSpaceNode\|DOMNode\>\|false supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 4
+			path: src/Crawl/Application/PageAnalyzer.php
+
+		-
+			message: '#^Call to an undefined method DOMNameSpaceNode\|DOMNode\:\:getAttribute\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: src/Crawl/Application/PageAnalyzer.php
+
+		-
+			message: '#^Cannot access property \$length on DOMNodeList\<DOMNameSpaceNode\|DOMNode\>\|false\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Crawl/Application/PageAnalyzer.php
+
+		-
+			message: '#^Cannot call method item\(\) on DOMNodeList\<DOMNameSpaceNode\|DOMNode\>\|false\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: src/Crawl/Application/PageAnalyzer.php
+
+		-
+			message: '#^Method App\\Crawl\\Application\\PageAnalyzer\:\:analyze\(\) has parameter \$fetch with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Crawl/Application/PageAnalyzer.php
+
+		-
+			message: '#^Method App\\Crawl\\Application\\PageAnalyzer\:\:analyze\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Crawl/Application/PageAnalyzer.php
+
+		-
+			message: '#^Parameter \#1 \$node of method App\\Crawl\\Application\\PageAnalyzer\:\:text\(\) expects DOMNode\|null, DOMNameSpaceNode\|DOMNode given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Crawl/Application/PageAnalyzer.php
+
+		-
+			message: '#^Parameter \#1 \$node of method App\\Crawl\\Application\\PageAnalyzer\:\:text\(\) expects DOMNode\|null, DOMNameSpaceNode\|DOMNode\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Crawl/Application/PageAnalyzer.php
+
+		-
+			message: '#^Parameter \#1 \$string of function trim expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Crawl/Application/PageAnalyzer.php
+
+		-
+			message: '#^Parameter \#2 \$contextNode of method DOMXPath\:\:query\(\) expects DOMNode\|null, DOMNameSpaceNode\|DOMNode given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Crawl/Application/PageAnalyzer.php
+
+		-
+			message: '#^Parameter \#2 \$data of function hash expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Crawl/Application/PageAnalyzer.php
+
+		-
+			message: '#^Possibly invalid array key type string\|null\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 1
+			path: src/Crawl/Application/PageAnalyzer.php
+
+		-
+			message: '#^Unable to resolve the template type T in call to function array_values$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Crawl/Application/PageAnalyzer.php
+
+		-
+			message: '#^Method App\\Crawl\\Application\\SitemapInspector\:\:inspect\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Crawl/Application/SitemapInspector.php
+
+		-
+			message: '#^Offset 1 on array\{list\<string\>, list\<non\-empty\-string\>\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Crawl/Application/SitemapInspector.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>localName" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Crawl/Application/SitemapInspector.php
+
+		-
+			message: '#^Method App\\Crawl\\Domain\\RobotsPolicy\:\:allows\(\) has parameter \$policy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Crawl/Domain/RobotsPolicy.php
+
+		-
+			message: '#^Parameter \#1 \$string of function trim expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Crawl/Domain/RobotsPolicy.php
+
+		-
+			message: '#^Method App\\Crawl\\Infrastructure\\HttpFetcher\:\:errorResult\(\) has parameter \$state with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Crawl/Infrastructure/HttpFetcher.php
+
+		-
+			message: '#^Method App\\Crawl\\Infrastructure\\HttpFetcher\:\:errorResult\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Crawl/Infrastructure/HttpFetcher.php
+
+		-
+			message: '#^Method App\\Crawl\\Infrastructure\\HttpFetcher\:\:fetch\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Crawl/Infrastructure/HttpFetcher.php
+
+		-
+			message: '#^Method App\\Crawl\\Infrastructure\\HttpFetcher\:\:fetchMany\(\) has parameter \$urls with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Crawl/Infrastructure/HttpFetcher.php
+
+		-
+			message: '#^Method App\\Crawl\\Infrastructure\\HttpFetcher\:\:fetchMany\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Crawl/Infrastructure/HttpFetcher.php
+
+		-
+			message: '#^Method App\\Crawl\\Infrastructure\\HttpFetcher\:\:options\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Crawl/Infrastructure/HttpFetcher.php
+
+		-
+			message: '#^Offset ''current_url'' might not exist on array\{requested_url\?\: mixed, current_url\?\: mixed, started\?\: \(float\|int\<1, max\>\), redirects\: non\-empty\-list\<array\{url\: mixed, status\: int\<300, 399\>, location\: string\}\>, done\?\: bool, result\?\: array\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/Crawl/Infrastructure/HttpFetcher.php
+
+		-
+			message: '#^Offset ''current_url'' might not exist on array\{requested_url\?\: mixed, current_url\?\: mixed, started\?\: \(float\|int\<1, max\>\), redirects\?\: list\<array\{url\: mixed, status\: int\<300, 399\>, location\: string\}\>, done\: false, result\?\: array\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 3
+			path: src/Crawl/Infrastructure/HttpFetcher.php
+
+		-
+			message: '#^Offset ''current_url'' might not exist on non\-empty\-array\{requested_url\?\: mixed, current_url\?\: mixed, started\?\: \(float\|int\<1, max\>\), redirects\?\: list\<array\{url\: mixed, status\: int\<300, 399\>, location\: string\}\>, done\?\: bool, result\?\: array\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 2
+			path: src/Crawl/Infrastructure/HttpFetcher.php
+
+		-
+			message: '#^Offset ''done'' might not exist on array\{requested_url\?\: mixed, current_url\?\: mixed, started\?\: \(float\|int\<1, max\>\), redirects\?\: list\<array\{url\: mixed, status\: int\<300, 399\>, location\: string\}\>, done\?\: bool, result\?\: array\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/Crawl/Infrastructure/HttpFetcher.php
+
+		-
+			message: '#^Offset ''redirects'' might not exist on non\-empty\-array\{requested_url\?\: mixed, current_url\?\: mixed, started\?\: \(float\|int\<1, max\>\), redirects\?\: list\<array\{url\: mixed, status\: int\<300, 399\>, location\: string\}\>, done\?\: bool, result\?\: array\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/Crawl/Infrastructure/HttpFetcher.php
+
+		-
+			message: '#^Offset ''requested_url'' might not exist on non\-empty\-array\{requested_url\?\: mixed, current_url\?\: mixed, started\?\: \(float\|int\<1, max\>\), redirects\?\: list\<array\{url\: mixed, status\: int\<300, 399\>, location\: string\}\>, done\?\: bool, result\?\: array\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/Crawl/Infrastructure/HttpFetcher.php
+
+		-
+			message: '#^Offset ''started'' might not exist on non\-empty\-array\{requested_url\?\: mixed, current_url\?\: mixed, started\?\: \(float\|int\<1, max\>\), redirects\?\: list\<array\{url\: mixed, status\: int\<300, 399\>, location\: string\}\>, done\?\: bool, result\?\: array\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/Crawl/Infrastructure/HttpFetcher.php
+
+		-
+			message: '#^Property App\\Entity\\LeadEntity\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/LeadEntity.php
+
+		-
+			message: '#^Property App\\Entity\\PageViewEntity\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/PageViewEntity.php
+
+		-
+			message: '#^Property App\\Entity\\PriceObservationEntity\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/PriceObservationEntity.php
+
+		-
+			message: '#^Property App\\Entity\\PriceTipEntity\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/PriceTipEntity.php
+
+		-
+			message: '#^Property App\\Entity\\ProductRequestEntity\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/ProductRequestEntity.php
+
+		-
+			message: '#^Access to an undefined property DOMNameSpaceNode\|DOMNode\:\:\$textContent\.$#'
+			identifier: property.notFound
+			count: 5
+			path: src/Geo/Application/GeoAnalyzer.php
+
+		-
+			message: '#^Argument of an invalid type DOMNodeList\<DOMNameSpaceNode\|DOMNode\>\|false supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 4
+			path: src/Geo/Application/GeoAnalyzer.php
+
+		-
+			message: '#^Call to an undefined method DOMNameSpaceNode\|DOMNode\:\:getAttribute\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Geo/Application/GeoAnalyzer.php
+
+		-
+			message: '#^Cannot access property \$length on DOMNodeList\<DOMNameSpaceNode\|DOMNode\>\|false\.$#'
+			identifier: property.nonObject
+			count: 6
+			path: src/Geo/Application/GeoAnalyzer.php
+
+		-
+			message: '#^Cannot call method item\(\) on DOMNodeList\<DOMNameSpaceNode\|DOMNode\>\|false\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Geo/Application/GeoAnalyzer.php
+
+		-
+			message: '#^Method App\\Geo\\Application\\GeoAnalyzer\:\:add\(\) has parameter \$checks with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Geo/Application/GeoAnalyzer.php
+
+		-
+			message: '#^Method App\\Geo\\Application\\GeoAnalyzer\:\:add\(\) has parameter \$evidence with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Geo/Application/GeoAnalyzer.php
+
+		-
+			message: '#^Method App\\Geo\\Application\\GeoAnalyzer\:\:analyze\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Geo/Application/GeoAnalyzer.php
+
+		-
+			message: '#^Method App\\Geo\\Application\\GeoAnalyzer\:\:collectTypes\(\) has parameter \$types with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Geo/Application/GeoAnalyzer.php
+
+		-
+			message: '#^Method App\\Geo\\Application\\GeoAnalyzer\:\:externalLinks\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Geo/Application/GeoAnalyzer.php
+
+		-
+			message: '#^Method App\\Geo\\Application\\GeoAnalyzer\:\:perform\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Geo/Application/GeoAnalyzer.php
+
+		-
+			message: '#^Method App\\Geo\\Application\\GeoAnalyzer\:\:robotsGroups\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Geo/Application/GeoAnalyzer.php
+
+		-
+			message: '#^Method App\\Geo\\Application\\GeoAnalyzer\:\:schema\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Geo/Application/GeoAnalyzer.php
+
+		-
+			message: '#^Parameter \#1 \$string of function trim expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Geo/Application/GeoAnalyzer.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>textContent" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: src/Geo/Application/GeoAnalyzer.php
+
+		-
+			message: '#^Method App\\Income\\Domain\\PolishIncomeCalculator\:\:b2b\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Income/Domain/PolishIncomeCalculator.php
+
+		-
+			message: '#^Method App\\Income\\Domain\\PolishIncomeCalculator\:\:b2b\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Income/Domain/PolishIncomeCalculator.php
+
+		-
+			message: '#^Method App\\Income\\Domain\\PolishIncomeCalculator\:\:compare\(\) should return array\<string, array\{cost\: float, gross\: float, social\: float, health\: float, tax\: float, businessCosts\: float, net\: float\}\> but returns array\{employment\: array, mandate\: array, work\: array, b2b\: array\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Income/Domain/PolishIncomeCalculator.php
+
+		-
+			message: '#^Method App\\Income\\Domain\\PolishIncomeCalculator\:\:employment\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Income/Domain/PolishIncomeCalculator.php
+
+		-
+			message: '#^Method App\\Income\\Domain\\PolishIncomeCalculator\:\:mandate\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Income/Domain/PolishIncomeCalculator.php
+
+		-
+			message: '#^Method App\\Income\\Domain\\PolishIncomeCalculator\:\:workContract\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Income/Domain/PolishIncomeCalculator.php
+
+		-
+			message: '#^Offset ''budget'' on array\{budget\: float\|int, zus\?\: string, taxation\?\: string, lumpRate\?\: float\|int, costs\?\: float\|int, studentUnder26\?\: bool\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Income/Domain/PolishIncomeCalculator.php
+
+		-
+			message: '#^Method App\\Lead\\Domain\\Lead\:\:fromArray\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Lead/Domain/Lead.php
+
+		-
+			message: '#^Method App\\Lead\\Domain\\Lead\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Lead/Domain/Lead.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: string$#'
+			identifier: match.unhandled
+			count: 1
+			path: src/Market/Application/ProductCatalog.php
+
+		-
+			message: '#^Method App\\Market\\Domain\\PriceObservation\:\:fromArray\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Market/Domain/PriceObservation.php
+
+		-
+			message: '#^Method App\\Market\\Domain\\PriceObservation\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Market/Domain/PriceObservation.php
+
+		-
+			message: '#^Method App\\Market\\Domain\\PriceTip\:\:fromArray\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Market/Domain/PriceTip.php
+
+		-
+			message: '#^Method App\\Market\\Domain\\ProductFamily\:\:defaultConfiguration\(\) should return App\\Market\\Domain\\Product but returns App\\Market\\Domain\\Product\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Market/Domain/ProductFamily.php
+
+		-
+			message: '#^Method App\\Market\\Infrastructure\\JsonPriceObservationRepository\:\:read\(\) should return list\<App\\Market\\Domain\\PriceObservation\> but returns array\<App\\Market\\Domain\\PriceObservation\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Market/Infrastructure/JsonPriceObservationRepository.php
+
+		-
+			message: '#^Method App\\Mcp\\AdminTools\:\:auditStatistics\(\) has parameter \$events with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Mcp/AdminTools.php
+
+		-
+			message: '#^Method App\\Mcp\\AdminTools\:\:auditStatistics\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Mcp/AdminTools.php
+
+		-
+			message: '#^Method App\\Mcp\\AdminTools\:\:frequencies\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Mcp/AdminTools.php
+
+		-
+			message: '#^Method App\\Mcp\\AdminTools\:\:json\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Mcp/AdminTools.php
+
+		-
+			message: '#^Method App\\Mcp\\AdminTools\:\:submissionStats\(\) has parameter \$items with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Mcp/AdminTools.php
+
+		-
+			message: '#^Method App\\Mcp\\AdminTools\:\:submissionStats\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Mcp/AdminTools.php
+
+		-
+			message: '#^Method App\\Mcp\\AuditTools\:\:json\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Mcp/AuditTools.php
+
+		-
+			message: '#^Method App\\Mcp\\GeoTools\:\:json\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Mcp/GeoTools.php
+
+		-
+			message: '#^Method App\\Mcp\\IncomeCalculatorTools\:\:json\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Mcp/IncomeCalculatorTools.php
+
+		-
+			message: '#^Method App\\Mcp\\MarketPriceTools\:\:json\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Mcp/MarketPriceTools.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Doctrine\\ORM\\Configuration and ''enableNativeLazyObj…'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: tests/DoctrineTestCase.php
+
+		-
+			message: '#^Class Doctrine\\ORM\\Mapping\\UnderscoreNamingStrategy constructor invoked with 2 parameters, 0\-1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: tests/DoctrineTestCase.php
+
+		-
+			message: '#^Cannot access offset 0 on list\<string\>\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/Lead/LeadContextTest.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert\:\:assertCount\(\) expects Countable\|iterable, list\<string\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Lead/LeadContextTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertNotNull\(\) with App\\Market\\Domain\\Product will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/Market/ProductCatalogTest.php
+
+		-
+			message: '#^Offset ''overview'' might not exist on array\{overview\: string, priorities\: list\<array\{title\: string, why\: string, action\: string\}\>\}\|null\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: tests/Service/AiSummaryServiceTest.php
+
+		-
+			message: '#^Cannot access offset 0 on list\<string\>\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/Service/AuditLoggerTest.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert\:\:assertCount\(\) expects Countable\|iterable, list\<string\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Service/AuditLoggerTest.php
+
+		-
+			message: '#^Call to an undefined method object\:\:pop\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: tests/Service/GeoAnalyzerLandingSelfAuditTest.php
+
+		-
+			message: '#^Call to an undefined method object\:\:push\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: tests/Service/GeoAnalyzerLandingSelfAuditTest.php
+
+		-
+			message: '#^Method App\\Crawl\\Infrastructure\\HttpFetcher@anonymous/tests/Service/GeoAnalyzerLandingSelfAuditTest\.php\:119\:\:fetch\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Service/GeoAnalyzerLandingSelfAuditTest.php
+
+		-
+			message: '#^Method App\\Tests\\Service\\GeoAnalyzerLandingSelfAuditTest\:\:runGeoAudit\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Service/GeoAnalyzerLandingSelfAuditTest.php
+
+		-
+			message: '#^Property App\\Tests\\Service\\GeoAnalyzerLandingSelfAuditTest\:\:\$container \(Symfony\\Component\\DependencyInjection\\ContainerInterface\) does not accept object\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: tests/Service/GeoAnalyzerLandingSelfAuditTest.php

@@ -1,109 +1,70 @@
-# Bahdan’s Toolbox — outcomes and operations
+# Operations guide
 
-This is the standalone toolbox project, separate from BramClassAuto.
+This document describes the public, provider-neutral deployment contract. Hostnames, server addresses, user accounts, certificate paths, and credentials belong in private operator documentation.
 
-## Live services
+## Services
 
-- Website: https://bahdanhal.pl
-- Sitemap: https://bahdanhal.pl/sitemap.xml
-- Public MCP endpoint: https://bahdanhal.pl/mcp
-- Legacy redirect: https://bahdan-hal.ovh -> https://bahdanhal.pl (301)
-- Production directory: `/home/bahdan-landing`
-- Compose project: `seo`
-- Production environment file: `/home/bahdan-landing/production.env`
+The Compose stack contains:
 
-## Server connection
+- `db`: PostgreSQL 17 on the private `internal` network, with no published host port.
+- `migrate`: a one-shot Doctrine migration service that must complete before the application starts.
+- `app`: a read-only PHP-FPM application container.
+- `web`: a read-only Caddy container publishing HTTP and HTTPS.
 
-```sh
-ssh -i ~/.ssh/id_ed25519 "$SSH_USER@$SSH_HOST"
-cd /home/bahdan-landing
-```
+Persistent named volumes retain PostgreSQL data, audit cache and logs, rate limits, and legacy import directories. Environment-specific certificates are mounted read-only into the web container.
 
-The SSH key and `production.env` are private. Do not commit either one.
+## Configuration
 
-## Automated deployment via GitHub Actions
+Copy `.env.example` to a private environment file and replace at least:
 
-Pushing to `master` automatically triggers the `.github/workflows/deploy.yml` workflow, which runs tests and deploys to the production server.
+- `APP_SECRET`
+- `POSTGRES_PASSWORD`
+- `MARKET_ADMIN_TOKEN` when administrative MCP tools are enabled
+- optional AI provider credentials
 
-### Required GitHub Repository Secrets
-Under **Settings > Secrets and variables > Actions** on GitHub:
-- `SSH_PRIVATE_KEY`: Private SSH key authorized on the production host (e.g. contents of `~/.ssh/id_ed25519`).
-- `SSH_HOST`: Production host name or IP address.
-- `SSH_USER`: Restricted deployment account on the production host.
+Compose derives `DATABASE_URL` from the PostgreSQL settings. Set `DATABASE_URL` explicitly only when using a separately managed database; URL-encode credentials when necessary.
 
----
+Never commit the populated environment file. Keep PostgreSQL private and do not add a host port mapping for port 5432.
 
-## Manual deploy from local checkout
+## Deploy
 
-Run from the local `bahdan-landing` checkout:
+Build and start the stack with an operator-managed environment file:
 
 ```sh
-rsync -az --exclude=.git --exclude=.github --exclude=.idea --exclude=production.env \
-  --exclude=certbot-webroot --exclude=.env.local --exclude=var/ \
-  -e 'ssh -i ~/.ssh/id_ed25519' ./ "$SSH_USER@$SSH_HOST:/home/bahdan-landing/"
-
-ssh -i ~/.ssh/id_ed25519 "$SSH_USER@$SSH_HOST" \
-  'cd /home/bahdan-landing && docker compose -p seo --env-file production.env up -d --build'
+docker compose --env-file /secure/path/production.env up -d --build
 ```
 
-Check service health and recent logs:
+Compose waits for PostgreSQL readiness, applies pending Doctrine migrations, and starts the application only after migration succeeds.
+
+Legacy file-backed records can be imported once after upgrading an older installation:
 
 ```sh
-ssh -i ~/.ssh/id_ed25519 "$SSH_USER@$SSH_HOST" \
-  'cd /home/bahdan-landing && docker compose -p seo --env-file production.env ps'
-
-ssh -i ~/.ssh/id_ed25519 "$SSH_USER@$SSH_HOST" \
-  'cd /home/bahdan-landing && docker compose -p seo --env-file production.env logs --tail=100 app web'
+docker compose --env-file /secure/path/production.env exec app \
+  php bin/console app:import-json-to-database
 ```
 
-## What is live
-
-- Personal landing page at `/` and toolbox index at `/tools`.
-- Polish and English routes for the landing page and every tool.
-- Technical SEO audit with polite crawling, caching, grouped findings, robots/sitemap checks, and a 10-audits-per-IP-per-day limit.
-- GEO analyzer with optional AI summary.
-- UoP / UZ / Ud / B2B Polish income calculator.
-- Poland used-goods price index with grouped configuration dropdowns, bilingual product pages, manually reviewed observations, open MCP access, and Wikimedia-licensed product photos.
-- Peugeot 206 CC family with 1.6 and 2.0 petrol configurations.
-- Private product-request and cheaper-price-tip forms; submissions are stored on the server and are not emailed.
-- Sitemap contains only product pages with stored observations. Empty product pages are `noindex,follow` until their first observation.
-- XML sitemap has a browser-readable XSL view while remaining valid XML for search engines.
-
-## Manual market review
-
-Market JSON histories live in the Docker volume mounted at `/app/var/market-data`. Product requests are in `/app/var/market-data/requests/`; voluntarily submitted price-tip links are kept in the private `/app/var/market-data/price-tips/` queue for at most 90 days.
-
-Review submitted public-listing links manually. Never fetch them automatically or copy seller data or listing text. Enter only an aggregate, dated observation through the authenticated admin interface. The public methodology and the private handling rules are documented in `docs/market-price-tips.md`.
-
-Set a dedicated high-entropy `MARKET_ADMIN_TOKEN` in `production.env` to enable the administrative MCP tools. Configure the private MCP client to send it only as an `Authorization: Bearer` header. The tools provide submission statistics, consultation leads, product requests and active price tips; full setup and incident-rotation guidance is in `docs/admin-mcp.md`.
-
-Symfony AI remains available only for optional audit summaries. Provider and summary-model settings are in `production.env` (`AI_PROVIDER`, `AI_SUMMARY_MODEL`). Do not put API keys in the repository or this note.
+Back up the PostgreSQL volume before migrations and retain a tested restore procedure. Do not use `doctrine:schema:update --force` in production.
 
 ## Verification
 
-From the local checkout:
+Before deployment, run the commands documented in `README.md`. After deployment, verify the health endpoint, sitemap, robots file, representative localized pages, and application logs.
 
 ```sh
-docker build --target test -t bahdan-landing-test .
-docker run --rm bahdan-landing-test
-docker run --rm bahdan-landing-test php bin/console lint:twig templates
-docker run --rm bahdan-landing-test php bin/console lint:yaml translations config
+curl -fI https://example.com/healthz
+curl -fI https://example.com/sitemap.xml
+curl -fI https://example.com/robots.txt
+docker compose --env-file /secure/path/production.env ps
+docker compose --env-file /secure/path/production.env logs --tail=100 app web migrate
 ```
 
-Useful public checks:
+## GitHub Actions deployment
 
-```sh
-curl -I https://bahdanhal.pl/healthz
-curl -I https://bahdanhal.pl/sitemap.xml
-curl -I https://bahdanhal.pl/robots.txt
-curl -I https://bahdan-hal.ovh/ # Should return 301 to https://bahdanhal.pl/
-```
+The included deployment workflow is specific to the canonical hosted instance. Public forks should disable or replace it. The `production` GitHub Environment should require reviewer approval and restrict deployments to the protected default branch.
 
-## Recent milestones
+Required repository secrets are:
 
-- `3c3f006` — restrained dark blue visual theme.
-- `c7e6012` — Peugeot family, request flow, and lighter gradient theme.
-- `23004a5` — preserve approved retrospective metadata internally.
-- `252813b` — exclude empty product pages from the sitemap and indexing.
-- `ec5644d` — add readable XML sitemap stylesheet.
-- `6d612bb` — reduce sitemap browser caching to five minutes.
+- `SSH_PRIVATE_KEY`: a dedicated key for a restricted deployment account.
+- `SSH_HOST`: the deployment host.
+- `SSH_USER`: the restricted deployment account name.
+
+Rotate credentials immediately if a workflow log, artifact, or repository history exposes them.

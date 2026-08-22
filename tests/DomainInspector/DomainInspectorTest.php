@@ -16,7 +16,7 @@ final class DomainInspectorTest extends TestCase
 {
     public function testNormalizeDomain(): void
     {
-        $resolver = $this->createMock(DnsResolverInterface::class);
+        $resolver = $this->createStub(DnsResolverInterface::class);
         $fetcher = new HttpFetcher(new MockHttpClient(), new UrlGuard(), 5, 1048576);
         $inspector = new DomainInspector($resolver, $fetcher);
 
@@ -27,7 +27,7 @@ final class DomainInspectorTest extends TestCase
 
     public function testInvalidDomainThrows(): void
     {
-        $resolver = $this->createMock(DnsResolverInterface::class);
+        $resolver = $this->createStub(DnsResolverInterface::class);
         $fetcher = new HttpFetcher(new MockHttpClient(), new UrlGuard(), 5, 1048576);
         $inspector = new DomainInspector($resolver, $fetcher);
 
@@ -37,7 +37,7 @@ final class DomainInspectorTest extends TestCase
 
     public function testFullDomainInspection(): void
     {
-        $resolver = $this->createMock(DnsResolverInterface::class);
+        $resolver = $this->createStub(DnsResolverInterface::class);
         $resolver->method('getTxtRecords')->willReturnCallback(static function (string $hostname): array {
             return match ($hostname) {
                 '_dmarc.example.com' => ['v=DMARC1; p=reject; pct=100; rua=mailto:dmarc@example.com;'],
@@ -53,7 +53,7 @@ final class DomainInspectorTest extends TestCase
             ['host' => 'mail.example.com', 'priority' => 10],
         ]);
 
-        $fetcher = $this->createMock(HttpFetcher::class);
+        $fetcher = $this->createStub(HttpFetcher::class);
         $fetcher->method('fetch')->willReturnCallback(static function (string $url): array {
             if (str_ends_with($url, '.svg')) {
                 return [

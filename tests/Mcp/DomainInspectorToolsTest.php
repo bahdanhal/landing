@@ -16,7 +16,7 @@ final class DomainInspectorToolsTest extends TestCase
 {
     public function testInspectDomainSuccess(): void
     {
-        $resolver = $this->createMock(DnsResolverInterface::class);
+        $resolver = $this->createStub(DnsResolverInterface::class);
         $resolver->method('getTxtRecords')->willReturnCallback(static function (string $hostname): array {
             return match ($hostname) {
                 '_dmarc.stripe.com' => ['v=DMARC1; p=reject; pct=100; rua=mailto:dmarc@stripe.com;'],
@@ -42,7 +42,7 @@ final class DomainInspectorToolsTest extends TestCase
 
     public function testInspectDomainInvalidDomainReturnsError(): void
     {
-        $resolver = $this->createMock(DnsResolverInterface::class);
+        $resolver = $this->createStub(DnsResolverInterface::class);
         $fetcher = new HttpFetcher(new MockHttpClient(), new UrlGuard(), 5, 1048576);
         $inspector = new DomainInspector($resolver, $fetcher);
         $tools = new DomainInspectorTools($inspector);

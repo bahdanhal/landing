@@ -13,20 +13,22 @@ Every indexable page has English and Polish routes, self-canonicals, reciprocal 
 
 ## Local development
 
-Copy `.env.example` to `.env.local`, provide a strong `APP_SECRET`, then run:
+Copy `.env.example` to `.env.local`, replace both placeholder secrets with strong random values, then run:
 
 ```bash
 docker compose --env-file .env.local up --build
 ```
 
-The production server uses `/home/bahdan-landing/production.env` because Snap Docker cannot read a dotfile directly below `/home/bahdan-landing`.
+Compose waits for PostgreSQL, applies versioned Doctrine migrations, and then starts the application. The database is available only on the private Compose network.
 
 ## Verification
 
 ```bash
 docker build --target test -t bahdan-landing-test .
-docker run --rm --env-file .env.example -e APP_ENV=test bahdan-landing-test vendor/bin/phpunit
-docker run --rm -v "$PWD:/app" -w /app node:24-alpine node tests/js/income-math.test.js
+docker run --rm --env-file .env.example -e APP_ENV=test bahdan-landing-test vendor/bin/phpunit --fail-on-phpunit-notice
+docker run --rm -v "$PWD:/app" -w /app node:24-alpine sh -lc 'for test in tests/js/*.test.js; do node "$test" || exit 1; done'
+docker run --rm bahdan-landing-test vendor/bin/phpcs
+docker run --rm bahdan-landing-test vendor/bin/phpstan analyse --no-progress --memory-limit=512M
 ```
 
 ## Crawl limits and caching
@@ -37,7 +39,7 @@ The Symfony client rejects private and reserved network destinations, uses a bou
 
 ## Manually reviewed market observations
 
-Bahdan reviews small samples of comparable public asking prices and records only aggregate observations through the authenticated admin panel. The server never crawls marketplace pages. Visitors may submit a listing URL as a private price tip; query strings and fragments are stripped, no page is fetched automatically, the IP address is HMAC-hashed, and the individual tip file is removed after 90 days. Submitted links are visible only in the authenticated admin review queue and are never republished.
+Bahdan reviews small samples of comparable public asking prices and records only aggregate observations through the authenticated admin panel. The server never crawls marketplace pages. Visitors may submit a listing URL as a private price tip; query strings and fragments are stripped, no page is fetched automatically, the IP address is HMAC-hashed, and the database record is removed after 90 days. Submitted links are visible only in the authenticated admin review queue and are never republished.
 
 The complete submission and retention policy is documented in [docs/market-price-tips.md](docs/market-price-tips.md).
 
@@ -47,35 +49,25 @@ The MCP endpoint also exposes Bearer-protected administrative tools for viewing 
 
 ## Contact leads
 
-The inline exhausted-quota form validates and honeypot-protects submissions, limits them to five per IP per UTC day, and writes monthly JSONL files only to the private `contact_leads` volume. IP addresses are HMAC-hashed. Nothing is emailed and no public route exposes the records.
-
-Read the current file on production with:
-
-```bash
-cd /home/bahdan-landing
-docker compose -p seo --env-file production.env exec app sh -lc \
-  'cat /app/var/contact-leads/leads-$(date -u +%Y-%m).jsonl'
-```
+The inline exhausted-quota form validates and honeypot-protects submissions, limits them to five per IP per UTC day, and stores them in the private PostgreSQL database. IP addresses are HMAC-hashed. Nothing is emailed and no public route exposes the records.
 
 ## Logs
 
 - Application crawl/audit JSONL: `/app/var/audit-logs/`, retained for 14 days.
-- Contact leads: `/app/var/contact-leads/`.
+- Contact leads, market records, community submissions, and privacy-preserving analytics: PostgreSQL on the private network.
 - Web access and PHP errors: Docker container logs.
-- Market observation JSON: `/app/var/market-data/`.
-- Certificate renewal: `/var/log/letsencrypt/` on the host.
 
 ## Production
 
-The Docker Compose stack contains PHP-FPM and Caddy. Caddy normalizes HTTP/HTTPS and www/non-www (including legacy `bahdan-hal.ovh`) to `https://bahdanhal.pl`, serves Certbot certificates and emits JSON access logs. Persistent volumes hold caches, rate limits, audit logs, privacy-preserving traffic analytics, contact leads and market history.
+The Docker Compose stack contains PostgreSQL, PHP-FPM, and Caddy. Caddy normalizes the production domains, serves certificates, and emits JSON access logs. Persistent volumes hold the database, caches, rate limits, and audit logs.
 
 ## Development standards & guidelines
 
 - **[CONTRIBUTING.md](CONTRIBUTING.md)**: Engineering standards, strict English language policy for code/comments, Clean Code, SOLID, Domain-Driven Design (DDD), Docker workflows, and testing quality gates.
 - **[AGENTS.md](AGENTS.md)**: Instructions and constraints for AI coding assistants.
-- **[ARCHITECTURE.md](ARCHITECTURE.md)**: Detailed system architecture, bounded contexts, zero-DB persistence model, and SSRF security design.
+- **[ARCHITECTURE.md](ARCHITECTURE.md)**: Detailed system architecture, bounded contexts, PostgreSQL persistence, and SSRF security design.
 - **[docs/admin-mcp.md](docs/admin-mcp.md)**: Administrative MCP authentication, tools, operation, and private-data handling.
 
 ## License
 
-The application source code is available under the [MIT License](LICENSE). Third-party market images retain the licenses and attribution documented in [public/images/market/ATTRIBUTION.md](public/images/market/ATTRIBUTION.md). Personal photographs and the Bahdan Hal name, portrait, biography, and branding are not granted for reuse by the MIT software license.
+The application source code is available under the [MIT License](LICENSE). Asset-specific terms, third-party image attribution, and the files excluded from the MIT grant are documented in [NOTICE.md](NOTICE.md).

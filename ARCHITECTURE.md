@@ -105,7 +105,8 @@ src/
 │   │   ├── Lead.php                 # Lead entity
 │   │   └── LeadRepository.php       # Repository interface
 │   └── Infrastructure/
-│       └── JsonlLeadRepository.php  # Append-only JSONL lead store
+│       ├── DoctrineLeadRepository.php # Primary PostgreSQL adapter
+│       └── JsonlLeadRepository.php    # Legacy import adapter
 ├── Market/                          # Used Price Index Context (Hexagonal)
 │   ├── Application/
 │   │   └── ProductCatalog.php       # Catalog of product families & configurations
@@ -116,9 +117,10 @@ src/
 │   │   ├── Product.php              # Product entity with specification attributes
 │   │   └── ProductFamily.php        # Aggregation of product configurations
 │   └── Infrastructure/
-│       ├── JsonPriceObservationRepository.php # Atomic locked JSON storage
-│       ├── JsonProductRequestStore.php        # Append-only JSONL request store
-│       └── JsonPriceTipRepository.php          # Private 90-day review queue
+│       ├── DoctrinePriceObservationRepository.php # Primary PostgreSQL adapter
+│       ├── DoctrineProductRequestStore.php        # Primary PostgreSQL adapter
+│       ├── DoctrinePriceTipRepository.php          # Primary PostgreSQL adapter
+│       └── Json*                                    # Legacy import adapters
 ├── Mcp/                             # Model Context Protocol (MCP) Tools for AI Agents
 │   ├── AdminTools.php               # Admin monitoring & data ingestion tools
 │   ├── AuditTools.php               # audit_website_seo MCP tool
@@ -190,8 +192,8 @@ sequenceDiagram
     actor Visitor
     actor Bahdan as Authenticated Admin
     participant Catalog as ProductCatalog
-    participant Tips as JsonPriceTipRepository
-    participant Repository as JsonPriceObservationRepository
+    participant Tips as PriceTipRepository
+    participant Repository as PriceObservationRepository
 
     Visitor->>Tips: Submit public listing URL
     Tips->>Tips: Strip query/fragment, hash IP, set 90-day expiry
@@ -218,10 +220,11 @@ External user-supplied URLs present SSRF (Server-Side Request Forgery) risks. Th
 - **Product Requests**: 5 submissions per IP per day + Honeypot check + Origin validation.
 - **Price Tips**: 5 submissions per IP per day + Honeypot + Origin validation + private 90-day retention.
 
-### 4.3 Atomic File Storage & Concurrency
-- `JsonPriceObservationRepository`: Acquires an exclusive lock (`.lock` file via `flock(LOCK_EX)`), reads current historical entries, merges the updated daily observation, sorts chronologically, serializes to a `.tmp` file, and executes an atomic POSIX `rename()` to replace the target file safely under concurrent read/write loads.
-- `JsonPriceTipRepository`: Stores each normalized community tip separately so expired material can be deleted without rewriting unrelated records. The repository never performs an HTTP request.
-- `AuditLogger`, `JsonlLeadRepository`, `JsonProductRequestStore`: Use `file_put_contents` with `FILE_APPEND | LOCK_EX`.
+### 4.3 Persistence & Concurrency
+- Doctrine repositories persist leads, page views, product requests, price tips, and price observations in PostgreSQL.
+- Database constraints protect observation uniqueness, while transactions provide concurrency guarantees.
+- `AuditLogger` remains an append-only JSONL operational log with locked writes and bounded retention.
+- Legacy JSON/JSONL adapters are retained only for controlled migration through `app:import-json-to-database`.
 
 ---
 
@@ -249,7 +252,7 @@ The project exposes a native **Model Context Protocol** endpoint at `/mcp` via `
 
 ```
 +-----------------------------------------------------------------------------------+
-| Host System (Linux Server: 62.238.1.164)                                          |
+| Linux Host                                                                        |
 |                                                                                   |
 |  +-------------------------------------+   +------------------------------------+ |
 |  | Web Container (caddy:2.10-alpine)   |   | App Container (php:8.5-fpm-alpine) | |
@@ -262,12 +265,12 @@ The project exposes a native **Model Context Protocol** endpoint at `/mcp` via `
 |                     +------------------- FastCGI -------------+                   |
 |                                                               |                   |
 |  +------------------------------------------------------------+-----------------+ |
-|  | Docker Volumes                                                               | |
-|  | - audit_cache    -> /app/var/audit-cache                                     | |
-|  | - audit_logs     -> /app/var/audit-logs                                      | |
-|  | - contact_leads  -> /app/var/contact-leads                                   | |
-|  | - rate_limits    -> /app/var/rate-limits                                     | |
-|  | - market_data    -> /app/var/market-data                                     | |
+|  | Private persistence                                                         | |
+|  | - db_data       -> PostgreSQL 17                                             | |
+|  | - audit_cache   -> /app/var/audit-cache                                      | |
+|  | - audit_logs    -> /app/var/audit-logs                                       | |
+|  | - rate_limits   -> /app/var/rate-limits                                      | |
+|  | - legacy import volumes remain mounted during migration                      | |
 |  +------------------------------------------------------------------------------+ |
 +-----------------------------------------------------------------------------------+
 ```
@@ -282,6 +285,7 @@ The continuous verification pipeline ensures 100% adherence to project standards
 |---|---|---|---|
 | **Unit & Integration Tests** | PHPUnit 12 | `docker run --rm bahdan-landing-test` | 100% passing (0 notices, 0 failures) |
 | **Code Style** | PHP_CodeSniffer | `docker run --rm bahdan-landing-test vendor/bin/phpcs --standard=phpcs.xml.dist` | PSR-12 standard (0 errors, 0 warnings) |
+| **Static Analysis** | PHPStan 2 | `docker run --rm bahdan-landing-test vendor/bin/phpstan analyse --memory-limit=512M` | Level 8, no findings beyond the shrinking baseline |
 | **Template Syntax** | Twig Linter | `docker run --rm bahdan-landing-test php bin/console lint:twig templates` | All templates valid |
 | **Configuration Syntax** | YAML Linter | `docker run --rm bahdan-landing-test php bin/console lint:yaml translations config` | All YAML configs valid |
 | **AST Knowledge Graph** | Graphify | `graphify . --code-only` + `graphify cluster-only .` | 0 import cycles, 388 nodes indexed |

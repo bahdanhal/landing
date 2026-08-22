@@ -34,6 +34,6 @@ The four list tools accept an optional `limit` from 1 to 100. They never return 
 
 Administrative output can contain personal data and private review material. Do not forward it to unrelated services, paste it into third-party prompts, or enable verbose request/response logging in the MCP client. Community listing links must never be fetched automatically or republished.
 
-Traffic analytics are collected without cookies. The application stores only the request path, a source category, an external referring hostname when present, and an HMAC-SHA256 client-IP hash. It never stores raw IP addresses, query strings, full referrer URLs, or user-agent strings. Bot-like user agents, admin and MCP paths, health checks, and requests carrying DNT or Global Privacy Control are excluded. Daily JSONL files are retained for at most `ANALYTICS_RETENTION_DAYS` (90 by default).
+Traffic analytics are collected without cookies. PostgreSQL stores only the request path, a source category, an external referring hostname when present, and an HMAC-SHA256 client-IP hash. It never stores raw IP addresses, query strings, full referrer URLs, or user-agent strings. Bot-like user agents, admin and MCP paths, health checks, and requests carrying DNT or Global Privacy Control are excluded. Page-view rows are retained for at most `ANALYTICS_RETENTION_DAYS` (90 by default).
 
 If the token may have been exposed, replace it in `production.env`, restart the application container, and remove any affected client logs.

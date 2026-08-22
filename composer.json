@@ -34,6 +34,7 @@
         "twig/twig": "^3.21"
     },
     "require-dev": {
+        "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^12.2",
         "squizlabs/php_codesniffer": "^3.11",
         "symfony/browser-kit": "8.1.*",
@@ -54,7 +55,8 @@
         "post-install-cmd": ["@auto-scripts"],
         "post-update-cmd": ["@auto-scripts"],
         "cs:check": "phpcs",
-        "cs:fix": "phpcbf"
+        "cs:fix": "phpcbf",
+        "stan": "phpstan analyse --no-progress --memory-limit=512M"
     },
     "extra": {"symfony": {"allow-contrib": false, "require": "8.1.*"}}
 }

@@ -1,4 +1,20 @@
 services:
+  migrate:
+    build:
+      context: .
+      target: app
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: 0
+      APP_SECRET: ${APP_SECRET:?Set APP_SECRET in .env.local or the environment}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER:-bahdan}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env.local or the environment}@db:5432/${POSTGRES_DB:-bahdan_toolbox}?serverVersion=17&charset=utf8}
+    command: ["php", "bin/console", "doctrine:migrations:migrate", "--no-interaction", "--allow-no-migration"]
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [internal]
+    restart: "no"
+
   app:
     build:
       context: .
@@ -25,10 +41,10 @@ services:
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       AI_PROVIDER: ${AI_PROVIDER:-anthropic}
       AI_SUMMARY_MODEL: ${AI_SUMMARY_MODEL:-claude-haiku-4-5-20251001}
-      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER:-bahdan}:${POSTGRES_PASSWORD:-postgres_secret}@db:5432/${POSTGRES_DB:-bahdan_toolbox}?serverVersion=17&charset=utf8}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER:-bahdan}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env.local or the environment}@db:5432/${POSTGRES_DB:-bahdan_toolbox}?serverVersion=17&charset=utf8}
     depends_on:
-      db:
-        condition: service_started
+      migrate:
+        condition: service_completed_successfully
     read_only: true
     tmpfs:
       - /app/var:size=128m,uid=82,gid=82,mode=0770
@@ -47,7 +63,12 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-bahdan_toolbox}
       POSTGRES_USER: ${POSTGRES_USER:-bahdan}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres_secret}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env.local or the environment}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     volumes:
       - db_data:/var/lib/postgresql/data
     networks: [internal]

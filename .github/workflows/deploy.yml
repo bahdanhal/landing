@@ -1,5 +1,12 @@
 name: Deploy to Production
 
+permissions:
+  contents: read
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
 on:
   push:
     branches: [ master ]
@@ -10,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Build Docker Test Image
         run: |
@@ -18,35 +25,41 @@ jobs:
 
       - name: Run PHPUnit Test Suite
         run: |
-          docker run --rm --env-file .env.example -e APP_ENV=test bahdan-landing-test vendor/bin/phpunit
+          docker run --rm --env-file .env.example -e APP_ENV=test bahdan-landing-test vendor/bin/phpunit --fail-on-phpunit-notice
 
-      - name: Run JS Income Math & BIMI Test Suites
+      - name: Run JavaScript Test Suites
         run: |
-          docker run --rm -v "$PWD:/app" -w /app node:24-alpine node tests/js/income-math.test.js
-          docker run --rm -v "$PWD:/app" -w /app node:24-alpine node tests/js/bimi-sanitizer.test.js
+          docker run --rm -v "$PWD:/app" -w /app node:24-alpine sh -lc 'for test in tests/js/*.test.js; do node "$test" || exit 1; done'
+
+      - name: Run Static and Style Checks
+        run: |
+          docker run --rm bahdan-landing-test vendor/bin/phpcs
+          docker run --rm bahdan-landing-test vendor/bin/phpstan analyse --no-progress --memory-limit=512M
+          docker run --rm bahdan-landing-test php bin/console lint:twig templates
+          docker run --rm bahdan-landing-test php bin/console lint:yaml translations config
+          docker run --rm bahdan-landing-test composer audit --locked --no-interaction
 
   deploy:
     name: Deploy to Server
     needs: test
     runs-on: ubuntu-latest
+    environment: production
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Install SSH Key
-        uses: webfactory/ssh-agent@v0.9.0
+        uses: webfactory/ssh-agent@dc588b651fe13675774614f8e6a936a468676387 # v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Add Server Host Key
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Clean Remote Legacy Directories
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            'rm -rf /home/bahdan-landing/.agents /home/bahdan-landing/.codex /home/bahdan-landing/.gemini 2>/dev/null || sudo rm -rf /home/bahdan-landing/.agents /home/bahdan-landing/.codex /home/bahdan-landing/.gemini 2>/dev/null || true'
+          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
 
       - name: Rsync Files to Production Server
         run: |
@@ -60,12 +73,12 @@ jobs:
             --exclude='.env.local' \
             --exclude='certbot-webroot' \
             --exclude='var/' \
-            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/bahdan-landing/
+            ./ "$SSH_USER@$SSH_HOST:/home/bahdan-landing/"
 
       - name: Rebuild & Restart Production Containers
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            'cd /home/bahdan-landing && rm -rf .agents .codex .gemini 2>/dev/null || true; chmod -R u+rwX,go+rX . 2>/dev/null || true; docker compose -p seo --env-file production.env up -d --build && docker compose -p seo --env-file production.env exec -T app php bin/console doctrine:schema:update --force && docker compose -p seo --env-file production.env exec -T app php bin/console app:import-json-to-database'
+          ssh "$SSH_USER@$SSH_HOST" \
+            'cd /home/bahdan-landing && docker compose -p seo --env-file production.env up -d --build'
 
       - name: Health Check Verification
         run: |

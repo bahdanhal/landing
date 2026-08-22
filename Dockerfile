@@ -18,6 +18,7 @@ COPY src ./src
 COPY templates ./templates
 COPY translations ./translations
 COPY specs ./specs
+COPY migrations ./migrations
 RUN composer dump-autoload --classmap-authoritative --no-dev \
     && APP_ENV=prod APP_DEBUG=0 php bin/console cache:warmup \
     && mkdir -p var/audit-cache var/audit-logs var/contact-leads var/rate-limits var/market-data var/analytics-data \
@@ -37,9 +38,12 @@ COPY src ./src
 COPY templates ./templates
 COPY translations ./translations
 COPY specs ./specs
+COPY migrations ./migrations
 COPY tests ./tests
 COPY phpunit.xml.dist ./phpunit.xml.dist
 COPY phpcs.xml.dist ./phpcs.xml.dist
+COPY phpstan.neon.dist ./phpstan.neon.dist
+COPY phpstan-baseline.neon ./phpstan-baseline.neon
 RUN composer dump-autoload --classmap-authoritative
 CMD ["vendor/bin/phpunit"]
 
