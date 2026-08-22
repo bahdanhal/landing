@@ -59,7 +59,7 @@ final readonly class SitemapController
 
     private function entry(string $location, string $english, string $polish, ?string $lastModified = null): string
     {
-        $base = 'https://bahdan-hal.ovh';
+        $base = 'https://bahdanhal.pl';
         $lastmod = $lastModified === null ? '' : '<lastmod>' . $lastModified . '</lastmod>';
 
         $format = '  <url><loc>%s</loc>%s'

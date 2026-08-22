@@ -1,6 +1,6 @@
 # Bahdan’s Toolbox
 
-A bilingual Symfony 8.1 / PHP 8.5 collection of focused practical tools, deployed at [bahdan-hal.ovh](https://bahdan-hal.ovh/).
+A bilingual Symfony 8.1 / PHP 8.5 collection of focused practical tools, deployed at [bahdanhal.pl](https://bahdanhal.pl/).
 
 ## Included tools
 
@@ -70,7 +70,7 @@ docker compose -p seo --env-file production.env exec app sh -lc \
 
 ## Production
 
-The Docker Compose stack contains PHP-FPM and Caddy. Caddy normalizes HTTP/HTTPS and www/non-www to `https://bahdan-hal.ovh`, serves Certbot certificates and emits JSON access logs. Persistent volumes hold caches, rate limits, audit logs, contact leads and market history.
+The Docker Compose stack contains PHP-FPM and Caddy. Caddy normalizes HTTP/HTTPS and www/non-www (including legacy `bahdan-hal.ovh`) to `https://bahdanhal.pl`, serves Certbot certificates and emits JSON access logs. Persistent volumes hold caches, rate limits, audit logs, contact leads and market history.
 
 ## Development standards & guidelines
 

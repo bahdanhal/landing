@@ -26,4 +26,4 @@ Disallow: /pl/kontakt
 Disallow: /healthz
 Disallow: /mcp
 
-Sitemap: https://bahdan-hal.ovh/sitemap.xml
+Sitemap: https://bahdanhal.pl/sitemap.xml

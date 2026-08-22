@@ -3,14 +3,14 @@
 {% block robots %}<meta name="robots" content="index,follow">{% endblock %}
 {% block description %}<meta name="description" content="{{ 'profile.meta.description'|trans }}">{% endblock %}
 {% block canonical %}
-    <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdan-hal.ovh/pl/' : 'https://bahdan-hal.ovh/' }}">
-    <link rel="alternate" hreflang="en" href="https://bahdan-hal.ovh/">
-    <link rel="alternate" hreflang="pl" href="https://bahdan-hal.ovh/pl/">
-    <link rel="alternate" hreflang="x-default" href="https://bahdan-hal.ovh/">
+    <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/' : 'https://bahdanhal.pl/' }}">
+    <link rel="alternate" hreflang="en" href="https://bahdanhal.pl/">
+    <link rel="alternate" hreflang="pl" href="https://bahdanhal.pl/pl/">
+    <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/">
 {% endblock %}
 {% block stylesheets %}<link rel="stylesheet" href="/portfolio.css">{% endblock %}
 {% block head_scripts %}
-    <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'FAQPage','@id':'https://bahdan-hal.ovh/#faq','inLanguage':app.request.locale,'dateModified':'2026-08-21','author':{'@id':'https://bahdan-hal.ovh/#bahdan'},'publisher':{'@id':'https://bahdan-hal.ovh/#bahdan'},'mainEntity':[{'@type':'Question','name':'profile.faq.q1'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a1'|trans}},{'@type':'Question','name':'profile.faq.q2'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a2'|trans}}]}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+    <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'FAQPage','@id':'https://bahdanhal.pl/#faq','inLanguage':app.request.locale,'dateModified':'2026-08-21','author':{'@id':'https://bahdanhal.pl/#bahdan'},'publisher':{'@id':'https://bahdanhal.pl/#bahdan'},'mainEntity':[{'@type':'Question','name':'profile.faq.q1'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a1'|trans}},{'@type':'Question','name':'profile.faq.q2'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a2'|trans}}]}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
 {% endblock %}
 {% block brand_lockup %}
     <a class="brand" href="{{ path('landing', {_locale: app.request.locale}) }}" aria-label="Bahdan Hal">

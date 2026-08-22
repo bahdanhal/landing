@@ -3,10 +3,10 @@
 {% block robots %}<meta name="robots" content="index,follow">{% endblock %}
 {% block description %}<meta name="description" content="{{ 'home.meta.description'|trans }}">{% endblock %}
 {% block canonical %}
-  <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdan-hal.ovh/pl/narzedzia' : 'https://bahdan-hal.ovh/tools' }}">
-  <link rel="alternate" hreflang="en" href="https://bahdan-hal.ovh/tools">
-  <link rel="alternate" hreflang="pl" href="https://bahdan-hal.ovh/pl/narzedzia">
-  <link rel="alternate" hreflang="x-default" href="https://bahdan-hal.ovh/tools">
+  <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia' : 'https://bahdanhal.pl/tools' }}">
+  <link rel="alternate" hreflang="en" href="https://bahdanhal.pl/tools">
+  <link rel="alternate" hreflang="pl" href="https://bahdanhal.pl/pl/narzedzia">
+  <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/tools">
 {% endblock %}
 {% block language_switch %}<a class="language-switch" href="{{ path('home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
 

@@ -122,24 +122,24 @@ final class ProductCatalog
                 'smartphones' => [
                     '/images/market/iphone-device.svg',
                     'Bahdan’s Toolbox',
-                    'https://bahdan-hal.ovh/tools/poland-used-price-index',
+                    'https://bahdanhal.pl/tools/poland-used-price-index',
                 ],
                 'laptops' => [
                     str_contains($familySlug, 'macbook-pro')
                         ? '/images/market/macbook-pro.svg'
                         : '/images/market/macbook-air-m1.png',
                     'Bahdan’s Toolbox',
-                    'https://bahdan-hal.ovh/tools/poland-used-price-index',
+                    'https://bahdanhal.pl/tools/poland-used-price-index',
                 ],
                 'ram' => [
                     '/images/market/ram-module.svg',
                     'Bahdan’s Toolbox',
-                    'https://bahdan-hal.ovh/tools/poland-used-price-index',
+                    'https://bahdanhal.pl/tools/poland-used-price-index',
                 ],
                 default => [
                     '/images/market/iphone-device.svg',
                     'Bahdan’s Toolbox',
-                    'https://bahdan-hal.ovh/tools/poland-used-price-index',
+                    'https://bahdanhal.pl/tools/poland-used-price-index',
                 ],
             },
         };

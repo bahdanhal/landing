@@ -8,7 +8,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class HttpFetcher
 {
-    private const USER_AGENT = 'BahdanToolbox/1.0 (+https://bahdan-hal.ovh/)';
+    private const USER_AGENT = 'BahdanToolbox/1.0 (+https://bahdanhal.pl/)';
 
     public function __construct(
         private readonly HttpClientInterface $httpClient,

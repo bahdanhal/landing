@@ -66,7 +66,7 @@ final readonly class MarketPriceTools
 
     private function canonicalUrl(string $slug): string
     {
-        return 'https://bahdan-hal.ovh/tools/poland-used-price-index/' . $slug;
+        return 'https://bahdanhal.pl/tools/poland-used-price-index/' . $slug;
     }
 
     private function json(array $data): string

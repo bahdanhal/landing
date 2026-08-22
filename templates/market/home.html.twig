@@ -5,10 +5,10 @@
 {% block robots %}<meta name="robots" content="index,follow">{% endblock %}
 {% block description %}<meta name="description" content="{{ 'market.meta.description'|trans }}">{% endblock %}
 {% block canonical %}
-    <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdan-hal.ovh/pl/narzedzia/indeks-cen-uzywanych' : 'https://bahdan-hal.ovh/tools/poland-used-price-index' }}">
-    <link rel="alternate" hreflang="en" href="https://bahdan-hal.ovh/tools/poland-used-price-index">
-    <link rel="alternate" hreflang="pl" href="https://bahdan-hal.ovh/pl/narzedzia/indeks-cen-uzywanych">
-    <link rel="alternate" hreflang="x-default" href="https://bahdan-hal.ovh/tools/poland-used-price-index">
+    <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/indeks-cen-uzywanych' : 'https://bahdanhal.pl/tools/poland-used-price-index' }}">
+    <link rel="alternate" hreflang="en" href="https://bahdanhal.pl/tools/poland-used-price-index">
+    <link rel="alternate" hreflang="pl" href="https://bahdanhal.pl/pl/narzedzia/indeks-cen-uzywanych">
+    <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/tools/poland-used-price-index">
 {% endblock %}
 {% block stylesheets %}<link rel="stylesheet" href="/tools.css"><link rel="stylesheet" href="/market.css"><link rel="stylesheet" href="/market-extra.css">{% endblock %}
 {% block language_switch %}<a class="language-switch" href="{{ path('market_home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
@@ -59,7 +59,7 @@
         </section>
 
         <aside class="market-method"><strong>{{ 'market.method.title'|trans }}</strong><p>{{ 'market.method.text'|trans }}</p><ul><li>{{ 'market.method.one'|trans }}</li><li>{{ 'market.method.two'|trans }}</li><li>{{ 'market.method.three'|trans }}</li></ul></aside>
-        <section class="market-mcp"><div><span class="market-category">{{ 'market.mcp.eyebrow'|trans }}</span><h2>{{ 'market.mcp.title'|trans }}</h2><p>{{ 'market.mcp.text'|trans }}</p></div><code>https://bahdan-hal.ovh/mcp</code></section>
+        <section class="market-mcp"><div><span class="market-category">{{ 'market.mcp.eyebrow'|trans }}</span><h2>{{ 'market.mcp.title'|trans }}</h2><p>{{ 'market.mcp.text'|trans }}</p></div><code>https://bahdanhal.pl/mcp</code></section>
     </section>
 {% endblock %}
 {% block scripts %}<script src="/market-index.js" defer></script>{% endblock %}

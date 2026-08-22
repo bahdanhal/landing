@@ -4,10 +4,10 @@
 {% block robots %}<meta name="robots" content="index,follow">{% endblock %}
 {% block description %}<meta name="description" content="{{ 'geo.meta.description'|trans }}">{% endblock %}
 {% block canonical %}
-  <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdan-hal.ovh/pl/narzedzia/audyt-geo' : 'https://bahdan-hal.ovh/tools/geo-audit' }}">
-  <link rel="alternate" hreflang="en" href="https://bahdan-hal.ovh/tools/geo-audit">
-  <link rel="alternate" hreflang="pl" href="https://bahdan-hal.ovh/pl/narzedzia/audyt-geo">
-  <link rel="alternate" hreflang="x-default" href="https://bahdan-hal.ovh/tools/geo-audit">
+  <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/audyt-geo' : 'https://bahdanhal.pl/tools/geo-audit' }}">
+  <link rel="alternate" hreflang="en" href="https://bahdanhal.pl/tools/geo-audit">
+  <link rel="alternate" hreflang="pl" href="https://bahdanhal.pl/pl/narzedzia/audyt-geo">
+  <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/tools/geo-audit">
 {% endblock %}
 {% block stylesheets %}<link rel="stylesheet" href="/tools.css"><link rel="stylesheet" href="/geo.css">{% endblock %}
 {% block language_switch %}<a class="language-switch" href="{{ path('geo_home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}

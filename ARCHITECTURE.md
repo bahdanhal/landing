@@ -223,7 +223,7 @@ External user-supplied URLs present SSRF (Server-Side Request Forgery) risks. Th
 
 The project exposes a native **Model Context Protocol** endpoint at `/mcp` via `symfony/mcp-bundle` and `mcp/sdk`.
 
-- **Public Endpoint**: `https://bahdan-hal.ovh/mcp`
+- **Public Endpoint**: `https://bahdanhal.pl/mcp`
 - **Transport**: HTTP POST (stateless session with file-backed session IDs).
 - **Tools**:
   - `list_polish_used_price_products`: Returns tracked product families, configurations, categories, canonical URLs, and observation availability.

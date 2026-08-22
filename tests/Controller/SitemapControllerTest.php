@@ -29,8 +29,8 @@ final class SitemapControllerTest extends TestCase
 
         $content = (string) $response->getContent();
         self::assertStringContainsString('<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>', $content);
-        self::assertStringContainsString('<loc>https://bahdan-hal.ovh/</loc>', $content);
-        self::assertStringContainsString('<loc>https://bahdan-hal.ovh/pl/</loc>', $content);
+        self::assertStringContainsString('<loc>https://bahdanhal.pl/</loc>', $content);
+        self::assertStringContainsString('<loc>https://bahdanhal.pl/pl/</loc>', $content);
         self::assertStringContainsString('hreflang="x-default"', $content);
 
         $document = new \DOMDocument();
@@ -63,7 +63,7 @@ final class SitemapControllerTest extends TestCase
         $response = $controller();
 
         $content = (string) $response->getContent();
-        $expectedUrl = 'https://bahdan-hal.ovh/tools/poland-used-price-index/peugeot-206-cc-1-6-petrol';
+        $expectedUrl = 'https://bahdanhal.pl/tools/poland-used-price-index/peugeot-206-cc-1-6-petrol';
         self::assertStringContainsString($expectedUrl, $content);
         self::assertStringContainsString('<lastmod>2026-08-21</lastmod>', $content);
         self::assertStringNotContainsString('peugeot-206-cc-2-0-petrol', $content);

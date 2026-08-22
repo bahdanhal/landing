@@ -41,12 +41,12 @@ final class GeoAnalyzerLandingSelfAuditTest extends TestCase
     public function testLandingPageEnScores100OnSelfGeoAudit(): void
     {
         $requestStack = $this->container->get('request_stack');
-        $request = Request::create('https://bahdan-hal.ovh/');
+        $request = Request::create('https://bahdanhal.pl/');
         $request->setLocale('en');
         $requestStack->push($request);
 
         $html = $this->twig->render('portfolio/home.html.twig');
-        $report = $this->runGeoAudit('https://bahdan-hal.ovh/', $html);
+        $report = $this->runGeoAudit('https://bahdanhal.pl/', $html);
 
         $imperfectChecks = array_values(array_filter($report['checks'], static fn (array $c): bool => $c['earned'] !== $c['maximum']));
         self::assertSame([], $imperfectChecks, 'All checks must earn maximum points');
@@ -65,12 +65,12 @@ final class GeoAnalyzerLandingSelfAuditTest extends TestCase
     public function testLandingPagePlScores100OnSelfGeoAudit(): void
     {
         $requestStack = $this->container->get('request_stack');
-        $request = Request::create('https://bahdan-hal.ovh/pl/');
+        $request = Request::create('https://bahdanhal.pl/pl/');
         $request->setLocale('pl');
         $requestStack->push($request);
 
         $html = $this->twig->render('portfolio/home.html.twig');
-        $report = $this->runGeoAudit('https://bahdan-hal.ovh/pl/', $html);
+        $report = $this->runGeoAudit('https://bahdanhal.pl/pl/', $html);
 
         $imperfectChecks = array_values(array_filter($report['checks'], static fn (array $c): bool => $c['earned'] !== $c['maximum']));
         self::assertSame([], $imperfectChecks, 'All Polish checks must earn maximum points');
@@ -85,20 +85,20 @@ final class GeoAnalyzerLandingSelfAuditTest extends TestCase
     public function testMcpToolReturnsCompletedGeoAnalysisForLanding(): void
     {
         $requestStack = $this->container->get('request_stack');
-        $request = Request::create('https://bahdan-hal.ovh/');
+        $request = Request::create('https://bahdanhal.pl/');
         $request->setLocale('en');
         $requestStack->push($request);
 
         $html = $this->twig->render('portfolio/home.html.twig');
-        $analyzer = $this->createAnalyzerForHtml('https://bahdan-hal.ovh/', $html);
+        $analyzer = $this->createAnalyzerForHtml('https://bahdanhal.pl/', $html);
         $geoTools = new GeoTools($analyzer);
 
-        $jsonResult = $geoTools->analyzeGeo('https://bahdan-hal.ovh/');
+        $jsonResult = $geoTools->analyzeGeo('https://bahdanhal.pl/');
         $data = json_decode($jsonResult, true, flags: JSON_THROW_ON_ERROR);
 
         self::assertSame('completed', $data['status']);
         self::assertSame(100, $data['score']);
-        self::assertSame('https://bahdan-hal.ovh/', $data['target']);
+        self::assertSame('https://bahdanhal.pl/', $data['target']);
         self::assertCount(13, $data['checks']);
 
         $requestStack->pop();

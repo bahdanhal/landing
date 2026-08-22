@@ -4,18 +4,18 @@
 
 ## Primary pages
 
-- [About Bahdan Hal](https://bahdan-hal.ovh/): backend work, infrastructure, AI integrations and contact profiles
-- [Toolbox in English](https://bahdan-hal.ovh/tools): overview of all tools
-- [Toolbox in Polish](https://bahdan-hal.ovh/pl/narzedzia): polska wersja zestawu narzędzi
-- [Polish used-goods price index](https://bahdan-hal.ovh/tools/poland-used-price-index): weekly AI-assisted estimates with historical observations
-- [Indeks cen używanych](https://bahdan-hal.ovh/pl/narzedzia/indeks-cen-uzywanych): polska wersja indeksu
-- [GEO analyzer](https://bahdan-hal.ovh/tools/geo-audit): deterministic generative-engine-readiness checks
-- [SEO analyzer](https://bahdan-hal.ovh/tools/seo-audit): technical crawling and indexability checks
-- [UoP / UZ / Ud / B2B calculator](https://bahdan-hal.ovh/tools/poland-employment-calculator): Polish contract take-home comparison
+- [About Bahdan Hal](https://bahdanhal.pl/): backend work, infrastructure, AI integrations and contact profiles
+- [Toolbox in English](https://bahdanhal.pl/tools): overview of all tools
+- [Toolbox in Polish](https://bahdanhal.pl/pl/narzedzia): polska wersja zestawu narzędzi
+- [Polish used-goods price index](https://bahdanhal.pl/tools/poland-used-price-index): weekly AI-assisted estimates with historical observations
+- [Indeks cen używanych](https://bahdanhal.pl/pl/narzedzia/indeks-cen-uzywanych): polska wersja indeksu
+- [GEO analyzer](https://bahdanhal.pl/tools/geo-audit): deterministic generative-engine-readiness checks
+- [SEO analyzer](https://bahdanhal.pl/tools/seo-audit): technical crawling and indexability checks
+- [UoP / UZ / Ud / B2B calculator](https://bahdanhal.pl/tools/poland-employment-calculator): Polish contract take-home comparison
 
 ## Data access
 
-- Public read-only MCP endpoint: `https://bahdan-hal.ovh/mcp`
+- Public read-only MCP endpoint: `https://bahdanhal.pl/mcp`
 - MCP tools list exact tracked product configurations and return dated price history.
 - No account or API key is required.
 

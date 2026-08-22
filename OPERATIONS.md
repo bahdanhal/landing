@@ -4,9 +4,10 @@ This is the standalone toolbox project, separate from BramClassAuto.
 
 ## Live services
 
-- Website: https://bahdan-hal.ovh
-- Sitemap: https://bahdan-hal.ovh/sitemap.xml
-- Public MCP endpoint: https://bahdan-hal.ovh/mcp
+- Website: https://bahdanhal.pl
+- Sitemap: https://bahdanhal.pl/sitemap.xml
+- Public MCP endpoint: https://bahdanhal.pl/mcp
+- Legacy redirect: https://bahdan-hal.ovh -> https://bahdanhal.pl (301)
 - Production directory: `/home/bahdan-landing`
 - Compose project: `seo`
 - Production environment file: `/home/bahdan-landing/production.env`
@@ -37,7 +38,7 @@ Under **Settings > Secrets and variables > Actions** on GitHub:
 Run from the local `bahdan-landing` checkout:
 
 ```sh
-rsync -az --exclude=.git --exclude=.idea --exclude=production.env \
+rsync -az --exclude=.git --exclude=.github --exclude=.idea --exclude=production.env \
   --exclude=certbot-webroot --exclude=.env.local --exclude=var/ \
   -e 'ssh -i ~/.ssh/id_ed25519' ./ root@62.238.1.164:/home/bahdan-landing/
 
@@ -102,9 +103,10 @@ docker run --rm bahdan-landing-test php bin/console lint:yaml translations confi
 Useful public checks:
 
 ```sh
-curl -I https://bahdan-hal.ovh/healthz
-curl -I https://bahdan-hal.ovh/sitemap.xml
-curl -I https://bahdan-hal.ovh/robots.txt
+curl -I https://bahdanhal.pl/healthz
+curl -I https://bahdanhal.pl/sitemap.xml
+curl -I https://bahdanhal.pl/robots.txt
+curl -I https://bahdan-hal.ovh/ # Should return 301 to https://bahdanhal.pl/
 ```
 
 ## Recent milestones

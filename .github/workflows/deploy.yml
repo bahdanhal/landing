@@ -61,4 +61,4 @@ jobs:
       - name: Health Check Verification
         run: |
           sleep 5
-          curl -f -I --retry 3 --retry-delay 2 https://bahdan-hal.ovh/healthz || exit 1
+          curl -f -I --retry 3 --retry-delay 2 https://bahdanhal.pl/healthz || exit 1
