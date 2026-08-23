@@ -56,6 +56,16 @@ final class ToolsController extends AbstractController
     }
 
     #[Route(
+        path: ['en' => '/tools/apple-pkpass-inspector', 'pl' => '/pl/narzedzia/inspektor-pkpass'],
+        name: 'pkpass_inspector',
+        methods: ['GET']
+    )]
+    public function pkpassInspector(): Response
+    {
+        return $this->render('tools/pkpass_inspector.html.twig');
+    }
+
+    #[Route(
         path: ['en' => '/tools/polish-vat-calculator', 'pl' => '/pl/narzedzia/kalkulator-vat'],
         name: 'legacy_vat_calculator',
         methods: ['GET']

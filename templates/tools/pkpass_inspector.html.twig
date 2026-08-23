@@ -1,0 +1,244 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ 'pkpass.meta.title'|trans }}{% endblock %}
+{% block robots %}<meta name="robots" content="index,follow">{% endblock %}
+{% block description %}<meta name="description" content="{{ 'pkpass.meta.description'|trans }}">{% endblock %}
+{% block canonical %}
+  <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/inspektor-pkpass' : 'https://bahdanhal.pl/tools/apple-pkpass-inspector' }}">
+  <link rel="alternate" hreflang="en" href="https://bahdanhal.pl/tools/apple-pkpass-inspector">
+  <link rel="alternate" hreflang="pl" href="https://bahdanhal.pl/pl/narzedzia/inspektor-pkpass">
+  <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/tools/apple-pkpass-inspector">
+{% endblock %}
+{% block stylesheets %}
+  <link rel="stylesheet" href="/tools.css">
+  <link rel="stylesheet" href="/pkpass-inspector.css">
+{% endblock %}
+{% block head_scripts %}
+  <script type="application/ld+json">{{ {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebApplication',
+        '@id': (app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/inspektor-pkpass#app' : 'https://bahdanhal.pl/tools/apple-pkpass-inspector#app'),
+        'name': 'pkpass.heading'|trans,
+        'description': 'pkpass.meta.description'|trans,
+        'url': (app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/inspektor-pkpass' : 'https://bahdanhal.pl/tools/apple-pkpass-inspector'),
+        'applicationCategory': 'DeveloperApplication',
+        'operatingSystem': 'Any',
+        'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'USD'},
+        'author': {'@id': 'https://bahdanhal.pl/#bahdan'},
+        'publisher': {'@id': 'https://bahdanhal.pl/#bahdan'}
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': (app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/inspektor-pkpass#faq' : 'https://bahdanhal.pl/tools/apple-pkpass-inspector#faq'),
+        'inLanguage': app.request.locale,
+        'mainEntity': [
+          {'@type': 'Question', 'name': 'pkpass.faq.q1'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'pkpass.faq.a1'|trans}},
+          {'@type': 'Question', 'name': 'pkpass.faq.q2'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'pkpass.faq.a2'|trans}},
+          {'@type': 'Question', 'name': 'pkpass.faq.q3'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'pkpass.faq.a3'|trans}},
+          {'@type': 'Question', 'name': 'pkpass.faq.q4'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'pkpass.faq.a4'|trans}}
+        ]
+      }
+    ]
+  }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+{% endblock %}
+{% block language_switch %}
+  <a class="language-switch" href="{{ path('pkpass_inspector', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
+{% endblock %}
+{% block tool_name %}{{ 'pkpass.title'|trans }}{% endblock %}
+
+{% block body %}
+<section class="tool-page-shell pkpass-hero">
+  {% include 'tools/_tool_intro.html.twig' with {
+    eyebrow: 'pkpass.eyebrow'|trans,
+    heading: 'pkpass.heading'|trans,
+    lede: 'pkpass.lede'|trans
+  } only %}
+
+  <div class="pkpass-container" id="pkpass-inspector-app" data-locale="{{ app.request.locale }}">
+    <!-- Preset & Drop Toolbar -->
+    <div class="pkpass-toolbar">
+      <div class="preset-group">
+        <span class="preset-label">{{ 'pkpass.presets.label'|trans }}:</span>
+        <button type="button" class="btn-preset active" data-preset="boardingPass">✈️ {{ 'pkpass.presets.flight'|trans }}</button>
+        <button type="button" class="btn-preset" data-preset="eventTicket">🎟️ {{ 'pkpass.presets.event'|trans }}</button>
+        <button type="button" class="btn-preset" data-preset="storeCard">☕ {{ 'pkpass.presets.loyalty'|trans }}</button>
+        <button type="button" class="btn-preset" data-preset="coupon">🏷️ {{ 'pkpass.presets.coupon'|trans }}</button>
+        <button type="button" class="btn-preset" data-preset="generic">💳 {{ 'pkpass.presets.generic'|trans }}</button>
+        <button type="button" class="btn-preset" data-preset="brokenPass">⚠️ {{ 'pkpass.presets.broken_demo'|trans }}</button>
+      </div>
+      <div>
+        <span class="privacy-badge">🔒 100% Client-Side · Zero Data Upload</span>
+      </div>
+    </div>
+
+    <!-- Drag & Drop Zone -->
+    <div class="pkpass-drop-zone" id="pkpass-drop-zone">
+      <div class="drop-icon">📥</div>
+      <strong class="drop-prompt">{{ 'pkpass.upload.drop_prompt'|trans }}</strong>
+      <span class="drop-hint">{{ 'pkpass.upload.formats'|trans }}</span>
+      <input type="file" id="pkpass-file-input" accept=".pkpass,.zip,.json" style="display: none;">
+    </div>
+
+    <!-- Main Split-Screen Workspace -->
+    <div class="pkpass-workspace-grid">
+      <!-- Left Column: Interactive Emulator -->
+      <div class="emulator-panel">
+        <div class="emulator-header-bar">
+          <span class="emulator-title">📱 {{ 'pkpass.emulator.title'|trans }}</span>
+          <div class="wallet-toggle-group">
+            <button type="button" class="btn-wallet-mode active" data-mode="apple">🍏 Apple Wallet</button>
+            <button type="button" class="btn-wallet-mode" data-mode="google">🌐 Google Wallet</button>
+          </div>
+        </div>
+
+        <div class="wallet-preview-viewport" id="wallet-preview-viewport">
+          <!-- Rendered dynamically by pkpass-inspector.js -->
+        </div>
+      </div>
+
+      <!-- Right Column: Diagnostics & Data Inspector -->
+      <div class="inspector-panel">
+        <!-- Status Header -->
+        <div id="diag-status-summary" class="diag-summary-box status-valid">
+          <div class="diag-status-badge badge-valid">🟢 STATUS: VALID PASS</div>
+          <div class="diag-meta-row">
+            <span>Pass Type: <strong>boardingPass</strong></span>
+            <span>Org: <strong>LOT Polish Airlines</strong></span>
+            <span>Team ID: <strong>BAHDAN9988</strong></span>
+          </div>
+        </div>
+
+        <!-- Inspector Tabs Navigation -->
+        <div class="inspector-tabs-nav">
+          <button type="button" class="inspector-tab-btn active" data-target="pane-manifest">🔍 SHA-1 Manifest</button>
+          <button type="button" class="inspector-tab-btn" data-target="pane-linter">📋 Schema Linter</button>
+          <button type="button" class="inspector-tab-btn" data-target="pane-assets">🖼️ Asset Checklist</button>
+          <button type="button" class="inspector-tab-btn" data-target="pane-signature">🔒 Signature</button>
+          <button type="button" class="inspector-tab-btn" data-target="pane-localizations">🌐 Localizations</button>
+          <button type="button" class="inspector-tab-btn" data-target="pane-contrast">🎨 Contrast</button>
+          <button type="button" class="inspector-tab-btn" data-target="pane-editor">⚙️ Live JSON Editor</button>
+        </div>
+
+        <!-- Panes -->
+        <!-- 1. Manifest Pane -->
+        <div class="inspector-tab-pane" id="pane-manifest" style="display: block;">
+          <table class="diag-table">
+            <thead>
+              <tr>
+                <th>File</th>
+                <th>Manifest Hash</th>
+                <th>Actual Hash</th>
+                <th>Integrity Status</th>
+              </tr>
+            </thead>
+            <tbody id="manifest-table-body">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 2. Linter Pane -->
+        <div class="inspector-tab-pane" id="pane-linter" style="display: none;">
+          <div class="linter-findings-list" id="linter-findings-list">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- 3. Asset Checklist Pane -->
+        <div class="inspector-tab-pane" id="pane-assets" style="display: none;">
+          <div class="asset-checklist-grid" id="asset-checklist-grid">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- 4. Signature Pane -->
+        <div class="inspector-tab-pane" id="pane-signature" style="display: none;">
+          <div id="signature-info-container">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- 5. Localizations Pane -->
+        <div class="inspector-tab-pane" id="pane-localizations" style="display: none;">
+          <div id="localization-container">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- 6. Contrast Pane -->
+        <div class="inspector-tab-pane" id="pane-contrast" style="display: none;">
+          <div id="contrast-container">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- 7. JSON Editor Pane -->
+        <div class="inspector-tab-pane" id="pane-editor" style="display: none;">
+          <textarea class="pkpass-json-editor-textarea" id="pkpass-json-editor" spellcheck="false"></textarea>
+        </div>
+
+        <!-- Actions Bar -->
+        <div class="inspector-actions-bar">
+          <button type="button" class="btn-action-primary" id="btn-repack-pkpass">
+            🛠️ {{ 'pkpass.actions.repack'|trans }}
+          </button>
+          <button type="button" class="btn-action-secondary" id="btn-export-google-wallet">
+            🌐 {{ 'pkpass.actions.export_google'|trans }}
+          </button>
+          <button type="button" class="btn-action-secondary" id="btn-download-json">
+            💾 {{ 'pkpass.actions.download_json'|trans }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Educational Guide Section: Why iOS drops passes -->
+    <section class="pkpass-guide-section">
+      <div class="section-title-wrap">
+        <h2>{{ 'pkpass.guide.title'|trans }}</h2>
+        <p class="section-subtitle">{{ 'pkpass.guide.subtitle'|trans }}</p>
+      </div>
+      <div class="guide-grid">
+        <div class="guide-card">
+          <h4>⚠️ {{ 'pkpass.guide.manifest_title'|trans }}</h4>
+          <p>{{ 'pkpass.guide.manifest_text'|trans }}</p>
+        </div>
+        <div class="guide-card">
+          <h4>🕒 {{ 'pkpass.guide.dates_title'|trans }}</h4>
+          <p>{{ 'pkpass.guide.dates_text'|trans }}</p>
+        </div>
+        <div class="guide-card">
+          <h4>🖼️ {{ 'pkpass.guide.assets_title'|trans }}</h4>
+          <p>{{ 'pkpass.guide.assets_text'|trans }}</p>
+        </div>
+        <div class="guide-card">
+          <h4>📱 {{ 'pkpass.guide.barcodes_title'|trans }}</h4>
+          <p>{{ 'pkpass.guide.barcodes_text'|trans }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="pkpass-guide-section tool-faq">
+      <div class="section-title-wrap">
+        <h2>{{ 'pkpass.faq.title'|trans }}</h2>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+        {% for idx in ['q1', 'q2', 'q3', 'q4'] %}
+          <details style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 0.85rem 1.1rem;" {% if loop.first %}open{% endif %}>
+            <summary style="font-size: 0.95rem; color: #f8fafc; cursor: pointer;"><strong>{{ ('pkpass.faq.' ~ idx)|trans }}</strong></summary>
+            <div style="margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid rgba(255,255,255,0.08);">
+              <p style="margin: 0; font-size: 0.88rem; line-height: 1.55; color: #cbd5e1;">{{ ('pkpass.faq.a' ~ loop.index)|trans }}</p>
+            </div>
+          </details>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="/pkpass-inspector.js"></script>
+{% endblock %}

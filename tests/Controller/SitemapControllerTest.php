@@ -31,7 +31,8 @@ final class SitemapControllerTest extends TestCase
         self::assertStringContainsString('<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>', $content);
         self::assertStringContainsString('<loc>https://bahdanhal.pl/</loc>', $content);
         self::assertStringContainsString('<loc>https://bahdanhal.pl/pl/</loc>', $content);
-        self::assertStringContainsString('hreflang="x-default"', $content);
+        self::assertStringContainsString('<loc>https://bahdanhal.pl/tools/apple-pkpass-inspector</loc>', $content);
+        self::assertStringContainsString('<loc>https://bahdanhal.pl/pl/narzedzia/inspektor-pkpass</loc>', $content);
 
         $document = new \DOMDocument();
         self::assertTrue($document->loadXML($content));

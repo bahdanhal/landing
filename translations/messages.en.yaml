@@ -13,6 +13,7 @@ base:
         bimi: "BIMI Studio"
         domain_inspector: "Domain inspector"
         caddy_transpiler: "Caddyfile Transpiler"
+        pkpass: "PKPass Inspector"
         more: "Tools"
     context:
         income: "Polish income calculator"
@@ -22,6 +23,7 @@ base:
         bimi: "BIMI Studio & SVG Converter"
         domain_inspector: "Domain email security inspector"
         caddy_transpiler: "Nginx & Apache to Caddyfile Transpiler"
+        pkpass: "Apple Wallet (.pkpass) Inspector & Emulator"
     footer: "Useful, transparent tools · No signup · No tracking pixel"
     contact: "Contact"
 
@@ -31,7 +33,7 @@ common:
 home:
     meta:
         title: "Bahdan’s Toolbox · Free Online Developer, SEO & Business Tools"
-        description: "Free, fast and transparent tools: Nginx to Caddy converter, BIMI SVG studio, domain email security inspector, technical SEO audit, GEO analyzer, and Polish salary calculator."
+        description: "Free, fast and transparent tools: Apple Wallet PKPass inspector, Nginx to Caddy converter, BIMI SVG studio, domain email security inspector, technical SEO audit, and Polish salary calculator."
     eyebrow: "SMALL TOOLS, REAL ANSWERS"
     heading_start: "Useful things,"
     heading_emphasis: "built properly."
@@ -43,6 +45,7 @@ home:
         web: "Web quality"
         email: "Email & identity"
         infrastructure: "Infrastructure"
+        mobile: "Mobile & Wallet"
     income:
         title: "Polish contract income calculator"
         text: "Compare take-home pay from the same company budget under UoP, umowa zlecenie, umowa o dzieło, and B2B."
@@ -64,6 +67,9 @@ home:
     caddy_transpiler:
         title: "Nginx & Apache ➔ Caddyfile Converter"
         text: "Convert Nginx server blocks and Apache .htaccess into clean, idiomatic Caddyfiles with real-time smart mapping, migration advisories and 1-click presets."
+    pkpass:
+        title: "Apple Wallet (.pkpass) Inspector & Debugger"
+        text: "Pixel-perfect Apple Wallet & Google Wallet emulator, SHA-1 manifest validator, PKCS#7 certificate inspector, and 1-click package repair."
     principles:
         private:
             title: "Private by default"
@@ -822,3 +828,51 @@ caddy_transpiler:
         a3: "No. The entire conversion runs client-side in your browser via JavaScript. No configurations, domains, internal backend IPs, or server credentials are ever sent to any remote server."
         q4: "What Nginx directives are omitted in Caddy?"
         a4: "Directives like ssl_certificate, ssl_protocols, proxy_set_header Upgrade, and gzip on are omitted because Caddy handles TLS management, WebSocket upgrading, and compression automatically by default."
+
+pkpass:
+    meta:
+        title: "Apple Wallet (.pkpass) Inspector · Online Pass Validator & Emulator"
+        description: "Free online Apple Wallet .pkpass validator and pixel-perfect emulator. Inspect manifest.json SHA-1 integrity, debug pass.json schemas, parse PKCS#7 certificates, test barcodes, and convert to Google Wallet."
+    title: "PKPass Inspector"
+    eyebrow: "FREE ONLINE APPLE WALLET DEBUGGER"
+    heading: "Apple Wallet (.pkpass) Inspector & Emulator"
+    lede: "Inspect, debug, and repair Apple Wallet pass packages (.pkpass). Pixel-perfect emulator for boarding passes, event tickets, store cards, coupons, and generic passes with 1-click SHA-1 fix and Google Wallet export."
+    presets:
+        label: "1-Click Presets"
+        flight: "Boarding Pass"
+        event: "Event Ticket"
+        loyalty: "Store Card"
+        coupon: "Coupon"
+        generic: "Generic Pass"
+        broken_demo: "Broken Pass (Debug Demo)"
+    upload:
+        drop_prompt: "Drop .pkpass, .zip, or pass.json here to inspect"
+        formats: "Supports Apple Wallet .pkpass bundles, ZIP archives, or raw pass.json manifests"
+    emulator:
+        title: "Interactive Card Emulator"
+    actions:
+        repack: "Fix & Re-pack .pkpass"
+        export_google: "Export Google Wallet JSON"
+        download_json: "Download pass.json"
+    guide:
+        title: "Why iOS Silently Drops .pkpass Files"
+        subtitle: "When creating digital passes, iOS rarely shows descriptive error popups — it silently fails to open the pass. Here are the top failure reasons caught by this inspector:"
+        manifest_title: "manifest.json SHA-1 Desync"
+        manifest_text: "Modifying dates, colors, or barcode messages in pass.json without recomputing its SHA-1 checksum in manifest.json causes iOS to reject the archive immediately as corrupt or tampered."
+        dates_title: "Floating Dates Missing Timezones"
+        dates_text: "iOS strictly requires all expirationDate and relevantDate strings to follow full ISO 8601 formatting with an explicit timezone offset (e.g. 2026-08-23T14:30:00+02:00 or Z). Floating dates without timezones are rejected."
+        assets_title: "Missing Required Assets & Retina Icons"
+        assets_text: "Apple Wallet requires icon.png and icon@2x.png (58x58 px) for lock screen notifications. Missing icon files or incorrect aspect ratios will prevent the pass from installing."
+        barcodes_title: "Barcode Format & Encoding Errors"
+        barcodes_text: "Using unsupported encoding headers or invalid format constants causes iOS barcode rendering failures. Standard encoding should always be utf-8 or iso-8859-1."
+    faq:
+        title: "Frequently Asked Questions"
+        q1: "What is inside an Apple Wallet .pkpass file?"
+        a1: "A .pkpass file is a standard ZIP archive containing pass.json (field layouts, colors, dates, barcodes), manifest.json (SHA-1 checksum dictionary of all files), signature (PKCS#7 signature from Apple Developer), and PNG image assets (icon, logo, strip, thumbnail)."
+        q2: "Can I test and preview .pkpass files on Android, Windows, or Linux?"
+        a2: "Yes! This tool provides a 100% client-side pixel-perfect web emulator that renders Apple Wallet boarding passes, concert tickets, loyalty cards, coupons, and generic passes directly in any modern browser."
+        q3: "How does the 'Fix & Re-pack' feature work?"
+        a3: "If you edit pass.json or fix broken files, clicking 'Fix & Re-pack' recalculates the SHA-1 checksum for every file in the package, regenerates a valid manifest.json, and downloads a clean, verified .pkpass ZIP bundle."
+        q4: "Is my ticket or boarding pass uploaded to your server?"
+        a4: "No. All ZIP decompression, SHA-1 cryptographic hashing, PKCS#7 certificate parsing, and canvas/SVG barcode rendering take place 100% locally inside your web browser. Zero ticket data is ever uploaded or stored."
+

@@ -89,7 +89,7 @@ final class SpecificationComplianceTest extends TestCase
         self::assertFileExists($specPath);
 
         $spec = json_decode((string) file_get_contents($specPath), true, flags: JSON_THROW_ON_ERROR);
-        self::assertCount(13, $spec['tools']);
+        self::assertCount(14, $spec['tools']);
 
         $names = array_column($spec['tools'], 'name');
         self::assertContains('list_polish_used_price_products', $names);
@@ -105,6 +105,42 @@ final class SpecificationComplianceTest extends TestCase
         self::assertContains('list_admin_recent_audits', $names);
         self::assertContains('inspect_domain_security', $names);
         self::assertContains('transpile_to_caddyfile', $names);
+        self::assertContains('inspect_apple_pkpass', $names);
+    }
+
+    public function testPkpassInspectorSpecCompliance(): void
+    {
+        $specPath = dirname(__DIR__, 2) . '/specs/pkpass-inspector.spec.json';
+        self::assertFileExists($specPath);
+
+        $spec = json_decode((string) file_get_contents($specPath), true, flags: JSON_THROW_ON_ERROR);
+        self::assertNotEmpty($spec['pass_styles']);
+        self::assertNotEmpty($spec['transit_types']);
+        self::assertNotEmpty($spec['barcode_formats']);
+        self::assertNotEmpty($spec['diagnostic_codes']);
+        self::assertNotEmpty($spec['test_vectors']);
+
+        $validator = new \App\Pkpass\Domain\Engine\PkpassValidator();
+
+        foreach ($spec['test_vectors'] as $vector) {
+            $result = $validator->validate($vector['pass']);
+            self::assertSame(
+                $vector['expected_valid'],
+                $result->isValid,
+                "Expected validation match for vector: {$vector['description']}"
+            );
+
+            if (isset($vector['expected_pass_type'])) {
+                self::assertSame($vector['expected_pass_type'], $result->passType?->value);
+            }
+
+            if (isset($vector['expected_error_codes'])) {
+                $codes = array_map(static fn ($f) => $f->code, $result->findings);
+                foreach ($vector['expected_error_codes'] as $expectedCode) {
+                    self::assertContains($expectedCode, $codes, "Missing code {$expectedCode} in {$vector['description']}");
+                }
+            }
+        }
     }
 
     public function testDomainInspectorSpecStructure(): void

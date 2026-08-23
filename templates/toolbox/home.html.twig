@@ -68,6 +68,16 @@
         </a>
       </div>
     </section>
+
+    <section class="tool-category" aria-labelledby="category-mobile">
+      <header class="tool-category-header"><h2 id="category-mobile">{{ 'home.categories.mobile'|trans }}</h2></header>
+      <div class="tool-grid">
+        <a class="tool-card tool-card-wide" href="{{ path('pkpass_inspector', {_locale: app.request.locale}) }}">
+          <span class="tool-number">08</span>
+          <h3>{{ 'home.pkpass.title'|trans }}</h3><p>{{ 'home.pkpass.text'|trans }}</p><strong>{{ 'home.open'|trans }} →</strong>
+        </a>
+      </div>
+    </section>
   </div>
 
   <section class="toolbox-principles">

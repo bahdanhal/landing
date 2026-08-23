@@ -30,6 +30,7 @@ final readonly class SitemapController
             ['/tools/bimi-studio', '/pl/narzedzia/bimi-studio'],
             ['/tools/domain-inspector', '/pl/narzedzia/inspektor-domen'],
             ['/tools/caddy-transpiler', '/pl/narzedzia/konwerter-caddyfile'],
+            ['/tools/apple-pkpass-inspector', '/pl/narzedzia/inspektor-pkpass'],
         ];
         $entries = [];
         foreach ($pairs as [$en, $pl]) {
