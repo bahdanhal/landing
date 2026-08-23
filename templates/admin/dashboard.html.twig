@@ -1,0 +1,152 @@
+{% extends 'base.html.twig' %}
+{% block tool_name %}Portfolio Admin{% endblock %}
+{% block title %}Admin Dashboard · Bahdan Hal{% endblock %}
+{% block robots %}<meta name="robots" content="noindex,nofollow">{% endblock %}
+{% block body %}
+    <div style="max-width: 1100px; margin: 30px auto 80px; padding: 0 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid var(--line, #e2ded4); padding-bottom: 16px;">
+            <div>
+                <div style="font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent, #d9532f);">ADMINISTRATION</div>
+                <h1 style="font-size: 28px; font-weight: 800; margin: 4px 0 0; color: var(--ink, #1f1d1a);">Portfolio <em style="font-style: normal; color: var(--accent, #d9532f);">Dashboard</em></h1>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <a href="{{ path('portfolio_admin_logout') }}" style="font-size: 13px; font-weight: 700; color: var(--muted, #68645d); text-decoration: none; padding: 8px 14px; border: 1px solid var(--line, #e2ded4); border-radius: 6px; background: #fff;">Logout</a>
+            </div>
+        </div>
+
+        {# Metric Cards #}
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 30px;">
+            <div style="background: #fff; border: 1px solid var(--line, #e2ded4); border-radius: 12px; padding: 20px;">
+                <div style="font-size: 12px; font-weight: 700; color: var(--muted, #68645d); text-transform: uppercase;">Total Leads</div>
+                <div style="font-size: 32px; font-weight: 800; color: var(--ink, #1f1d1a); margin-top: 4px;">{{ total_leads }}</div>
+            </div>
+            <div style="background: #fff; border: 1px solid var(--line, #e2ded4); border-radius: 12px; padding: 20px;">
+                <div style="font-size: 12px; font-weight: 700; color: var(--muted, #68645d); text-transform: uppercase;">Leads (7 Days)</div>
+                <div style="font-size: 32px; font-weight: 800; color: var(--accent, #d9532f); margin-top: 4px;">{{ leads_last_7_days }}</div>
+            </div>
+            <div style="background: #fff; border: 1px solid var(--line, #e2ded4); border-radius: 12px; padding: 20px;">
+                <div style="font-size: 12px; font-weight: 700; color: var(--muted, #68645d); text-transform: uppercase;">Views (7 Days)</div>
+                <div style="font-size: 32px; font-weight: 800; color: var(--ink, #1f1d1a); margin-top: 4px;">{{ traffic.last_7_days.page_views }}</div>
+            </div>
+            <div style="background: #fff; border: 1px solid var(--line, #e2ded4); border-radius: 12px; padding: 20px;">
+                <div style="font-size: 12px; font-weight: 700; color: var(--muted, #68645d); text-transform: uppercase;">Visitors (7 Days)</div>
+                <div style="font-size: 32px; font-weight: 800; color: var(--ink, #1f1d1a); margin-top: 4px;">{{ traffic.last_7_days.unique_visitors }}</div>
+            </div>
+        </div>
+
+        {# Contact Leads Section #}
+        <div style="background: #fff; border: 1px solid var(--line, #e2ded4); border-radius: 12px; padding: 24px; margin-bottom: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+                <h2 style="font-size: 18px; font-weight: 800; margin: 0; color: var(--ink, #1f1d1a);">Consultation Leads & Inquiries ({{ leads|length }})</h2>
+                <form method="get" action="{{ path('portfolio_admin_dashboard') }}" style="display: flex; gap: 8px;">
+                    <input type="text" name="q" value="{{ search }}" placeholder="Filter leads..." style="padding: 6px 12px; border: 1px solid var(--line, #e2ded4); border-radius: 6px; font-size: 13px;">
+                    <button type="submit" style="padding: 6px 12px; background: var(--ink, #1f1d1a); color: #fff; border: 0; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer;">Search</button>
+                    {% if search %}
+                        <a href="{{ path('portfolio_admin_dashboard') }}" style="padding: 6px 12px; background: #f0eee6; color: var(--ink, #1f1d1a); text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 700;">Reset</a>
+                    {% endif %}
+                </form>
+            </div>
+
+            {% if leads is empty %}
+                <div style="padding: 30px; text-align: center; color: var(--muted, #68645d); font-size: 14px;">
+                    No consultation leads recorded yet.
+                </div>
+            {% else %}
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid var(--line, #e2ded4); color: var(--muted, #68645d);">
+                                <th style="padding: 10px 12px; font-weight: 700;">Date</th>
+                                <th style="padding: 10px 12px; font-weight: 700;">Contact</th>
+                                <th style="padding: 10px 12px; font-weight: 700;">Source</th>
+                                <th style="padding: 10px 12px; font-weight: 700;">Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for lead in leads %}
+                                <tr style="border-bottom: 1px solid var(--line, #e2ded4);">
+                                    <td style="padding: 12px; white-space: nowrap; vertical-align: top; color: var(--muted, #68645d);">
+                                        {{ lead.createdAt|date('Y-m-d H:i') }}
+                                    </td>
+                                    <td style="padding: 12px; vertical-align: top; white-space: nowrap;">
+                                        {% if lead.email %}
+                                            <div><a href="mailto:{{ lead.email }}" style="color: var(--accent, #d9532f); font-weight: 700; text-decoration: none;">{{ lead.email }}</a></div>
+                                        {% endif %}
+                                        {% if lead.phone %}
+                                            <div style="margin-top: 2px;"><a href="tel:{{ lead.phone }}" style="color: var(--ink, #1f1d1a); text-decoration: none;">{{ lead.phone }}</a></div>
+                                        {% endif %}
+                                    </td>
+                                    <td style="padding: 12px; vertical-align: top; white-space: nowrap;">
+                                        <span style="display: inline-block; padding: 2px 8px; border-radius: 12px; background: #f0eee6; font-size: 11px; font-weight: 700; text-transform: uppercase;">{{ lead.source }}</span>
+                                    </td>
+                                    <td style="padding: 12px; vertical-align: top; color: var(--ink, #1f1d1a); line-height: 1.5; max-width: 450px; word-break: break-word;">
+                                        {{ lead.message|nl2br }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+
+        {# Traffic Analytics Section #}
+        <div style="background: #fff; border: 1px solid var(--line, #e2ded4); border-radius: 12px; padding: 24px;">
+            <h2 style="font-size: 18px; font-weight: 800; margin: 0 0 16px; color: var(--ink, #1f1d1a);">30-Day Traffic Overview</h2>
+
+            {# Daily Bar Chart #}
+            <div style="margin-bottom: 24px; padding: 16px 0; border-bottom: 1px solid var(--line, #e2ded4);">
+                <div style="font-size: 12px; font-weight: 700; color: var(--muted, #68645d); margin-bottom: 12px;">Daily Page Views (Last 30 Days)</div>
+                <div style="display: flex; align-items: flex-end; gap: 4px; height: 120px;">
+                    {% for day in traffic.daily %}
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end;" title="{{ day.date }}: {{ day.page_views }} views, {{ day.unique_visitors }} visitors">
+                            <div style="width: 100%; min-width: 4px; background: var(--accent, #d9532f); border-radius: 2px 2px 0 0; height: {{ day.height_percent }}%;"></div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+                <div>
+                    <h3 style="font-size: 14px; font-weight: 700; margin: 0 0 10px; color: var(--ink, #1f1d1a);">Top Paths (30 Days)</h3>
+                    <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
+                        {% for path, count in traffic.last_30_days.top_paths %}
+                            <tr style="border-bottom: 1px solid #f0eee6;">
+                                <td style="padding: 6px 0; font-family: monospace; color: var(--ink, #1f1d1a);">{{ path }}</td>
+                                <td style="padding: 6px 0; text-align: right; font-weight: 700;">{{ count }}</td>
+                            </tr>
+                        {% else %}
+                            <tr><td style="color: var(--muted, #68645d);">No views yet</td></tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div>
+                    <h3 style="font-size: 14px; font-weight: 700; margin: 0 0 10px; color: var(--ink, #1f1d1a);">Traffic Sources (30 Days)</h3>
+                    <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
+                        {% for src, count in traffic.last_30_days.sources %}
+                            <tr style="border-bottom: 1px solid #f0eee6;">
+                                <td style="padding: 6px 0; color: var(--ink, #1f1d1a); text-transform: capitalize;">{{ src }}</td>
+                                <td style="padding: 6px 0; text-align: right; font-weight: 700;">{{ count }}</td>
+                            </tr>
+                        {% else %}
+                            <tr><td style="color: var(--muted, #68645d);">No views yet</td></tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div>
+                    <h3 style="font-size: 14px; font-weight: 700; margin: 0 0 10px; color: var(--ink, #1f1d1a);">Referring Domains (30 Days)</h3>
+                    <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
+                        {% for domain, count in traffic.last_30_days.referring_domains %}
+                            <tr style="border-bottom: 1px solid #f0eee6;">
+                                <td style="padding: 6px 0; font-family: monospace; color: var(--ink, #1f1d1a);">{{ domain }}</td>
+                                <td style="padding: 6px 0; text-align: right; font-weight: 700;">{{ count }}</td>
+                            </tr>
+                        {% else %}
+                            <tr><td style="color: var(--muted, #68645d);">No external referrers</td></tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

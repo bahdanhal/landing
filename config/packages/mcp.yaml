@@ -1,10 +1,10 @@
 mcp:
-  app: 'Bahdan’s Toolbox'
+  app: 'Bahdan Hal Portfolio MCP'
   version: '1.1.0'
-  description: 'Public toolbox tools plus Bearer-protected administrative submission and market statistics.'
-  website_url: 'https://bahdanhal.pl/tools/poland-used-price-index'
+  description: 'Bahdan Hal consulting portfolio and contact lead submissions, plus Bearer-protected admin analytics.'
+  website_url: 'https://bahdanhal.pl/'
   instructions: |
-    Public tools provide audits, calculations and manually reviewed Polish used-goods observations. Administrative tools require an Authorization: Bearer header and may return private submission data that must never be logged or republished.
+    Public tools provide information on Bahdan’s engineering expertise and allow submitting consultation requests. Administrative tools require an Authorization: Bearer header and provide lead management and traffic analytics.
   client_transports:
     http: true
     stdio: true

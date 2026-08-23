@@ -51,6 +51,10 @@ services:
     arguments:
       $contactLimiter: '@limiter.contact'
 
+  App\Controller\Admin\PortfolioAdminController:
+    arguments:
+      $secret: '%env(APP_SECRET)%'
+
   App\Command\MigrateStorageToDatabaseCommand:
     arguments:
       $contactLeadDirectory: '%contact.lead_directory%'
@@ -67,6 +71,7 @@ services:
     decorates: mcp.server.controller
     arguments:
       $inner: '@.inner'
+      $sessionStore: '@mcp.session.store'
     public: true
     tags:
       - { name: controller.service_arguments }

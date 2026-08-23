@@ -4,31 +4,63 @@ declare(strict_types=1);
 
 namespace App\Mcp\Http;
 
+use Mcp\Server\Session\SessionStoreInterface;
 use Symfony\AI\McpBundle\Controller\McpController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Uid\Uuid;
 
 /**
- * Decorates the Symfony MCP controller to ensure single JSON-RPC requests
- * return a single JSON-RPC response object instead of a JSON array batch response wrapper.
+ * Decorates the Symfony MCP controller to ensure all MCP requests return valid JSON
+ * objects with application/json content-type, prevents empty-body decoder issues,
+ * and maintains active MCP session resilience across server restarts.
  */
 final class McpControllerDecorator
 {
     public function __construct(
         private readonly McpController $inner,
+        private readonly ?SessionStoreInterface $sessionStore = null,
     ) {
     }
 
     public function handle(Request $request): Response
     {
+        $sessionIdHeader = (string) $request->headers->get('Mcp-Session-Id', '');
+        if ($this->sessionStore !== null && $sessionIdHeader !== '' && Uuid::isValid($sessionIdHeader)) {
+            try {
+                $uuid = Uuid::fromString($sessionIdHeader);
+                if (!$this->sessionStore->exists($uuid)) {
+                    $this->sessionStore->write($uuid, '{}');
+                }
+            } catch (\Throwable) {
+                // Ignore malformed UUID here and allow protocol to validate
+            }
+        }
+
         $response = $this->inner->handle($request);
 
-        if (!$this->isJsonResponse($response)) {
+        if ($request->getMethod() === 'DELETE') {
+            $response->setStatusCode(200);
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent('{}');
+
             return $response;
         }
 
         $content = $response->getContent();
-        if ($content === false || $content === '') {
+        if ($content === false || trim($content) === '') {
+            $response->setStatusCode(200);
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent('{}');
+
+            return $response;
+        }
+
+        if (!$this->isJsonResponse($response)) {
+            $response->setStatusCode(200);
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent('{"jsonrpc":"2.0","error":{"code":-32603,"message":"Internal Error"}}');
+
             return $response;
         }
 
