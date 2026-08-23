@@ -67,6 +67,9 @@ home:
     caddy_transpiler:
         title: "Nginx & Apache ➔ Caddyfile Converter"
         text: "Convert Nginx server blocks and Apache .htaccess into clean, idiomatic Caddyfiles with real-time smart mapping, migration advisories and 1-click presets."
+    cidr_matrix:
+        title: "Visual CIDR & Subnet Overlap Matrix"
+        text: "Analyze IPv4/IPv6 CIDR blocks, detect IP range overlap collisions, view 2D spatial tree partitions, and find available free subnets."
     pkpass:
         title: "Apple Wallet (.pkpass) Inspector & Debugger"
         text: "Pixel-perfect Apple Wallet & Google Wallet emulator, SHA-1 manifest validator, PKCS#7 certificate inspector, and 1-click package repair."
@@ -875,4 +878,36 @@ pkpass:
         a3: "If you edit pass.json or fix broken files, clicking 'Fix & Re-pack' recalculates the SHA-1 checksum for every file in the package, regenerates a valid manifest.json, and downloads a clean, verified .pkpass ZIP bundle."
         q4: "Is my ticket or boarding pass uploaded to your server?"
         a4: "No. All ZIP decompression, SHA-1 cryptographic hashing, PKCS#7 certificate parsing, and canvas/SVG barcode rendering take place 100% locally inside your web browser. Zero ticket data is ever uploaded or stored."
+
+cidr_matrix:
+    meta:
+        title: "Visual CIDR & Subnet Overlap Matrix · Free Online IP Calculator"
+        description: "Parse IPv4/IPv6 CIDR blocks, detect subnet overlap collisions and parent-child containment, visualize 2D tree partitions, and find available free subnets."
+    eyebrow: "NETWORKING · CIDR & SUBNETS"
+    heading: "Visual CIDR & Subnet Overlap Matrix"
+    lede: "Detect IP range collisions across AWS VPCs, Kubernetes clusters, and VPN meshes, visualize tree partitions, and calculate available free subnet allocations."
+    form:
+        title: "CIDR Blocks Input"
+        help: "Enter comma-separated or newline-separated IPv4 or IPv6 CIDR blocks (e.g. 10.0.0.0/16, 10.0.32.0/20)."
+        presets: "1-Click Presets"
+        label_cidrs: "CIDR Subnets"
+        label_parent: "Parent CIDR Range (Optional)"
+        label_free_prefix: "Requested Free Prefix Length (Optional, e.g. 20 or 24)"
+        submit: "Analyze & Calculate Overlaps"
+    results:
+        title: "Analysis Results & Diagnostics"
+        free_subnet_title: "Available Free Subnet Allocation"
+        collisions_title: "Subnet Overlap Collisions"
+        matrix_grid: "2D Subnet Tree Partition Matrix"
+    table:
+        subnet_a: "Subnet A"
+        subnet_b: "Subnet B"
+        overlap_range: "Overlapping IP Range"
+    faq:
+        title: "Frequently Asked Questions"
+        q1: "What is CIDR overlap collision?"
+        a1: "CIDR overlap occurs when two or more network subnets share one or more IP addresses, leading to routing conflicts in VPC peering, Kubernetes pods/services, or VPN connections."
+        q2: "How does free subnet allocation work?"
+        a2: "Given a parent block and target prefix size, the algorithm scans for the first contiguous IP block of that size that does not overlap with any existing assigned subnets."
+
 

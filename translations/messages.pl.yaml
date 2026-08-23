@@ -67,6 +67,9 @@ home:
     caddy_transpiler:
         title: "Nginx i Apache ➔ Caddyfile Converter"
         text: "Konwertuj bloki serwera Nginx oraz Apache .htaccess na czysty, czytelny Caddyfile w czasie rzeczywistym, z inteligentnymi podpowiedziami i gotowymi presetami."
+    cidr_matrix:
+        title: "Wizualna Matryca CIDR i Nachodzenia Podsieci"
+        text: "Analizuj bloki CIDR IPv4/IPv6, wykrywaj kolizje podsieci, wizualizuj struktury drzewiaste 2D i znajduj wolne podsieci."
     pkpass:
         title: "Inspektor i debugger Apple Wallet (.pkpass)"
         text: "Wierny emulator kart Apple Wallet i Google Wallet, weryfikator sum kontrolnych SHA-1 w manifest.json, podgląd certyfikatów PKCS#7 i naprawa archiwum w 1 kliknięcie."
@@ -873,6 +876,36 @@ pkpass:
         a2: "Tak! To narzędzie działa w 100% w przeglądarce i renderuje wierną wizualizację karty pokładowej, biletu, karty stałego klienta lub kuponu wraz z czytelnym kodem kreskowym i QR."
         q3: "Jak działa funkcja 'Napraw i pobierz .pkpass'?"
         a3: "Jeśli zmodyfikujesz pass.json lub poprawisz uszkodzone pliki, kliknięcie 'Napraw i pobierz .pkpass' przelicza sumy SHA-1 wszystkich plików w archiwum, tworzy poprawny manifest.json i pobiera spakowany plik .pkpass."
-        q4: "Czy mój bilet lub dane osobowe trafiają na serwer?"
-        a4: "Nie. Całe rozpakowywanie ZIP, obliczanie sum SHA-1, dekodowanie certyfikatów PKCS#7 i generowanie kodów kreskowych odbywa się w 100% lokalnie w Twojej przeglądarce za pomocą JavaScript. Żadne dane nie są nigdzie przesyłane."
+        q4: "Czy mój bilet lub karta pokładowa jest przesyłana na Wasz serwer?"
+        a4: "Nie. Cała dekompresja archiwum ZIP, obliczanie sum kontrolnych SHA-1, parsowanie certyfikatów PKCS#7 i generowanie kodów kreskowych odbywa się 100% lokalnie w Twojej przeglądarce. Żadne dane nie są przesyłane ani przechowywane."
 
+cidr_matrix:
+    meta:
+        title: "Wizualna Matryca CIDR i Nachodzenia Podsieci · Kalkulator IP Online"
+        description: "Parsuj bloki CIDR IPv4/IPv6, wykrywaj kolizje i nakładanie się zakresów IP, wizualizuj podziały przestrzeni adresowej 2D i alokuj wolne podsieci."
+    eyebrow: "SIEĆ · CIDR I PODSIECI"
+    heading: "Wizualna Matryca CIDR i Nachodzenia Podsieci"
+    lede: "Wykrywaj konflikty adresacji IP w VPC AWS, klastrach Kubernetes i sieciach VPN, wizualizuj podziały adresów i automatycznie alokuj wolne podsieci."
+    form:
+        title: "Dane wejściowe bloków CIDR"
+        help: "Wprowadź bloki CIDR IPv4 lub IPv6 rozdzielone przecinkami lub nowymi liniami (np. 10.0.0.0/16, 10.0.32.0/20)."
+        presets: "Gotowe wzorce (1-Click)"
+        label_cidrs: "Podsieci CIDR"
+        label_parent: "Nadrzędny zakres CIDR (Opcjonalnie)"
+        label_free_prefix: "Oczekiwana długość prefiksu wolnej podsieci (Opcjonalnie, np. 20 lub 24)"
+        submit: "Analizuj i oblicz kolizje"
+    results:
+        title: "Wyniki analizy i diagnostyka"
+        free_subnet_title: "Dostępna alokacja wolnej podsieci"
+        collisions_title: "Kolizje nachodzenia podsieci"
+        matrix_grid: "Dwuwymiarowa matryca podziału podsieci"
+    table:
+        subnet_a: "Podsieć A"
+        subnet_b: "Podsieć B"
+        overlap_range: "Nachodzący zakres IP"
+    faq:
+        title: "Najczęściej zadawane pytania"
+        q1: "Czym jest kolizja nachodzenia CIDR?"
+        a1: "Kolizja następuje, gdy dwie lub więcej podsieci dzielą wspólne adresy IP, co prowadzi do błędów routingu w VPC, klastrach Kubernetes czy połączeniach VPN."
+        q2: "Jak działa alokacja wolnej podsieci?"
+        a2: "Na podstawie nadrzędnego bloku oraz oczekiwanego prefiksu algorytm wyszukuje pierwszy ciągły blok IP, który nie koliduje z żadną z przypisanych podsieci."

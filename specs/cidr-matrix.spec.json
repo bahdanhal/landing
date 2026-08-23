@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Visual CIDR & Subnet Overlap Matrix Specification",
+  "description": "Formal specification for parsing IPv4/IPv6 CIDR blocks, detecting overlaps and collisions, computing 2D spatial tree partitions, and recommending available subnets.",
+  "version": "1.0.0",
+  "supported_ip_versions": [
+    "v4",
+    "v6"
+  ],
+  "ipv4_limits": {
+    "min_prefix_length": 0,
+    "max_prefix_length": 32,
+    "max_subnets_per_request": 100
+  },
+  "ipv6_limits": {
+    "min_prefix_length": 0,
+    "max_prefix_length": 128,
+    "max_subnets_per_request": 100
+  },
+  "diagnostic_codes": {
+    "ERR_INVALID_CIDR": {
+      "severity": "error",
+      "title": "Invalid CIDR Format",
+      "description": "Provided string is not a valid IPv4 or IPv6 CIDR notation (e.g. 10.0.0.0/16 or 2001:db8::/32)."
+    },
+    "ERR_OVERLAP_COLLISION": {
+      "severity": "error",
+      "title": "Subnet Overlap Collision",
+      "description": "Two or more subnets overlap with shared IP addresses in the same address space."
+    },
+    "ERR_SUBNET_EXHAUSTED": {
+      "severity": "error",
+      "title": "Subnet Space Exhausted",
+      "description": "No contiguous free subnet of the requested prefix length could be found inside the parent address range."
+    },
+    "WARN_CONTAINMENT": {
+      "severity": "warning",
+      "title": "Parent-Child Containment",
+      "description": "One CIDR block completely encompasses another smaller CIDR block."
+    },
+    "WARN_NON_CANONICAL_IP": {
+      "severity": "warning",
+      "title": "Host Bits Set in Network Address",
+      "description": "The specified IP address contains non-zero host bits for the mask (e.g., 10.0.0.5/24 automatically normalized to 10.0.0.0/24)."
+    },
+    "INFO_FREE_ALLOCATION_FOUND": {
+      "severity": "info",
+      "title": "Free Allocation Available",
+      "description": "An available non-overlapping block matching the requested prefix length was successfully calculated."
+    }
+  },
+  "presets": [
+    {
+      "id": "aws_vpc_peering_collision",
+      "name": "AWS VPC Peering Collision",
+      "description": "Common cloud VPC peering conflict between main VPC, staging VPC, and overlapping VPN subnet.",
+      "cidrs": [
+        "10.0.0.0/16",
+        "10.1.0.0/16",
+        "10.0.32.0/20"
+      ]
+    },
+    {
+      "id": "k8s_cluster_networking",
+      "name": "Kubernetes Cluster Networking",
+      "description": "Standard K8s pod CIDR, service CIDR, and node subnet allocation.",
+      "cidrs": [
+        "10.244.0.0/16",
+        "10.96.0.0/12",
+        "192.168.1.0/24"
+      ]
+    },
+    {
+      "id": "homelab_vpn_mesh",
+      "name": "Homelab & Tailscale Mesh VPN",
+      "description": "CGNAT Tailscale space vs local LAN and Docker default bridge subnets.",
+      "cidrs": [
+        "100.64.0.0/10",
+        "192.168.1.0/24",
+        "172.17.0.0/16"
+      ]
+    }
+  ],
+  "test_vectors": [
+    {
+      "description": "Overlapping IPv4 subnets (10.0.0.0/16 and 10.0.32.0/20)",
+      "cidrs": [
+        "10.0.0.0/16",
+        "10.0.32.0/20"
+      ],
+      "expected_has_collisions": true,
+      "expected_collision_count": 1,
+      "expected_collisions": [
+        {
+          "cidr_a": "10.0.0.0/16",
+          "cidr_b": "10.0.32.0/20",
+          "overlap_cidr": "10.0.32.0/20",
+          "start_ip": "10.0.32.0",
+          "end_ip": "10.0.47.255"
+        }
+      ]
+    },
+    {
+      "description": "Clean non-overlapping subnets (10.0.0.0/24 and 10.0.1.0/24)",
+      "cidrs": [
+        "10.0.0.0/24",
+        "10.0.1.0/24"
+      ],
+      "expected_has_collisions": false,
+      "expected_collision_count": 0,
+      "expected_collisions": []
+    },
+    {
+      "description": "Host bits normalized (10.0.0.45/24 normalized to 10.0.0.0/24)",
+      "cidrs": [
+        "10.0.0.45/24"
+      ],
+      "expected_normalized_cidr": "10.0.0.0/24",
+      "expected_warnings": [
+        "WARN_NON_CANONICAL_IP"
+      ]
+    },
+    {
+      "description": "Free subnet allocation request (/20 inside 10.0.0.0/16 with existing 10.0.0.0/20)",
+      "cidrs": [
+        "10.0.0.0/20"
+      ],
+      "parent_cidr": "10.0.0.0/16",
+      "requested_prefix": 20,
+      "expected_free_cidr": "10.0.16.0/20"
+    }
+  ]
+}

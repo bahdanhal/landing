@@ -62,9 +62,13 @@
     <section class="tool-category" aria-labelledby="category-infrastructure">
       <header class="tool-category-header"><h2 id="category-infrastructure">{{ 'home.categories.infrastructure'|trans }}</h2></header>
       <div class="tool-grid">
-        <a class="tool-card tool-card-wide" href="{{ path('caddy_transpiler', {_locale: app.request.locale}) }}">
+        <a class="tool-card" href="{{ path('caddy_transpiler', {_locale: app.request.locale}) }}">
           <span class="tool-number">07</span>
           <h3>{{ 'home.caddy_transpiler.title'|trans }}</h3><p>{{ 'home.caddy_transpiler.text'|trans }}</p><strong>{{ 'home.open'|trans }} →</strong>
+        </a>
+        <a class="tool-card" href="{{ path('cidr_matrix', {_locale: app.request.locale}) }}">
+          <span class="tool-number">08</span>
+          <h3>{{ 'home.cidr_matrix.title'|trans }}</h3><p>{{ 'home.cidr_matrix.text'|trans }}</p><strong>{{ 'home.open'|trans }} →</strong>
         </a>
       </div>
     </section>

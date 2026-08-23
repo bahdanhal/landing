@@ -200,6 +200,22 @@
           "required": true
         }
       ]
+    },
+    {
+      "name": "calculate_cidr_overlap",
+      "description": "Analyze IPv4/IPv6 CIDR subnets for range collisions, full containment, 2D bit-tree matrix partition, and available free subnet allocation.",
+      "parameters": [
+        {
+          "name": "cidrs",
+          "type": "array",
+          "required": true
+        },
+        {
+          "name": "requested_free_prefix",
+          "type": "integer",
+          "required": false
+        }
+      ]
     }
   ]
 }

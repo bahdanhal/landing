@@ -89,7 +89,7 @@ final class SpecificationComplianceTest extends TestCase
         self::assertFileExists($specPath);
 
         $spec = json_decode((string) file_get_contents($specPath), true, flags: JSON_THROW_ON_ERROR);
-        self::assertCount(14, $spec['tools']);
+        self::assertCount(15, $spec['tools']);
 
         $names = array_column($spec['tools'], 'name');
         self::assertContains('list_polish_used_price_products', $names);
@@ -106,6 +106,19 @@ final class SpecificationComplianceTest extends TestCase
         self::assertContains('inspect_domain_security', $names);
         self::assertContains('transpile_to_caddyfile', $names);
         self::assertContains('inspect_apple_pkpass', $names);
+        self::assertContains('calculate_cidr_overlap', $names);
+    }
+
+    public function testCidrMatrixSpecStructure(): void
+    {
+        $specPath = dirname(__DIR__, 2) . '/specs/cidr-matrix.spec.json';
+        self::assertFileExists($specPath);
+
+        $spec = json_decode((string) file_get_contents($specPath), true, flags: JSON_THROW_ON_ERROR);
+        self::assertNotEmpty($spec['supported_ip_versions']);
+        self::assertNotEmpty($spec['diagnostic_codes']);
+        self::assertNotEmpty($spec['presets']);
+        self::assertNotEmpty($spec['test_vectors']);
     }
 
     public function testPkpassInspectorSpecCompliance(): void
@@ -180,6 +193,83 @@ final class SpecificationComplianceTest extends TestCase
                     $snippet,
                     $result->caddyfile,
                     "Expected Caddyfile to contain '{$snippet}' for vector: {$vector['description']}"
+                );
+            }
+        }
+    }
+
+    public function testCidrMatrixSpecCompliance(): void
+    {
+        $specPath = dirname(__DIR__, 2) . '/specs/cidr-matrix.spec.json';
+        self::assertFileExists($specPath);
+
+        $spec = json_decode((string) file_get_contents($specPath), true, flags: JSON_THROW_ON_ERROR);
+        self::assertNotEmpty($spec['supported_ip_versions']);
+        self::assertNotEmpty($spec['diagnostic_codes']);
+        self::assertNotEmpty($spec['presets']);
+        self::assertNotEmpty($spec['test_vectors']);
+
+        $calculator = new \App\CidrMatrix\Domain\Engine\CidrCalculator();
+
+        foreach ($spec['test_vectors'] as $vector) {
+            $parentCidr = $vector['parent_cidr'] ?? null;
+            $requestedPrefix = $vector['requested_prefix'] ?? null;
+
+            $result = $calculator->analyze(
+                cidrInputs: $vector['cidrs'],
+                requestedFreePrefix: $requestedPrefix,
+                parentCidrInput: $parentCidr
+            );
+
+            if (isset($vector['expected_has_collisions'])) {
+                self::assertSame(
+                    $vector['expected_has_collisions'],
+                    $result->hasCollisions,
+                    "Collision match failed for: {$vector['description']}"
+                );
+            }
+
+            if (isset($vector['expected_collision_count'])) {
+                self::assertSame(
+                    $vector['expected_collision_count'],
+                    $result->collisionCount,
+                    "Collision count match failed for: {$vector['description']}"
+                );
+            }
+
+            if (isset($vector['expected_collisions'])) {
+                $actualCollisions = array_map(static fn ($c) => $c->toArray(), $result->collisions);
+                self::assertSame(
+                    $vector['expected_collisions'],
+                    $actualCollisions,
+                    "Collisions array mismatch for: {$vector['description']}"
+                );
+            }
+
+            if (isset($vector['expected_normalized_cidr'])) {
+                self::assertNotEmpty($result->parsedBlocks);
+                self::assertSame(
+                    $vector['expected_normalized_cidr'],
+                    $result->parsedBlocks[0]->normalizedCidr,
+                    "Normalized CIDR mismatch for: {$vector['description']}"
+                );
+            }
+
+            if (isset($vector['expected_warnings'])) {
+                foreach ($vector['expected_warnings'] as $warningCode) {
+                    self::assertContains(
+                        $warningCode,
+                        $result->warnings,
+                        "Missing warning code {$warningCode} for: {$vector['description']}"
+                    );
+                }
+            }
+
+            if (isset($vector['expected_free_cidr'])) {
+                self::assertSame(
+                    $vector['expected_free_cidr'],
+                    $result->freeSubnetCidr,
+                    "Free CIDR allocation mismatch for: {$vector['description']}"
                 );
             }
         }

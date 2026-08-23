@@ -66,6 +66,33 @@ final class ToolsController extends AbstractController
     }
 
     #[Route(
+        path: ['en' => '/tools/cidr-subnet-matrix', 'pl' => '/pl/narzedzia/matryca-cidr'],
+        name: 'cidr_matrix',
+        methods: ['GET', 'POST']
+    )]
+    public function cidrMatrix(Request $request, \App\CidrMatrix\Application\CidrMatrixService $cidrService): Response
+    {
+        $cidrsInput = (string) $request->request->get('cidrs', $request->query->get('cidrs', '10.0.0.0/16, 10.0.32.0/20'));
+        $parentCidr = (string) $request->request->get('parent_cidr', $request->query->get('parent_cidr', ''));
+        $requestedFreePrefixString = (string) $request->request->get('requested_free_prefix', $request->query->get('requested_free_prefix', ''));
+
+        $cidrList = array_values(array_filter(array_map('trim', explode(',', str_replace(["\r\n", "\n", "\r"], ',', $cidrsInput)))));
+        $requestedFreePrefix = ctype_digit($requestedFreePrefixString) ? (int) $requestedFreePrefixString : null;
+        $parentCidrParam = $parentCidr !== '' ? $parentCidr : null;
+
+        $result = $cidrService->analyze($cidrList, $requestedFreePrefix, $parentCidrParam);
+        $presets = $cidrService->getPresets();
+
+        return $this->render('tools/cidr_matrix.html.twig', [
+            'raw_cidrs' => $cidrsInput,
+            'parent_cidr' => $parentCidr,
+            'requested_free_prefix' => $requestedFreePrefixString,
+            'result' => $result,
+            'presets' => $presets,
+        ]);
+    }
+
+    #[Route(
         path: ['en' => '/tools/polish-vat-calculator', 'pl' => '/pl/narzedzia/kalkulator-vat'],
         name: 'legacy_vat_calculator',
         methods: ['GET']
