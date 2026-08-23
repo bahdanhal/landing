@@ -326,12 +326,28 @@ body.portfolio-site {
 }
 
 .portfolio-site .profile-summit-feature {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
   border-radius: 6px;
   background: #242822;
 }
 
 .portfolio-site .summit-image-wrap img {
   filter: saturate(.72) contrast(1.04);
+}
+
+.portfolio-site .profile-summit-feature figcaption {
+  min-width: 0;
+}
+
+.portfolio-site .profile-summit-feature figcaption h3 {
+  color: #f7f4eb;
+}
+
+.portfolio-site .profile-summit-feature figcaption p {
+  color: #c8cec5;
 }
 
 .portfolio-site .profile-faq details {
@@ -406,6 +422,23 @@ body.portfolio-site {
   .portfolio-site .profile-work-list time {
     grid-row: auto;
     margin-bottom: 8px;
+  }
+
+  .portfolio-site .profile-summit-feature {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    margin-inline: 0;
+    padding: 18px;
+  }
+
+  .portfolio-site .profile-summit-feature figcaption h3 {
+    font-size: clamp(28px, 8.5vw, 34px);
+    line-height: 1.12;
+  }
+
+  .portfolio-site .profile-summit-feature figcaption p {
+    font-size: 17px;
+    line-height: 1.58;
   }
 
   .portfolio-site .profile-services {
