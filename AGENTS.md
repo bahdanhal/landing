@@ -18,15 +18,28 @@ This document provides mandatory directives for all AI coding agents, autonomous
 
 ---
 
-## 2. Testing & Quality Invariants
+## 2. Testing & Quality Invariants (Entire Pipeline Must Be 100% Green)
 
-- **Tests Must Always Be Green**:
-  - Do not finish tasks with broken tests or failing linters.
-  - All PHPUnit tests and JS math tests must pass 100%.
-- **Verification Commands**:
-  - PHPUnit: `docker build --target test -t bahdan-landing-test . && docker run --rm --env-file .env.example -e APP_ENV=test bahdan-landing-test vendor/bin/phpunit` (or `vendor/bin/phpunit` locally).
-  - Income Math JS: `docker run --rm -v "$PWD:/app" -w /app node:24-alpine node tests/js/income-math.test.js` (or `node tests/js/income-math.test.js` locally).
-  - Linting: `vendor/bin/phpcs` (or `composer cs:check`), `php bin/console lint:twig templates`, `php bin/console lint:yaml translations config`.
+- **Entire CI Pipeline Must Always Be Green**:
+  - Do not finish tasks, submit commits, or push code with any broken pipeline checks, failing tests, PHPUnit notices/deprecations, or failing linters.
+  - The entire verification matrix matching `.github/workflows/ci.yml` and `deploy.yml` must pass 100% cleanly before pushing.
+- **Mandatory Pipeline Verification Commands**:
+  1. **Build Docker Test Image**:
+     `docker build --target test -t bahdan-landing-test .`
+  2. **PHPUnit (Strict: Zero Failures, Zero Notices, Zero Deprecations)**:
+     `docker run --rm --env-file .env.example -e APP_ENV=test bahdan-landing-test vendor/bin/phpunit --fail-on-phpunit-notice`
+  3. **All JavaScript Test Suites**:
+     `docker run --rm -v "$PWD:/app" -w /app node:24-alpine sh -lc 'for test in tests/js/*.test.js; do node "$test" || exit 1; done'`
+  4. **PSR-12 Code Style Lint**:
+     `docker run --rm bahdan-landing-test vendor/bin/phpcs` (or `composer cs:check`)
+  5. **PHPStan Static Analysis (Level 8)**:
+     `docker run --rm bahdan-landing-test vendor/bin/phpstan analyse --no-progress --memory-limit=512M`
+  6. **Twig & YAML Syntax Linters**:
+     `docker run --rm bahdan-landing-test php bin/console lint:twig templates`
+     `docker run --rm bahdan-landing-test php bin/console lint:yaml translations config`
+  7. **Composer Validation & Security Audit**:
+     `docker run --rm bahdan-landing-test composer validate --strict --no-check-publish`
+     `docker run --rm bahdan-landing-test composer audit --locked --no-interaction`
 
 ---
 
