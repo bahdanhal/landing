@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd"
+         name="BahdanToolbox">
+    <description>Coding standard for Bahdan’s Toolbox.</description>
+
+    <arg name="basepath" value="."/>
+    <arg name="extensions" value="php"/>
+    <arg name="colors"/>
+    <arg name="parallel" value="8"/>
+    <arg value="p"/>
+    <arg value="s"/>
+
+    <arg name="cache" value=".phpcs.cache"/>
+
+    <file>bin/console</file>
+    <file>config</file>
+    <file>migrations</file>
+    <file>public/index.php</file>
+    <file>src</file>
+    <file>tests</file>
+
+    <exclude-pattern>*/var/*</exclude-pattern>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/public/bundles/*</exclude-pattern>
+    <exclude-pattern>*/config/reference.php</exclude-pattern>
+
+    <rule ref="PSR12"/>
+
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="160"/>
+            <property name="absoluteLineLimit" value="0"/>
+        </properties>
+    </rule>
+</ruleset>

@@ -1,0 +1,59 @@
+{% set tool_context %}{% block tool_name %}{% endblock %}{% endset %}
+<!doctype html>
+<html lang="{{ app.request ? app.request.getLocale() : 'en' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:site_name" content="{{ 'base.brand'|trans }}">
+  <meta property="og:type" content="website">
+  {% block robots %}<meta name="robots" content="noindex,nofollow">{% endblock %}
+  {% block description %}{% endblock %}
+  {% block canonical %}{% endblock %}
+  <title>{% block title %}{{ 'base.default_title'|trans }}{% endblock %}</title>
+  {% block opengraph %}
+    <meta property="og:title" content="{{ block('title')|striptags|trim }}">
+    <meta property="og:locale" content="{{ app.request ? (app.request.locale == 'pl' ? 'pl_PL' : 'en_US') : 'en_US' }}">
+    <meta property="og:locale:alternate" content="{{ app.request ? (app.request.locale == 'pl' ? 'en_US' : 'pl_PL') : 'pl_PL' }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ block('title')|striptags|trim }}">
+  {% endblock %}
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="/toolbox.css">
+  <link rel="stylesheet" href="/grouped-findings.css">
+  <link rel="stylesheet" href="/contact.css">
+  <link rel="stylesheet" href="/identity.css">
+  <link rel="stylesheet" href="/ui.css">
+  {% block stylesheets %}{% endblock %}
+  <script src="/contact.js" defer></script>
+  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'WebSite','@id':'https://bahdanhal.pl/#website','url':'https://bahdanhal.pl/','name':'Bahdan Hal','inLanguage':['en','pl'],'publisher':{'@id':'https://bahdanhal.pl/#bahdan'},'author':{'@id':'https://bahdanhal.pl/#bahdan'},'dateModified':'2026-08-22'},{'@type':'Person','@id':'https://bahdanhal.pl/#bahdan','name':'Bahdan Hal','url':'https://bahdanhal.pl/','jobTitle':'Backend Engineer','sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.instagram.com/bahdan.hal/','https://www.facebook.com/profile.php?id=100008404566585','https://www.upwork.com/freelancers/~014111a2d384da6af9']}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+  {% block head_scripts %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <header class="site-header">
+    <div class="topbar">
+      <div class="brand-lockup">
+        {% block brand_lockup %}
+        <a class="brand" href="{{ path('home', {_locale: app.request.locale}) }}" aria-label="{{ 'base.home_label'|trans }}">
+          <span class="brand-mark">↗</span>
+          <span class="brand-name"><span class="brand-name-full">{{ 'base.brand'|trans }}</span><span class="brand-name-short">{{ 'base.brand_short'|trans }}</span></span>
+        </a>
+        {% endblock %}
+      </div>
+      <div class="topbar-actions">
+        <nav class="primary-nav" aria-label="{{ 'base.navigation'|trans }}">
+          <a href="https://ileza.pl" target="_blank" rel="noopener">IleZa.pl</a>
+          <a href="https://stackhal.com" target="_blank" rel="noopener">StackHal.com</a>
+        </nav>
+        {% block language_switch %}
+          <a class="language-switch" href="{{ path('home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
+        {% endblock %}
+      </div>
+    </div>
+  </header>
+  <main>{% block body %}{% endblock %}</main>
+  <footer>{{ 'base.footer'|trans }} · <a class="footer-contact" href="mailto:bahdan.hal@hotmail.com">{{ 'base.contact'|trans }}</a><br><span class="copyright">© {{ "now"|date("Y") }} Bahdan Hal</span></footer>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,72 @@
+parameters:
+  env(CONTACT_LEAD_DIRECTORY): '/app/var/contact-leads'
+  env(ANALYTICS_DATA_DIRECTORY): '/app/var/analytics-data'
+  env(ANALYTICS_RETENTION_DAYS): '90'
+  env(MARKET_ADMIN_TOKEN): ''
+  contact.lead_directory: '%env(CONTACT_LEAD_DIRECTORY)%'
+  analytics.data_directory: '%env(ANALYTICS_DATA_DIRECTORY)%'
+  analytics.retention_days: '%env(int:ANALYTICS_RETENTION_DAYS)%'
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\:
+    resource: '../src/'
+    exclude: '../src/{DependencyInjection,Entity,Kernel.php}'
+
+  App\Lead\Domain\LeadRepository:
+    alias: App\Lead\Infrastructure\DoctrineLeadRepository
+
+  App\Lead\Infrastructure\JsonlLeadRepository:
+    arguments:
+      $directory: '%contact.lead_directory%'
+
+  App\Lead\Application\CaptureLead:
+    arguments:
+      $secret: '%env(APP_SECRET)%'
+
+  App\Analytics\Domain\PageViewRepository:
+    alias: App\Analytics\Infrastructure\DoctrinePageViewRepository
+
+  App\Analytics\Infrastructure\DoctrinePageViewRepository:
+    arguments:
+      $retentionDays: '%analytics.retention_days%'
+
+  App\Analytics\Infrastructure\JsonlPageViewRepository:
+    arguments:
+      $directory: '%analytics.data_directory%'
+      $retentionDays: '%analytics.retention_days%'
+
+  App\Analytics\Infrastructure\PageViewSubscriber:
+    arguments:
+      $secret: '%env(APP_SECRET)%'
+
+  App\Mcp\AdminAccess:
+    arguments:
+      $token: '%env(MARKET_ADMIN_TOKEN)%'
+
+  App\Controller\PortfolioController:
+    arguments:
+      $contactLimiter: '@limiter.contact'
+
+  App\Command\MigrateStorageToDatabaseCommand:
+    arguments:
+      $contactLeadDirectory: '%contact.lead_directory%'
+      $analyticsDataDirectory: '%analytics.data_directory%'
+
+  app.rate_limit_cache:
+    class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+    arguments:
+      $namespace: 'portfolio-rate-limits-v1'
+      $defaultLifetime: 172800
+      $directory: '/app/var/rate-limits'
+
+  App\Mcp\Http\McpControllerDecorator:
+    decorates: mcp.server.controller
+    arguments:
+      $inner: '@.inner'
+    public: true
+    tags:
+      - { name: controller.service_arguments }

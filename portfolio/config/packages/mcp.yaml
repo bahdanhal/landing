@@ -1,0 +1,17 @@
+mcp:
+  app: 'Bahdan’s Toolbox'
+  version: '1.1.0'
+  description: 'Public toolbox tools plus Bearer-protected administrative submission and market statistics.'
+  website_url: 'https://bahdanhal.pl/tools/poland-used-price-index'
+  instructions: |
+    Public tools provide audits, calculations and manually reviewed Polish used-goods observations. Administrative tools require an Authorization: Bearer header and may return private submission data that must never be logged or republished.
+  client_transports:
+    http: true
+    stdio: true
+  http:
+    path: '/mcp'
+    allowed_hosts: ['bahdanhal.pl', 'www.bahdanhal.pl', 'bahdan-hal.ovh', 'www.bahdan-hal.ovh', 'localhost', '127.0.0.1']
+    session:
+      store: file
+      directory: '%kernel.project_dir%/var/mcp-sessions'
+      ttl: 3600

@@ -1,0 +1,62 @@
+{
+    "name": "bahdanhal/bahdan-landing",
+    "description": "Bilingual practical toolbox with a Polish income calculator, GEO and SEO audits, and second-hand market history",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": "^8.5",
+        "doctrine/doctrine-bundle": "^3.0",
+        "doctrine/doctrine-migrations-bundle": "^4.0",
+        "doctrine/orm": "^3.3",
+        "ext-ctype": "*",
+        "ext-dom": "*",
+        "ext-filter": "*",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-pdo": "*",
+        "nyholm/psr7": "^1.8",
+        "symfony/ai-anthropic-platform": "^0.12.0",
+        "symfony/ai-bundle": "^0.12.0",
+        "symfony/ai-gemini-platform": "^0.12.0",
+        "symfony/asset": "8.1.*",
+        "symfony/cache": "8.1.*",
+        "symfony/console": "8.1.*",
+        "symfony/dotenv": "8.1.*",
+        "symfony/flex": "^2.7",
+        "symfony/framework-bundle": "8.1.*",
+        "symfony/http-client": "8.1.*",
+        "symfony/mcp-bundle": "^0.12.0",
+        "symfony/rate-limiter": "8.1.*",
+        "symfony/runtime": "8.1.*",
+        "symfony/translation": "8.1.*",
+        "symfony/twig-bundle": "8.1.*",
+        "symfony/yaml": "8.1.*",
+        "twig/twig": "^3.21"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^12.2",
+        "squizlabs/php_codesniffer": "^3.11",
+        "symfony/browser-kit": "8.1.*",
+        "symfony/css-selector": "8.1.*",
+        "symfony/phpunit-bridge": "8.1.*"
+    },
+    "autoload": {"psr-4": {"App\\": "src/"}},
+    "autoload-dev": {"psr-4": {"App\\Tests\\": "tests/"}},
+    "config": {
+        "allow-plugins": {"symfony/flex": true, "symfony/runtime": true},
+        "sort-packages": true
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": ["@auto-scripts"],
+        "post-update-cmd": ["@auto-scripts"],
+        "cs:check": "phpcs",
+        "cs:fix": "phpcbf",
+        "stan": "phpstan analyse --no-progress --memory-limit=512M"
+    },
+    "extra": {"symfony": {"allow-contrib": false, "require": "8.1.*"}}
+}

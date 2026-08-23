@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bahdan Portfolio Admin MCP Specification",
+  "description": "Formal contract definition for Bahdan Halavanau Portfolio Admin MCP tools exposed to AI agents.",
+  "version": "1.1.0",
+  "endpoint": "/mcp",
+  "tools": [
+    {
+      "name": "get_admin_dashboard_statistics",
+      "description": "Admin-only: Get privacy-preserving traffic and submission statistics. Requires an Authorization: Bearer header.",
+      "parameters": []
+    },
+    {
+      "name": "list_admin_contact_leads",
+      "description": "Admin-only: List recent private consultation requests. Requires an Authorization: Bearer header.",
+      "parameters": [
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false
+        }
+      ]
+    }
+  ]
+}

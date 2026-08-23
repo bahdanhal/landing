@@ -1,0 +1,89 @@
+name: Deploy IleZa to Production
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-ileza
+  cancel-in-progress: false
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Verification Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker Test Image
+        run: docker build --target test -t ileza-test .
+
+      - name: Run PHPUnit Test Suite
+        run: docker run --rm --env-file .env.example -e APP_ENV=test ileza-test vendor/bin/phpunit --fail-on-phpunit-notice
+
+      - name: Run JavaScript Test Suites
+        run: docker run --rm -v "$PWD:/app" -w /app node:24-alpine sh -lc 'for test in tests/js/*.test.js; do node "$test" || exit 1; done'
+
+      - name: Run PSR-12 Code Style
+        run: docker run --rm ileza-test vendor/bin/phpcs
+
+      - name: Run PHPStan Level 8 Analysis
+        run: docker run --rm ileza-test vendor/bin/phpstan analyse --no-progress --memory-limit=512M
+
+      - name: Lint Twig & YAML
+        run: |
+          docker run --rm ileza-test php bin/console lint:twig templates
+          docker run --rm ileza-test php bin/console lint:yaml translations config
+
+      - name: Composer Validate & Audit
+        run: |
+          docker run --rm ileza-test composer validate --strict --no-check-publish
+          docker run --rm ileza-test composer audit --locked --no-interaction
+
+  deploy:
+    name: Deploy to Server
+    needs: test
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install SSH Key
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add Server Host Key
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
+
+      - name: Rsync Files to Production Server
+        run: |
+          rsync -az --delete \
+            --exclude='.git*' \
+            --exclude='.idea' \
+            --exclude='.agents' \
+            --exclude='production.env' \
+            --exclude='.env.local' \
+            --exclude='var/' \
+            --exclude='vendor/' \
+            ./ "$SSH_USER@$SSH_HOST:/home/apps/ileza/"
+
+      - name: Rebuild & Restart IleZa Container
+        run: |
+          ssh "$SSH_USER@$SSH_HOST" \
+            'cd /home/apps/infra && docker compose -f docker-compose.prod.yml --env-file production.env up -d --build --no-deps ileza-app'
+
+      - name: Health Check Verification
+        run: |
+          sleep 5
+          curl -f -I --retry 3 --retry-delay 2 https://ileza.pl/ || exit 1

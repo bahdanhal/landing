@@ -1,0 +1,12 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests
+    excludePaths:
+        - tests/bootstrap.php
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        -
+            message: '#^Property App\\Entity\\[A-Za-z]+Entity\:\:\$id \(int\|null\) is never assigned int#'
+            identifier: property.unusedType

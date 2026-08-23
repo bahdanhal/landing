@@ -1,0 +1,400 @@
+{% extends 'base.html.twig' %}
+{% macro money(grosz) %}{{ (grosz / 100)|number_format(2, '.', ' ') }} PLN{% endmacro %}
+{% block tool_name %}Market Admin{% endblock %}
+{% block title %}Market Admin Dashboard · Bahdan’s Toolbox{% endblock %}
+{% block robots %}<meta name="robots" content="noindex,nofollow">{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="/tools.css">
+    <link rel="stylesheet" href="/market.css">
+    <link rel="stylesheet" href="/market-extra.css">
+    <style>
+        .admin-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+        .admin-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 36px; }
+        .admin-card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
+        .admin-card h2 { font-family: Georgia, serif; font-size: 22px; margin: 0 0 16px; }
+        .admin-form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+        .admin-form-group label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--muted); }
+        .admin-form-group input, .admin-form-group select { padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font: inherit; font-size: 14px; color: var(--ink); }
+        .admin-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .admin-btn { background: var(--orange); color: #fff; border: 0; padding: 10px 18px; border-radius: 8px; font: inherit; font-weight: 800; cursor: pointer; transition: opacity 0.15s ease; }
+        .admin-btn:hover { opacity: 0.9; }
+        .admin-btn-secondary { background: #334155; color: #fff; }
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+        .admin-table th, .admin-table td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; }
+        .admin-table th { font-weight: 800; color: var(--muted); font-size: 11px; text-transform: uppercase; }
+        .admin-filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+        .filter-chip { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--line); background: var(--panel); font-size: 12px; font-weight: 700; color: var(--ink); text-decoration: none; }
+        .filter-chip.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+        .alert-success { background: rgba(99, 214, 170, 0.15); border: 1px solid var(--green); color: var(--green); padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; font-weight: 700; }
+        .alert-error { background: rgba(255, 125, 138, 0.15); border: 1px solid var(--red); color: var(--red); padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; font-weight: 700; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+        .badge-smartphones { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+        .badge-laptops { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
+        .badge-ram { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
+        .badge-cars { background: rgba(99, 214, 170, 0.15); color: #63d6aa; }
+        .statistics-section { margin-bottom: 36px; }
+        .statistics-heading { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 16px; }
+        .statistics-heading h2 { font-family: Georgia, serif; font-size: 30px; margin: 0; }
+        .statistics-heading p { color: var(--muted); font-size: 12px; margin: 0; max-width: 520px; text-align: right; }
+        .stat-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }
+        .stat-card { min-width: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+        .stat-card strong { display: block; font-family: Georgia, serif; font-size: 30px; line-height: 1; margin: 8px 0; }
+        .stat-card-label { color: var(--muted); font-size: 10px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+        .stat-card-detail { color: var(--muted); display: block; font-size: 11px; line-height: 1.35; }
+        .stat-card-warning strong { color: var(--amber); }
+        .analytics-layout { display: grid; grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr); gap: 12px; }
+        .analytics-panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px; min-width: 0; }
+        .analytics-panel h3 { font-size: 14px; margin: 0; }
+        .analytics-panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+        .analytics-panel-head span { color: var(--muted); font-size: 11px; }
+        .traffic-chart { display: grid; grid-template-columns: repeat(30, minmax(8px, 1fr)); align-items: end; gap: 4px; height: 180px; padding-top: 12px; border-bottom: 1px solid var(--line); }
+        .traffic-day { align-items: stretch; align-self: stretch; display: flex; justify-content: end; flex-direction: column; gap: 5px; min-width: 0; }
+        .traffic-bar-wrap { align-items: end; display: flex; flex: 1; gap: 2px; }
+        .traffic-bar { background: var(--orange); border-radius: 4px 4px 1px 1px; flex: 1; min-height: 2px; opacity: .9; }
+        .traffic-bar-visitors { background: var(--green); opacity: .65; }
+        .traffic-date { color: var(--muted); font-size: 8px; height: 12px; overflow: visible; white-space: nowrap; }
+        .traffic-legend { color: var(--muted); display: flex; gap: 14px; font-size: 10px; margin-top: 10px; }
+        .traffic-legend i { border-radius: 2px; display: inline-block; height: 7px; margin-right: 5px; width: 7px; }
+        .analytics-sidebar { display: grid; gap: 12px; }
+        .ranking-list { display: grid; gap: 12px; margin-top: 16px; }
+        .ranking-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 5px 10px; font-size: 12px; }
+        .ranking-row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .ranking-row strong { font-size: 11px; }
+        .ranking-track { background: var(--line); border-radius: 999px; grid-column: 1 / -1; height: 3px; overflow: hidden; }
+        .ranking-track i { background: var(--orange); display: block; height: 100%; }
+        .ranking-empty { color: var(--muted); font-size: 12px; margin: 16px 0 0; }
+        @media (max-width: 980px) {
+            .stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        @media (max-width: 720px) {
+            .statistics-heading { align-items: start; flex-direction: column; }
+            .statistics-heading p { text-align: left; }
+            .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .analytics-layout { grid-template-columns: 1fr; }
+            .traffic-chart { gap: 2px; overflow: hidden; }
+            .traffic-date { display: none; }
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <section class="tool-shell market-shell" style="max-width: 1200px;">
+        <div class="admin-nav">
+            <div>
+                <a class="back" href="{{ path('market_home', {_locale: 'pl'}) }}">← View Public Site</a>
+                <h1 style="font-size: 32px; margin-top: 8px;">Market <em>Admin Control Center</em></h1>
+            </div>
+            <div>
+                <a href="{{ path('market_admin_logout') }}" class="admin-btn admin-btn-secondary" style="text-decoration: none; font-size: 13px;">Log Out</a>
+            </div>
+        </div>
+
+        {% if status %}
+            <div class="alert-success">✓ {{ status }}</div>
+        {% endif %}
+        {% if error %}
+            <div class="alert-error">✕ {{ error }}</div>
+        {% endif %}
+
+        <section id="statistics" class="statistics-section" aria-labelledby="statistics-title">
+            <div class="statistics-heading">
+                <h2 id="statistics-title">Site Statistics</h2>
+                <p>{{ traffic.privacy }}</p>
+            </div>
+
+            <div class="stat-grid">
+                <article class="stat-card">
+                    <span class="stat-card-label">Page views</span>
+                    <strong>{{ traffic.last_7_days.page_views|number_format(0, '.', ' ') }}</strong>
+                    <span class="stat-card-detail">Last 7 days · {{ traffic.last_30_days.page_views|number_format(0, '.', ' ') }} in 30 days</span>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-card-label">Unique visitors</span>
+                    <strong>{{ traffic.last_7_days.unique_visitors|number_format(0, '.', ' ') }}</strong>
+                    <span class="stat-card-detail">Last 7 days · {{ traffic.last_30_days.unique_visitors|number_format(0, '.', ' ') }} in 30 days</span>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-card-label">Product requests</span>
+                    <strong>{{ requests|length }}</strong>
+                    <span class="stat-card-detail">{{ statistics.requests_last_7_days }} received in the last 7 days</span>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-card-label">Price tips</span>
+                    <strong>{{ price_tips|length }}</strong>
+                    <span class="stat-card-detail">{{ statistics.price_tips_last_7_days }} received in the last 7 days</span>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-card-label">Catalog coverage</span>
+                    <strong>{{ statistics.catalog_coverage_percent }}%</strong>
+                    <span class="stat-card-detail">{{ statistics.observation_points }} price observations across {{ statistics.tracked_products }} products</span>
+                </article>
+                <article class="stat-card {{ statistics.stale_products > 0 ? 'stat-card-warning' : '' }}">
+                    <span class="stat-card-label">Needs a price review</span>
+                    <strong>{{ statistics.stale_products }}</strong>
+                    <span class="stat-card-detail">Missing or older than 30 days</span>
+                </article>
+            </div>
+
+            <div class="analytics-layout">
+                <article class="analytics-panel">
+                    <div class="analytics-panel-head">
+                        <h3>Traffic activity</h3>
+                        <span>Last 30 days</span>
+                    </div>
+                    <div class="traffic-chart" role="img" aria-label="Daily page views and unique visitors for the last 30 days">
+                        {% for day in traffic.daily %}
+                            <div class="traffic-day" title="{{ day.date }}: {{ day.page_views }} page views, {{ day.unique_visitors }} unique visitors">
+                                <div class="traffic-bar-wrap">
+                                    <i class="traffic-bar" style="height: {{ day.height_percent }}%"></i>
+                                    <i class="traffic-bar traffic-bar-visitors" style="height: {{ day.page_views > 0 ? (day.unique_visitors / day.page_views * day.height_percent)|round : 2 }}%"></i>
+                                </div>
+                                <span class="traffic-date">{{ loop.first or loop.last or loop.index % 5 == 0 ? day.date|date('M j') : '' }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="traffic-legend">
+                        <span><i style="background: var(--orange);"></i>Page views</span>
+                        <span><i style="background: var(--green);"></i>Unique visitors</span>
+                    </div>
+                </article>
+
+                <div class="analytics-sidebar">
+                    <article class="analytics-panel">
+                        <div class="analytics-panel-head">
+                            <h3>Traffic sources</h3>
+                            <span>30 days</span>
+                        </div>
+                        <div class="ranking-list">
+                            {% for source, count in traffic.last_30_days.sources %}
+                                <div class="ranking-row">
+                                    <span title="{{ source }}">{{ source|replace({'_': ' '})|title }}</span>
+                                    <strong>{{ count }}</strong>
+                                    <div class="ranking-track"><i style="width: {{ traffic.last_30_days.page_views > 0 ? (count / traffic.last_30_days.page_views * 100)|round : 0 }}%"></i></div>
+                                </div>
+                            {% else %}
+                                <p class="ranking-empty">No traffic recorded yet.</p>
+                            {% endfor %}
+                        </div>
+                    </article>
+
+                    <article class="analytics-panel">
+                        <div class="analytics-panel-head">
+                            <h3>Popular pages</h3>
+                            <span>30 days</span>
+                        </div>
+                        <div class="ranking-list">
+                            {% for page, count in traffic.last_30_days.top_paths|slice(0, 5) %}
+                                <div class="ranking-row">
+                                    <span title="{{ page }}">{{ page }}</span>
+                                    <strong>{{ count }}</strong>
+                                    <div class="ranking-track"><i style="width: {{ traffic.last_30_days.page_views > 0 ? (count / traffic.last_30_days.page_views * 100)|round : 0 }}%"></i></div>
+                                </div>
+                            {% else %}
+                                <p class="ranking-empty">No page data recorded yet.</p>
+                            {% endfor %}
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <div class="admin-cards">
+            <!-- MANUAL PRICE ENTRY (0 TOKENS) -->
+            <div class="admin-card">
+                <h2>⚡ Manual Price Entry (0 Tokens)</h2>
+                <p style="font-size: 13px; color: var(--muted); margin-bottom: 16px;">Directly write or update market observation in JSON storage without calling LLM.</p>
+                <form method="post" action="{{ path('market_admin_save_observation') }}">
+                    <div class="admin-form-group">
+                        <label for="entry-slug">Product</label>
+                        <select id="entry-slug" name="product_slug" required>
+                            <option value="">-- Select Product --</option>
+                            {% for prod in all_products %}
+                                <option value="{{ prod.slug }}">{{ prod.name }} ({{ prod.slug }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="admin-form-row">
+                        <div class="admin-form-group">
+                            <label for="entry-date">Observation Date</label>
+                            <input id="entry-date" name="observed_at" type="date" value="{{ 'now'|date('Y-m-d') }}" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="entry-median">Median PLN</label>
+                            <input id="entry-median" name="median_pln" type="number" step="1" min="1" placeholder="e.g. 2150" required>
+                        </div>
+                    </div>
+                    <div class="admin-form-row">
+                        <div class="admin-form-group">
+                            <label for="entry-low">Low PLN</label>
+                            <input id="entry-low" name="low_pln" type="number" step="1" min="1" placeholder="e.g. 1900" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="entry-high">High PLN</label>
+                            <input id="entry-high" name="high_pln" type="number" step="1" min="1" placeholder="e.g. 2400" required>
+                        </div>
+                    </div>
+                    <div class="admin-form-row">
+                        <div class="admin-form-group">
+                            <label for="entry-sample">Sample Size</label>
+                            <input id="entry-sample" name="sample_size" type="number" step="1" min="3" value="6" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="entry-confidence">Confidence</label>
+                            <select id="entry-confidence" name="confidence">
+                                <option value="high" selected>High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="admin-btn" style="width: 100%; margin-top: 8px;">Save Observation</button>
+                </form>
+            </div>
+        </div>
+
+        <section class="section" style="margin-top: 0;">
+            <div class="section-title">
+                <h2>Catalog Products ({{ products|length }})</h2>
+            </div>
+
+            <div class="admin-filters">
+                <a href="{{ path('market_admin_dashboard') }}" class="filter-chip {{ current_category is empty ? 'active' : '' }}">All ({{ all_products|length }})</a>
+                <a href="{{ path('market_admin_dashboard', {category: 'smartphones'}) }}" class="filter-chip {{ current_category == 'smartphones' ? 'active' : '' }}">Smartphones</a>
+                <a href="{{ path('market_admin_dashboard', {category: 'laptops'}) }}" class="filter-chip {{ current_category == 'laptops' ? 'active' : '' }}">Laptops</a>
+                <a href="{{ path('market_admin_dashboard', {category: 'ram'}) }}" class="filter-chip {{ current_category == 'ram' ? 'active' : '' }}">RAM Memory</a>
+                <a href="{{ path('market_admin_dashboard', {category: 'cars'}) }}" class="filter-chip {{ current_category == 'cars' ? 'active' : '' }}">Cars</a>
+
+                <form method="get" action="{{ path('market_admin_dashboard') }}" style="margin-left: auto; display: flex; gap: 6px;">
+                    {% if current_category %}<input type="hidden" name="category" value="{{ current_category }}">{% endif %}
+                    <input name="q" value="{{ search }}" placeholder="Search products..." style="padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; font-size: 12px; background: #fff;">
+                    <button type="submit" class="admin-btn" style="padding: 6px 12px; font-size: 12px;">Search</button>
+                </form>
+            </div>
+
+            <div class="table-wrap" style="max-height: 480px; overflow-y: auto;">
+                <table class="admin-table">
+                    <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Product Name / Slug</th>
+                        <th>Latest Median</th>
+                        <th>Range</th>
+                        <th>Observed Date</th>
+                        <th>Points</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in products %}
+                        {% set p = item.product %}
+                        {% set lat = item.latest %}
+                        <tr>
+                            <td><span class="badge badge-{{ p.category }}">{{ p.category }}</span></td>
+                            <td>
+                                <strong>{{ p.name }}</strong><br>
+                                <code style="font-size: 11px; color: var(--muted);">{{ p.slug }}</code>
+                            </td>
+                            <td>
+                                {% if lat %}
+                                    <strong>{{ _self.money(lat.medianGrosz) }}</strong>
+                                {% else %}
+                                    <span style="color: var(--muted);">No data</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if lat %}
+                                    {{ (lat.lowGrosz / 100)|round }}–{{ (lat.highGrosz / 100)|round }} PLN
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if lat %}
+                                    {{ lat.observedAt|date('Y-m-d') }}
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </td>
+                            <td>{{ item.observation_count }}</td>
+                            <td style="white-space: nowrap;">
+                                <a href="{{ path('market_product', {_locale: 'pl', slug: p.slug}) }}" target="_blank" style="color: var(--orange); font-weight: 700; text-decoration: none; margin-right: 8px;">View →</a>
+                                <button type="button" class="admin-btn" style="padding: 4px 8px; font-size: 11px;" onclick="populateEntryForm('{{ p.slug }}', '{{ lat ? (lat.medianGrosz / 100)|round : '' }}', '{{ lat ? (lat.lowGrosz / 100)|round : '' }}', '{{ lat ? (lat.highGrosz / 100)|round : '' }}');">Set Price</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section" style="margin-top: 32px;">
+            <div class="section-title">
+                <h2>User Product Requests ({{ requests|length }})</h2>
+                <span style="font-size: 12px; color: var(--muted);">Submitted from public request forms</span>
+            </div>
+            <div class="table-wrap" style="max-height: 320px; overflow-y: auto;">
+                <table class="admin-table">
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Requested Product</th>
+                        <th>Email Contact</th>
+                        <th>Visitor IP Hash</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for req in requests %}
+                        <tr>
+                            <td><time>{{ req.timestamp|date('Y-m-d H:i') }}</time></td>
+                            <td><strong>{{ req.product }}</strong></td>
+                            <td>{{ req.email ? req.email : '<span style="color: var(--muted);">None</span>'|raw }}</td>
+                            <td><code>{{ req.ip_hash }}</code></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: var(--muted); padding: 24px;">No user product requests submitted yet.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section" style="margin-top: 32px;">
+            <div class="section-title">
+                <h2>Community Price Tips ({{ price_tips|length }})</h2>
+                <span style="font-size: 12px; color: var(--muted);">Private review queue · automatically removed after 90 days</span>
+            </div>
+            <div class="table-wrap" style="max-height: 320px; overflow-y: auto;">
+                <table class="admin-table">
+                    <thead><tr><th>Date</th><th>Product</th><th>Submitted listing</th><th>Email</th><th>Expires</th></tr></thead>
+                    <tbody>
+                    {% for tip in price_tips %}
+                        <tr>
+                            <td>{{ tip.submittedAt|date('Y-m-d H:i') }}</td>
+                            <td><code>{{ tip.productSlug }}</code></td>
+                            <td><a href="{{ tip.listingUrl }}" target="_blank" rel="noopener noreferrer nofollow">Open listing ↗</a></td>
+                            <td>{{ tip.email ?: '—' }}</td>
+                            <td>{{ tip.expiresAt|date('Y-m-d') }}</td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="5" style="text-align: center; color: var(--muted); padding: 24px;">No price tips submitted yet.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </section>
+
+    <script>
+        function populateEntryForm(slug, median, low, high) {
+            const slugSelect = document.getElementById('entry-slug');
+            if (slugSelect) {
+                slugSelect.value = slug;
+                slugSelect.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            if (median) document.getElementById('entry-median').value = median;
+            if (low) document.getElementById('entry-low').value = low;
+            if (high) document.getElementById('entry-high').value = high;
+        }
+    </script>
+{% endblock %}

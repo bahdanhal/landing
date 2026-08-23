@@ -1,0 +1,403 @@
+.market-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0 32px;
+    padding: 0;
+}
+
+.market-specs div,
+.market-spec-badge {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 8px 14px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 5, 15, 0.15);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.market-spec-badge:hover,
+.market-spec-badge:focus-within {
+    border-color: var(--orange);
+    box-shadow: 0 4px 16px rgba(90, 169, 255, 0.2);
+}
+
+.market-specs dt {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0;
+    line-height: 1;
+}
+
+.market-specs dd {
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 800;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.market-spec-select-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.market-spec-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: 0;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 800;
+    margin: 0;
+    padding: 0 16px 0 0;
+    line-height: 1.2;
+    cursor: pointer;
+    outline: none;
+}
+
+.market-spec-select option {
+    background: #10213a;
+    color: #e7eef8;
+    font-weight: 700;
+}
+
+.market-spec-arrow {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--orange);
+    font-size: 10px;
+    line-height: 1;
+}
+
+.market-chart-card {
+    margin-top: 36px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025), 0 18px 50px rgba(0, 5, 15, 0.16);
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.chart-header h2 {
+    font-family: Georgia, serif;
+    font-size: 24px;
+    margin: 0;
+}
+
+.chart-legend {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.legend-median {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--orange);
+}
+.legend-median::before {
+    content: "";
+    width: 12px;
+    height: 3px;
+    background: var(--orange);
+    border-radius: 2px;
+}
+
+.legend-corridor {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--blue);
+}
+.legend-corridor::before {
+    content: "";
+    width: 12px;
+    height: 10px;
+    background: rgba(90, 169, 255, 0.25);
+    border-radius: 2px;
+}
+
+.chart-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.price-svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+.chart-point {
+    cursor: pointer;
+    transition: r 0.15s ease, fill 0.15s ease;
+}
+
+.chart-point:hover {
+    r: 8;
+    fill: #fff;
+}
+
+.chart-tooltip {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    background: #07101e;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #fff;
+    pointer-events: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    white-space: nowrap;
+    z-index: 10;
+}
+
+.chart-tooltip strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--orange);
+}
+
+.trend-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-top: 6px;
+}
+.trend-down { background: rgba(99, 214, 170, 0.15); color: var(--green); }
+.trend-up { background: rgba(255, 125, 138, 0.15); color: var(--red); }
+.trend-flat { background: rgba(255, 255, 255, 0.08); color: var(--muted); }
+
+.deal-checker {
+    margin-top: 32px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025), 0 18px 50px rgba(0, 5, 15, 0.16);
+}
+
+.deal-checker h2 {
+    font-family: Georgia, serif;
+    font-size: 24px;
+    margin: 0 0 8px;
+}
+
+.deal-checker p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 0 18px;
+}
+
+.deal-controls {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 16px;
+    align-items: center;
+}
+
+.deal-status {
+    font-weight: 800;
+    font-size: 15px;
+}
+
+.deal-great { color: var(--green); }
+.deal-fair { color: var(--blue); }
+.deal-expensive { color: var(--amber); }
+
+/* =========================================================
+   5. MCP & REQUEST
+   ========================================================= */
+.market-mcp {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 24px;
+    margin-top: 24px;
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
+}
+.market-mcp h2 { font-family: Georgia, serif; font-size: 28px; margin: 9px 0; }
+.market-mcp p { color: var(--muted); line-height: 1.55; max-width: 720px; }
+.market-mcp code { padding: 13px 15px; border-radius: 8px; background: var(--ink); color: #fff; overflow-wrap: anywhere; }
+
+.market-request {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(320px, 1.2fr);
+    gap: 32px;
+    align-items: start;
+    margin-top: 28px;
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
+}
+.market-request h2 { font-family: Georgia, serif; font-size: 30px; margin: 10px 0; }
+.market-request p { color: var(--muted); line-height: 1.55; }
+.market-request .lead-form { margin: 0; }
+.market-request .lead-form > input {
+    width: 100%;
+    margin-bottom: 14px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #f4f7fb;
+    color: #10213a;
+    font: inherit;
+    padding: 12px;
+}
+
+@media (max-width: 850px) {
+    .market-mcp, .market-request { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 700px) {
+    .deal-controls { grid-template-columns: 1fr; }
+}
+
+.market-configurations-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+}
+
+.market-config-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.market-config-chip:hover {
+    color: var(--ink);
+    border-color: var(--orange);
+    background: rgba(255, 122, 0, 0.1);
+}
+
+.market-config-chip.active {
+    color: var(--ink);
+    border-color: var(--orange);
+    background: rgba(255, 122, 0, 0.2);
+}
+
+.market-product-siblings {
+    margin: -16px 0 28px;
+}
+
+.market-curation-note {
+    margin-top: 0.85rem;
+    padding: 8px 12px;
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    border-radius: 8px;
+    color: #4ade80;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* =========================================================
+   6. PRODUCT PAGE HERO MEDIA
+   ========================================================= */
+.market-product-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 32px;
+    align-items: start;
+    margin-top: 20px;
+    margin-bottom: 24px;
+}
+
+.market-product-hero-body {
+    min-width: 0;
+}
+
+.market-product-hero-media {
+    position: relative;
+    margin: 0;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    max-height: 300px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #e9e3d6;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(0, 5, 15, 0.14);
+}
+
+.market-product-hero-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.market-product-hero-media figcaption {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(21, 21, 21, 0.75);
+    color: #fff;
+    font-size: 10px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.market-product-hero-media figcaption a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.market-product-hero-media figcaption a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 850px) {
+    .market-product-hero {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .market-product-hero-media {
+        max-height: 240px;
+    }
+}
+

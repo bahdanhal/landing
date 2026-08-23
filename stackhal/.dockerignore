@@ -1,0 +1,15 @@
+.git
+.github
+.idea
+.agents
+.codex
+.gemini
+.cursor
+.env
+.env.local
+production.env
+certbot-webroot
+var
+vendor
+
+

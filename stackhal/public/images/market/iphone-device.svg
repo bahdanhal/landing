@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" width="640" height="480">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1329"/>
+      <stop offset="100%" stop-color="#162344"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a334a"/>
+      <stop offset="100%" stop-color="#1b2234"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#050914"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff7a50"/>
+      <stop offset="100%" stop-color="#ff3b20"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="480" fill="url(#bg)"/>
+  <circle cx="320" cy="240" r="160" fill="rgba(255, 92, 53, 0.06)"/>
+  <!-- Phone Outer Frame -->
+  <rect x="230" y="55" width="180" height="370" rx="36" fill="url(#body)" stroke="#475569" stroke-width="2"/>
+  <!-- Screen -->
+  <rect x="240" y="65" width="160" height="350" rx="28" fill="url(#screen)"/>
+  <!-- Dynamic Island / Notch -->
+  <rect x="285" y="78" width="70" height="18" rx="9" fill="#000"/>
+  <!-- Display Graphic / UI -->
+  <circle cx="320" cy="210" r="44" fill="none" stroke="url(#accent)" stroke-width="4" opacity="0.8"/>
+  <path d="M305 210 L315 220 L335 198" fill="none" stroke="#ff7a50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Screen Text Placeholder Lines -->
+  <rect x="265" y="275" width="110" height="8" rx="4" fill="#334155"/>
+  <rect x="280" y="295" width="80" height="6" rx="3" fill="#1e293b"/>
+  <!-- Home Indicator Bar -->
+  <rect x="285" y="398" width="70" height="4" rx="2" fill="#64748b"/>
+</svg>

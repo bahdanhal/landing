@@ -1,0 +1,155 @@
+{% extends 'base.html.twig' %}
+{% block body_class %}portfolio-page{% endblock %}
+{% block title %}{{ 'profile.meta.title'|trans }}{% endblock %}
+{% block robots %}<meta name="robots" content="index,follow">{% endblock %}
+{% block description %}<meta name="description" content="{{ 'profile.meta.description'|trans }}">{% endblock %}
+{% block canonical %}
+    <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/' : 'https://bahdanhal.pl/' }}">
+    <link rel="alternate" hreflang="en" href="https://bahdanhal.pl/">
+    <link rel="alternate" hreflang="pl" href="https://bahdanhal.pl/pl/">
+    <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/">
+{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="/portfolio.css"><link rel="stylesheet" href="/portfolio-services.css">{% endblock %}
+{% block head_scripts %}
+  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'ProfessionalService','@id':'https://bahdanhal.pl/#services','name':'Bahdan Hal — web engineering, AI integration and production support','url':'https://bahdanhal.pl/','areaServed':['Poland','European Union','Remote'],'provider':{'@id':'https://bahdanhal.pl/#bahdan'},'serviceType':['Web development','Systems integration','AI integration consulting','MCP server development','Workflow automation','Production deployment','Legacy modernization','Performance optimization','Technical audit']},{'@type':'FAQPage','@id':'https://bahdanhal.pl/#faq','inLanguage':app.request.locale,'dateModified':'2026-08-22','author':{'@id':'https://bahdanhal.pl/#bahdan'},'publisher':{'@id':'https://bahdanhal.pl/#bahdan'},'mainEntity':[{'@type':'Question','name':'profile.faq.q1'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a1'|trans}},{'@type':'Question','name':'profile.faq.q2'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a2'|trans}},{'@type':'Question','name':'profile.faq.q3'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a3'|trans}},{'@type':'Question','name':'profile.faq.q4'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a4'|trans}}]}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+{% endblock %}
+{% block brand_lockup %}
+    <a class="brand" href="{{ path('landing', {_locale: app.request.locale}) }}" aria-label="Bahdan Hal">
+        <span class="brand-mark">BH</span><span>Bahdan Hal</span>
+    </a>
+    <span class="brand-credit">{{ 'profile.role_short'|trans }}</span>
+{% endblock %}
+{% block language_switch %}<a class="language-switch" href="{{ path('landing', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
+{% block body %}
+    <article class="profile-shell">
+        <section class="profile-hero">
+            <div class="profile-hero-content">
+                <div class="eyebrow">{{ 'profile.eyebrow'|trans }}</div>
+                <h1>{{ 'profile.heading'|trans }}<br><em>{{ 'profile.heading_emphasis'|trans }}</em></h1>
+                <div class="profile-intro">
+                    <p>{{ 'profile.intro'|trans }}</p>
+                    <div class="profile-actions">
+                        <a class="profile-primary" href="#consultation">{{ 'profile.contact'|trans }}</a>
+                        <a href="https://stackhal.com" target="_blank" rel="noopener">Dev Tools →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-hero-media">
+                <img src="/images/profile/bahdan-portrait.jpg" alt="Bahdan Hal" width="480" height="560" class="profile-avatar">
+            </div>
+        </section>
+
+        <section class="profile-facts" aria-label="{{ 'profile.facts_label'|trans }}">
+            <span>Gdańsk, Poland</span>
+            <span>PHP · Symfony · Laravel</span>
+            <span>Linux · Docker · AI</span>
+            <span>5+ {{ 'profile.years'|trans }}</span>
+        </section>
+
+        <p class="profile-scope">{{ 'profile.scope'|trans }}</p>
+
+        <section class="profile-grid">
+            <div><span class="profile-number">01</span><h2>{{ 'profile.backend.title'|trans }}</h2><p>{{ 'profile.backend.text'|trans }}</p></div>
+            <div><span class="profile-number">02</span><h2>{{ 'profile.infrastructure.title'|trans }}</h2><p>{{ 'profile.infrastructure.text'|trans }}</p></div>
+            <div><span class="profile-number">03</span><h2>{{ 'profile.ai.title'|trans }}</h2><p>{{ 'profile.ai.text'|trans }}</p></div>
+        </section>
+
+        <section class="profile-services" id="services">
+            <div class="profile-section-title"><span>{{ 'profile.services.eyebrow'|trans }}</span><h2>{{ 'profile.services.title'|trans }}</h2><p>{{ 'profile.services.intro'|trans }}</p></div>
+            <div class="profile-service-grid">
+                {% for key in ['presence', 'delivery', 'ai_integration', 'automation', 'duty', 'investigation', 'legacy', 'audit'] %}
+                    <article><span>0{{ loop.index }}</span><h3>{{ ('profile.services.' ~ key ~ '.title')|trans }}</h3><p>{{ ('profile.services.' ~ key ~ '.text')|trans }}</p></article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="profile-work">
+            <div class="profile-section-title"><span>{{ 'profile.work.eyebrow'|trans }}</span><h2>{{ 'profile.work.title'|trans }}</h2></div>
+            <ul class="profile-work-list">
+                <li><article><time datetime="2026">2026</time><h3>Freedom Mobile</h3><p>{{ 'profile.work.freedom'|trans }}</p></article></li>
+                <li><article><time datetime="2022/2026">2022–2026</time><h3>Gdańskie Wydawnictwo Oświatowe</h3><p>{{ 'profile.work.gwo'|trans }}</p></article></li>
+                <li><article><time datetime="2022">2022–{{ 'profile.present'|trans }}</time><h3>{{ 'profile.work.consulting_title'|trans }}</h3><p>{{ 'profile.work.consulting'|trans }}</p></article></li>
+            </ul>
+        </section>
+
+        <section class="profile-testimonials" aria-labelledby="testimonials-title">
+            <div class="profile-section-title">
+                <span>UPWORK</span>
+                <h2 id="testimonials-title">{{ 'profile.testimonials.title'|trans }}</h2>
+                <a href="https://www.upwork.com/freelancers/~014111a2d384da6af9" rel="me">{{ 'profile.testimonials.link'|trans }} →</a>
+            </div>
+            <div class="profile-testimonial-grid">
+                <figure>
+                    <div role="img" aria-label="{{ 'profile.testimonials.stars'|trans }}">★★★★★</div>
+                    <blockquote>“Easy to work with. Great communication. Excellent ability.”</blockquote>
+                    <figcaption>{{ 'profile.testimonials.rollup'|trans }}</figcaption>
+                </figure>
+                <figure>
+                    <div role="img" aria-label="{{ 'profile.testimonials.stars'|trans }}">★★★★★</div>
+                    <blockquote>“Perfect freelancer! Was a pleasure to work with him.”</blockquote>
+                    <figcaption>{{ 'profile.testimonials.transfer'|trans }}</figcaption>
+                </figure>
+                <aside>
+                    <strong>100%</strong>
+                    <span>{{ 'profile.testimonials.success'|trans }}</span>
+                    <small>{{ 'profile.testimonials.status'|trans }}</small>
+                </aside>
+            </div>
+        </section>
+
+        <figure class="profile-summit-feature">
+            <div class="summit-image-wrap">
+                <img src="/images/profile/bahdan-summit.jpg" alt="{{ 'profile.summit_alt'|trans }}" loading="lazy">
+            </div>
+            <figcaption>
+                <span class="eyebrow">{{ 'profile.summit_eyebrow'|trans }}</span>
+                <h3>{{ 'profile.summit_caption'|trans }}</h3>
+                <p>{{ 'profile.summit_subtext'|trans }}</p>
+            </figcaption>
+        </figure>
+
+        <section class="profile-faq">
+            <div class="profile-section-title"><span>FAQ</span><h2>{{ 'profile.faq.title'|trans }}</h2></div>
+            <div class="profile-faq-list">
+                <details open>
+                    <summary><h3>{{ 'profile.faq.q1'|trans }}</h3></summary>
+                    <p>{{ 'profile.faq.a1'|trans }}</p>
+                </details>
+                <details open>
+                    <summary><h3>{{ 'profile.faq.q2'|trans }}</h3></summary>
+                    <p>{{ 'profile.faq.a2'|trans }}</p>
+                </details>
+                <details>
+                    <summary><h3>{{ 'profile.faq.q3'|trans }}</h3></summary>
+                    <p>{{ 'profile.faq.a3'|trans }}</p>
+                </details>
+                <details>
+                    <summary><h3>{{ 'profile.faq.q4'|trans }}</h3></summary>
+                    <p>{{ 'profile.faq.a4'|trans }}</p>
+                </details>
+            </div>
+        </section>
+
+        <section class="profile-consultation" id="consultation">
+            <div>
+                <span class="eyebrow">{{ 'profile.consultation.eyebrow'|trans }}</span>
+                <h2>{{ 'profile.consultation.title'|trans }}</h2>
+                <p>{{ 'profile.consultation.text'|trans }}</p>
+                <ul><li>{{ 'profile.consultation.one'|trans }}</li><li>{{ 'profile.consultation.two'|trans }}</li><li>{{ 'profile.consultation.three'|trans }}</li><li>{{ 'profile.consultation.four'|trans }}</li></ul>
+            </div>
+            {% include 'audit/_contact_form.html.twig' with {source: 'landing'} %}
+        </section>
+
+        <section class="profile-contact">
+            <div><span class="eyebrow">{{ 'profile.contact_eyebrow'|trans }}</span><h2>{{ 'profile.contact_heading'|trans }}</h2></div>
+            <nav aria-label="{{ 'profile.socials'|trans }}">
+                <a href="mailto:bahdan.hal@hotmail.com">Email</a>
+                <a href="https://www.linkedin.com/in/bahdan-hal/" rel="me">LinkedIn</a>
+                <a href="https://github.com/bahdanhal" rel="me">GitHub</a>
+                <a href="https://www.instagram.com/bahdan.hal/" rel="me">Instagram</a>
+                <a href="https://www.facebook.com/profile.php?id=100008404566585" rel="me">Facebook</a>
+                <a href="https://www.upwork.com/freelancers/~014111a2d384da6af9" rel="me">Upwork</a>
+            </nav>
+        </section>
+    </article>
+{% endblock %}

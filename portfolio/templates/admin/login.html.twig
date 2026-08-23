@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% block tool_name %}Market Admin{% endblock %}
+{% block title %}Market Admin Login · Bahdan’s Toolbox{% endblock %}
+{% block robots %}<meta name="robots" content="noindex,nofollow">{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="/tools.css"><link rel="stylesheet" href="/market.css"><link rel="stylesheet" href="/market-extra.css">{% endblock %}
+{% block body %}
+    <section class="tool-shell market-shell" style="max-width: 540px; margin: 40px auto;">
+        <div class="eyebrow">ADMIN AUTHENTICATION</div>
+        <h1>Market <em>Admin</em></h1>
+        <p class="lede">Enter your admin passphrase or access token to manage catalog prices and review product requests.</p>
+
+        {% if error is defined and error %}
+            <div style="background: rgba(255, 125, 138, 0.15); border: 1px solid var(--red); color: var(--red); padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; font-weight: 700;">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="post" action="{{ path('market_admin_login') }}" style="display: flex; flex-direction: column; gap: 16px; background: var(--panel); padding: 28px; border: 1px solid var(--line); border-radius: 14px;">
+            <div>
+                <label for="admin-password" style="display: block; font-weight: 800; font-size: 13px; margin-bottom: 8px;">Admin Passphrase / Token</label>
+                <input id="admin-password" name="password" type="password" required autofocus placeholder="Enter APP_SECRET or ADMIN_TOKEN" style="width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font: inherit;">
+            </div>
+            <button type="submit" style="background: var(--orange); color: #fff; border: 0; padding: 12px 20px; font-weight: 800; border-radius: 8px; cursor: pointer; font: inherit; font-size: 15px;">Login to Admin Panel</button>
+        </form>
+    </section>
+{% endblock %}

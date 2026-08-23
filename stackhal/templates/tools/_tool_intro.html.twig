@@ -1,0 +1,13 @@
+<header class="tool-page-intro">
+  <div>
+    <div class="eyebrow">{{ eyebrow }}</div>
+    <h1>{{ heading }}</h1>
+    <p class="lede">{{ lede }}</p>
+  </div>
+  {% if badge_label|default('') is not empty %}
+    <div class="verified-badge">
+      <span>{{ badge_label }}</span>
+      <strong>{{ badge_value }}</strong>
+    </div>
+  {% endif %}
+</header>

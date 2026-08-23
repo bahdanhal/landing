@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Generative Engine Optimization (GEO) Readiness Specification",
+  "description": "Deterministic specifications for evaluating AI engine crawlability, schema clarity, provenance, and answer structure.",
+  "version": "1.0.0",
+  "crawler_user_agents": [
+    "GPTBot",
+    "ChatGPT-User",
+    "ClaudeBot",
+    "PerplexityBot",
+    "Google-Extended"
+  ],
+  "schema_classifications": {
+    "content": [
+      "Article",
+      "NewsArticle",
+      "BlogPosting",
+      "FAQPage",
+      "HowTo",
+      "Product",
+      "Dataset",
+      "WebApplication",
+      "SoftwareApplication"
+    ],
+    "entity": [
+      "Organization",
+      "LocalBusiness",
+      "Person",
+      "WebSite"
+    ]
+  },
+  "signal_categories": [
+    "answer_structure",
+    "schema_metadata",
+    "provenance_and_author",
+    "citation_and_freshness",
+    "entity_clarity",
+    "ai_crawler_policies"
+  ]
+}

@@ -1,0 +1,9 @@
+framework:
+  secret: '%env(APP_SECRET)%'
+  trusted_proxies: '127.0.0.1,172.16.0.0/12'
+  trusted_headers: ['x-forwarded-for', 'x-forwarded-proto', 'x-forwarded-host', 'x-forwarded-port', 'x-forwarded-prefix']
+  router:
+    utf8: true
+  http_method_override: false
+  php_errors:
+    log: true

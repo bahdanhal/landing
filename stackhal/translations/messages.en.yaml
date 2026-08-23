@@ -1,0 +1,913 @@
+base:
+    default_title: "Bahdan’s Toolbox"
+    home_label: "Bahdan’s Toolbox home"
+    brand: "Bahdan’s Toolbox"
+    brand_short: "Toolbox"
+    by: "by Bahdan Hal"
+    navigation: "Tools and language"
+    nav:
+        income: "UoP / UZ / Ud / B2B"
+        geo: "GEO analyzer"
+        seo: "SEO analyzer"
+        market: "Used goods prices"
+        bimi: "BIMI Studio"
+        domain_inspector: "Domain inspector"
+        caddy_transpiler: "Caddyfile Transpiler"
+        pkpass: "PKPass Inspector"
+        more: "Tools"
+    context:
+        income: "Polish income calculator"
+        geo: "GEO analyzer"
+        seo: "SEO analyzer"
+        market: "Poland used-goods price index"
+        bimi: "BIMI Studio & SVG Converter"
+        domain_inspector: "Domain email security inspector"
+        caddy_transpiler: "Nginx & Apache to Caddyfile Transpiler"
+        pkpass: "Apple Wallet (.pkpass) Inspector & Emulator"
+    footer: "Useful, transparent tools · No signup · No tracking pixel"
+    contact: "Contact"
+
+common:
+    all_tools: "All tools"
+
+home:
+    meta:
+        title: "Bahdan’s Toolbox · Free Online Developer, SEO & Business Tools"
+        description: "Free, fast and transparent tools: Apple Wallet PKPass inspector, Nginx to Caddy converter, BIMI SVG studio, domain email security inspector, technical SEO audit, and Polish salary calculator."
+    eyebrow: "SMALL TOOLS, REAL ANSWERS"
+    heading_start: "Useful things,"
+    heading_emphasis: "built properly."
+    lede: "A growing set of focused tools for calculations, websites, and the awkward practical questions that should not require an account or a sales call."
+    available: "READY"
+    open: "Open tool"
+    categories:
+        business: "Business & money"
+        web: "Web quality"
+        email: "Email & identity"
+        infrastructure: "Infrastructure"
+        mobile: "Mobile & Wallet"
+    income:
+        title: "Polish contract income calculator"
+        text: "Compare take-home pay from the same company budget under UoP, umowa zlecenie, umowa o dzieło, and B2B."
+    geo:
+        title: "GEO readiness audit"
+        text: "Check whether a page is accessible, structured, attributable, and easy for answer engines to understand and cite."
+    seo:
+        title: "Technical SEO audit"
+        text: "Find redirect mistakes, crawler traps, duplicate URL spaces, canonical problems, and sitemap gaps."
+    market:
+        title: "Poland used-goods price index"
+        text: "Follow Bahdan’s manually reviewed snapshots of comparable second-hand asking prices, with history and transparent limitations."
+    bimi:
+        title: "BIMI Studio & Live Inbox Simulator"
+        text: "Prepare strict SVG Tiny 1.2 PS brand marks with safe-zone padding and live inbox simulator for Gmail, Apple Mail, and Yahoo."
+    domain_inspector:
+        title: "Domain security & deliverability"
+        text: "1-click verification of DMARC policies, BIMI records, MTA-STS strict transport security, SMTP TLS-RPT, and SPF."
+    caddy_transpiler:
+        title: "Nginx & Apache ➔ Caddyfile Converter"
+        text: "Convert Nginx server blocks and Apache .htaccess into clean, idiomatic Caddyfiles with real-time smart mapping, migration advisories and 1-click presets."
+    cidr_matrix:
+        title: "Visual CIDR & Subnet Overlap Matrix"
+        text: "Analyze IPv4/IPv6 CIDR blocks, detect IP range overlap collisions, view 2D spatial tree partitions, and find available free subnets."
+    pkpass:
+        title: "Apple Wallet (.pkpass) Inspector & Debugger"
+        text: "Pixel-perfect Apple Wallet & Google Wallet emulator, SHA-1 manifest validator, PKCS#7 certificate inspector, and 1-click package repair."
+    principles:
+        private:
+            title: "Private by default"
+            text: "Calculations stay in your browser. Crawled reports are cached to avoid repeatedly hitting a site."
+        clear:
+            title: "Show the reasoning"
+            text: "Formulas, evidence, dates, and limitations appear next to the result instead of hiding behind a score."
+        fast:
+            title: "One job at a time"
+            text: "Each tool is designed around one concrete task, with no signup wall and no artificial waiting."
+
+vat:
+    meta:
+        title: "Polish VAT Calculator 2026 · Net to Gross and Gross to Net"
+        description: "Calculate Polish VAT from net to gross or gross to net with 23%, 8%, 5% and 0% rates. Simulate a clearly labelled proposed future rate and start date."
+    eyebrow: "POLAND · VAT · 2026"
+    heading: "Net / gross VAT calculator"
+    lede: "Convert an invoice amount in either direction. The calculator uses grosz-level rounding, runs entirely in your browser, and keeps future assumptions visibly separate from current law."
+    verified: "Rules checked"
+    amount: "Amount"
+    direction:
+        label: "Calculate from"
+        net_to_gross: "Net → gross"
+        gross_to_net: "Gross → net"
+    rate: "VAT rate"
+    exempt: "Exempt (zw.)"
+    scenario:
+        label: "Rules scenario"
+        current: "Current Polish rates"
+        future: "Simulate a proposed future rate"
+        current_note: "Current-rate calculation. Standard Polish VAT rates available here are 23%, 8%, 5%, and 0%."
+        future_note: "Future simulation — this assumed rate is not law. Verify the proposal and effective date before using it commercially."
+    future:
+        rate: "Assumed future rate"
+        date: "Estimated start date"
+        warning: "Planning scenario only. The entered rate and date are your assumptions, not a prediction or tax advice."
+    result:
+        net: "Net"
+        tax: "VAT"
+        gross: "Gross"
+    copy: "Copy result"
+    copied: "Copied"
+    how:
+        title: "How the calculation works"
+        text: "For net amounts, VAT is added to the base. For gross amounts, the tax included in the total is extracted using the official relationship between the gross value and the rate. Each monetary result is rounded to two decimal places."
+        gross_formula: "gross = net + round(net × rate / 100)"
+        net_formula: "VAT from gross = round(gross × rate / (100 + rate))"
+    source_intro: "Formula and rate reference:"
+    future_info:
+        title: "Future-change mode"
+        text: "Because tax proposals can change or fail, the simulator makes you provide both the assumed rate and expected start date. That prevents an unconfirmed proposal from silently replacing current law."
+        vida: "The government’s VAT in the Digital Age implementation is expected principally from 1 January 2027, but it concerns VAT administration rather than a general headline-rate change."
+        source: "Official proposal UC147"
+        no_rate_change: "No verified general 23% → new-rate proposal is preloaded as of 21 August 2026."
+    faq:
+        title: "Questions"
+        q1: "What VAT rates does the calculator support?"
+        a1: "It supports the commonly used 23%, 8%, 5%, and 0% Polish rates, plus exempt sales. The correct rate depends on the specific goods or services."
+        q2: "Is a 0% rate the same as VAT exemption?"
+        a2: "No. Both produce zero VAT in this arithmetic, but their legal treatment and deduction rights differ. The calculator keeps them as separate choices."
+        q3: "Can I calculate a proposed future rate?"
+        a3: "Yes. Choose the future scenario, enter the proposed percentage and an estimated start date. The result remains clearly marked as a simulation."
+    disclaimer: "Informational calculator, not tax advice. Confirm the applicable rate, classification, rounding method, and effective date with official guidance or a qualified adviser."
+    schema_name: "Polish net and gross VAT calculator"
+
+bimi:
+    meta:
+        title: "BIMI SVG Converter · SVG Tiny 1.2 PS Studio & Live Inbox Simulator"
+        description: "Free online BIMI SVG converter. Sanitize brand logos into strict SVG Tiny 1.2 PS, ensure circular safe zones, generate DNS TXT records, and simulate email client inboxes."
+    eyebrow: "EMAIL BRANDING · SVG TINY 1.2 PS"
+    heading: "BIMI Studio & Live Inbox Simulator"
+    lede: "Convert any SVG or logo into strict, BIMI-compliant SVG Tiny 1.2 PS with safe-zone padding and preview your brand avatar live across major email inboxes."
+    title: "BIMI Studio"
+    upload:
+        title: "1. Upload Brand Logo"
+        text: "Drop any vector SVG, PNG, JPG, or WebP logo file."
+        drop_prompt: "Drop logo here or click to browse"
+        formats: "SVG (Figma / Illustrator), PNG, JPG, WebP"
+    controls:
+        padding: "Circular Safe-Zone Padding:"
+        scale: "Scale / Zoom:"
+        offset_x: "Horizontal Offset (X):"
+        offset_y: "Vertical Offset (Y):"
+        align_presets: "Quick Alignment:"
+        center_btn: "Center 0,0"
+        background: "Background Fill:"
+        bg_transparent: "Transparent"
+        bg_white: "White"
+        bg_dark: "Dark (#111827)"
+        bg_custom: "Custom"
+        circle_guide: "Show Apple Mail / Yahoo circular crop guide"
+        drag_hint: "Click & drag on canvas to reposition logo · Scroll to zoom"
+        reset_position: "Reset position & scale"
+        contrast_hint: "Ensures your logo remains sharp and legible in both light and dark email client themes."
+    preview:
+        canvas_title: "2. Clean SVG Tiny 1.2 PS Preview"
+        canvas_text: "Sanitized 1:1 canvas with XML namespaces and scripts removed."
+    download:
+        button: "Download Compliant logo-bimi.svg"
+    sim:
+        title: "3. Live Inbox Simulator"
+        subtitle: "Multi-client inbox preview in 1 click"
+        sender_label: "Simulated Sender Name:"
+        subject_label: "Simulated Subject Line:"
+    dns:
+        title: "4. Generate BIMI DNS Record"
+        text: "Add this TXT record to your DNS host (Cloudflare, Route53, Namecheap)."
+        domain_label: "Domain Name:"
+        svg_label: "Public HTTPS URL to logo-bimi.svg:"
+        vmc_label: "VMC Certificate URL (optional):"
+        copy_btn: "Copy DNS TXT Record"
+    requirements:
+        title: "BIMI Requirements Checklist"
+        svg: "Strict SVG Tiny 1.2 PS, root viewBox 1:1, no external links/scripts."
+        ratio: "Centered in 1:1 square with safe margins for circular cropping."
+        dmarc: "DMARC policy must be p=quarantine (pct=100) or p=reject."
+        vmc: "Apple Mail & Yahoo support self-asserted BIMI; Gmail requires VMC."
+        check_domain_link: "Test your domain with Domain Inspector"
+    faq:
+        title: "Frequently Asked Questions about BIMI"
+        q1: "What is BIMI (Brand Indicators for Message Identification)?"
+        a1: "BIMI is an email specification enabling organizations to display their official verified brand logo directly next to incoming messages in supporting email inboxes like Gmail, Apple Mail, and Yahoo."
+        q2: "Why does BIMI require the SVG Tiny 1.2 PS format?"
+        a2: "Mail clients enforce the SVG Tiny Portable/Secure profile for security and performance. It disables JavaScript scripts, external file references, entity expansion, and raster embeds that could pose security risks."
+        q3: "Do I need a Verified Mark Certificate (VMC) for BIMI?"
+        a3: "Apple Mail and Yahoo support self-asserted BIMI without a certificate. Gmail requires a VMC issued by a recognized certificate authority (DigiCert, Entrust) confirming trademark ownership."
+
+domain_inspector:
+    meta:
+        title: "Domain Email Security Inspector · DMARC, BIMI, MTA-STS & SPF Checker"
+        description: "Instant 1-click domain email security inspection: check DMARC compliance for BIMI, MTA-STS strict transport encryption (RFC 8461), SMTP TLS reporting (RFC 8460), and SPF."
+    eyebrow: "EMAIL DELIVERABILITY & SECURITY"
+    heading: "Domain Email Security & BIMI Inspector"
+    lede: "Verify your domain's email authentication chain in 1 click. Check DMARC compliance for BIMI, MTA-STS strict transport encryption, SMTP TLS reporting, and SPF anti-spoofing."
+    title: "Domain Inspector"
+    input_label: "Enter domain name to inspect:"
+    check_btn: "Inspect Domain"
+    examples_label: "Try examples"
+    features:
+        dmarc:
+            title: "DMARC & BIMI Policy"
+            text: "Evaluates whether your policy qualifies for BIMI avatars (p=quarantine pct=100 or p=reject) and prevents email spoofing."
+        bimi:
+            title: "BIMI DNS & Logo Probe"
+            text: "Finds default._bimi records, verifies HTTPS reachability, checks content types and SVG Tiny 1.2 profile conformance."
+        mta_sts:
+            title: "MTA-STS Strict Transport (RFC 8461)"
+            text: "Checks for DNS records and queries https://mta-sts.domain/.well-known/mta-sts.txt to enforce TLS delivery."
+        tls_rpt:
+            title: "SMTP TLS-RPT (RFC 8460)"
+            text: "Validates aggregate SMTP TLS reporting records so you receive diagnostic telemetry on delivery failures."
+    faq:
+        title: "Frequently Asked Questions about Email Deliverability"
+        q1: "What DMARC policy is required for BIMI avatars?"
+        a1: "BIMI requires an active DMARC policy of at least p=quarantine with pct=100 or p=reject. A policy of p=none is considered observation-only and does not qualify for BIMI logo display."
+        q2: "What is MTA-STS (RFC 8461) and why is it important?"
+        a2: "Mail Transfer Agent Strict Transport Security (MTA-STS) prevents man-in-the-middle downgrade attacks on SMTP connections by declaring that sending mail servers must use TLS with trusted certificates."
+        q3: "How does SMTP TLS-RPT (RFC 8460) help?"
+        a3: "TLS Reporting enables sending mail providers to send daily aggregate telemetry reports whenever encryption negotiation fails, identifying routing issues and certificate expiration before mail drops."
+    report:
+        title: "Email Security Report for %domain% · Bahdan’s Toolbox"
+        back: "Inspect another domain"
+        score_label: "Deliverability Security Score: %score%/100"
+        time_label: "Inspected at %time%"
+    bimi_status:
+        ready: "BIMI Ready"
+        dmarc_needed: "DMARC Upgrade Needed for BIMI"
+        eligible_no_bimi: "DMARC Eligible · Missing BIMI Record"
+        not_ready: "BIMI Not Configured"
+    recheck_btn: "Re-inspect Domain"
+    fix_header: "Recommended DNS Record:"
+    copy: "Copy"
+    copied: "Copied!"
+    detected_logo: "Verified BIMI Logo Preview"
+    open_bimi_studio: "Open BIMI Studio to format or convert your logo"
+
+audit:
+    meta:
+        title: "Free Technical SEO Audit · Crawler, Canonical & Trap Checker"
+        description: "Run a fast technical SEO audit for redirect chains, canonical tags, crawler traps, URL parameters, robots.txt, sitemaps, and indexability errors."
+    eyebrow: "FAST TECHNICAL SEO AUDIT"
+    heading_start: "Find where Googlebot"
+    heading_emphasis: "loses the plot."
+    lede: "Test redirects, canonicals, crawl traps, parameters, pagination, robots.txt and sitemaps. Results come directly from observable HTTP evidence."
+    form:
+        label: "Website URL"
+        submit: "Run audit"
+        loading: "Crawling…"
+        note: "10 crawl audits per IP each day · Polite, robots-aware crawling · Reports cached for six hours."
+    limit:
+        message: "You have used today’s 10 free crawl audits. Leave your email or contact Bahdan directly for help."
+        title: "Need another audit—or help fixing it?"
+        text: "Leave your email privately on this server, or use a direct contact option."
+    features:
+        redirect:
+            title: "Redirect matrix"
+            text: "HTTP, HTTPS, www, non-www, slash variants and redirect chains."
+        crawl:
+            title: "Crawl-space scan"
+            text: "Internal links, parameters, GET forms, duplicate paths and pagination traps."
+        index:
+            title: "Index signals"
+            text: "Canonical tags, robots directives, sitemap coverage, status codes, titles and H1s."
+    faq:
+        title: "Frequently Asked Questions about Technical SEO"
+        q1: "What does this technical SEO audit check?"
+        a1: "It verifies HTTP status codes, protocol/hostname canonicalization, redirect loops, self-referencing canonical tags, robots.txt accessibility, XML sitemaps, and infinite crawler parameter traps."
+        q2: "Why do URL parameters cause crawl traps?"
+        a2: "Uncapped sorting, filter combinations, and session IDs create millions of duplicate URLs that exhaust your search engine crawl budget without adding indexed value."
+        q3: "How does canonicalization affect rankings?"
+        a3: "Proper canonical tags consolidate link equity to your preferred URL version and prevent duplicate content penalties across protocol (HTTP/HTTPS) and www/non-www variations."
+    report:
+        title: "SEO audit"
+        new: "New audit"
+        cached: "CACHED REPORT"
+        complete: "AUDIT COMPLETE"
+        generated: "Generated"
+        refresh: "Refresh crawl"
+        score: "crawl health"
+        pages: "pages crawled"
+        urls: "URLs discovered"
+        sitemap_urls: "sitemap URLs"
+        critical: "critical"
+        warnings: "warnings"
+        truncated: "The crawl reached its page limit. Results are a representative sample, not a complete inventory."
+        executive: "Executive summary"
+        ai_note: "AI explanation · deterministic evidence"
+        findings: "Findings"
+        finding_types: "finding types"
+        empty: "No material issues were detected in the sampled crawl."
+        editorial_review: "Human editorial review"
+        not_scored: "RECOMMENDATIONS · NOT SCORED"
+        editorial_intro: "A crawler can verify delivery and structure, but it cannot decide whether a site is original, accurate, useful or trustworthy. Review these questions before publishing more pages."
+        people_first_source: "Google’s people-first content guidance"
+        found_in: "Found in %count% places. Open an occurrence to see its URL and evidence."
+        redirect_matrix: "Host & redirect matrix"
+        variants: "variants"
+        crawled_pages: "Crawled pages"
+        sampled: "sampled"
+        sitemaps: "Sitemaps"
+        no_robots: "No robots.txt content returned."
+        sitemap_summary: "%urls% URLs across %files% file(s)"
+        no_sitemap: "No sitemap found."
+    issues:
+        host-canonicalization: "Protocol or hostname variants do not converge"
+        redirect-chain: "Redirect chain detected"
+        fetch-error: "Page could not be fetched"
+        broken-internal-url: "Internal URL returns an error"
+        missing-canonical: "Canonical tag is missing"
+        multiple-canonicals: "Multiple canonical tags found"
+        canonical-mismatch: "Canonical points elsewhere"
+        missing-title: "Page title is missing"
+        h1-count: "Page should have one clear H1"
+        missing-description: "Meta description is missing"
+        thin-page: "Very little indexable text"
+        duplicate-title: "Duplicate page title"
+        duplicate-content: "Duplicate page bodies found"
+        parameter-space: "Parameter-generated URL space detected"
+        parameter-entry-points: "GET forms create parameter entry points"
+        robots-missing: "robots.txt is unavailable"
+        sitemap-error: "Sitemap problem"
+        sitemap-broken-url: "Sitemap URL is not crawlable"
+        sitemap-redirect: "Sitemap URL redirects"
+        sitemap-parameters: "Sitemap contains parameter URLs"
+        sitemap-coverage: "Crawlable pages are absent from the sitemap"
+        crawler-trap-probe: "Unbounded URL variant returns indexable content"
+    advisories:
+        site-purpose:
+            title: "State one clear purpose for the site"
+            text: "Explain who the site serves and why its different sections belong together. A personal toolbox can be the focus when that connection is explicit."
+        people-first-value:
+            title: "Deliver a complete answer or working outcome"
+            text: "Prefer original tools, evidence and first-hand analysis over pages created only to capture query variations."
+        authorship-and-expertise:
+            title: "Make authorship and experience verifiable"
+            text: "Show who created or reviewed important content and link to a useful author or about page."
+        sources-and-methodology:
+            title: "Publish sources, assumptions and methodology"
+            text: "Explain how calculations, comparisons and important claims were produced and when their inputs were checked."
+        maintenance-and-dates:
+            title: "Use meaningful review dates"
+            text: "Change a reviewed or modified date only after the content or underlying data was substantively checked."
+        human-review:
+            title: "Finish with a real human review"
+            text: "Technical signals cannot establish accuracy, originality, helpfulness or trust. Read the page and complete its task as a visitor would."
+
+contact:
+    email: "Your email"
+    email_optional: "Email (optional if you leave a phone number)"
+    phone_optional: "Phone (optional if you leave an email)"
+    message_optional: "What can I help with? (optional)"
+    message_placeholder: "A link and two sentences are enough."
+    submit: "Ask Bahdan"
+    company: "Company"
+    note: "Stored privately on this server so Bahdan can follow up. No mailing list or automated sales sequence."
+    invalid_origin: "Invalid form origin."
+    saved: "Thanks — your contact request is saved. Bahdan will follow up."
+    too_many: "Too many contact requests today. Please use a direct contact link instead."
+    invalid_email: "Please enter a valid email address."
+    invalid_contact: "Please enter a valid email address or phone number."
+    failed: "Could not save your contact request right now. Please use a direct contact link."
+    saving: "Saving…"
+
+geo:
+    meta:
+        title: "Free GEO Readiness Audit · Generative Engine Optimization Analyzer"
+        description: "Audit page readiness for AI answer engines (GEO). Inspect direct answers, semantic structure, JSON-LD schema, citations, provenance, and LLM crawler controls."
+    eyebrow: "GENERATIVE ENGINE OPTIMIZATION"
+    heading_start: "Can answer engines"
+    heading_emphasis: "understand and cite you?"
+    lede: "Inspect one page for the technical and editorial signals that make content easier to retrieve, interpret, attribute, and quote. Every point is tied to visible evidence—not a promise of AI visibility."
+    form:
+        label: "Page URL"
+        submit: "Run GEO audit"
+        loading: "Analysing…"
+        note: "One page · Cached for six hours · Shares the 10 daily crawl-audit allowance · No ranking guarantee."
+    limit:
+        title: "Need another audit?"
+        text: "Leave your email privately on this server and Bahdan can follow up."
+    features:
+        access:
+            title: "Retrieval"
+            text: "HTTP status, indexability, canonical URL, language and crawler controls."
+        answer:
+            title: "Answerability"
+            text: "Direct opening answers, useful headings, lists, tables and question coverage."
+        trust:
+            title: "Attribution"
+            text: "Structured data, author and publisher signals, dates, citations and entity identity."
+    method:
+        title: "What this score means"
+        text: "GEO has no universal standard and no tool can confirm inclusion in a generated answer. This audit measures observable readiness signals that also improve accessibility and content clarity. AI-crawler choices are reported separately and never penalized."
+    report:
+        title: "GEO readiness report"
+        new: "New GEO audit"
+        cached: "CACHED REPORT"
+        complete: "AUDIT COMPLETE"
+        generated: "Generated"
+        refresh: "Refresh analysis"
+        score: "GEO readiness"
+        passed: "checks passed"
+        partial: "partially met"
+        failed: "missing"
+        schema_types: "schema types"
+        checks: "Evidence-based checks"
+        explain: "Open a check to see its evidence"
+    status:
+        pass: "Pass"
+        warning: "Partial"
+        fail: "Missing"
+    check:
+        access:
+            title: "The page returns HTTP 200"
+            help: "Answer engines need a stable, successful HTML response before they can process the content."
+        indexability:
+            title: "Search retrieval is permitted"
+            help: "The page should not be blocked by robots.txt or noindex directives when public discovery is intended."
+        canonical:
+            title: "The canonical identifies this page"
+            help: "A self-referencing canonical helps consolidate the page’s identity and avoid ambiguous URL variants."
+        metadata:
+            title: "Title, description and H1 are explicit"
+            help: "Clear primary metadata gives retrieval systems a compact description of the page and its subject."
+        language:
+            title: "Document language is declared"
+            help: "A valid HTML lang attribute helps systems select and interpret the correct language."
+        direct_answer:
+            title: "The opening provides a concise answer"
+            help: "A focused first paragraph makes the central answer easier to extract without forcing a model to reconstruct it from the entire page."
+        structure:
+            title: "The content has useful semantic structure"
+            help: "Main/article landmarks, descriptive subheadings, paragraphs, lists and tables make sections easier to retrieve independently."
+        schema:
+            title: "Structured data describes content and entities"
+            help: "Valid JSON-LD can disambiguate the page type, publisher, author and other named entities. It supports understanding but does not guarantee citation."
+        provenance:
+            title: "Authorship, publisher and dates are attributable"
+            help: "Named responsibility and publication history make claims easier to evaluate and attribute."
+        citations:
+            title: "Claims can point to external sources"
+            help: "Relevant outbound references provide a visible evidence trail. Link count is only a proxy; source quality still requires human review."
+        faq:
+            title: "Important questions receive explicit answers"
+            help: "Question-led sections can align well with conversational retrieval when they add real information rather than repetitive SEO text."
+        freshness:
+            title: "Publication or update date is machine-readable"
+            help: "A datePublished/dateModified property or time element helps systems judge whether information may still be current."
+        entity:
+            title: "The publisher or author has a clear identity"
+            help: "Entity schema, site naming and About/Contact paths help connect the content to a responsible person or organization."
+    crawlers:
+        title: "Published AI crawler controls"
+        not_scored: "Policy visibility · not scored"
+        intro: "This is a simplified reading of robots.txt for named agents. Training, search retrieval and user-triggered browsing can use different controls."
+        blocked: "Blocked at /"
+        allowed: "Explicitly allowed"
+        not-addressed: "No specific rule"
+        present: "Present"
+        absent: "Not found"
+        caveat: "llms.txt is an experimental convention, not an official requirement of major answer engines. A robots.txt permission does not mean a service will crawl or cite the page, and blocking a training crawler may be an intentional choice."
+    next:
+        title: "Best order of work"
+        one: "Fix failed retrieval and indexability checks first."
+        two: "Make the core answer, author, date and supporting sources unmistakable on the page."
+        three: "Add accurate structured data that matches visible content, then monitor real referrals and citations rather than relying on this score alone."
+
+market:
+    meta:
+        title: "Poland Fair Marketplace Prices · Community Value Guide"
+        description: "Explore fair market prices and asking price histories for electronics and cars in Poland. Check real market values for iPhone, MacBook, or RAM without marketplace scraping."
+    product_meta:
+        title: "How much does a used %product% cost? Asking Price & History in Poland"
+        description: "Check how much a used %product% costs in Poland. Manually reviewed median asking price, price history, comparable range, and deal checker."
+    eyebrow: "POLAND · COMMUNITY PRICE GUIDE · MANUALLY REVIEWED"
+    heading_start: "What is second-hand gear"
+    heading_emphasis: "really worth on the marketplace?"
+    lede: "Fair marketplace prices and dated valuation histories in Poland. Discover what devices actually cost right now and how prices trended over the past month."
+    category:
+        smartphones: "SMARTPHONES"
+        laptops: "LAPTOPS"
+        ram: "RAM MEMORY"
+        cars: "CARS"
+    observed: "Observed"
+    awaiting: "First observation pending"
+    awaiting_note: "The history will begin after Bahdan’s next manual market review."
+    open_history: "Open price history"
+    method:
+        title: "What makes this useful—and honest"
+        text: "This is a longitudinal observation series, not a scraped marketplace database and not a claim about completed transactions. Every review uses the same exact product definition."
+        one: "Bahdan manually reviews comparable public listings for the exact configuration. No automated marketplace crawler is used."
+        two: "Only an aggregate median, range, sample size and review date are published. Submitted source links stay in a private review queue."
+        three: "Community tips help find unusually good offers, but every published price point remains Bahdan’s manual editorial decision."
+        public: "Bahdan manually reviews a small comparable sample using one fixed product definition. The public page contains only the resulting aggregate range, median, sample size and date. Submitted listing links are private, are never republished or fetched automatically, and are removed after 90 days."
+        verified_by_bahdan: "Every published market point is personally reviewed and calibrated by Bahdan against comparable public listings."
+        verified_badge: "Verified & curated by Bahdan"
+    back: "All fair price histories"
+    product_eyebrow: "MANUALLY REVIEWED POLISH ASKING-PRICE HISTORY"
+    product_lede: "This page tracks comparable, fully working units on the Polish secondary market over time. New, damaged, parts-only, bundled, locked, and refurbished-as-new offers are excluded consistently."
+    median: "Fair Market Median"
+    asking_price: "Observed fair asking price"
+    range: "Comparable range"
+    comparable_range: "Typical market price range"
+    evidence: "Evidence"
+    updated: "Observed"
+    weekly: "Updated after manual review"
+    month_ago: "1 month ago (30 days)"
+    month_change: "30-day change"
+    no_month_data: "Gathering 30-day baseline"
+    snapshot: "What the latest market valuation says"
+    snapshot_text: "On %date%, Bahdan’s manually reviewed median asking price for %product% in Poland was %median%. The comparable range was %low%–%high%. Individual listings are not republished."
+    spec:
+        generation: "Generation"
+        variant: "Variant"
+        line: "Line"
+        display: "Display"
+        chip: "Chip"
+        memory: "Memory"
+        storage: "Storage"
+        family: "Memory type"
+        family_name: "Category"
+        type: "Standard"
+        form_factor: "Form factor"
+        capacity: "Capacity"
+        speed: "Speed"
+        model: "Model"
+        engine: "Engine"
+        market: "Market"
+    request:
+        eyebrow: "MISSING SOMETHING?"
+        title: "Request another product"
+        text: "Tell me what you want tracked next. A precise model, version or configuration helps me add a useful comparison series."
+        product: "Product and exact version"
+        placeholder: "e.g. PlayStation 5 Slim 1TB"
+        email: "Email (optional)"
+        submit: "Request product"
+        note: "Saved privately on this server. Your email is only for a possible follow-up."
+        saving: "Saving…"
+        saved: "Thanks — the product request is saved."
+        invalid: "Enter a product name and, if supplied, a valid email."
+        failed: "The request could not be saved right now."
+        too_many: "Too many requests from this connection today. Please try again tomorrow."
+    tip:
+        eyebrow: "FOUND IT CHEAPER?"
+        title: "Help improve this price"
+        text: "Send a public listing for this exact configuration. Bahdan will review it manually before changing any published number."
+        url: "Public listing URL"
+        email: "Email (optional)"
+        submit: "Send price tip"
+        note: "Private review only. Query parameters and fragments are removed, the page is never fetched automatically, your IP is hashed, and the tip is deleted after 90 days."
+        saving: "Sending…"
+        saved: "Thank you — the listing is in Bahdan’s private review queue."
+        invalid: "Enter a valid public HTTP or HTTPS listing URL and, if supplied, a valid email."
+        failed: "The price tip could not be saved right now."
+        too_many: "Too many price tips from this connection today. Please try again tomorrow."
+    mcp:
+        eyebrow: "OPEN MCP SERVER"
+        title: "Use the price history in your own tools"
+        text: "The public, read-only MCP endpoint lets compatible clients list tracked products and retrieve dated price history. No account or API key is required."
+    choose_configuration: "Choose a configuration"
+    faq:
+        title: "Frequently asked pricing questions"
+        price_now:
+            q: "How much does %product% cost on the marketplace in Poland?"
+            a: "The current estimated fair market median for a working %product% is %median%, with typical offers ranging between %low% and %high%."
+        month_ago:
+            q: "How much did %product% cost a month ago?"
+            a: "Around 30 days ago, the estimated median was %median%, representing a change of %diff% (%diff_pct%%)."
+        estimate:
+            q: "Is this a completed-sale price or an appraisal?"
+            a: "No. It is Bahdan’s manually reviewed snapshot of comparable asking prices for one exact configuration on a stated date. It is not a completed-sale statistic or appraisal."
+        sources:
+            q: "Does this page publish marketplace listings or names?"
+            a: "No. Only aggregate price fields and a sample count are published. Community-submitted links stay private for manual review and are automatically removed after 90 days."
+    history: "Price history"
+    observations: "observations"
+    date: "Date"
+    sample: "Comparable offers"
+    confidence_label: "Confidence"
+    confidence:
+        low: "Low confidence"
+        medium: "Medium confidence"
+        high: "High confidence"
+    methodology_label: "Observation methodology"
+    latest_snapshot: "latest observation"
+    no_data:
+        title: "The first reviewed price point is not published yet"
+        text: "This page is ready, but it will not invent a starting price. Its history begins only after Bahdan manually reviews a comparable sample."
+    caveat:
+        title: "Read the number correctly"
+        text: "These are manually reviewed asking-price snapshots, not scraped data, official statistics, completed-sale prices, a valuation, or purchasing advice. Listings can disappear and condition varies."
+    chart:
+        title: "Price trend over time"
+    checker:
+        title: "Fair price evaluation"
+        text: "Found an offer on the marketplace? Enter the asking price to check how it compares with current market data."
+        enter_price: "Enter a price in PLN to evaluate"
+        great: "Great deal"
+        fair: "Fair market price"
+        expensive: "Overpriced"
+        below_median: "below median"
+        above_median: "above median"
+        within_range: "within standard range"
+
+income:
+    meta:
+        title: "Poland Salary & Contract Calculator 2026 · UoP, UZ, Ud, B2B Net-Gross"
+        description: "Compare Polish take-home net income from the same employer budget for Umowa o Pracę (UoP), Umowa Zlecenie (UZ), Umowa o Dzieło (Ud), and B2B under 2026 tax and ZUS rules."
+    eyebrow: "POLAND · CONTRACTS · 2026"
+    heading: "UoP / UZ / Ud / B2B calculator"
+    lede: "Compare what reaches you from the same monthly company budget. See gross amount, social and health contributions, PIT, business costs, and estimated take-home pay side by side."
+    verified: "Rules checked"
+    types:
+        employment: "Umowa o pracę"
+        mandate: "Umowa zlecenie"
+        work: "Umowa o dzieło"
+        b2b: "B2B"
+    form:
+        budget: "Monthly company budget"
+        budget_help: "Total employer/client cost used for all four variants."
+        student: "UZ: student under 26, contract with another entity"
+        costs: "B2B monthly business costs"
+        taxation: "B2B taxation"
+        zus: "B2B social ZUS"
+        lump_rate: "Lump-sum rate"
+    taxation:
+        linear: "Linear PIT 19%"
+        scale: "Tax scale 12% / 32%"
+        lump: "Lump sum on revenue"
+    zus:
+        standard: "Standard ZUS 2026"
+        preferential: "Preferential ZUS"
+        start: "Ulga na start"
+    result:
+        net: "estimated take-home / month"
+        budget: "Company budget"
+        gross: "Gross / revenue"
+        costs: "Business costs"
+        social: "Social contributions"
+        health: "Health contribution"
+        tax: "PIT"
+    assumptions:
+        title: "Comparable assumptions"
+        text: "This is a planning comparison, not payroll software. It annualizes one unchanged monthly amount and applies the 2026 tax scale and common contribution rules."
+        one: "UoP includes employee contributions and an estimated employer burden using a 1.67% accident rate; employee costs are 250 PLN/month."
+        two: "UZ assumes full social insurance including voluntary sickness unless the under-26 student option is selected; the annual youth-relief limit is included. Ud uses 20% deductible costs and no ZUS/health."
+        three: "B2B excludes VAT as normally neutral, assumes the selected ZUS/tax regime, and does not model holidays, accounting fees or every relief and annual adjustment."
+    sources:
+        title: "Official 2026 references"
+        text: "Parameters are based on current Polish government and ZUS guidance checked on the date above."
+        health: "health contribution"
+        business: "business health rules"
+    limitations:
+        title: "Situations that change the result"
+        text: "Other income, joint filing, age relief, copyright costs, PPK, multiple insurance titles, disability, exact accident rate, annual health reconciliation, holidays and industry-specific lump-sum rates can materially change the result."
+    disclaimer: "Informational estimate only. Confirm a real contract with payroll/accounting software or a qualified Polish adviser."
+    faq:
+        title: "Frequently Asked Questions about Polish Employment Contracts"
+        q1: "What is the difference between UoP, UZ, Ud, and B2B?"
+        a1: "Umowa o pracę (UoP) provides standard labour code protections and paid leave with full social security. Umowa zlecenie (UZ) is a civil services contract with social and health contributions (exempt for students under 26). Umowa o dzieło (Ud) is a task/result contract without social contributions. B2B is a sole proprietorship contract where you invoice clients directly and manage business costs and ZUS."
+        q2: "Why does the comparison start from company budget rather than gross pay?"
+        a2: "Comparing from the employer's total budget provides an honest apples-to-apples comparison of what a business actually spends versus what lands in your personal bank account."
+        q3: "How does the health contribution (składka zdrowotna) differ on B2B?"
+        a3: "On tax scale (skala) it is 9% of income. On linear PIT (liniowy) it is 4.9% of income. On lump-sum (ryczałt) it is a fixed monthly tier based on annual revenue."
+
+profile:
+    meta:
+        title: "Bahdan Hal · Websites, AI integrations, MCP and production support"
+        description: "Websites, AI integrations, MCP servers and workflow automation delivered end to end, plus PHP systems, production support and honest technical consulting."
+    role_short: "Web & Backend Engineer"
+    eyebrow: "WEB PRESENCE · SYSTEMS · PRODUCTION"
+    heading: "From first idea"
+    heading_emphasis: "to reliable production."
+    intro: "Give me a system nobody understands, a deadline nobody believes in, or an incident nobody can reproduce - I will quickly find my way through a new environment, work within the constraints, and take responsibility for the result."
+    scope: "I build and take responsibility for online systems end to end: websites, integrations, AI and MCP-powered tools, from the first honest technical decision through deployment, monitoring and the awkward production incident nobody can reproduce."
+    contact: "Free consultation"
+    tools: "Open the toolbox"
+    facts_label: "Professional summary"
+    years: "years in software"
+    backend:
+        title: "Backend systems"
+        text: "Symfony and Laravel applications, legacy migrations, data-heavy workflows, APIs, integrations, queues, and the unglamorous reliability work that keeps them running."
+    infrastructure:
+        title: "Practical infrastructure"
+        text: "Docker, Linux hardening, migrations to cost-effective VPS and bare metal, mail deliverability, incident recovery, and production debugging."
+    ai:
+        title: "AI, MCP and custom tools"
+        text: "AI integrations, MCP servers, APIs, internal tools and workflow automation designed around a real job. I actively use and test these systems myself, so the advice comes from production practice rather than demos alone."
+    services:
+        eyebrow: "WHAT I CAN TAKE OFF YOUR PLATE"
+        title: "One person for the whole technical journey"
+        intro: "I can own a focused delivery, join an existing team, or investigate one stubborn problem. You get a direct technical opinion, clear trade-offs and somebody who stays for production."
+        presence:
+            title: "Online presence"
+            text: "A fast bilingual website, landing page, service portal or practical tool with domains, email, analytics choices, SEO foundations and deployment handled together."
+        delivery:
+            title: "End-to-end delivery"
+            text: "Discovery, architecture, backend, integrations, infrastructure, release and handover. No gap between ‘the feature is coded’ and ‘it works for real users’."
+        ai_integration:
+            title: "AI integrations and MCP servers"
+            text: "Model selection, secure tool access, retrieval, structured outputs, MCP servers, agent workflows, evaluation and observability—integrated into an existing product or built as a focused new tool."
+        automation:
+            title: "Workflow automation and adoption"
+            text: "I map repetitive work, prototype the useful part, connect the systems and help the team adopt it. I can consult on what to automate, what to keep human and how to verify the result."
+        duty:
+            title: "Night migration or deployment duty"
+            text: "Careful cutovers, data migrations, rollback plans and live production support when the safest window happens to be at night."
+        investigation:
+            title: "Strange production mysteries"
+            text: "The site stalls on Tuesdays at a random minute between 12:00 and 12:10, the code looks innocent and useful logs do not exist? I instrument, reproduce and follow the evidence."
+        legacy:
+            title: "Legacy, upgrades and speed"
+            text: "Framework and PHP upgrades, dependency recovery, test coverage around risky code, database and cache tuning, and gradual modernization without a reckless rewrite."
+        audit:
+            title: "Audit with a human touch"
+            text: "Architecture, reliability, security, performance, SEO and infrastructure reviewed in context. You get an honest opinion and a prioritised plan, not a ceremonial PDF."
+    work:
+        eyebrow: "SELECTED EXPERIENCE"
+        title: "Recent work"
+        freedom: "Backend development and internal agent tooling for a telecommunications platform, including integrations, stability work, and difficult production defects."
+        gwo: "Modernised Symfony and Laravel systems used by millions, built editorial and education tools, and integrated generative and vision models into real workflows."
+        consulting_title: "Independent consulting"
+        consulting: "Linux security, migrations, SMTP deliverability, API integrations, and focused backend work for clients running real systems on practical budgets."
+    testimonials:
+        title: "What clients say"
+        link: "View Upwork profile"
+        stars: "5 out of 5 stars"
+        rollup: "Rollup build repair"
+        transfer: "Overnight Shopware server transfer"
+        success: "Job Success on Upwork"
+        status: "Top Rated · 28 jobs"
+    present: "present"
+    contact_eyebrow: "CONTACT"
+    contact_heading: "Have a challenge—or simply an interesting idea?"
+    consultation:
+        eyebrow: "FREE FIRST CONSULTATION"
+        title: "Tell me what is happening"
+        text: "Leave an email or phone number and a short description. I will tell you honestly whether I can help, what I would check first and whether the problem needs paid work at all. A curious conversation about AI, systems or an unusual idea is welcome too."
+        one: "No mailing list and no sales sequence."
+        two: "Five submissions per connection per day, honeypot protection and hashed IP addresses."
+        three: "A link and two sentences are usually enough to start."
+        four: "No polished project brief is required; I am always happy to discuss an interesting technical idea."
+    socials: "Contact and profiles"
+    summit_alt: "Bahdan Hal on a mountain summit"
+    summit_eyebrow: "RESILIENCE & PREPARATION"
+    summit_caption: "Calm in production, whatever the scale."
+    summit_subtext: "Whether on the trail or in backend architecture, what matters is thorough preparation, simplicity, and resilience under pressure."
+    faq:
+        title: "Frequently asked questions"
+        q1: "What backend stack and technologies do you specialise in?"
+        a1: "My focus is PHP (Symfony, Laravel), PostgreSQL, MySQL, Redis, Linux systems, Docker containerisation, and deterministic or agentic AI integrations."
+        q2: "What collaboration models and projects do you take on?"
+        a2: "I take focused fixes, audits, migrations and integrations as well as end-to-end website or tool delivery. I can work independently or alongside an existing team on B2B terms."
+        q3: "Is the first consultation really free?"
+        a3: "Yes. The first conversation and an honest initial assessment are free. If the next useful step requires investigation or implementation, I will define the scope before any paid work."
+        q4: "Can we talk even if I do not have a defined project yet?"
+        a4: "Absolutely. I am always open to an interesting technical conversation, especially around AI adoption, MCP, automation, architecture or a stubborn system problem."
+
+caddy_transpiler:
+    meta:
+        title: "Nginx to Caddy Converter · Apache to Caddyfile Transpiler"
+        description: "Free online Nginx to Caddy converter. Instant, 100% client-side transpiler converting Nginx server blocks and Apache .htaccess to clean Caddyfiles with smart migration advisories."
+    eyebrow: "FREE ONLINE WEB SERVER CONVERTER"
+    heading: "Nginx & Apache ➔ Caddyfile Converter"
+    lede: "Convert legacy Nginx server blocks and Apache .htaccess / VirtualHost configs into clean, idiomatic Caddyfiles in real-time. Runs 100% in your browser for total privacy."
+    source_label: "Source Web Server"
+    server_nginx: "Nginx (nginx.conf / server)"
+    server_apache: "Apache (.htaccess / VirtualHost)"
+    presets_label: "1-Click Presets"
+    preset_wordpress: "WordPress"
+    preset_laravel_symfony: "Symfony / Laravel"
+    preset_nextjs: "Next.js / Node.js"
+    preset_spa: "React / Vue SPA"
+    preset_proxy: "Reverse Proxy"
+    preset_static: "Static + Security"
+    input_placeholder_nginx: "Paste your Nginx server { ... } configuration or location blocks here..."
+    input_placeholder_apache: "Paste your Apache .htaccess or <VirtualHost> configuration here..."
+    output_title: "Generated Caddyfile"
+    copy_btn: "Copy Caddyfile"
+    copied_btn: "Copied!"
+    download_btn: "Download Caddyfile"
+    advisories_title: "Migration Advisories & Optimisations"
+    advisories_empty: "Paste or select a configuration above to see automated migration advisories and smart mappings."
+    omitted_title: "Directives Eliminated / Handled Natively"
+    features_title: "Detected Features & Routing"
+    why_caddy_title: "Why Migrate from Nginx or Apache to Caddy?"
+    why_caddy_intro: "Caddy replaces hundreds of lines of fragile web server boilerplate with clean, robust defaults designed for modern production."
+    benefits:
+        https:
+            title: "Zero-Touch Automatic HTTPS"
+            text: "Caddy automatically obtains, renews, and staples OCSP certificates via Let's Encrypt and ZeroSSL. No certbot, cron jobs, or renewal failures."
+        syntax:
+            title: "80% Shorter Configuration"
+            text: "Human-friendly syntax replaces cryptic nested blocks. Modern HTTP/2, HTTP/3, and TLS 1.3 are enabled out of the box with zero tuning."
+        proxy:
+            title: "Built-In Reverse Proxy & PHP"
+            text: "WebSocket upgrades, X-Forwarded headers, and connection pooling are handled automatically. One clean php_fastcgi directive routes PHP apps securely."
+        private:
+            title: "100% Client-Side Privacy"
+            text: "All parsing and transpilation run locally in your web browser. No server names, ports, IP addresses, or configs are ever transmitted or saved."
+    mapping_cheatsheet_title: "Smart Mapping & Why Caddy is Simpler"
+    cheatsheet_proxy_title: "Reverse Proxy & Headers"
+    cheatsheet_proxy_desc: "proxy_pass + 5 lines of proxy_set_header collapse to a single reverse_proxy. Host, X-Forwarded-For, and WebSockets are handled automatically."
+    cheatsheet_ssl_title: "Automatic HTTPS"
+    cheatsheet_ssl_desc: "ssl_certificate directives are stripped. Caddy automatically issues, renews, and configures TLS via Let's Encrypt / ZeroSSL."
+    cheatsheet_php_title: "PHP-FPM Router"
+    cheatsheet_php_desc: "try_files + fastcgi_pass and param scripts collapse into php_fastcgi and file_server."
+    cheatsheet_rewrite_title: "Clean Redirects"
+    cheatsheet_rewrite_desc: "Complex regex RewriteRules translate directly into human-readable redir statements."
+    faq:
+        title: "Frequently Asked Questions"
+        q1: "How do I convert an Nginx configuration to Caddyfile?"
+        a1: "Paste your Nginx server block or location blocks into the input editor. The transpiler analyzes directives like proxy_pass, fastcgi_pass, try_files, root, and rewrite rules, and immediately generates an idiomatic Caddy v2 Caddyfile."
+        q2: "Can I convert Apache .htaccess and VirtualHost files?"
+        a2: "Yes. Switch the server selector to Apache and paste your .htaccess directives or <VirtualHost> block. It translates RewriteRule, DirectoryIndex, header modifications, and basic auth into Caddy directives."
+        q3: "Is my server configuration uploaded or stored?"
+        a3: "No. The entire conversion runs client-side in your browser via JavaScript. No configurations, domains, internal backend IPs, or server credentials are ever sent to any remote server."
+        q4: "What Nginx directives are omitted in Caddy?"
+        a4: "Directives like ssl_certificate, ssl_protocols, proxy_set_header Upgrade, and gzip on are omitted because Caddy handles TLS management, WebSocket upgrading, and compression automatically by default."
+
+pkpass:
+    meta:
+        title: "Apple Wallet (.pkpass) Inspector · Online Pass Validator & Emulator"
+        description: "Free online Apple Wallet .pkpass validator and pixel-perfect emulator. Inspect manifest.json SHA-1 integrity, debug pass.json schemas, parse PKCS#7 certificates, test barcodes, and convert to Google Wallet."
+    title: "PKPass Inspector"
+    eyebrow: "FREE ONLINE APPLE WALLET DEBUGGER"
+    heading: "Apple Wallet (.pkpass) Inspector & Emulator"
+    lede: "Inspect, debug, and repair Apple Wallet pass packages (.pkpass). Pixel-perfect emulator for boarding passes, event tickets, store cards, coupons, and generic passes with 1-click SHA-1 fix and Google Wallet export."
+    presets:
+        label: "1-Click Presets"
+        flight: "Boarding Pass"
+        event: "Event Ticket"
+        loyalty: "Store Card"
+        coupon: "Coupon"
+        generic: "Generic Pass"
+        broken_demo: "Broken Pass (Debug Demo)"
+    upload:
+        drop_prompt: "Drop .pkpass, .zip, or pass.json here to inspect"
+        formats: "Supports Apple Wallet .pkpass bundles, ZIP archives, or raw pass.json manifests"
+    emulator:
+        title: "Interactive Card Emulator"
+    actions:
+        repack: "Fix & Re-pack .pkpass"
+        export_google: "Export Google Wallet JSON"
+        download_json: "Download pass.json"
+    guide:
+        title: "Why iOS Silently Drops .pkpass Files"
+        subtitle: "When creating digital passes, iOS rarely shows descriptive error popups — it silently fails to open the pass. Here are the top failure reasons caught by this inspector:"
+        manifest_title: "manifest.json SHA-1 Desync"
+        manifest_text: "Modifying dates, colors, or barcode messages in pass.json without recomputing its SHA-1 checksum in manifest.json causes iOS to reject the archive immediately as corrupt or tampered."
+        dates_title: "Floating Dates Missing Timezones"
+        dates_text: "iOS strictly requires all expirationDate and relevantDate strings to follow full ISO 8601 formatting with an explicit timezone offset (e.g. 2026-08-23T14:30:00+02:00 or Z). Floating dates without timezones are rejected."
+        assets_title: "Missing Required Assets & Retina Icons"
+        assets_text: "Apple Wallet requires icon.png and icon@2x.png (58x58 px) for lock screen notifications. Missing icon files or incorrect aspect ratios will prevent the pass from installing."
+        barcodes_title: "Barcode Format & Encoding Errors"
+        barcodes_text: "Using unsupported encoding headers or invalid format constants causes iOS barcode rendering failures. Standard encoding should always be utf-8 or iso-8859-1."
+    faq:
+        title: "Frequently Asked Questions"
+        q1: "What is inside an Apple Wallet .pkpass file?"
+        a1: "A .pkpass file is a standard ZIP archive containing pass.json (field layouts, colors, dates, barcodes), manifest.json (SHA-1 checksum dictionary of all files), signature (PKCS#7 signature from Apple Developer), and PNG image assets (icon, logo, strip, thumbnail)."
+        q2: "Can I test and preview .pkpass files on Android, Windows, or Linux?"
+        a2: "Yes! This tool provides a 100% client-side pixel-perfect web emulator that renders Apple Wallet boarding passes, concert tickets, loyalty cards, coupons, and generic passes directly in any modern browser."
+        q3: "How does the 'Fix & Re-pack' feature work?"
+        a3: "If you edit pass.json or fix broken files, clicking 'Fix & Re-pack' recalculates the SHA-1 checksum for every file in the package, regenerates a valid manifest.json, and downloads a clean, verified .pkpass ZIP bundle."
+        q4: "Is my ticket or boarding pass uploaded to your server?"
+        a4: "No. All ZIP decompression, SHA-1 cryptographic hashing, PKCS#7 certificate parsing, and canvas/SVG barcode rendering take place 100% locally inside your web browser. Zero ticket data is ever uploaded or stored."
+
+cidr_matrix:
+    meta:
+        title: "Visual CIDR & Subnet Overlap Matrix · Free Online IP Calculator"
+        description: "Parse IPv4/IPv6 CIDR blocks, detect subnet overlap collisions and parent-child containment, visualize 2D tree partitions, and find available free subnets."
+    eyebrow: "NETWORKING · CIDR & SUBNETS"
+    heading: "Visual CIDR & Subnet Overlap Matrix"
+    lede: "Detect IP range collisions across AWS VPCs, Kubernetes clusters, and VPN meshes, visualize tree partitions, and calculate available free subnet allocations."
+    form:
+        title: "CIDR Blocks Input"
+        help: "Enter comma-separated or newline-separated IPv4 or IPv6 CIDR blocks (e.g. 10.0.0.0/16, 10.0.32.0/20)."
+        presets: "1-Click Presets"
+        label_cidrs: "CIDR Subnets"
+        label_parent: "Parent CIDR Range (Optional)"
+        label_free_prefix: "Requested Free Prefix Length (Optional, e.g. 20 or 24)"
+        submit: "Analyze & Calculate Overlaps"
+    results:
+        title: "Analysis Results & Diagnostics"
+        free_subnet_title: "Available Free Subnet Allocation"
+        collisions_title: "Subnet Overlap Collisions"
+        matrix_grid: "2D Subnet Tree Partition Matrix"
+    table:
+        subnet_a: "Subnet A"
+        subnet_b: "Subnet B"
+        overlap_range: "Overlapping IP Range"
+    faq:
+        title: "Frequently Asked Questions"
+        q1: "What is CIDR overlap collision?"
+        a1: "CIDR overlap occurs when two or more network subnets share one or more IP addresses, leading to routing conflicts in VPC peering, Kubernetes pods/services, or VPN connections."
+        q2: "How does free subnet allocation work?"
+        a2: "Given a parent block and target prefix size, the algorithm scans for the first contiguous IP block of that size that does not overlap with any existing assigned subnets."
+
+

@@ -1,0 +1,51 @@
+deptrac:
+  paths:
+    - src
+  exclude_files:
+    - '#.*Test\.php$#'
+
+  layers:
+    - name: Domain
+      collectors:
+        - type: classNameRegex
+          value: '#^App\\(?:[A-Za-z0-9]+\\)*Domain\\.*#'
+
+    - name: Application
+      collectors:
+        - type: classNameRegex
+          value: '#^App\\(?:[A-Za-z0-9]+\\)*Application\\.*#'
+
+    - name: Infrastructure
+      collectors:
+        - type: classNameRegex
+          value: '#^App\\(?:[A-Za-z0-9]+\\)*Infrastructure\\.*#'
+
+    - name: Presentation
+      collectors:
+        - type: classNameRegex
+          value: '#^App\\(?:Controller|Command|Mcp)\\.*#'
+
+    - name: Shared
+      collectors:
+        - type: classNameRegex
+          value: '#^App\\Shared\\.*#'
+
+  ruleset:
+    Domain:
+      - Domain
+      - Shared
+    Application:
+      - Domain
+      - Application
+      - Shared
+    Infrastructure:
+      - Domain
+      - Application
+      - Infrastructure
+      - Shared
+    Presentation:
+      - Application
+      - Domain
+      - Shared
+    Shared:
+      - Shared

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Polish Income & Tax Calculator Specification (2026)",
+  "description": "Deterministic mathematical specification and benchmark vectors for Polish employment, mandate, work contract, and B2B income comparison.",
+  "version": "2026.1.0",
+  "currency": "PLN",
+  "assumptions": {
+    "year": 2026,
+    "tax_free_allowance": 30000.0,
+    "first_bracket_limit": 120000.0,
+    "first_bracket_rate": 0.12,
+    "first_bracket_reduction": 3600.0,
+    "second_bracket_base_tax": 10800.0,
+    "second_bracket_rate": 0.32,
+    "employee_social_rate": 0.1371,
+    "employer_cost_multiplier": 1.2048,
+    "health_insurance_rate": 0.09,
+    "b2b": {
+      "zus": {
+        "start": 0.0,
+        "preferential": 456.18,
+        "standard": 1926.76
+      },
+      "taxation": {
+        "progressive": "Progressive tax scale (12% up to 120k PLN, 32% above)",
+        "linear": {
+          "rate": 0.19,
+          "health_rate": 0.049,
+          "health_min": 432.54,
+          "health_deductible_limit": 1175.0
+        },
+        "lump": {
+          "health_tiers": [
+            { "annual_revenue_up_to": 60000.0, "monthly_health": 498.35 },
+            { "annual_revenue_up_to": 300000.0, "monthly_health": 830.58 },
+            { "annual_revenue_above": 300000.0, "monthly_health": 1495.04 }
+          ],
+          "health_deductible_rate": 0.5
+        }
+      }
+    }
+  },
+  "test_vectors": [
+    {
+      "description": "Standard 15,000 PLN budget with B2B linear and 1,000 PLN costs",
+      "input": {
+        "budget": 15000.0,
+        "taxation": "linear",
+        "zus": "standard",
+        "costs": 1000.0,
+        "studentUnder26": false
+      },
+      "expected": {
+        "employment": {
+          "cost": 15000.0,
+          "gross": 12450.2,
+          "social": 1706.92,
+          "health": 966.9,
+          "tax": 1057.85,
+          "net": 8718.53
+        },
+        "b2b": {
+          "cost": 15000.0,
+          "gross": 15000.0,
+          "social": 1926.76,
+          "health": 591.59,
+          "tax": 2181.51,
+          "businessCosts": 1000.0,
+          "net": 9300.14
+        }
+      }
+    },
+    {
+      "description": "Progressive annual tax calculation test points",
+      "tax_brackets": [
+        { "base": 25000.0, "expected_annual_tax": 0.0 },
+        { "base": 50000.0, "expected_annual_tax": 2400.0 },
+        { "base": 120000.0, "expected_annual_tax": 10800.0 },
+        { "base": 140000.0, "expected_annual_tax": 17200.0 }
+      ]
+    }
+  ]
+}

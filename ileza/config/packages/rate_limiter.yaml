@@ -1,0 +1,17 @@
+framework:
+  rate_limiter:
+    contact:
+      policy: fixed_window
+      limit: 5
+      interval: '1 day'
+      cache_pool: 'app.rate_limit_cache'
+    product_request:
+      policy: fixed_window
+      limit: 5
+      interval: '1 day'
+      cache_pool: 'app.rate_limit_cache'
+    price_tip:
+      policy: fixed_window
+      limit: 5
+      interval: '1 day'
+      cache_pool: 'app.rate_limit_cache'

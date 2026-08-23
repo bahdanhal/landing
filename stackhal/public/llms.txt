@@ -1,0 +1,30 @@
+# Bahdan's Toolbox
+
+> Personal site and free bilingual tools by backend engineer Bahdan Hal: Polish employment comparison, technical SEO and GEO audits, and a dated Polish used-goods price index.
+
+## Primary pages
+
+- [About Bahdan Hal](https://bahdanhal.pl/): backend work, infrastructure, AI integrations and contact profiles
+- [Toolbox in English](https://bahdanhal.pl/tools): overview of all tools
+- [Toolbox in Polish](https://bahdanhal.pl/pl/narzedzia): polska wersja zestawu narzędzi
+- [Nginx to Caddy Converter](https://bahdanhal.pl/tools/caddy-transpiler): real-time transpiler converting Nginx server blocks and Apache .htaccess to clean Caddyfiles
+- [Konwerter Caddyfile](https://bahdanhal.pl/pl/narzedzia/konwerter-caddyfile): polska wersja konwertera Nginx i Apache do Caddyfile
+- [BIMI Studio & SVG Tiny 1.2 PS](https://bahdanhal.pl/tools/bimi-studio): BIMI logo sanitizer, safe-zone validator and live email inbox simulator
+- [BIMI Studio PL](https://bahdanhal.pl/pl/narzedzia/bimi-studio): polska wersja konwertera BIMI SVG Tiny 1.2 PS
+- [Domain Inspector](https://bahdanhal.pl/tools/domain-inspector): 1-click email security verification for DMARC, BIMI, MTA-STS, TLS-RPT, and SPF
+- [Inspektor domen](https://bahdanhal.pl/pl/narzedzia/inspektor-domen): polska wersja inspektora bezpieczeństwa domen
+- [Polish used-goods price index](https://bahdanhal.pl/tools/poland-used-price-index): manually reviewed, dated asking-price snapshots with historical observations
+- [Indeks cen używanych](https://bahdanhal.pl/pl/narzedzia/indeks-cen-uzywanych): polska wersja indeksu
+- [GEO analyzer](https://bahdanhal.pl/tools/geo-audit): deterministic generative-engine-readiness checks
+- [SEO analyzer](https://bahdanhal.pl/tools/seo-audit): technical crawling and indexability checks
+- [UoP / UZ / Ud / B2B calculator](https://bahdanhal.pl/tools/poland-employment-calculator): Polish contract take-home comparison
+
+## Data access
+
+- Public read-only MCP endpoint: `https://bahdanhal.pl/mcp`
+- MCP tools list exact tracked product configurations and return dated price history.
+- No account or API key is required.
+
+## Important limitations
+
+Used-goods price values are manually reviewed aggregates of comparable public asking prices, not scraped listings, completed-sale statistics, valuations, or purchasing advice. Visitors may privately submit a public listing link for manual review; links are never fetched automatically or published, and seller data or listing text is not retained.

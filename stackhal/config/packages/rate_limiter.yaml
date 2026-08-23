@@ -1,0 +1,12 @@
+framework:
+  rate_limiter:
+    audit:
+      policy: fixed_window
+      limit: 10
+      interval: '1 day'
+      cache_pool: 'app.rate_limit_cache'
+    contact:
+      policy: fixed_window
+      limit: 5
+      interval: '1 day'
+      cache_pool: 'app.rate_limit_cache'

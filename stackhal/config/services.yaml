@@ -1,0 +1,159 @@
+parameters:
+  env(AUDIT_MAX_PAGES): '40'
+  env(AUDIT_CONCURRENCY): '3'
+  env(AUDIT_BATCH_DELAY_MS): '200'
+  env(AUDIT_TIMEOUT_SECONDS): '12'
+  env(AUDIT_MAX_BODY_BYTES): '2000000'
+  env(AUDIT_CACHE_TTL): '21600'
+  env(AUDIT_LOG_DIRECTORY): '/app/var/audit-logs'
+  env(AUDIT_LOG_RETENTION_DAYS): '14'
+  env(CONTACT_LEAD_DIRECTORY): '/app/var/contact-leads'
+  env(ANALYTICS_DATA_DIRECTORY): '/app/var/analytics-data'
+  env(ANALYTICS_RETENTION_DAYS): '90'
+  env(AI_PROVIDER): 'anthropic'
+  env(AI_SUMMARY_MODEL): 'claude-haiku-4-5-20251001'
+  env(MARKET_ADMIN_TOKEN): ''
+  audit.max_pages: '%env(int:AUDIT_MAX_PAGES)%'
+  audit.concurrency: '%env(int:AUDIT_CONCURRENCY)%'
+  audit.batch_delay_ms: '%env(int:AUDIT_BATCH_DELAY_MS)%'
+  audit.timeout_seconds: '%env(int:AUDIT_TIMEOUT_SECONDS)%'
+  audit.max_body_bytes: '%env(int:AUDIT_MAX_BODY_BYTES)%'
+  audit.cache_ttl: '%env(int:AUDIT_CACHE_TTL)%'
+  audit.log_directory: '%env(AUDIT_LOG_DIRECTORY)%'
+  audit.log_retention_days: '%env(int:AUDIT_LOG_RETENTION_DAYS)%'
+  contact.lead_directory: '%env(CONTACT_LEAD_DIRECTORY)%'
+  analytics.data_directory: '%env(ANALYTICS_DATA_DIRECTORY)%'
+  analytics.retention_days: '%env(int:ANALYTICS_RETENTION_DAYS)%'
+  ai.provider: '%env(AI_PROVIDER)%'
+  ai.summary_model: '%env(AI_SUMMARY_MODEL)%'
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\:
+    resource: '../src/'
+    exclude: '../src/{DependencyInjection,Entity,Kernel.php}'
+
+  App\Audit\Application\SiteAuditor:
+    arguments:
+      $maxPages: '%audit.max_pages%'
+      $concurrency: '%audit.concurrency%'
+      $batchDelayMs: '%audit.batch_delay_ms%'
+      $cacheTtl: '%audit.cache_ttl%'
+      $auditCache: '@app.audit_cache'
+
+  App\Geo\Application\GeoAnalyzer:
+    arguments:
+      $cacheTtl: '%audit.cache_ttl%'
+      $auditCache: '@app.audit_cache'
+
+  App\Audit\Application\AiSummaryService:
+    arguments:
+      $configurationFingerprint: '%ai.provider%:%ai.summary_model%'
+
+  App\Shared\AI\SymfonyAiClient:
+    arguments:
+      $anthropicPlatform: '@ai.platform.anthropic'
+      $geminiPlatform: '@ai.platform.gemini'
+      $provider: '%ai.provider%'
+      $summaryModel: '%ai.summary_model%'
+
+  App\Shared\AI\AiClient:
+    alias: App\Shared\AI\SymfonyAiClient
+
+  App\Shared\Infrastructure\Http\SafeHttpFetcher:
+    arguments:
+      $timeoutSeconds: '%audit.timeout_seconds%'
+      $maxBodyBytes: '%audit.max_body_bytes%'
+
+  App\Crawl\Infrastructure\HttpFetcher:
+    arguments:
+      $timeoutSeconds: '%audit.timeout_seconds%'
+      $maxBodyBytes: '%audit.max_body_bytes%'
+
+  App\Audit\Infrastructure\AuditLogger:
+    arguments:
+      $directory: '%audit.log_directory%'
+      $retentionDays: '%audit.log_retention_days%'
+
+  App\DomainInspector\Infrastructure\CachedDnsResolver:
+    arguments:
+      $delegate: '@App\DomainInspector\Infrastructure\NativeDnsResolver'
+      $cache: '@app.audit_cache'
+      $ttl: 300
+
+  App\DomainInspector\Application\DnsResolverInterface:
+    alias: App\DomainInspector\Infrastructure\CachedDnsResolver
+
+  App\Lead\Domain\LeadRepository:
+    alias: App\Lead\Infrastructure\DoctrineLeadRepository
+
+  App\Lead\Infrastructure\JsonlLeadRepository:
+    arguments:
+      $directory: '%contact.lead_directory%'
+
+  App\Lead\Application\CaptureLead:
+    arguments:
+      $secret: '%env(APP_SECRET)%'
+
+  App\Analytics\Domain\PageViewRepository:
+    alias: App\Analytics\Infrastructure\DoctrinePageViewRepository
+
+  App\Analytics\Infrastructure\DoctrinePageViewRepository:
+    arguments:
+      $retentionDays: '%analytics.retention_days%'
+
+  App\Analytics\Infrastructure\JsonlPageViewRepository:
+    arguments:
+      $directory: '%analytics.data_directory%'
+      $retentionDays: '%analytics.retention_days%'
+
+  App\Analytics\Infrastructure\PageViewSubscriber:
+    arguments:
+      $secret: '%env(APP_SECRET)%'
+
+  App\Mcp\AdminAccess:
+    arguments:
+      $token: '%env(MARKET_ADMIN_TOKEN)%'
+
+  App\Controller\AuditController:
+    arguments:
+      $auditQuota: '@App\Shared\Application\DailyQuota'
+      $contactLimiter: '@limiter.contact'
+
+  App\Controller\GeoController:
+    arguments:
+      $auditQuota: '@App\Shared\Application\DailyQuota'
+
+  App\Shared\Application\DailyQuota:
+    arguments:
+      $limiter: '@limiter.audit'
+
+  App\Command\MigrateStorageToDatabaseCommand:
+    arguments:
+      $contactLeadDirectory: '%contact.lead_directory%'
+      $analyticsDataDirectory: '%analytics.data_directory%'
+
+  app.audit_cache:
+    class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+    arguments:
+      $namespace: 'seo-audit-v2'
+      $defaultLifetime: '%audit.cache_ttl%'
+      $directory: '/app/var/audit-cache'
+
+  app.rate_limit_cache:
+    class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+    arguments:
+      $namespace: 'seo-rate-limits-v1'
+      $defaultLifetime: 172800
+      $directory: '/app/var/rate-limits'
+
+  App\Mcp\Http\McpControllerDecorator:
+    decorates: mcp.server.controller
+    arguments:
+      $inner: '@.inner'
+    public: true
+    tags:
+      - { name: controller.service_arguments }

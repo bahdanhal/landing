@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Apple Wallet (.pkpass) Inspector & Validator Specification",
+  "description": "Formal contract definition and validation rules for Apple PassKit .pkpass packages, schemas, assets, PKCS#7 signatures, and Google Wallet mapping.",
+  "version": "1.0.0",
+  "pass_styles": [
+    "boardingPass",
+    "eventTicket",
+    "coupon",
+    "storeCard",
+    "generic"
+  ],
+  "transit_types": [
+    "PKTransitTypeAir",
+    "PKTransitTypeBoat",
+    "PKTransitTypeBus",
+    "PKTransitTypeGeneric",
+    "PKTransitTypeTrain"
+  ],
+  "barcode_formats": [
+    "PKBarcodeFormatQR",
+    "PKBarcodeFormatPDF417",
+    "PKBarcodeFormatAztec",
+    "PKBarcodeFormatCode128"
+  ],
+  "supported_encodings": [
+    "iso-8859-1",
+    "utf-8"
+  ],
+  "required_top_level_keys": [
+    "formatVersion",
+    "passTypeIdentifier",
+    "serialNumber",
+    "teamIdentifier",
+    "organizationName",
+    "description"
+  ],
+  "asset_specifications": {
+    "icon": {
+      "required": true,
+      "standard": {"width": 29, "height": 29},
+      "retina_2x": {"width": 58, "height": 58},
+      "retina_3x": {"width": 87, "height": 87}
+    },
+    "logo": {
+      "required": false,
+      "standard": {"width": 160, "height": 50},
+      "retina_2x": {"width": 320, "height": 100},
+      "retina_3x": {"width": 480, "height": 150}
+    },
+    "strip": {
+      "required": false,
+      "boarding_pass": {"width": 375, "height": 123, "retina_2x_width": 750, "retina_2x_height": 246},
+      "event_ticket": {"width": 375, "height": 98, "retina_2x_width": 750, "retina_2x_height": 196},
+      "store_card": {"width": 375, "height": 123, "retina_2x_width": 750, "retina_2x_height": 246},
+      "coupon": {"width": 375, "height": 123, "retina_2x_width": 750, "retina_2x_height": 246}
+    },
+    "thumbnail": {
+      "required": false,
+      "standard": {"width": 90, "height": 90},
+      "retina_2x": {"width": 180, "height": 180},
+      "retina_3x": {"width": 270, "height": 270}
+    },
+    "background": {
+      "required": false,
+      "standard": {"width": 180, "height": 220},
+      "retina_2x": {"width": 360, "height": 440}
+    },
+    "footer": {
+      "required": false,
+      "standard": {"width": 286, "height": 15},
+      "retina_2x": {"width": 572, "height": 30}
+    }
+  },
+  "diagnostic_codes": {
+    "ERR_MANIFEST_MISMATCH": {
+      "severity": "error",
+      "title": "SHA-1 Manifest Hash Mismatch",
+      "description": "File content does not match the recorded SHA-1 hash in manifest.json."
+    },
+    "ERR_MISSING_MANIFEST_ENTRY": {
+      "severity": "error",
+      "title": "File Not in Manifest",
+      "description": "A file exists in the archive but is not registered in manifest.json."
+    },
+    "ERR_MISSING_ARCHIVE_FILE": {
+      "severity": "error",
+      "title": "Missing Archive File",
+      "description": "A file is declared in manifest.json but missing from the zip archive."
+    },
+    "ERR_MISSING_REQUIRED_KEY": {
+      "severity": "error",
+      "title": "Missing Required Top-Level Key",
+      "description": "A mandatory key (such as passTypeIdentifier, teamIdentifier, organizationName) is missing."
+    },
+    "ERR_INVALID_PASS_STYLE": {
+      "severity": "error",
+      "title": "Invalid Pass Style",
+      "description": "Pass must define exactly one pass style dictionary (boardingPass, eventTicket, coupon, storeCard, generic)."
+    },
+    "ERR_INVALID_TRANSIT_TYPE": {
+      "severity": "error",
+      "title": "Invalid Transit Type",
+      "description": "Boarding pass requires a valid transitType (e.g. PKTransitTypeAir, PKTransitTypeTrain)."
+    },
+    "ERR_INVALID_DATE_TIMEZONE": {
+      "severity": "error",
+      "title": "Missing Date Timezone",
+      "description": "iOS drops passes with dates missing an explicit ISO 8601 timezone offset (e.g. 2026-08-23T14:30:00+02:00 or Z)."
+    },
+    "ERR_INVALID_BARCODE_ENCODING": {
+      "severity": "error",
+      "title": "Unsupported Barcode Encoding",
+      "description": "Barcode messageEncoding must be iso-8859-1 or utf-8."
+    },
+    "ERR_MISSING_REQUIRED_ASSET": {
+      "severity": "error",
+      "title": "Missing Required Asset",
+      "description": "Apple Wallet requires icon.png (or icon@2x.png) to be present in the bundle."
+    },
+    "ERR_MISSING_SIGNATURE": {
+      "severity": "error",
+      "title": "Missing PKCS#7 Signature",
+      "description": "iOS PassKit requires a valid digital signature file."
+    },
+    "ERR_EXPIRED_CERTIFICATE": {
+      "severity": "error",
+      "title": "Expired Signing Certificate",
+      "description": "The Apple Pass Type ID certificate embedded in the PKCS#7 signature has expired."
+    },
+    "WARN_LOW_COLOR_CONTRAST": {
+      "severity": "warning",
+      "title": "Low Color Contrast",
+      "description": "Foreground or label color has low contrast against the background (< 3.0:1 ratio)."
+    },
+    "WARN_MISSING_RETINA_ASSET": {
+      "severity": "warning",
+      "title": "Missing Retina Asset",
+      "description": "Asset does not provide an @2x or @3x high-resolution counterpart."
+    },
+    "INFO_LOCALIZATION_PRESENT": {
+      "severity": "info",
+      "title": "Localizations Detected",
+      "description": "Pass contains localized strings tables (.lproj folders)."
+    }
+  },
+  "test_vectors": [
+    {
+      "description": "Valid Boarding Pass Flight SFO-WAW",
+      "pass": {
+        "formatVersion": 1,
+        "passTypeIdentifier": "pass.com.acme.travel",
+        "serialNumber": "LOT-89421",
+        "teamIdentifier": "ABCDE12345",
+        "organizationName": "Acme Airlines",
+        "description": "San Francisco to Warsaw Flight Pass",
+        "backgroundColor": "rgb(15, 32, 67)",
+        "foregroundColor": "rgb(255, 255, 255)",
+        "labelColor": "rgb(148, 163, 184)",
+        "boardingPass": {
+          "transitType": "PKTransitTypeAir",
+          "headerFields": [
+            {"key": "gate", "label": "GATE", "value": "B22"}
+          ],
+          "primaryFields": [
+            {"key": "origin", "label": "SAN FRANCISCO", "value": "SFO"},
+            {"key": "destination", "label": "WARSAW", "value": "WAW"}
+          ],
+          "secondaryFields": [
+            {"key": "passenger", "label": "PASSENGER", "value": "Bahdan Hal"},
+            {"key": "flight", "label": "FLIGHT", "value": "LO027"}
+          ],
+          "auxiliaryFields": [
+            {"key": "boarding", "label": "BOARDING", "value": "13:45"},
+            {"key": "seat", "label": "SEAT", "value": "4A"}
+          ]
+        },
+        "barcodes": [
+          {
+            "format": "PKBarcodeFormatPDF417",
+            "message": "M1HAL/BAHDAN ELO027 123Y004A0012 100",
+            "messageEncoding": "iso-8859-1"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "expected_pass_type": "boardingPass"
+    },
+    {
+      "description": "Broken Pass with Missing Timezone and Bad Transit Type",
+      "pass": {
+        "formatVersion": 1,
+        "passTypeIdentifier": "pass.com.broken",
+        "serialNumber": "ERR-001",
+        "teamIdentifier": "ABCDE12345",
+        "organizationName": "Broken Pass Inc",
+        "description": "Broken Pass Demo",
+        "expirationDate": "2026-08-23 14:30:00",
+        "backgroundColor": "rgb(20, 20, 20)",
+        "foregroundColor": "rgb(25, 25, 25)",
+        "boardingPass": {
+          "transitType": "PKTransitTypeRocket"
+        }
+      },
+      "expected_valid": false,
+      "expected_error_codes": [
+        "ERR_INVALID_DATE_TIMEZONE",
+        "ERR_INVALID_TRANSIT_TYPE",
+        "WARN_LOW_COLOR_CONTRAST"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{% set tool_context %}{% block tool_name %}{% endblock %}{% endset %}
+<!doctype html>
+<html lang="{{ app.request ? app.request.getLocale() : 'en' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:site_name" content="{{ 'base.brand'|trans }}">
+  <meta property="og:type" content="website">
+  {% block robots %}<meta name="robots" content="noindex,nofollow">{% endblock %}
+  {% block description %}{% endblock %}
+  {% block canonical %}{% endblock %}
+  <title>{% block title %}{{ 'base.default_title'|trans }}{% endblock %}</title>
+  {% block opengraph %}
+    <meta property="og:title" content="{{ block('title')|striptags|trim }}">
+    <meta property="og:locale" content="{{ app.request ? (app.request.locale == 'pl' ? 'pl_PL' : 'en_US') : 'en_US' }}">
+    <meta property="og:locale:alternate" content="{{ app.request ? (app.request.locale == 'pl' ? 'en_US' : 'pl_PL') : 'pl_PL' }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ block('title')|striptags|trim }}">
+  {% endblock %}
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="/toolbox.css">
+  <link rel="stylesheet" href="/grouped-findings.css">
+  <link rel="stylesheet" href="/contact.css">
+  <link rel="stylesheet" href="/identity.css">
+  <link rel="stylesheet" href="/ui.css">
+  {% block stylesheets %}{% endblock %}
+  <link rel="stylesheet" href="/theme-dark.css">
+  <script src="/contact.js" defer></script>
+  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'WebSite','@id':'https://stackhal.com/#website','url':'https://stackhal.com/','name':'StackHal','inLanguage':['en'],'publisher':{'@id':'https://stackhal.com/#stackhal'},'author':{'@id':'https://stackhal.com/#stackhal'},'dateModified':'2026-08-22'}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+  {% block head_scripts %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <header class="site-header">
+    <div class="topbar">
+      <div class="brand-lockup">
+        {% block brand_lockup %}
+        <a class="brand" href="{{ path('home', {_locale: app.request.locale}) }}" aria-label="{{ 'base.home_label'|trans }}">
+          <span class="brand-mark">↗</span>
+          <span class="brand-name"><span class="brand-name-full">StackHal</span><span class="brand-name-short">StackHal</span></span>
+        </a>
+        {% endblock %}
+      </div>
+      <div class="topbar-actions">
+        <nav class="primary-nav" aria-label="{{ 'base.navigation'|trans }}">
+          <a href="https://ileza.pl" target="_blank" rel="noopener">IleZa.pl</a>
+          <a href="{{ path('geo_home', {_locale: app.request.locale}) }}">{{ 'base.nav.geo'|trans }}</a>
+          <a href="{{ path('seo_audit_home', {_locale: app.request.locale}) }}">{{ 'base.nav.seo'|trans }}</a>
+        </nav>
+        <details class="tool-menu">
+          <summary>{{ 'base.nav.more'|trans }}</summary>
+          <nav class="tool-menu-panel" aria-label="{{ 'base.nav.more'|trans }}">
+            <a href="{{ path('home', {_locale: app.request.locale}) }}">{{ 'common.all_tools'|trans }}</a>
+            <a href="https://ileza.pl" target="_blank" rel="noopener">Price Radar</a>
+            <a href="{{ path('bimi_studio', {_locale: app.request.locale}) }}">{{ 'base.nav.bimi'|trans }}</a>
+            <a href="{{ path('domain_inspector_home', {_locale: app.request.locale}) }}">{{ 'base.nav.domain_inspector'|trans }}</a>
+            <a href="{{ path('caddy_transpiler', {_locale: app.request.locale}) }}">{{ 'base.nav.caddy_transpiler'|trans }}</a>
+            <a href="{{ path('pkpass_inspector', {_locale: app.request.locale}) }}">{{ 'base.nav.pkpass'|trans }}</a>
+          </nav>
+        </details>
+        {% block language_switch %}
+          <a class="language-switch" href="{{ path('home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
+        {% endblock %}
+      </div>
+    </div>
+    {% if tool_context|trim is not empty %}
+      <div class="tool-context-bar">
+        <a href="{{ path('home', {_locale: app.request.locale}) }}">{{ 'common.all_tools'|trans }}</a>
+        <span aria-hidden="true">/</span>
+        <strong>{{ tool_context|trim }}</strong>
+      </div>
+    {% endif %}
+  </header>
+  <main>{% block body %}{% endblock %}</main>
+  <footer>{{ 'base.footer'|trans }} · <a class="footer-contact" href="mailto:bahdan.hal@hotmail.com">{{ 'base.contact'|trans }}</a><br><span class="copyright">© {{ "now"|date("Y") }} StackHal</span></footer>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

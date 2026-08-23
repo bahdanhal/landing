@@ -1,0 +1,14 @@
+<form class="lead-form" method="post" action="{{ path('contact') }}" data-contact-form data-saving="{{ 'contact.saving'|trans }}" data-fallback="{{ 'contact.failed'|trans }}">
+  <label for="contact-email-{{ source }}">{{ 'contact.email_optional'|trans }}</label>
+  <div class="lead-row lead-row-contact">
+    <input id="contact-email-{{ source }}" name="email" type="email" autocomplete="email" maxlength="254" placeholder="you@example.com">
+    <input id="contact-phone-{{ source }}" name="phone" type="tel" autocomplete="tel" maxlength="30" placeholder="+48 500 000 000" aria-label="{{ 'contact.phone_optional'|trans }}">
+    <button type="submit">{{ 'contact.submit'|trans }}</button>
+  </div>
+  <label for="contact-message-{{ source }}">{{ 'contact.message_optional'|trans }}</label>
+  <textarea id="contact-message-{{ source }}" name="message" maxlength="1000" rows="3" placeholder="{{ 'contact.message_placeholder'|trans }}"></textarea>
+  <input type="hidden" name="source" value="{{ source }}">
+  <label class="lead-trap" aria-hidden="true">{{ 'contact.company'|trans }}<input name="company" tabindex="-1" autocomplete="off"></label>
+  <small>{{ 'contact.note'|trans }}</small>
+  <p class="lead-status" data-contact-status aria-live="polite"></p>
+</form>

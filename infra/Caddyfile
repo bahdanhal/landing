@@ -1,0 +1,97 @@
+# Global Caddy 2.10 Routing for Bahdan Ecosystem
+
+bahdanhal.pl, www.bahdanhal.pl, bahdan-hal.ovh, www.bahdan-hal.ovh {
+    root * /srv/portfolio/public
+    encode zstd gzip
+
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy strict-origin-when-cross-origin
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    }
+
+    @static file
+    handle @static {
+        file_server
+    }
+
+    handle {
+        reverse_proxy portfolio-app:9000 {
+            transport fastcgi {
+                split .php
+                env SCRIPT_FILENAME /app/public/index.php
+                env DOCUMENT_ROOT /app/public
+            }
+        }
+    }
+
+    log {
+        output stdout
+        format json
+    }
+}
+
+ileza.pl, www.ileza.pl {
+    root * /srv/ileza/public
+    encode zstd gzip
+
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy strict-origin-when-cross-origin
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    }
+
+    @static file
+    handle @static {
+        file_server
+    }
+
+    handle {
+        reverse_proxy ileza-app:9000 {
+            transport fastcgi {
+                split .php
+                env SCRIPT_FILENAME /app/public/index.php
+                env DOCUMENT_ROOT /app/public
+            }
+        }
+    }
+
+    log {
+        output stdout
+        format json
+    }
+}
+
+stackhal.com, www.stackhal.com {
+    root * /srv/stackhal/public
+    encode zstd gzip
+
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy strict-origin-when-cross-origin
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    }
+
+    @static file
+    handle @static {
+        file_server
+    }
+
+    handle {
+        reverse_proxy stackhal-app:9000 {
+            transport fastcgi {
+                split .php
+                env SCRIPT_FILENAME /app/public/index.php
+                env DOCUMENT_ROOT /app/public
+            }
+        }
+    }
+
+    log {
+        output stdout
+        format json
+    }
+}

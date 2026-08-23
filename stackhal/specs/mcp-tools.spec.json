@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StackHal Global Dev Tools MCP Specification",
+  "description": "Formal contract definition for StackHal Developer & Infrastructure MCP tools exposed to AI agents.",
+  "version": "1.1.0",
+  "endpoint": "/mcp",
+  "tools": [
+    {
+      "name": "audit_website_seo",
+      "description": "Run a deterministic technical SEO audit for a public website URL.",
+      "parameters": [
+        {
+          "name": "url",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "analyze_geo_readiness",
+      "description": "Analyze Generative Engine Optimization (GEO) signals and AI crawler readiness.",
+      "parameters": [
+        {
+          "name": "url",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "inspect_domain_security",
+      "description": "Inspect domain email security and deliverability standards: DMARC (BIMI compliance), BIMI DNS & SVG reachability, MTA-STS (RFC 8461), SMTP TLS-RPT (RFC 8460), SPF and MX records.",
+      "parameters": [
+        {
+          "name": "domain",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "transpile_to_caddyfile",
+      "description": "Transpile Nginx (nginx.conf, server blocks) or Apache (.htaccess, VirtualHost) web server configuration to clean, idiomatic Caddyfile with migration advisories.",
+      "parameters": [
+        {
+          "name": "config_content",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "server_type",
+          "type": "string",
+          "required": false,
+          "enum": ["nginx", "apache"]
+        }
+      ]
+    },
+    {
+      "name": "inspect_apple_pkpass",
+      "description": "Inspect and validate Apple Wallet .pkpass JSON structure (pass.json) or package manifests: checks required keys, pass styles, dates, ISO 8601 timezones, transit types, barcodes, and color contrast.",
+      "parameters": [
+        {
+          "name": "pass_json",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "calculate_cidr_overlap",
+      "description": "Analyze IPv4/IPv6 CIDR subnets for range collisions, full containment, 2D bit-tree matrix partition, and available free subnet allocation.",
+      "parameters": [
+        {
+          "name": "cidrs",
+          "type": "array",
+          "required": true
+        },
+        {
+          "name": "requested_free_prefix",
+          "type": "integer",
+          "required": false
+        }
+      ]
+    }
+  ]
+}

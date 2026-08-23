@@ -1,0 +1,29 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /audit
+Disallow: /geo-audit
+Disallow: /contact
+Disallow: /pl/audyt
+Disallow: /pl/audyt-geo
+Disallow: /pl/kontakt
+Disallow: /healthz
+Disallow: /mcp
+
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: PerplexityBot
+User-agent: Google-Extended
+Allow: /
+Disallow: /api/
+Disallow: /audit
+Disallow: /geo-audit
+Disallow: /contact
+Disallow: /pl/audyt
+Disallow: /pl/audyt-geo
+Disallow: /pl/kontakt
+Disallow: /healthz
+Disallow: /mcp
+
+Sitemap: https://bahdanhal.pl/sitemap.xml

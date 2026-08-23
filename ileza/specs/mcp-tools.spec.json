@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IleZa.pl Model Context Protocol (MCP) Tools Specification",
+  "description": "Formal contract definition for Polish Market & Tax MCP tools exposed to AI agents.",
+  "version": "1.1.0",
+  "endpoint": "/mcp",
+  "tools": [
+    {
+      "name": "list_polish_used_price_products",
+      "description": "List product configurations (smartphones, laptops, RAM, cars) tracked for Polish marketplace fair price history.",
+      "parameters": []
+    },
+    {
+      "name": "get_polish_used_price_history",
+      "description": "Get dated, manually reviewed Polish marketplace asking-price observations for one exact product slug.",
+      "parameters": [
+        {
+          "name": "slug",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "calculate_polish_income_comparison",
+      "description": "Calculate Polish contract and tax net income comparison for a company budget.",
+      "parameters": [
+        {
+          "name": "budget",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "taxation",
+          "type": "string",
+          "required": false,
+          "enum": ["progressive", "linear", "lump"]
+        },
+        {
+          "name": "zus",
+          "type": "string",
+          "required": false,
+          "enum": ["standard", "preferential", "start"]
+        }
+      ]
+    },
+    {
+      "name": "update_polish_used_price_observation",
+      "description": "Admin tool: Add or update a verified Polish used price observation for a product slug. Authorization is handled via the Authorization header.",
+      "parameters": [
+        {
+          "name": "slug",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "median_pln",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "low_pln",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "high_pln",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "sample_size",
+          "type": "integer",
+          "required": false
+        },
+        {
+          "name": "confidence",
+          "type": "string",
+          "required": false,
+          "enum": ["low", "medium", "high"]
+        },
+        {
+          "name": "observed_at",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "summary",
+          "type": "string",
+          "required": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,323 @@
+.profile-services {
+    display: grid;
+    grid-template-columns: 0.7fr 1.3fr;
+    gap: 72px;
+    margin-top: 96px;
+    scroll-margin-top: 112px;
+}
+
+.profile-services .profile-section-title p,
+.profile-service-grid p,
+.profile-consultation p,
+.profile-consultation li {
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+.profile-service-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.profile-service-grid article {
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
+}
+
+.profile-service-grid article > span {
+    color: var(--orange);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+}
+
+.profile-service-grid h3 {
+    margin: 16px 0 10px;
+    font-family: Georgia, serif;
+    font-size: 23px;
+    line-height: 1.15;
+}
+
+.profile-service-grid p {
+    margin: 0;
+}
+
+.profile-consultation {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 56px;
+    margin-top: 96px;
+    padding: 40px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+    scroll-margin-top: 112px;
+}
+
+.profile-consultation h2 {
+    margin: 16px 0;
+    font-family: Georgia, serif;
+    font-size: clamp(38px, 5vw, 60px);
+    line-height: 1;
+}
+
+.profile-consultation ul {
+    padding-left: 20px;
+}
+
+.profile-consultation .lead-form {
+    margin: 0;
+}
+
+@media (max-width: 850px) {
+    .profile-services,
+    .profile-consultation,
+    .profile-service-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-services,
+    .profile-consultation {
+        gap: 34px;
+    }
+
+    .profile-consultation {
+        padding: 24px;
+    }
+}
+
+.profile-scope {
+    max-width: 850px;
+    margin: 48px 0 0;
+    padding-left: 22px;
+    border-left: 2px solid var(--orange);
+    color: var(--muted);
+    font-family: Georgia, serif;
+    font-size: clamp(20px, 2.4vw, 30px);
+    line-height: 1.4;
+}
+
+.profile-testimonials {
+    margin-top: 96px;
+}
+
+.profile-testimonials .profile-section-title {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 0 24px;
+}
+
+.profile-testimonials .profile-section-title > span {
+    grid-column: 1 / -1;
+}
+
+.profile-testimonials .profile-section-title a {
+    margin-bottom: 18px;
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.profile-testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(190px, .7fr);
+    gap: 18px;
+    margin-top: 24px;
+}
+
+.profile-testimonial-grid figure,
+.profile-testimonial-grid aside {
+    min-width: 0;
+    margin: 0;
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--panel);
+}
+
+.profile-testimonial-grid figure > div {
+    color: var(--orange);
+    font-size: 13px;
+    letter-spacing: .14em;
+}
+
+.profile-testimonial-grid blockquote {
+    margin: 24px 0;
+    font-family: Georgia, serif;
+    font-size: 24px;
+    line-height: 1.25;
+}
+
+.profile-testimonial-grid figcaption,
+.profile-testimonial-grid aside span,
+.profile-testimonial-grid aside small {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.profile-testimonial-grid aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.profile-testimonial-grid aside strong {
+    font-family: Georgia, serif;
+    font-size: 56px;
+    line-height: 1;
+}
+
+.profile-testimonial-grid aside span {
+    margin-top: 8px;
+    color: var(--ink);
+    font-weight: 800;
+}
+
+.profile-testimonial-grid aside small {
+    margin-top: 20px;
+}
+
+.portfolio-page a:focus-visible,
+.portfolio-page summary:focus-visible,
+.portfolio-page button:focus-visible,
+.portfolio-page input:focus-visible,
+.portfolio-page textarea:focus-visible {
+    outline: 3px solid var(--orange);
+    outline-offset: 4px;
+}
+
+@media (max-width: 850px) {
+    .portfolio-page .topbar {
+        min-height: 72px;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 18px;
+    }
+
+    .profile-shell {
+        padding-top: 42px;
+    }
+
+    .profile-hero {
+        gap: 30px;
+    }
+
+    .profile-hero-media {
+        order: initial;
+    }
+
+    .profile-avatar {
+        max-width: 220px;
+        aspect-ratio: 4 / 4.6;
+    }
+
+    .profile-intro p {
+        font-size: 17px;
+        line-height: 1.55;
+    }
+
+    .profile-actions {
+        align-items: stretch;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .profile-actions a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 46px;
+    }
+
+    .profile-facts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 48px;
+    }
+
+    .profile-facts span,
+    .profile-facts span:first-child {
+        min-height: 58px;
+        padding: 16px 10px 16px 0;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+    }
+
+    .profile-facts span:nth-child(even) {
+        padding-left: 14px;
+        border-right: 0;
+    }
+
+    .profile-scope {
+        margin-top: 40px;
+        padding-left: 16px;
+        font-size: 20px;
+    }
+
+    .profile-services {
+        margin-top: 72px;
+    }
+
+    .profile-service-grid {
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(270px, 84%);
+        align-items: stretch;
+        gap: 12px;
+        margin-inline: -18px;
+        padding: 0 18px 12px;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scroll-padding-inline: 18px;
+        scroll-snap-type: inline mandatory;
+        scrollbar-color: var(--line) transparent;
+    }
+
+    .profile-service-grid article {
+        scroll-snap-align: start;
+    }
+
+    .profile-testimonials {
+        margin-top: 72px;
+    }
+
+    .profile-testimonials .profile-section-title {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-testimonials .profile-section-title a {
+        margin: 0;
+        min-height: 44px;
+    }
+
+    .profile-testimonial-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .profile-testimonial-grid figure,
+    .profile-testimonial-grid aside {
+        padding: 22px;
+    }
+
+    .profile-testimonial-grid aside {
+        min-height: 180px;
+    }
+
+    .profile-contact a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+    }
+}
+
+@media (max-width: 360px) {
+    .portfolio-page .brand > span:last-child {
+        display: none;
+    }
+}
