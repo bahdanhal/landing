@@ -127,7 +127,7 @@ final class McpControllerDecoratorTest extends TestCase
         self::assertSame($batchResponsePayload, $response->getContent());
     }
 
-    public function testConvertsNonJsonResponseToJsonRpcError(): void
+    public function testPassesThroughNonJsonResponse(): void
     {
         $server = Server::builder()->setServerInfo('test', '1.0.0')->build();
         $psr17Factory = new Psr17Factory();
@@ -165,40 +165,6 @@ final class McpControllerDecoratorTest extends TestCase
         $decorator = new McpControllerDecorator($inner);
         $response = $decorator->handle($request);
 
-        self::assertSame('{"jsonrpc":"2.0","error":{"code":-32603,"message":"Internal Error"}}', $response->getContent());
-        self::assertSame('application/json', $response->headers->get('Content-Type'));
-    }
-
-    public function testReturnsJsonForEmptyBodyResponse(): void
-    {
-        $server = Server::builder()->setServerInfo('test', '1.0.0')->build();
-        $psr17Factory = new Psr17Factory();
-        $httpMessageFactory = $this->createStub(HttpMessageFactoryInterface::class);
-        $httpFoundationFactory = $this->createStub(HttpFoundationFactoryInterface::class);
-        $middlewareFactory = new MiddlewareFactory([]);
-
-        $innerResponse = new Response('', 202, ['Content-Type' => 'application/json']);
-        $httpFoundationFactory->method('createResponse')->willReturn($innerResponse);
-
-        $inner = new McpController(
-            $server,
-            $httpMessageFactory,
-            $httpFoundationFactory,
-            $psr17Factory,
-            $psr17Factory,
-            $middlewareFactory
-        );
-
-        $request = Request::create('/mcp', 'POST', [], [], [], [], (string) json_encode([
-            'jsonrpc' => '2.0',
-            'method' => 'notifications/initialized',
-        ]));
-
-        $decorator = new McpControllerDecorator($inner);
-        $response = $decorator->handle($request);
-
-        self::assertSame(200, $response->getStatusCode());
-        self::assertSame('application/json', $response->headers->get('Content-Type'));
-        self::assertSame('{}', $response->getContent());
+        self::assertSame('event: message', $response->getContent());
     }
 }

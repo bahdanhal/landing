@@ -53,7 +53,7 @@ jobs:
       - name: Rebuild & Restart Portfolio Container
         run: |
           ssh "$SSH_USER@$SSH_HOST" \
-            'cd /home/apps/infra && docker compose -f docker-compose.prod.yml --env-file production.env up -d --build --no-deps portfolio-app'
+            'cd /home/apps/infra && docker compose -f docker-compose.prod.yml --env-file production.env up -d --build --no-deps portfolio-app && docker compose -f docker-compose.prod.yml --env-file production.env exec -T portfolio-app php bin/console doctrine:migrations:migrate --no-interaction'
 
       - name: Health Check Verification
         run: |

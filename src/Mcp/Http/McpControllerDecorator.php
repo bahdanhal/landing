@@ -11,9 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * Decorates the Symfony MCP controller to ensure all MCP requests return valid JSON
- * objects with application/json content-type, prevents empty-body decoder issues,
- * and maintains active MCP session resilience across server restarts.
+ * Decorates the Symfony MCP controller to ensure single JSON-RPC requests
+ * return a single JSON-RPC response object instead of a JSON array batch response wrapper,
+ * while maintaining active MCP session resilience across server restarts.
  */
 final class McpControllerDecorator
 {
@@ -39,28 +39,12 @@ final class McpControllerDecorator
 
         $response = $this->inner->handle($request);
 
-        if ($request->getMethod() === 'DELETE') {
-            $response->setStatusCode(200);
-            $response->headers->set('Content-Type', 'application/json');
-            $response->setContent('{}');
-
+        if (!$this->isJsonResponse($response)) {
             return $response;
         }
 
         $content = $response->getContent();
-        if ($content === false || trim($content) === '') {
-            $response->setStatusCode(200);
-            $response->headers->set('Content-Type', 'application/json');
-            $response->setContent('{}');
-
-            return $response;
-        }
-
-        if (!$this->isJsonResponse($response)) {
-            $response->setStatusCode(200);
-            $response->headers->set('Content-Type', 'application/json');
-            $response->setContent('{"jsonrpc":"2.0","error":{"code":-32603,"message":"Internal Error"}}');
-
+        if ($content === false || $content === '') {
             return $response;
         }
 
