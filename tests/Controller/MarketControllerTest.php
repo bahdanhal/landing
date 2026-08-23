@@ -38,7 +38,7 @@ final class MarketControllerTest extends TestCase
         $twig = $this->createMock(Environment::class);
         $twig->expects(self::once())
             ->method('render')
-            ->with('market/home.html.twig', self::isType('array'))
+            ->with('market/home.html.twig', self::isArray())
             ->willReturn('<html>home</html>');
 
         $container = new Container();

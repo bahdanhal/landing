@@ -15,7 +15,7 @@ final class GetMarketStatisticsTest extends TestCase
     public function testCalculatesMarketCoverageAndStaleness(): void
     {
         $catalog = new ProductCatalog();
-        $repository = $this->createMock(PriceObservationRepository::class);
+        $repository = $this->createStub(PriceObservationRepository::class);
 
         $now = new \DateTimeImmutable('2026-08-20 12:00:00', new \DateTimeZone('UTC'));
         $recentDate = $now->modify('-5 days');

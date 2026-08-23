@@ -24,7 +24,7 @@ final class GroszTypeTest extends TestCase
         /** @var GroszType $type */
         $type = Type::getType(GroszType::NAME);
         $this->type = $type;
-        $this->platform = $this->createMock(AbstractPlatform::class);
+        $this->platform = $this->createStub(AbstractPlatform::class);
     }
 
     public function testConvertToDatabaseValue(): void

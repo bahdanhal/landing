@@ -246,7 +246,7 @@ final class MarketAdminControllerTest extends TestCase
         $twig = $this->createMock(Environment::class);
         $twig->expects(self::once())
             ->method('render')
-            ->with('admin/market.html.twig', self::isType('array'))
+            ->with('admin/market.html.twig', self::isArray())
             ->willReturn('<html>dashboard</html>');
 
         $container = new Container();
