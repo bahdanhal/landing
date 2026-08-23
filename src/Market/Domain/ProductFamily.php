@@ -23,6 +23,6 @@ final readonly class ProductFamily
 
     public function defaultConfiguration(): Product
     {
-        return array_first($this->configurations);
+        return $this->configurations[0];
     }
 }

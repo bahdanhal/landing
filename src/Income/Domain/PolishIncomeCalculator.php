@@ -21,7 +21,7 @@ final readonly class PolishIncomeCalculator
      */
     public function compare(array $options): array
     {
-        $budget = max(0.0, (float) ($options['budget'] ?? 0));
+        $budget = max(0.0, (float) ($options['budget']));
         $studentUnder26 = (bool) ($options['studentUnder26'] ?? false);
 
         return [
@@ -47,6 +47,9 @@ final readonly class PolishIncomeCalculator
         return $this->round($this->progressiveAnnualTax(max(0.0, $monthlyBase) * 12) / 12);
     }
 
+    /**
+     * @return array{cost: float, gross: float, social: float, health: float, tax: float, businessCosts: float, net: float}
+     */
     private function employment(float $budget): array
     {
         $gross = $this->round($budget / 1.2048);
@@ -58,6 +61,9 @@ final readonly class PolishIncomeCalculator
         return $this->result($budget, $gross, $social, $health, $tax, 0.0);
     }
 
+    /**
+     * @return array{cost: float, gross: float, social: float, health: float, tax: float, businessCosts: float, net: float}
+     */
     private function mandate(float $budget, bool $studentUnder26): array
     {
         if ($studentUnder26) {
@@ -76,6 +82,9 @@ final readonly class PolishIncomeCalculator
         return $this->result($budget, $gross, $social, $health, $tax, 0.0);
     }
 
+    /**
+     * @return array{cost: float, gross: float, social: float, health: float, tax: float, businessCosts: float, net: float}
+     */
     private function workContract(float $budget): array
     {
         $tax = $this->monthlyProgressiveTax($budget * 0.8);
@@ -83,6 +92,10 @@ final readonly class PolishIncomeCalculator
         return $this->result($budget, $budget, 0.0, 0.0, $tax, 0.0);
     }
 
+    /**
+     * @param array<string, mixed> $options
+     * @return array{cost: float, gross: float, social: float, health: float, tax: float, businessCosts: float, net: float}
+     */
     private function b2b(float $budget, array $options): array
     {
         $costs = max(0.0, (float) ($options['costs'] ?? 0));

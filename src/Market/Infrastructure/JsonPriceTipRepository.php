@@ -7,6 +7,10 @@ namespace App\Market\Infrastructure;
 use App\Market\Domain\PriceTip;
 use App\Market\Domain\PriceTipRepository;
 
+/**
+ * @deprecated Use App\Market\Infrastructure\DoctrinePriceTipRepository for production runtime persistence.
+ *             Retained for data migration and lightweight test fixtures.
+ */
 final readonly class JsonPriceTipRepository implements PriceTipRepository
 {
     private const RETENTION_DAYS = 90;

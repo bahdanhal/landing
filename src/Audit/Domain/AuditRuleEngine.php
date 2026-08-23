@@ -6,6 +6,13 @@ namespace App\Audit\Domain;
 
 final readonly class AuditRuleEngine
 {
+    /**
+     * @param list<array<string, mixed>> $pages
+     * @param list<array<string, mixed>> $redirectMatrix
+     * @param array<string, mixed> $robots
+     * @param array<string, mixed> $sitemap
+     * @return list<array{severity: string, code: string, title: string, detail: string, evidence: array<mixed>}>
+     */
     public function evaluate(array $pages, array $redirectMatrix, array $robots, array $sitemap): array
     {
         $issues = [];

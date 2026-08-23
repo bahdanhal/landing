@@ -7,6 +7,10 @@ namespace App\Lead\Infrastructure;
 use App\Lead\Domain\Lead;
 use App\Lead\Domain\LeadRepository;
 
+/**
+ * @deprecated Use App\Lead\Infrastructure\DoctrineLeadRepository for production runtime persistence.
+ *             Retained for data migration and lightweight test fixtures.
+ */
 final readonly class JsonlLeadRepository implements LeadRepository
 {
     public function __construct(private string $directory)

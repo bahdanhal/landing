@@ -6,6 +6,10 @@ namespace App\Market\Infrastructure;
 
 use App\Market\Domain\ProductRequestStore;
 
+/**
+ * @deprecated Use App\Market\Infrastructure\DoctrineProductRequestStore for production runtime persistence.
+ *             Retained for data migration and lightweight test fixtures.
+ */
 final readonly class JsonProductRequestStore implements ProductRequestStore
 {
     public function __construct(

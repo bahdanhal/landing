@@ -48,6 +48,7 @@ final class AiSummaryServiceTest extends TestCase
             'issues' => [],
         ]);
 
+        self::assertNotNull($summary);
         self::assertSame('Fix canonicalization first.', $summary['overview']);
         self::assertSame('Canonicals', $summary['priorities'][0]['title']);
     }

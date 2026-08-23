@@ -50,6 +50,11 @@ services:
   App\Shared\AI\AiClient:
     alias: App\Shared\AI\SymfonyAiClient
 
+  App\Shared\Infrastructure\Http\SafeHttpFetcher:
+    arguments:
+      $timeoutSeconds: '%audit.timeout_seconds%'
+      $maxBodyBytes: '%audit.max_body_bytes%'
+
   App\Crawl\Infrastructure\HttpFetcher:
     arguments:
       $timeoutSeconds: '%audit.timeout_seconds%'
@@ -60,8 +65,14 @@ services:
       $directory: '%audit.log_directory%'
       $retentionDays: '%audit.log_retention_days%'
 
+  App\DomainInspector\Infrastructure\CachedDnsResolver:
+    arguments:
+      $delegate: '@App\DomainInspector\Infrastructure\NativeDnsResolver'
+      $cache: '@app.audit_cache'
+      $ttl: 300
+
   App\DomainInspector\Application\DnsResolverInterface:
-    alias: App\DomainInspector\Infrastructure\NativeDnsResolver
+    alias: App\DomainInspector\Infrastructure\CachedDnsResolver
 
   App\Lead\Domain\LeadRepository:
     alias: App\Lead\Infrastructure\DoctrineLeadRepository

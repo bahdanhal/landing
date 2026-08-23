@@ -23,6 +23,7 @@
     <exclude-pattern>*/var/*</exclude-pattern>
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/public/bundles/*</exclude-pattern>
+    <exclude-pattern>*/config/reference.php</exclude-pattern>
 
     <rule ref="PSR12"/>
 

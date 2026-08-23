@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Mcp;
 
-use App\Crawl\Infrastructure\HttpFetcher;
-use App\Crawl\Infrastructure\UrlGuard;
 use App\DomainInspector\Application\DnsResolverInterface;
 use App\DomainInspector\Application\DomainInspector;
 use App\Mcp\DomainInspectorTools;
+use App\Shared\Infrastructure\Http\SafeHttpFetcher;
+use App\Shared\Infrastructure\Http\UrlGuard;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 
@@ -28,7 +28,7 @@ final class DomainInspectorToolsTest extends TestCase
             ['host' => 'mail.stripe.com', 'priority' => 10],
         ]);
 
-        $fetcher = new HttpFetcher(new MockHttpClient(), new UrlGuard(), 5, 1048576);
+        $fetcher = new SafeHttpFetcher(new MockHttpClient(), new UrlGuard(), 5, 1048576);
         $inspector = new DomainInspector($resolver, $fetcher);
         $tools = new DomainInspectorTools($inspector);
 
@@ -43,7 +43,7 @@ final class DomainInspectorToolsTest extends TestCase
     public function testInspectDomainInvalidDomainReturnsError(): void
     {
         $resolver = $this->createStub(DnsResolverInterface::class);
-        $fetcher = new HttpFetcher(new MockHttpClient(), new UrlGuard(), 5, 1048576);
+        $fetcher = new SafeHttpFetcher(new MockHttpClient(), new UrlGuard(), 5, 1048576);
         $inspector = new DomainInspector($resolver, $fetcher);
         $tools = new DomainInspectorTools($inspector);
 

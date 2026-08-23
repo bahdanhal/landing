@@ -15,7 +15,10 @@ final readonly class AiSummaryService
     ) {
     }
 
-    /** @return array{overview:string,priorities:list<array{title:string,why:string,action:string}>}|null */
+    /**
+     * @param array<string, mixed> $report
+     * @return array{overview:string,priorities:list<array{title:string,why:string,action:string}>}|null
+     */
     public function summarize(array $report): ?array
     {
         $evidence = [
@@ -37,7 +40,8 @@ final readonly class AiSummaryService
                 json_encode($evidence, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
                 AiUseCase::Summary,
             );
-            $text = trim(preg_replace('/^```(?:json)?|```$/m', '', trim($text)));
+            $cleanText = preg_replace('/^```(?:json)?|```$/m', '', trim($text));
+            $text = trim($cleanText ?? '');
             $summary = json_decode($text, true, flags: JSON_THROW_ON_ERROR);
             if (!is_array($summary) || !is_string($summary['overview'] ?? null) || !is_array($summary['priorities'] ?? null)) {
                 return null;
@@ -58,7 +62,10 @@ final readonly class AiSummaryService
                 }
             }
 
-            return ['overview' => $summary['overview'], 'priorities' => $priorities];
+            return [
+                'overview' => $summary['overview'],
+                'priorities' => $priorities,
+            ];
         } catch (\Throwable) {
             return null;
         }
@@ -66,6 +73,6 @@ final readonly class AiSummaryService
 
     public function cacheVariant(): string
     {
-        return hash('sha256', $this->configurationFingerprint);
+        return $this->configurationFingerprint;
     }
 }

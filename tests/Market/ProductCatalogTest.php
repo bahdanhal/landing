@@ -93,7 +93,7 @@ final class ProductCatalogTest extends TestCase
             self::assertNotEmpty($family->image);
             self::assertNotEmpty($family->imageCredit);
             self::assertNotEmpty($family->imageSource);
-            self::assertNotNull($family->defaultConfiguration());
+            self::assertNotEmpty($family->defaultConfiguration()->slug);
             self::assertStringStartsNotWith('/images/market/iphone-device.svg', $family->image);
             self::assertStringStartsNotWith('/images/market/macbook-pro.svg', $family->image);
             self::assertStringStartsNotWith('/images/market/ram-module.svg', $family->image);

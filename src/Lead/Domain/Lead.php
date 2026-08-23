@@ -43,6 +43,7 @@ final readonly class Lead
         );
     }
 
+    /** @param array<string, mixed> $data */
     public static function fromArray(array $data): self
     {
         return new self(
@@ -55,6 +56,7 @@ final readonly class Lead
         );
     }
 
+    /** @return array{timestamp: string, email: string, phone: string, message: string, ip_hash: string, source: string} */
     public function toArray(): array
     {
         return [

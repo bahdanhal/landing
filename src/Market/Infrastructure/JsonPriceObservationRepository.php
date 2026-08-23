@@ -7,6 +7,10 @@ namespace App\Market\Infrastructure;
 use App\Market\Domain\PriceObservation;
 use App\Market\Domain\PriceObservationRepository;
 
+/**
+ * @deprecated Use App\Market\Infrastructure\DoctrinePriceObservationRepository for production runtime persistence.
+ *             Retained for data migration and lightweight test fixtures.
+ */
 final readonly class JsonPriceObservationRepository implements PriceObservationRepository
 {
     public function __construct(private string $directory)
@@ -45,6 +49,7 @@ final readonly class JsonPriceObservationRepository implements PriceObservationR
         }
     }
 
+    /** @return list<PriceObservation> */
     public function history(string $productSlug): array
     {
         $history = $this->read($this->path($productSlug));
@@ -100,7 +105,7 @@ final readonly class JsonPriceObservationRepository implements PriceObservationR
         }
         $data = json_decode((string) file_get_contents($path), true, flags: JSON_THROW_ON_ERROR);
 
-        return array_map(PriceObservation::fromArray(...), is_array($data) ? $data : []);
+        return array_values(array_map(PriceObservation::fromArray(...), is_array($data) ? $data : []));
     }
 
     private function ensureDirectory(): void

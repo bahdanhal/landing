@@ -50,6 +50,7 @@ final readonly class IncomeCalculatorTools
         ]);
     }
 
+    /** @param array<string, mixed> $data */
     private function json(array $data): string
     {
         return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);

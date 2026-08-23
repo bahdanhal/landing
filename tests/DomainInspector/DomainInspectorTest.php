@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\DomainInspector;
 
-use App\Crawl\Infrastructure\HttpFetcher;
-use App\Crawl\Infrastructure\UrlGuard;
 use App\DomainInspector\Application\DnsResolverInterface;
 use App\DomainInspector\Application\DomainInspector;
+use App\Shared\Infrastructure\Http\SafeHttpFetcher;
+use App\Shared\Infrastructure\Http\UrlGuard;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -17,7 +17,7 @@ final class DomainInspectorTest extends TestCase
     public function testNormalizeDomain(): void
     {
         $resolver = $this->createStub(DnsResolverInterface::class);
-        $fetcher = new HttpFetcher(new MockHttpClient(), new UrlGuard(), 5, 1048576);
+        $fetcher = new SafeHttpFetcher(new MockHttpClient(), new UrlGuard(), 5, 1048576);
         $inspector = new DomainInspector($resolver, $fetcher);
 
         self::assertSame('example.com', $inspector->normalizeDomain('https://example.com/some/path?query=1'));
@@ -28,7 +28,7 @@ final class DomainInspectorTest extends TestCase
     public function testInvalidDomainThrows(): void
     {
         $resolver = $this->createStub(DnsResolverInterface::class);
-        $fetcher = new HttpFetcher(new MockHttpClient(), new UrlGuard(), 5, 1048576);
+        $fetcher = new SafeHttpFetcher(new MockHttpClient(), new UrlGuard(), 5, 1048576);
         $inspector = new DomainInspector($resolver, $fetcher);
 
         $this->expectException(\InvalidArgumentException::class);
@@ -53,7 +53,7 @@ final class DomainInspectorTest extends TestCase
             ['host' => 'mail.example.com', 'priority' => 10],
         ]);
 
-        $fetcher = $this->createStub(HttpFetcher::class);
+        $fetcher = $this->createStub(SafeHttpFetcher::class);
         $fetcher->method('fetch')->willReturnCallback(static function (string $url): array {
             if (str_ends_with($url, '.svg')) {
                 return [

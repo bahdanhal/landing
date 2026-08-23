@@ -13,6 +13,26 @@ final readonly class TrafficAnalytics
     {
     }
 
+    /**
+     * @return array{
+     *     privacy: string,
+     *     last_7_days: array{
+     *         page_views: int,
+     *         unique_visitors: int,
+     *         sources: array<string, int>,
+     *         referring_domains: array<string, int>,
+     *         top_paths: array<string, int>
+     *     },
+     *     last_30_days: array{
+     *         page_views: int,
+     *         unique_visitors: int,
+     *         sources: array<string, int>,
+     *         referring_domains: array<string, int>,
+     *         top_paths: array<string, int>
+     *     },
+     *     daily: list<array{date: string, page_views: int, unique_visitors: int}>
+     * }
+     */
     public function summary(\DateTimeImmutable $now): array
     {
         $thirtyDaysAgo = $now->modify('-30 days');
@@ -27,7 +47,10 @@ final readonly class TrafficAnalytics
         ];
     }
 
-    /** @param list<PageView> $views */
+    /**
+     * @param list<PageView> $views
+     * @return array{page_views: int, unique_visitors: int, sources: array<string, int>, referring_domains: array<string, int>, top_paths: array<string, int>}
+     */
     private function period(array $views, \DateTimeImmutable $since): array
     {
         $periodViews = array_values(array_filter(
@@ -56,9 +79,13 @@ final readonly class TrafficAnalytics
         ];
     }
 
-    /** @param list<PageView> $views */
+    /**
+     * @param list<PageView> $views
+     * @return list<array{date: string, page_views: int, unique_visitors: int}>
+     */
     private function daily(array $views, \DateTimeImmutable $now): array
     {
+        /** @var array<string, array{page_views: int, visitors: array<string, bool>}> $days */
         $days = [];
         for ($offset = 29; $offset >= 0; --$offset) {
             $date = $now->modify(sprintf('-%d days', $offset))->format('Y-m-d');
@@ -81,7 +108,10 @@ final readonly class TrafficAnalytics
         ], array_keys($days), array_values($days));
     }
 
-    /** @param list<string> $values */
+    /**
+     * @param list<string> $values
+     * @return array<string, int>
+     */
     private function frequencies(array $values): array
     {
         $counts = array_count_values($values);

@@ -92,6 +92,7 @@ final readonly class PageViewSubscriber implements EventSubscriberInterface
         return ['referral', $host];
     }
 
+    /** @param list<string> $patterns */
     private function matchesHost(string $host, array $patterns): bool
     {
         foreach ($patterns as $pattern) {

@@ -195,7 +195,7 @@ composer cs:fix
 
 ### 5. Static Analysis
 
-Run PHPStan at level 8. The committed baseline records pre-existing findings; new findings fail CI. Reduce the baseline when touching affected code and never regenerate it merely to make a change pass.
+Run PHPStan at level 8. The codebase achieves 0 errors with zero baseline dependencies. All changes must pass cleanly without introducing baseline files.
 
 ```bash
 docker run --rm bahdan-landing-test vendor/bin/phpstan analyse --no-progress --memory-limit=512M
@@ -212,6 +212,6 @@ Before opening a pull request or pushing changes:
 - [ ] Code complies with PSR-12 (`composer cs:check` passes).
 - [ ] Architecture layers and bounded contexts are respected (Clean Architecture / DDD).
 - [ ] All automated tests pass 100% (PHPUnit and every file in `tests/js/`).
-- [ ] PHPStan passes without adding new baseline entries.
+- [ ] PHPStan passes cleanly at Level 8 with 0 errors (no baseline).
 - [ ] Twig and YAML configurations are valid (`lint:twig`, `lint:yaml`).
 - [ ] Privacy and SSRF guard requirements are satisfied.

@@ -6,8 +6,8 @@ namespace App\Geo\Application;
 
 use App\Crawl\Application\PageAnalyzer;
 use App\Crawl\Domain\RobotsPolicy;
-use App\Crawl\Infrastructure\HttpFetcher;
-use App\Crawl\Infrastructure\UrlGuard;
+use App\Shared\Infrastructure\Http\SafeHttpFetcher;
+use App\Shared\Infrastructure\Http\UrlGuard;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
@@ -20,7 +20,7 @@ final readonly class GeoAnalyzer
 
     public function __construct(
         private UrlGuard $urlGuard,
-        private HttpFetcher $fetcher,
+        private SafeHttpFetcher $fetcher,
         private PageAnalyzer $pageAnalyzer,
         private RobotsPolicy $robotsPolicy,
         private CacheInterface $auditCache,
@@ -28,6 +28,9 @@ final readonly class GeoAnalyzer
     ) {
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function analyze(string $input, bool $refresh = false): array
     {
         $target = $this->urlGuard->normalize($input);
@@ -48,6 +51,9 @@ final readonly class GeoAnalyzer
         return $report;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function perform(string $target): array
     {
         $started = hrtime(true);
@@ -73,20 +79,25 @@ final readonly class GeoAnalyzer
         $types = $schema['types'];
         $firstParagraph = $this->firstParagraph($xpath);
         $paragraphWords = $this->wordCount($firstParagraph);
-        $h2Count = $xpath->query('//h2')->length;
-        $paragraphCount = $xpath->query('//main//p | //article//p')->length;
-        $hasListOrTable = $xpath->query('//main//ul | //main//ol | //main//table | //article//ul | //article//ol | //article//table')->length > 0;
-        $hasMainContent = $xpath->query('//main | //article')->length > 0;
+        $h2Count = $xpath->query('//h2') instanceof \DOMNodeList ? $xpath->query('//h2')->length : 0;
+        $paragraphNodes = $xpath->query('//main//p | //article//p');
+        $paragraphCount = $paragraphNodes instanceof \DOMNodeList ? $paragraphNodes->length : 0;
+        $listNodes = $xpath->query('//main//ul | //main//ol | //main//table | //article//ul | //article//ol | //article//table');
+        $hasListOrTable = $listNodes instanceof \DOMNodeList && $listNodes->length > 0;
+        $mainNodes = $xpath->query('//main | //article');
+        $hasMainContent = $mainNodes instanceof \DOMNodeList && $mainNodes->length > 0;
         $externalLinks = $this->externalLinks($xpath, $fetch['final_url']);
         $hasAuthor = $schema['has_author'] || $this->matchesText($xpath, 'author|written by|reviewed by|autor|napisał|recenzja');
         $hasPublisher = $schema['has_publisher'];
-        $hasDate = $schema['has_date'] || $xpath->query('//time[@datetime]')->length > 0;
+        $timeNodes = $xpath->query('//time[@datetime]');
+        $hasDate = $schema['has_date'] || ($timeNodes instanceof \DOMNodeList && $timeNodes->length > 0);
         $questionCount = $this->questionHeadingCount($xpath);
         $hasFaq = in_array('FAQPage', $types, true) || $questionCount >= 2;
         $hasEntitySchema = array_intersect(self::ENTITY_SCHEMA_TYPES, $types) !== [];
         $hasContentSchema = array_intersect(self::CONTENT_SCHEMA_TYPES, $types) !== [];
         $hasAboutContact = $this->hasAboutContactLink($xpath);
-        $hasSiteName = $xpath->query('//meta[translate(@property,"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz")="og:site_name"]')->length > 0;
+        $siteNameNodes = $xpath->query('//meta[translate(@property,"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz")="og:site_name"]');
+        $hasSiteName = $siteNameNodes instanceof \DOMNodeList && $siteNameNodes->length > 0;
 
         $checks = [];
         $this->add($checks, 'access', $fetch['status'] === 200 ? 10 : 0, 10, ['status' => $fetch['status'], 'final_url' => $fetch['final_url']]);
@@ -169,6 +180,10 @@ final readonly class GeoAnalyzer
         ];
     }
 
+    /**
+     * @param list<array{id: string, earned: int, maximum: int, status: string, evidence: array<string, mixed>}> $checks
+     * @param array<string, mixed> $evidence
+     */
     private function add(array &$checks, string $id, int $earned, int $maximum, array $evidence): void
     {
         $checks[] = [
@@ -191,6 +206,9 @@ final readonly class GeoAnalyzer
         return $document;
     }
 
+    /**
+     * @return array{types: list<string>, valid_count: int, invalid_count: int, has_author: bool, has_publisher: bool, has_date: bool}
+     */
     private function schema(\DOMXPath $xpath): array
     {
         $types = [];
@@ -199,17 +217,23 @@ final readonly class GeoAnalyzer
         $hasAuthor = false;
         $hasPublisher = false;
         $hasDate = false;
-        foreach ($xpath->query('//script[translate(@type,"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz")="application/ld+json"]') as $node) {
-            try {
-                $data = json_decode($node->textContent, true, 64, JSON_THROW_ON_ERROR);
-                ++$valid;
-                $this->collectTypes($data, $types);
-                $encoded = strtolower(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: '');
-                $hasAuthor = $hasAuthor || str_contains($encoded, '"author"');
-                $hasPublisher = $hasPublisher || str_contains($encoded, '"publisher"');
-                $hasDate = $hasDate || str_contains($encoded, '"datepublished"') || str_contains($encoded, '"datemodified"');
-            } catch (\JsonException) {
-                ++$invalid;
+        $nodes = $xpath->query('//script[translate(@type,"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz")="application/ld+json"]');
+        if ($nodes instanceof \DOMNodeList) {
+            foreach ($nodes as $node) {
+                if (!$node instanceof \DOMNode) {
+                    continue;
+                }
+                try {
+                    $data = json_decode((string) $node->textContent, true, 64, JSON_THROW_ON_ERROR);
+                    ++$valid;
+                    $this->collectTypes($data, $types);
+                    $encoded = strtolower(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: '');
+                    $hasAuthor = $hasAuthor || str_contains($encoded, '"author"');
+                    $hasPublisher = $hasPublisher || str_contains($encoded, '"publisher"');
+                    $hasDate = $hasDate || str_contains($encoded, '"datepublished"') || str_contains($encoded, '"datemodified"');
+                } catch (\JsonException) {
+                    ++$invalid;
+                }
             }
         }
         sort($types);
@@ -224,6 +248,9 @@ final readonly class GeoAnalyzer
         ];
     }
 
+    /**
+     * @param list<string> $types
+     */
     private function collectTypes(mixed $value, array &$types): void
     {
         if (!is_array($value)) {
@@ -245,8 +272,10 @@ final readonly class GeoAnalyzer
     private function firstParagraph(\DOMXPath $xpath): string
     {
         $nodes = $xpath->query('(//main//p[normalize-space()] | //article//p[normalize-space()] | //body//p[normalize-space()])[1]');
+        $item = $nodes instanceof \DOMNodeList ? $nodes->item(0) : null;
+        $content = $item instanceof \DOMNode ? (string) $item->textContent : '';
 
-        return trim(preg_replace('/\s+/u', ' ', $nodes->item(0)?->textContent ?? ''));
+        return trim((string) preg_replace('/\s+/u', ' ', $content));
     }
 
     private function wordCount(string $text): int
@@ -254,18 +283,27 @@ final readonly class GeoAnalyzer
         return preg_match_all('/[\p{L}\p{N}]+(?:[’\'-][\p{L}\p{N}]+)*/u', $text) ?: 0;
     }
 
+    /**
+     * @return list<string>
+     */
     private function externalLinks(\DOMXPath $xpath, string $pageUrl): array
     {
         $host = strtolower((string) parse_url($pageUrl, PHP_URL_HOST));
         $links = [];
-        foreach ($xpath->query('//a[@href]') as $anchor) {
-            $href = trim($anchor->getAttribute('href'));
-            if (!preg_match('#^https?://#i', $href)) {
-                continue;
-            }
-            $linkHost = strtolower((string) parse_url($href, PHP_URL_HOST));
-            if ($linkHost !== '' && $linkHost !== $host) {
-                $links[$href] = true;
+        $nodes = $xpath->query('//a[@href]');
+        if ($nodes instanceof \DOMNodeList) {
+            foreach ($nodes as $anchor) {
+                if (!$anchor instanceof \DOMElement) {
+                    continue;
+                }
+                $href = trim($anchor->getAttribute('href'));
+                if (!preg_match('#^https?://#i', $href)) {
+                    continue;
+                }
+                $linkHost = strtolower((string) parse_url($href, PHP_URL_HOST));
+                if ($linkHost !== '' && $linkHost !== $host) {
+                    $links[$href] = true;
+                }
             }
         }
 
@@ -274,7 +312,10 @@ final readonly class GeoAnalyzer
 
     private function matchesText(\DOMXPath $xpath, string $pattern): bool
     {
-        $text = trim(preg_replace('/\s+/u', ' ', $xpath->query('//body')->item(0)?->textContent ?? ''));
+        $bodyNodes = $xpath->query('//body');
+        $item = $bodyNodes instanceof \DOMNodeList ? $bodyNodes->item(0) : null;
+        $content = $item instanceof \DOMNode ? (string) $item->textContent : '';
+        $text = trim((string) preg_replace('/\s+/u', ' ', $content));
 
         return preg_match('/\b(?:' . $pattern . ')\b/iu', $text) === 1;
     }
@@ -282,9 +323,15 @@ final readonly class GeoAnalyzer
     private function questionHeadingCount(\DOMXPath $xpath): int
     {
         $count = 0;
-        foreach ($xpath->query('//h2 | //h3 | //summary') as $node) {
-            if (str_contains(trim($node->textContent), '?')) {
-                ++$count;
+        $nodes = $xpath->query('//h2 | //h3 | //summary');
+        if ($nodes instanceof \DOMNodeList) {
+            foreach ($nodes as $node) {
+                if (!$node instanceof \DOMNode) {
+                    continue;
+                }
+                if (str_contains(trim((string) $node->textContent), '?')) {
+                    ++$count;
+                }
             }
         }
 
@@ -293,10 +340,16 @@ final readonly class GeoAnalyzer
 
     private function hasAboutContactLink(\DOMXPath $xpath): bool
     {
-        foreach ($xpath->query('//a[@href]') as $anchor) {
-            $value = strtolower($anchor->getAttribute('href') . ' ' . $anchor->textContent);
-            if (preg_match('/about|contact|o-nas|o nas|kontakt|redakcja/u', $value)) {
-                return true;
+        $nodes = $xpath->query('//a[@href]');
+        if ($nodes instanceof \DOMNodeList) {
+            foreach ($nodes as $anchor) {
+                if (!$anchor instanceof \DOMElement) {
+                    continue;
+                }
+                $value = strtolower($anchor->getAttribute('href') . ' ' . (string) $anchor->textContent);
+                if (preg_match('/about|contact|o-nas|o nas|kontakt|redakcja/u', $value)) {
+                    return true;
+                }
             }
         }
 
@@ -326,13 +379,16 @@ final readonly class GeoAnalyzer
         return $hasRootBlock && !$hasRootAllow ? 'blocked' : ($exact !== [] ? 'allowed' : 'not-addressed');
     }
 
+    /**
+     * @return list<array{agents: list<string>, directives: list<array{name: string, value: string}>}>
+     */
     private function robotsGroups(string $body): array
     {
         $groups = [];
         $agents = [];
         $directives = [];
         foreach (preg_split('/\R/', $body) ?: [] as $line) {
-            $line = trim(preg_replace('/\s*#.*$/', '', $line));
+            $line = trim((string) preg_replace('/\s*#.*$/', '', $line));
             if ($line === '' || !str_contains($line, ':')) {
                 continue;
             }

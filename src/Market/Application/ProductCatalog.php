@@ -48,7 +48,7 @@ final readonly class ProductCatalog
         }
 
         return array_map(function (array $products): ProductFamily {
-            $first = array_first($products);
+            $first = $products[0];
             $familySlug = $this->familySlug($first);
             $name = match ($first->category) {
                 'smartphones' => 'Apple ' . $first->specifications['generation'],
@@ -60,6 +60,7 @@ final readonly class ProductCatalog
                 ),
                 'ram' => $first->specifications['family_name'] ?? 'RAM Memory',
                 'cars' => 'Peugeot 206 CC',
+                default => $first->name,
             };
             [$image, $credit, $source] = $this->familyImage($familySlug, $first->category);
 

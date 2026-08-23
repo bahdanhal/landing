@@ -6,7 +6,10 @@ namespace App\Audit\Application;
 
 final readonly class IssueGrouper
 {
-    /** @return list<array{severity:string,code:string,title:string,occurrences:list<array{detail:string,evidence:array}>}> */
+    /**
+     * @param list<array{severity: string, code: string, title: string, detail: string, evidence?: array<mixed>}> $issues
+     * @return list<array{severity: string, code: string, title: string, occurrences: list<array{detail: string, evidence: array<mixed>}>}>
+     */
     public function group(array $issues): array
     {
         $groups = [];

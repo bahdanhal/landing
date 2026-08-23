@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\DomainInspector\Application;
 
-use App\Crawl\Infrastructure\HttpFetcher;
 use App\DomainInspector\Domain\BimiCheck;
 use App\DomainInspector\Domain\DmarcCheck;
 use App\DomainInspector\Domain\DomainSecurityReport;
@@ -12,12 +11,13 @@ use App\DomainInspector\Domain\MtaStsCheck;
 use App\DomainInspector\Domain\MxCheck;
 use App\DomainInspector\Domain\SpfCheck;
 use App\DomainInspector\Domain\TlsRptCheck;
+use App\Shared\Infrastructure\Http\SafeHttpFetcher;
 
 final readonly class DomainInspector
 {
     public function __construct(
         private DnsResolverInterface $dnsResolver,
-        private HttpFetcher $httpFetcher,
+        private SafeHttpFetcher $httpFetcher,
     ) {
     }
 

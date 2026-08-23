@@ -29,10 +29,6 @@ final readonly class DoctrinePageViewRepository implements PageViewRepository
 
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
-
-        if (random_int(1, 100) === 1) {
-            $this->prune($pageView->occurredAt);
-        }
     }
 
     /** @return list<PageView> */

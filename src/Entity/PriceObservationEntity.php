@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Shared\Domain\Grosz;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,14 +25,14 @@ class PriceObservationEntity
     #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE)]
     private \DateTimeImmutable $observedAt;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private int $medianGrosz;
+    #[ORM\Column(type: 'grosz')]
+    private Grosz|int $medianGrosz;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private int $lowGrosz;
+    #[ORM\Column(type: 'grosz')]
+    private Grosz|int $lowGrosz;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private int $highGrosz;
+    #[ORM\Column(type: 'grosz')]
+    private Grosz|int $highGrosz;
 
     #[ORM\Column(type: Types::INTEGER)]
     private int $sampleSize;
@@ -48,9 +49,9 @@ class PriceObservationEntity
     public function __construct(
         string $productSlug,
         \DateTimeImmutable $observedAt,
-        int $medianGrosz,
-        int $lowGrosz,
-        int $highGrosz,
+        Grosz|int $medianGrosz,
+        Grosz|int $lowGrosz,
+        Grosz|int $highGrosz,
         int $sampleSize,
         string $confidence,
         ?string $summary,
@@ -82,19 +83,34 @@ class PriceObservationEntity
         return $this->observedAt;
     }
 
+    public function getMedian(): Grosz
+    {
+        return $this->medianGrosz instanceof Grosz ? $this->medianGrosz : Grosz::fromGrosz($this->medianGrosz);
+    }
+
     public function getMedianGrosz(): int
     {
-        return $this->medianGrosz;
+        return $this->medianGrosz instanceof Grosz ? $this->medianGrosz->amount : $this->medianGrosz;
+    }
+
+    public function getLow(): Grosz
+    {
+        return $this->lowGrosz instanceof Grosz ? $this->lowGrosz : Grosz::fromGrosz($this->lowGrosz);
     }
 
     public function getLowGrosz(): int
     {
-        return $this->lowGrosz;
+        return $this->lowGrosz instanceof Grosz ? $this->lowGrosz->amount : $this->lowGrosz;
+    }
+
+    public function getHigh(): Grosz
+    {
+        return $this->highGrosz instanceof Grosz ? $this->highGrosz : Grosz::fromGrosz($this->highGrosz);
     }
 
     public function getHighGrosz(): int
     {
-        return $this->highGrosz;
+        return $this->highGrosz instanceof Grosz ? $this->highGrosz->amount : $this->highGrosz;
     }
 
     public function getSampleSize(): int

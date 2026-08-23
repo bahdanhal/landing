@@ -4,14 +4,47 @@ declare(strict_types=1);
 
 namespace App\Crawl\Application;
 
-use App\Crawl\Infrastructure\HttpFetcher;
+use App\Shared\Infrastructure\Http\SafeHttpFetcher;
 
 final readonly class PageAnalyzer
 {
-    public function __construct(private HttpFetcher $fetcher)
+    public function __construct(private SafeHttpFetcher $fetcher)
     {
     }
 
+    /**
+     * @param array{
+     *     requested_url: string,
+     *     final_url: string,
+     *     status: int,
+     *     headers: array<string, list<string>>,
+     *     body: string,
+     *     content_type: string,
+     *     duration_ms: int,
+     *     redirects: list<array{url: string, status: int, location: ?string}>,
+     *     error: ?string
+     * } $fetch
+     * @return array{
+     *     url: string,
+     *     final_url: string,
+     *     status: int,
+     *     duration_ms: int,
+     *     redirects: list<array{url: string, status: int, location: ?string}>,
+     *     content_type: string,
+     *     title: ?string,
+     *     description: ?string,
+     *     canonical: ?string,
+     *     canonical_count: int,
+     *     robots: ?string,
+     *     h1: list<string>,
+     *     links: list<string>,
+     *     get_forms: list<array{action: string, parameters: list<string>}>,
+     *     lang: ?string,
+     *     word_count: int,
+     *     content_hash: ?string,
+     *     error: ?string
+     * }
+     */
     public function analyze(array $fetch): array
     {
         $result = [
@@ -50,67 +83,99 @@ final readonly class PageAnalyzer
         }
 
         $xpath = new \DOMXPath($document);
-        $result['title'] = $this->text($xpath->query('//title')->item(0));
+        $titleNode = $xpath->query('//title');
+        $result['title'] = $titleNode !== false ? $this->text($titleNode->item(0)) : null;
         // phpcs:ignore Generic.Files.LineLength
         $result['description'] = $this->attribute($xpath, '//meta[translate(@name,"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz")="description"]', 'content');
         // phpcs:ignore Generic.Files.LineLength
         $canonicals = $xpath->query('//link[contains(concat(" ", translate(@rel,"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz"), " "), " canonical ")]');
-        $result['canonical_count'] = $canonicals->length;
-        $canonical = $canonicals->item(0)?->attributes?->getNamedItem('href')?->nodeValue;
-        $result['canonical'] = $canonical ? $this->fetcher->resolveUrl($fetch['final_url'], trim($canonical)) : null;
+        $result['canonical_count'] = $canonicals instanceof \DOMNodeList ? $canonicals->length : 0;
+        $canonicalItem = $canonicals instanceof \DOMNodeList ? $canonicals->item(0) : null;
+        $canonical = $canonicalItem instanceof \DOMElement ? $canonicalItem->getAttribute('href') : null;
+        $result['canonical'] = $canonical !== null && $canonical !== '' ? $this->fetcher->resolveUrl($fetch['final_url'], trim($canonical)) : null;
         $result['robots'] = $this->attribute($xpath, '//meta[translate(@name,"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz")="robots"]', 'content');
         $result['lang'] = $document->documentElement?->getAttribute('lang') ?: null;
 
-        foreach ($xpath->query('//h1') as $heading) {
-            $text = $this->text($heading);
-            if ($text !== null) {
-                $result['h1'][] = $text;
+        $h1Nodes = $xpath->query('//h1');
+        if ($h1Nodes instanceof \DOMNodeList) {
+            foreach ($h1Nodes as $heading) {
+                $text = $this->text($heading);
+                if ($text !== null) {
+                    $result['h1'][] = $text;
+                }
             }
         }
 
         $links = [];
-        foreach ($xpath->query('//a[@href]') as $anchor) {
-            $href = trim($anchor->getAttribute('href'));
-            if ($href === '' || str_starts_with($href, '#') || preg_match('#^(mailto|tel|javascript|data):#i', $href)) {
-                continue;
+        $anchorNodes = $xpath->query('//a[@href]');
+        if ($anchorNodes instanceof \DOMNodeList) {
+            foreach ($anchorNodes as $anchor) {
+                if (!$anchor instanceof \DOMElement) {
+                    continue;
+                }
+                $href = trim($anchor->getAttribute('href'));
+                if ($href === '' || str_starts_with($href, '#') || preg_match('#^(mailto|tel|javascript|data):#i', $href)) {
+                    continue;
+                }
+                $absolute = $this->fetcher->resolveUrl($fetch['final_url'], html_entity_decode($href));
+                $cleanUrl = preg_replace('/#.*$/', '', $absolute) ?? $absolute;
+                $links[$cleanUrl] = true;
             }
-            $absolute = $this->fetcher->resolveUrl($fetch['final_url'], html_entity_decode($href));
-            $absolute = preg_replace('/#.*$/', '', $absolute);
-            $links[$absolute] = true;
         }
         $result['links'] = array_keys($links);
 
-        foreach ($xpath->query('//form[not(@method) or translate(@method,"abcdefghijklmnopqrstuvwxyz","ABCDEFGHIJKLMNOPQRSTUVWXYZ")="GET"]') as $form) {
-            $names = [];
-            foreach ((new \DOMXPath($document))->query('.//*[@name]', $form) as $field) {
-                $names[] = $field->getAttribute('name');
+        $formNodes = $xpath->query('//form[not(@method) or translate(@method,"abcdefghijklmnopqrstuvwxyz","ABCDEFGHIJKLMNOPQRSTUVWXYZ")="GET"]');
+        if ($formNodes instanceof \DOMNodeList) {
+            foreach ($formNodes as $form) {
+                if (!$form instanceof \DOMElement) {
+                    continue;
+                }
+                $names = [];
+                $fieldNodes = (new \DOMXPath($document))->query('.//*[@name]', $form);
+                if ($fieldNodes instanceof \DOMNodeList) {
+                    foreach ($fieldNodes as $field) {
+                        if ($field instanceof \DOMElement) {
+                            $nameAttr = $field->getAttribute('name');
+                            if ($nameAttr !== '') {
+                                $names[] = $nameAttr;
+                            }
+                        }
+                    }
+                }
+                $actionAttr = $form->getAttribute('action');
+                $result['get_forms'][] = [
+                    'action' => $this->fetcher->resolveUrl($fetch['final_url'], $actionAttr !== '' ? $actionAttr : $fetch['final_url']),
+                    'parameters' => array_values(array_unique($names)),
+                ];
             }
-            $result['get_forms'][] = [
-                'action' => $this->fetcher->resolveUrl($fetch['final_url'], $form->getAttribute('action') ?: $fetch['final_url']),
-                'parameters' => array_values(array_unique(array_filter($names))),
-            ];
         }
 
-        $bodyText = $this->text($xpath->query('//body')->item(0)) ?? '';
+        $bodyNode = $xpath->query('//body');
+        $bodyText = $bodyNode !== false ? ($this->text($bodyNode->item(0)) ?? '') : '';
         $result['word_count'] = str_word_count($bodyText);
-        $result['content_hash'] = hash('xxh3', preg_replace('/\s+/', ' ', strtolower($bodyText)));
+        $normalizedText = preg_replace('/\s+/', ' ', strtolower($bodyText)) ?? strtolower($bodyText);
+        $result['content_hash'] = hash('xxh3', $normalizedText);
 
         return $result;
     }
 
-    private function text(?\DOMNode $node): ?string
+    private function text(\DOMNode|\DOMNameSpaceNode|null $node): ?string
     {
-        if ($node === null) {
+        if (!$node instanceof \DOMNode) {
             return null;
         }
-        $value = trim(preg_replace('/\s+/', ' ', $node->textContent));
+        $value = trim((string) preg_replace('/\s+/', ' ', (string) $node->textContent));
         return $value === '' ? null : $value;
     }
 
     private function attribute(\DOMXPath $xpath, string $query, string $name): ?string
     {
-        $value = $xpath->query($query)->item(0)?->attributes?->getNamedItem($name)?->nodeValue;
-        $value = is_string($value) ? trim($value) : '';
+        $nodeList = $xpath->query($query);
+        $item = $nodeList instanceof \DOMNodeList ? $nodeList->item(0) : null;
+        if (!$item instanceof \DOMElement) {
+            return null;
+        }
+        $value = trim($item->getAttribute($name));
         return $value === '' ? null : $value;
     }
 }

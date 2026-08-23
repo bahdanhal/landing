@@ -17,6 +17,7 @@ final readonly class AuditLogger
         return bin2hex(random_bytes(6));
     }
 
+    /** @param array<string, mixed> $context */
     public function log(string $event, array $context = []): void
     {
         $record = [
@@ -34,10 +35,6 @@ final readonly class AuditLogger
 
         file_put_contents($this->logFile(), $line, FILE_APPEND | LOCK_EX);
         error_log(rtrim($line));
-
-        if (random_int(1, 100) === 1) {
-            $this->removeExpiredLogs();
-        }
     }
 
     public function safeUrl(?string $url): ?string
@@ -113,13 +110,18 @@ final readonly class AuditLogger
         return rtrim($this->directory, '/') . '/audit-' . gmdate('Y-m-d') . '.jsonl';
     }
 
-    private function removeExpiredLogs(): void
+    public function pruneExpired(): int
     {
         $cutoff = time() - max(1, $this->retentionDays) * 86400;
+        $deleted = 0;
         foreach (glob(rtrim($this->directory, '/') . '/audit-*.jsonl') ?: [] as $file) {
             if (is_file($file) && filemtime($file) < $cutoff) {
-                @unlink($file);
+                if (@unlink($file)) {
+                    $deleted++;
+                }
             }
         }
+
+        return $deleted;
     }
 }

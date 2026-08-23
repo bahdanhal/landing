@@ -17,6 +17,7 @@ graph TD
     subgraph "Application Bounded Contexts"
         PHP --> AuditContext[Technical SEO Audit & Crawler]
         PHP --> GeoContext[GEO Analyzer & AI Policy Engine]
+        PHP --> DomainInspectorContext[Domain & Email Security Inspector]
         PHP --> MarketContext[Poland Used-Goods Price Index]
         PHP --> IncomeContext[Polish Employment Calculator]
         PHP --> McpContext[Model Context Protocol Tools]
@@ -24,6 +25,7 @@ graph TD
 
     subgraph "External Integrations"
         AuditContext -->|Target Web Crawl with SSRF Guard| InternetTarget[External Websites]
+        DomainInspectorContext -->|SSRF Fetch & DNS Resolution| DnsTarget[Public DNS & Policy Endpoints]
     end
 
     subgraph "Persistence Layer"
@@ -37,7 +39,7 @@ graph TD
 ### Architectural Principles
 
 1. **Hardened Database & Clean Architecture Persistence**  
-   Primary domain entities and analytics data (Price Observations, Leads, Product Requests, Price Tips, Page Views) are managed via Doctrine ORM backed by an isolated PostgreSQL 17 database. The database container resides exclusively in an internal Docker network with zero exposed host ports.
+   Primary domain entities and analytics data (Price Observations, Leads, Product Requests, Price Tips, Page Views) are managed via Doctrine ORM backed by an isolated PostgreSQL 17 database. The database container resides exclusively in an internal Docker network with zero exposed host ports. Currency fields are mapped to rich `Grosz` Value Objects using a custom Doctrine DBAL type (`grosz`).
 
 2. **Deterministic Rules with Decoupled AI Enrichment**  
    Core audits, market observations and signal evaluations are deterministic or manually curated. AI models are invoked only for optional semantic synthesis of technical SEO evidence. System integrity and market prices do not depend on model availability or non-deterministic output.
@@ -45,8 +47,8 @@ graph TD
 3. **Strict Privacy & Anti-Scraping Protection**  
    The public market index contains only manually reviewed aggregates. Voluntarily submitted listing URLs are private review material: query strings and fragments are removed, pages are never fetched automatically, and each tip expires after 90 days. Seller details and listing text are never stored. Client IPs are irreversibly hashed using HMAC-SHA256.
 
-4. **SSRF Guard with DNS Pinning**  
-   The HTTP fetcher enforces multi-layered Server-Side Request Forgery (SSRF) defenses: private, reserved, and local IP rejection (`FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE`), hostname validation, and strict DNS resolution pinning to prevent DNS rebinding attacks during crawling.
+4. **Shared SSRF Guard with DNS Pinning**  
+   The shared HTTP fetching layer (`App\Shared\Infrastructure\Http\SafeHttpFetcher` + `UrlGuard`) enforces multi-layered Server-Side Request Forgery (SSRF) defenses: private, reserved, and local IP rejection (`FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE`), hostname validation, and strict DNS resolution pinning to prevent DNS rebinding attacks during crawling.
 
 5. **Multi-Platform AI Abstraction**  
    Optional audit summaries use the `AiClient` interface and Symfony AI Platform, allowing configuration switching between Anthropic and Google Gemini without coupling deterministic audit rules to a model.
@@ -70,11 +72,12 @@ src/
 ├── Command/                         # CLI Console Commands
 │   ├── AuditCommand.php             # CLI interface for technical SEO audits
 │   ├── MigrateStorageToDatabaseCommand.php # Import legacy JSON/JSONL into Postgres
+│   ├── PruneExpiredDataCommand.php  # Scheduled background pruning for expired data
 │   └── SanitizeMarketDataCommand.php# Normalize legacy market records
 ├── Entity/                          # Doctrine ORM Entities (PostgreSQL 17)
 │   ├── LeadEntity.php               # Leads table mapping
 │   ├── PageViewEntity.php           # Page views table mapping
-│   ├── PriceObservationEntity.php   # Price observations table mapping
+│   ├── PriceObservationEntity.php   # Price observations with GroszType mapping
 │   ├── PriceTipEntity.php           # Community price tips table mapping
 │   └── ProductRequestEntity.php     # Product requests table mapping
 ├── Controller/                      # Presentation Layer (HTTP Controllers)
@@ -85,16 +88,15 @@ src/
 │   ├── MarketController.php         # Used price index UI, configuration views
 │   ├── SitemapController.php        # Dynamic XML sitemap with XSL stylesheet
 │   └── ToolsController.php          # Portfolio landing, toolbox home, income, BIMI Studio
-├── Crawl/                           # Shared safe web retrieval context
-│   ├── Application/                 # Page and sitemap analysis
-│   ├── Domain/                      # Robots policy and unsafe URL exception
-│   └── Infrastructure/              # SSRF-safe HTTP fetcher and URL guard
+├── Crawl/                           # SEO Web Crawling & HTML Analysis Context
+│   ├── Application/                 # PageAnalyzer and SitemapInspector
+│   └── Domain/                      # RobotsPolicy
 ├── DomainInspector/                 # Email Security & Deliverability Context (Hexagonal)
 │   ├── Application/                 # DomainInspector, DnsResolverInterface
 │   ├── Domain/                      # DmarcCheck, BimiCheck, MtaStsCheck, TlsRptCheck, SpfCheck, MxCheck
-│   └── Infrastructure/              # NativeDnsResolver
+│   └── Infrastructure/              # NativeDnsResolver, CachedDnsResolver (300s TTL cache)
 ├── Geo/                             # Generative Engine Optimization context
-│   └── Application/                 # Deterministic GEO readiness analyzer
+│   └── Application/                 # Deterministic GEO readiness analyzer (13 check signals)
 ├── Income/                          # Polish Income & Tax Calculator Context
 │   └── Domain/
 │       └── PolishIncomeCalculator.php# 2026 progressive, linear, lump, UoP, UZ tax math
@@ -106,7 +108,7 @@ src/
 │   │   └── LeadRepository.php       # Repository interface
 │   └── Infrastructure/
 │       ├── DoctrineLeadRepository.php # Primary PostgreSQL adapter
-│       └── JsonlLeadRepository.php    # Legacy import adapter
+│       └── JsonlLeadRepository.php    # Deprecated legacy migration double
 ├── Market/                          # Used Price Index Context (Hexagonal)
 │   ├── Application/
 │   │   └── ProductCatalog.php       # Catalog of product families & configurations
@@ -120,7 +122,7 @@ src/
 │       ├── DoctrinePriceObservationRepository.php # Primary PostgreSQL adapter
 │       ├── DoctrineProductRequestStore.php        # Primary PostgreSQL adapter
 │       ├── DoctrinePriceTipRepository.php          # Primary PostgreSQL adapter
-│       └── Json*                                    # Legacy import adapters
+│       └── Json*                                    # Deprecated legacy migration doubles
 ├── Mcp/                             # Model Context Protocol (MCP) Tools for AI Agents
 │   ├── AdminTools.php               # Admin monitoring & data ingestion tools
 │   ├── AuditTools.php               # audit_website_seo MCP tool
@@ -135,7 +137,13 @@ src/
     │   └── SymfonyAiClient.php      # Symfony AI Platform adapter (Anthropic/Gemini)
     ├── Application/
     │   └── DailyQuota.php           # Fixed daily window rate quota manager
-    └── Domain/                      # Grosz, HashedIp, SafeUrl, DailyQuotaDecision
+    ├── Domain/                      # Grosz, HashedIp, SafeUrl, DailyQuotaDecision, UnsafeUrlException
+    └── Infrastructure/
+        ├── Doctrine/Type/GroszType.php # Custom DBAL type for integer grosz mapping
+        └── Http/                    # Shared SSRF-safe HTTP retrieval
+            ├── FetchHopState.php    # Typed HTTP hop tracking state
+            ├── SafeHttpFetcher.php  # SSRF-guarded HTTP client with DNS pinning
+            └── UrlGuard.php         # Target URL validation and private IP rejection
 ```
 
 ---
@@ -152,7 +160,7 @@ sequenceDiagram
     participant Quota as DailyQuota
     participant Auditor as SiteAuditor
     participant Guard as UrlGuard
-    participant Fetcher as HttpFetcher
+    participant Fetcher as SafeHttpFetcher
     participant Inspector as SitemapInspector
     participant Rules as AuditRuleEngine
     participant AI as AiSummaryService
@@ -184,35 +192,39 @@ sequenceDiagram
     Controller-->>User: Rendered HTML Report / JSON Response
 ```
 
-### 3.2 Manual Market Review Pipeline
+### 3.2 Domain Inspector Pipeline (SSRF & Cached DNS)
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Visitor
-    actor Bahdan as Authenticated Admin
-    participant Catalog as ProductCatalog
-    participant Tips as PriceTipRepository
-    participant Repository as PriceObservationRepository
+    actor User
+    participant Controller as DomainInspectorController
+    participant Inspector as DomainInspector
+    participant Dns as CachedDnsResolver
+    participant Fetcher as SafeHttpFetcher
 
-    Visitor->>Tips: Submit public listing URL
-    Tips->>Tips: Strip query/fragment, hash IP, set 90-day expiry
-    Bahdan->>Tips: Review private community suggestions
-    Bahdan->>Catalog: Confirm exact product definition
-    Bahdan->>Repository: Save manually reviewed aggregate observation
-    Repository->>Repository: flock, validate history, atomic rename
+    User->>Controller: POST /domain-inspector (domain)
+    Controller->>Inspector: inspect(domain)
+    Inspector->>Dns: resolve MX, TXT (DMARC/SPF/BIMI) with 300s TTL cache
+    Dns-->>Inspector: DNS resource records
+    opt MTA-STS or BIMI SVG Fetch
+        Inspector->>Fetcher: fetch(.well-known/mta-sts.txt or svg) with SSRF Guard
+        Fetcher-->>Inspector: Policy or SVG payload
+    end
+    Inspector-->>Controller: DomainReport (score, grade, checks)
+    Controller-->>User: Rendered report / JSON response
 ```
 
 ---
 
 ## 4. Security & Resilience Architecture
 
-### 4.1 SSRF Prevention (`UrlGuard` + `HttpFetcher`)
-External user-supplied URLs present SSRF (Server-Side Request Forgery) risks. The application employs a 4-stage defense:
+### 4.1 SSRF Prevention (`UrlGuard` + `SafeHttpFetcher`)
+External user-supplied URLs present SSRF (Server-Side Request Forgery) risks. The application employs a 4-stage defense in the Shared Kernel:
 1. **URL Normalization**: Rejects unsupported protocols (only `http` and `https`), strips inline user/password credentials, and enforces absolute hostnames.
 2. **IP Range Filtering**: Disallows private ranges (RFC 1918), loopback (`127.0.0.0/8`, `::1`), link-local (`169.254.0.0/16`), multicast, and reserved ranges via `FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE`.
 3. **DNS Resolution & Validation**: Hostnames are resolved via `dns_get_record(DNS_A | DNS_AAAA)`. Every resolved IP is checked against the private/reserved filters.
-4. **Resolution Pinning**: `HttpFetcher` injects the resolved public IP directly into the HTTP client (`resolve: [$host => $resolvedIp]`), ensuring the network connection cannot be hijacked via DNS rebinding between validation and execution.
+4. **Resolution Pinning**: `SafeHttpFetcher` injects the resolved public IP directly into the HTTP client (`resolve: [$host => $resolvedIp]`), ensuring the network connection cannot be hijacked via DNS rebinding between validation and execution.
 
 ### 4.2 Rate Limiting & Abuse Prevention
 - **SEO & GEO Audits**: 10 audits per client IP per day via `DailyQuota`, backed by a dedicated filesystem rate limit pool (`app.rate_limit_cache`).
@@ -220,11 +232,12 @@ External user-supplied URLs present SSRF (Server-Side Request Forgery) risks. Th
 - **Product Requests**: 5 submissions per IP per day + Honeypot check + Origin validation.
 - **Price Tips**: 5 submissions per IP per day + Honeypot + Origin validation + private 90-day retention.
 
-### 4.3 Persistence & Concurrency
+### 4.3 Persistence, Background Pruning & Concurrency
 - Doctrine repositories persist leads, page views, product requests, price tips, and price observations in PostgreSQL.
+- Currency math is mapped to native `Grosz` Value Objects using the custom DBAL type `grosz`.
+- Data retention and pruning for expired records (page views, price tips, audit logs) run asynchronously via `app:prune-expired-data` (`PruneExpiredDataCommand`) rather than inline on HTTP request lifecycles.
 - Database constraints protect observation uniqueness, while transactions provide concurrency guarantees.
 - `AuditLogger` remains an append-only JSONL operational log with locked writes and bounded retention.
-- Legacy JSON/JSONL adapters are retained only for controlled migration through `app:import-json-to-database`.
 
 ---
 
@@ -270,7 +283,6 @@ The project exposes a native **Model Context Protocol** endpoint at `/mcp` via `
 |  | - audit_cache   -> /app/var/audit-cache                                      | |
 |  | - audit_logs    -> /app/var/audit-logs                                       | |
 |  | - rate_limits   -> /app/var/rate-limits                                      | |
-|  | - legacy import volumes remain mounted during migration                      | |
 |  +------------------------------------------------------------------------------+ |
 +-----------------------------------------------------------------------------------+
 ```
@@ -284,8 +296,8 @@ The continuous verification pipeline ensures 100% adherence to project standards
 | Gate | Tool | Command | Standard |
 |---|---|---|---|
 | **Unit & Integration Tests** | PHPUnit 12 | `docker run --rm bahdan-landing-test` | 100% passing (0 notices, 0 failures) |
-| **Code Style** | PHP_CodeSniffer | `docker run --rm bahdan-landing-test vendor/bin/phpcs --standard=phpcs.xml.dist` | PSR-12 standard (0 errors, 0 warnings) |
-| **Static Analysis** | PHPStan 2 | `docker run --rm bahdan-landing-test vendor/bin/phpstan analyse --memory-limit=512M` | Level 8, no findings beyond the shrinking baseline |
+| **Code Style** | PHP_CodeSniffer | `docker run --rm bahdan-landing-test vendor/bin/phpcs` | PSR-12 standard (0 errors, 0 warnings) |
+| **Static Analysis** | PHPStan 2 | `docker run --rm bahdan-landing-test vendor/bin/phpstan analyse --memory-limit=512M` | Level 8, 0 errors, 0 baseline (baseline eliminated) |
 | **Template Syntax** | Twig Linter | `docker run --rm bahdan-landing-test php bin/console lint:twig templates` | All templates valid |
 | **Configuration Syntax** | YAML Linter | `docker run --rm bahdan-landing-test php bin/console lint:yaml translations config` | All YAML configs valid |
-| **AST Knowledge Graph** | Graphify | `graphify . --code-only` + `graphify cluster-only .` | 0 import cycles, 388 nodes indexed |
+| **AST Knowledge Graph** | Graphify | `graphify update .` | 0 import cycles, ~1,196 nodes indexed |

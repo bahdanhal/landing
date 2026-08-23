@@ -39,8 +39,6 @@ final readonly class DoctrinePriceTipRepository implements PriceTipRepository
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
 
-        $this->removeExpired();
-
         return new PriceTip(
             $productSlug,
             $normalizedUrl,
@@ -54,8 +52,6 @@ final readonly class DoctrinePriceTipRepository implements PriceTipRepository
     /** @return list<PriceTip> */
     public function all(): array
     {
-        $this->removeExpired();
-
         $repository = $this->entityManager->getRepository(PriceTipEntity::class);
         /** @var list<PriceTipEntity> $entities */
         $entities = $repository->findBy([], ['submittedAt' => 'DESC']);
@@ -71,6 +67,15 @@ final readonly class DoctrinePriceTipRepository implements PriceTipRepository
             ),
             $entities
         );
+    }
+
+    public function pruneExpired(?\DateTimeImmutable $now = null): int
+    {
+        $reference = $now ?? new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+
+        return (int) $this->entityManager->createQuery(
+            'DELETE FROM App\Entity\PriceTipEntity t WHERE t.expiresAt <= :now'
+        )->setParameter('now', $reference)->execute();
     }
 
     private function normalizeUrl(string $url): string
@@ -101,14 +106,5 @@ final readonly class DoctrinePriceTipRepository implements PriceTipRepository
         $path = $parts['path'] ?? '/';
 
         return sprintf('%s://%s%s%s', $scheme, $host, $port, $path === '' ? '/' : $path);
-    }
-
-    private function removeExpired(): void
-    {
-        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
-
-        $this->entityManager->createQuery(
-            'DELETE FROM App\Entity\PriceTipEntity t WHERE t.expiresAt <= :now'
-        )->setParameter('now', $now)->execute();
     }
 }

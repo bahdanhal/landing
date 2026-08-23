@@ -10,8 +10,8 @@ use App\Audit\Infrastructure\AuditLogger;
 use App\Crawl\Application\PageAnalyzer;
 use App\Crawl\Application\SitemapInspector;
 use App\Crawl\Domain\RobotsPolicy;
-use App\Crawl\Infrastructure\HttpFetcher;
-use App\Crawl\Infrastructure\UrlGuard;
+use App\Shared\Infrastructure\Http\SafeHttpFetcher;
+use App\Shared\Infrastructure\Http\UrlGuard;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
@@ -19,7 +19,7 @@ final readonly class SiteAuditor
 {
     public function __construct(
         private UrlGuard $urlGuard,
-        private HttpFetcher $fetcher,
+        private SafeHttpFetcher $fetcher,
         private PageAnalyzer $pageAnalyzer,
         private SitemapInspector $sitemapInspector,
         private AuditRuleEngine $ruleEngine,
@@ -35,6 +35,9 @@ final readonly class SiteAuditor
     ) {
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function audit(string $input, bool $refresh = false): array
     {
         $auditId = $this->auditLogger->newAuditId();
@@ -99,6 +102,9 @@ final readonly class SiteAuditor
         }
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function performAudit(string $target, string $auditId): array
     {
         $started = hrtime(true);
@@ -135,7 +141,7 @@ final readonly class SiteAuditor
         $sitemap['sample_checks'] = $this->checkSitemapSample($sitemap['urls']);
         $trapProbes = $this->probeCrawlerTraps($origin, $crawl['pages']);
 
-        $issues = $this->ruleEngine->evaluate($crawl['pages'], $redirectMatrix, $robots, $sitemap);
+        $issues = $this->ruleEngine->evaluate(array_values($crawl['pages']), $redirectMatrix, $robots, $sitemap);
         foreach ($trapProbes as $probe) {
             if ($probe['trap']) {
                 $isArbitraryQueryProbe = str_contains($probe['url'], 'seo_audit_probe=1');
@@ -195,6 +201,11 @@ final readonly class SiteAuditor
         ];
     }
 
+    /**
+     * @param list<string> $startUrls
+     * @param array{rules: list<array{path: string, allow: bool}>, crawl_delay_ms: int} $robotsPolicy
+     * @return array{pages: array<string, array<string, mixed>>, discovered: int, truncated: bool}
+     */
     private function crawl(string $origin, array $startUrls, array $robotsPolicy, string $auditId): array
     {
         $queue = array_values(array_filter(array_unique($startUrls), fn (string $url) => $this->robotsPolicy->allows($url, $robotsPolicy)));
@@ -239,7 +250,7 @@ final readonly class SiteAuditor
                 }
             }
             if ($queue !== [] && count($pages) < $this->maxPages) {
-                $this->pause(max($this->batchDelayMs, $robotsPolicy['crawl_delay_ms'] ?? 0));
+                $this->pause(max($this->batchDelayMs, $robotsPolicy['crawl_delay_ms']));
             }
         }
 
@@ -255,6 +266,9 @@ final readonly class SiteAuditor
         return (int) round((hrtime(true) - $started) / 1_000_000);
     }
 
+    /**
+     * @return list<string>
+     */
     private function redirectVariants(string $url): array
     {
         $parts = parse_url($url);
@@ -274,6 +288,10 @@ final readonly class SiteAuditor
         return array_values(array_unique($variants));
     }
 
+    /**
+     * @param list<string> $urls
+     * @return list<array{url: string, status: int, final_url: string, redirects: int, error: ?string}>
+     */
     private function checkSitemapSample(array $urls): array
     {
         if ($urls === []) {
@@ -284,7 +302,7 @@ final readonly class SiteAuditor
             array_slice($urls, -5),
         )));
         $checks = [];
-        foreach (array_chunk($sample, $this->concurrency) as $index => $chunk) {
+        foreach (array_chunk($sample, max(1, $this->concurrency)) as $index => $chunk) {
             foreach ($this->fetcher->fetchMany($chunk) as $fetch) {
                 $checks[] = [
                     'url' => $fetch['requested_url'],
@@ -294,7 +312,7 @@ final readonly class SiteAuditor
                     'error' => $fetch['error'],
                 ];
             }
-            if ($index < (int) ceil(count($sample) / $this->concurrency) - 1) {
+            if ($index < (int) ceil(count($sample) / max(1, $this->concurrency)) - 1) {
                 $this->pause($this->batchDelayMs);
             }
         }
@@ -302,11 +320,17 @@ final readonly class SiteAuditor
         return $checks;
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $pages
+     * @return list<array{url: string, final_url: string, status: int, canonical: ?string, robots: ?string, trap: bool}>
+     */
     private function probeCrawlerTraps(string $origin, array $pages): array
     {
         $probes = [$origin . '/?seo_audit_probe=1'];
         foreach ($pages as $page) {
-            foreach ($page['links'] as $link) {
+            /** @var list<string> $links */
+            $links = $page['links'] ?? [];
+            foreach ($links as $link) {
                 parse_str((string) parse_url($link, PHP_URL_QUERY), $query);
                 if (array_key_exists('page', $query)) {
                     $parts = parse_url($link);
@@ -319,7 +343,7 @@ final readonly class SiteAuditor
         }
 
         $results = [];
-        foreach ($this->fetcher->fetchMany(array_unique($probes)) as $fetch) {
+        foreach ($this->fetcher->fetchMany(array_values(array_unique($probes))) as $fetch) {
             $page = $this->pageAnalyzer->analyze($fetch);
             $robots = strtolower($page['robots'] ?? '');
             $requestedUrl = $fetch['requested_url'];
@@ -343,8 +367,8 @@ final readonly class SiteAuditor
 
     private function isCrawlableInternal(string $originUrl, string $url): bool
     {
-        $originHost = strtolower(preg_replace('/^www\./', '', (string) parse_url($originUrl, PHP_URL_HOST)));
-        $host = strtolower(preg_replace('/^www\./', '', (string) parse_url($url, PHP_URL_HOST)));
+        $originHost = strtolower((string) preg_replace('/^www\./', '', (string) parse_url($originUrl, PHP_URL_HOST)));
+        $host = strtolower((string) preg_replace('/^www\./', '', (string) parse_url($url, PHP_URL_HOST)));
         if ($originHost !== $host || !in_array(strtolower((string) parse_url($url, PHP_URL_SCHEME)), ['http', 'https'], true)) {
             return false;
         }
@@ -372,21 +396,38 @@ final readonly class SiteAuditor
         return ($parts['scheme'] ?? 'https') . '://' . ($parts['host'] ?? '') . (isset($parts['port']) ? ':' . $parts['port'] : '');
     }
 
+    /**
+     * @return list<string>
+     */
     private function robotsSitemaps(string $body): array
     {
         preg_match_all('/^\s*Sitemap:\s*(\S+)/im', $body, $matches);
-        return array_values(array_unique($matches[1] ?? []));
+        return array_values(array_unique($matches[1]));
     }
 
+    /**
+     * @param array<string, mixed> $fetch
+     * @return array{
+     *     requested_url: string,
+     *     final_url: string,
+     *     status: int,
+     *     duration_ms: int,
+     *     redirects: list<array{url: string, status: int, location: ?string}>,
+     *     error: ?string
+     * }
+     */
     private function summarizeFetch(array $fetch): array
     {
+        /** @var list<array{url: string, status: int, location: ?string}> $redirects */
+        $redirects = $fetch['redirects'] ?? [];
+
         return [
-            'requested_url' => $fetch['requested_url'],
-            'final_url' => $fetch['final_url'],
-            'status' => $fetch['status'],
-            'duration_ms' => $fetch['duration_ms'],
-            'redirects' => $fetch['redirects'],
-            'error' => $fetch['error'],
+            'requested_url' => (string) ($fetch['requested_url'] ?? ''),
+            'final_url' => (string) ($fetch['final_url'] ?? ''),
+            'status' => (int) ($fetch['status'] ?? 0),
+            'duration_ms' => (int) ($fetch['duration_ms'] ?? 0),
+            'redirects' => $redirects,
+            'error' => isset($fetch['error']) && is_string($fetch['error']) ? $fetch['error'] : null,
         ];
     }
 

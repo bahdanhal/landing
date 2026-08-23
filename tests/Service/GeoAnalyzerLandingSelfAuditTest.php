@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use App\Kernel;
-use App\Mcp\GeoTools;
-use App\Geo\Application\GeoAnalyzer;
-use App\Crawl\Infrastructure\HttpFetcher;
 use App\Crawl\Application\PageAnalyzer;
 use App\Crawl\Domain\RobotsPolicy;
-use App\Crawl\Infrastructure\UrlGuard;
+use App\Geo\Application\GeoAnalyzer;
+use App\Kernel;
+use App\Mcp\GeoTools;
+use App\Shared\Infrastructure\Http\SafeHttpFetcher;
+use App\Shared\Infrastructure\Http\UrlGuard;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Environment;
 
 final class GeoAnalyzerLandingSelfAuditTest extends TestCase
@@ -27,7 +28,9 @@ final class GeoAnalyzerLandingSelfAuditTest extends TestCase
     {
         $this->kernel = new Kernel('test', true);
         $this->kernel->boot();
-        $this->container = $this->kernel->getContainer()->get('test.service_container');
+        /** @var ContainerInterface $container */
+        $container = $this->kernel->getContainer()->get('test.service_container');
+        $this->container = $container;
         /** @var Environment $twig */
         $twig = $this->container->get('twig');
         $this->twig = $twig;
@@ -40,6 +43,7 @@ final class GeoAnalyzerLandingSelfAuditTest extends TestCase
 
     public function testLandingPageEnScores100OnSelfGeoAudit(): void
     {
+        /** @var RequestStack $requestStack */
         $requestStack = $this->container->get('request_stack');
         $request = Request::create('https://bahdanhal.pl/');
         $request->setLocale('en');
@@ -64,6 +68,7 @@ final class GeoAnalyzerLandingSelfAuditTest extends TestCase
 
     public function testLandingPagePlScores100OnSelfGeoAudit(): void
     {
+        /** @var RequestStack $requestStack */
         $requestStack = $this->container->get('request_stack');
         $request = Request::create('https://bahdanhal.pl/pl/');
         $request->setLocale('pl');
@@ -84,6 +89,7 @@ final class GeoAnalyzerLandingSelfAuditTest extends TestCase
 
     public function testMcpToolReturnsCompletedGeoAnalysisForLanding(): void
     {
+        /** @var RequestStack $requestStack */
         $requestStack = $this->container->get('request_stack');
         $request = Request::create('https://bahdanhal.pl/');
         $request->setLocale('en');
@@ -104,6 +110,9 @@ final class GeoAnalyzerLandingSelfAuditTest extends TestCase
         $requestStack->pop();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function runGeoAudit(string $url, string $html): array
     {
         $analyzer = $this->createAnalyzerForHtml($url, $html);
@@ -116,7 +125,7 @@ final class GeoAnalyzerLandingSelfAuditTest extends TestCase
         $llmsTxt = (string) file_get_contents(dirname(__DIR__, 2) . '/public/llms.txt');
 
         $urlGuard = new UrlGuard();
-        $fetcher = new class ($url, $html, $robotsTxt, $llmsTxt) extends HttpFetcher {
+        $fetcher = new class ($url, $html, $robotsTxt, $llmsTxt) extends SafeHttpFetcher {
             public function __construct(
                 private readonly string $targetUrl,
                 private readonly string $html,
@@ -125,6 +134,9 @@ final class GeoAnalyzerLandingSelfAuditTest extends TestCase
             ) {
             }
 
+            /**
+             * @return array{requested_url:string,final_url:string,status:int,headers:array<string, list<string>>,body:string,content_type:string,duration_ms:int,redirects:list<array{url:string,status:int,location:?string}>,error:?string}
+             */
             public function fetch(string $url, int $maxRedirects = 8): array
             {
                 if ($url === $this->targetUrl) {

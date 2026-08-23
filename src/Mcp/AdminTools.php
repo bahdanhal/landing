@@ -263,6 +263,10 @@ final readonly class AdminTools
         ]);
     }
 
+    /**
+     * @param list<mixed> $items
+     * @return array{total: int, last_7_days: int, last_30_days: int}
+     */
     private function submissionStats(array $items, callable $date, \DateTimeImmutable $sevenDaysAgo, \DateTimeImmutable $thirtyDaysAgo): array
     {
         return [
@@ -272,6 +276,10 @@ final readonly class AdminTools
         ];
     }
 
+    /**
+     * @param list<array<string, mixed>> $events
+     * @return array{total: int, last_7_days: int, last_30_days: int, completed: int, failed: int}
+     */
     private function auditStatistics(
         array $events,
         \DateTimeImmutable $sevenDaysAgo,
@@ -300,7 +308,10 @@ final readonly class AdminTools
         ];
     }
 
-    /** @param list<string> $values */
+    /**
+     * @param list<string> $values
+     * @return array<string, int>
+     */
     private function frequencies(array $values): array
     {
         $counts = array_count_values(array_filter($values, static fn (string $value): bool => $value !== ''));
@@ -324,6 +335,7 @@ final readonly class AdminTools
         return $this->json(['error' => 'Limit must be between 1 and 100.']);
     }
 
+    /** @param array<string, mixed> $data */
     private function json(array $data): string
     {
         return json_encode(

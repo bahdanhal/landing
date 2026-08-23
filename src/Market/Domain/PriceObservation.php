@@ -25,6 +25,19 @@ final readonly class PriceObservation
         }
     }
 
+    /**
+     * @return array{
+     *     product_slug: string,
+     *     observed_at: string,
+     *     median_grosz: int,
+     *     low_grosz: int,
+     *     high_grosz: int,
+     *     sample_size: int,
+     *     confidence: string,
+     *     summary: string,
+     *     methodology: string
+     * }
+     */
     public function toArray(): array
     {
         return [
@@ -43,6 +56,9 @@ final readonly class PriceObservation
     public const METHODOLOGY_MANUAL =
         'Manually reviewed snapshot of comparable public asking prices; submitted source links are retained privately for verification only.';
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public static function fromArray(array $data): self
     {
         return new self(

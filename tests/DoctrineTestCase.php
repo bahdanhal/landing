@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use App\Shared\Infrastructure\Doctrine\Type\GroszType;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMSetup;
@@ -17,14 +19,16 @@ abstract class DoctrineTestCase extends TestCase
 
     protected function setUp(): void
     {
+        if (!Type::hasType(GroszType::NAME)) {
+            Type::addType(GroszType::NAME, GroszType::class);
+        }
+
         $config = ORMSetup::createAttributeMetadataConfiguration(
             paths: [dirname(__DIR__) . '/src/Entity'],
             isDevMode: true,
         );
-        $config->setNamingStrategy(new \Doctrine\ORM\Mapping\UnderscoreNamingStrategy(CASE_LOWER, true));
-        if (method_exists($config, 'enableNativeLazyObjects')) {
-            $config->enableNativeLazyObjects(true);
-        }
+        $config->setNamingStrategy(new \Doctrine\ORM\Mapping\UnderscoreNamingStrategy(CASE_LOWER));
+        $config->enableNativeLazyObjects(true);
 
         $connection = DriverManager::getConnection([
             'driver' => 'pdo_sqlite',

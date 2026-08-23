@@ -31,6 +31,7 @@ HTML;
             'requested_url' => 'https://example.com/guides/collector',
             'final_url' => 'https://example.com/guides/collector',
             'status' => 200,
+            'headers' => [],
             'duration_ms' => 12,
             'redirects' => [],
             'content_type' => 'text/html; charset=UTF-8',

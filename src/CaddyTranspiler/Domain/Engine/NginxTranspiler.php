@@ -296,8 +296,7 @@ final class NginxTranspiler
         }
 
         foreach ($reverseProxies as $proxy) {
-            $prefix = $proxy['path'] ? $proxy['path'] . ' ' : '';
-            $linesOut[] = "    reverse_proxy {$prefix}{$proxy['upstream']}";
+            $linesOut[] = "    reverse_proxy {$proxy['upstream']}";
         }
 
         if ($fileServerNeeded) {

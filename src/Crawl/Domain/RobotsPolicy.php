@@ -14,7 +14,7 @@ final readonly class RobotsPolicy
         $directives = [];
 
         foreach (preg_split('/\R/', $body) ?: [] as $line) {
-            $line = trim(preg_replace('/\s*#.*$/', '', $line));
+            $line = trim((string) preg_replace('/\s*#.*$/', '', $line));
             if ($line === '' || !str_contains($line, ':')) {
                 continue;
             }
@@ -59,6 +59,9 @@ final readonly class RobotsPolicy
         return ['rules' => $rules, 'crawl_delay_ms' => $delay];
     }
 
+    /**
+     * @param array{rules?: list<array{path: string, allow: bool}>, crawl_delay_ms?: int} $policy
+     */
     public function allows(string $url, array $policy): bool
     {
         $path = (string) parse_url($url, PHP_URL_PATH);

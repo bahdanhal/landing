@@ -43,6 +43,13 @@ docker compose --env-file /secure/path/production.env exec app \
   php bin/console app:import-json-to-database
 ```
 
+Data retention (page views, price tips, audit logs) can be pruned periodically via a scheduled cron or systemd timer:
+
+```sh
+docker compose --env-file /secure/path/production.env exec app \
+  php bin/console app:prune-expired-data
+```
+
 Back up the PostgreSQL volume before migrations and retain a tested restore procedure. Do not use `doctrine:schema:update --force` in production.
 
 ## Verification

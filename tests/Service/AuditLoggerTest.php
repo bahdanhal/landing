@@ -21,7 +21,7 @@ final class AuditLoggerTest extends TestCase
                 'error' => $logger->safeError('Failed at https://example.com/search?token=secret-value'),
             ]);
 
-            $files = glob($directory . '/audit-*.jsonl');
+            $files = glob($directory . '/audit-*.jsonl') ?: [];
             self::assertCount(1, $files);
             $contents = file_get_contents($files[0]);
             self::assertIsString($contents);

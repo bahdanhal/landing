@@ -7,6 +7,10 @@ namespace App\Analytics\Infrastructure;
 use App\Analytics\Domain\PageView;
 use App\Analytics\Domain\PageViewRepository;
 
+/**
+ * @deprecated Use App\Analytics\Infrastructure\DoctrinePageViewRepository for production runtime persistence.
+ *             Retained for data migration and lightweight test fixtures.
+ */
 final readonly class JsonlPageViewRepository implements PageViewRepository
 {
     public function __construct(

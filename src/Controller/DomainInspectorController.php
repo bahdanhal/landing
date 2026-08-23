@@ -60,21 +60,23 @@ final class DomainInspectorController extends AbstractController
             ], new Response(status: 429, headers: ['Retry-After' => (string) $decision->retryAfterSeconds]));
         }
 
+        if ($isJson) {
+            try {
+                $report = $this->inspector->inspect($domain);
+
+                return new JsonResponse(['status' => 'completed', 'report' => $report->toArray()]);
+            } catch (\InvalidArgumentException | \RuntimeException $exception) {
+                return new JsonResponse(['status' => 'error', 'error' => $exception->getMessage()], status: 422);
+            }
+        }
+
         try {
             $report = $this->inspector->inspect($domain);
-
-            if ($isJson) {
-                return new JsonResponse(['status' => 'completed', 'report' => $report->toArray()]);
-            }
 
             return $this->render('domain_inspector/report.html.twig', [
                 'report' => $report,
             ]);
         } catch (\InvalidArgumentException | \RuntimeException $exception) {
-            if ($isJson) {
-                return new JsonResponse(['status' => 'error', 'error' => $exception->getMessage()], status: 422);
-            }
-
             return $this->render('domain_inspector/home.html.twig', [
                 'domain' => $domain,
                 'error' => $exception->getMessage(),

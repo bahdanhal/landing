@@ -33,7 +33,7 @@ final class LeadContextTest extends TestCase
             self::assertSame('user@example.com', $lead->email);
             self::assertSame('geo-audit', $lead->source);
 
-            $files = glob($directory . '/leads-*.jsonl');
+            $files = glob($directory . '/leads-*.jsonl') ?: [];
             self::assertCount(1, $files);
             $content = json_decode((string) file_get_contents($files[0]), true, flags: JSON_THROW_ON_ERROR);
             self::assertSame('user@example.com', $content['email']);
