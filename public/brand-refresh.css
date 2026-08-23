@@ -1,0 +1,423 @@
+:root {
+  --ink: #20231f;
+  --paper: #f3f0e8;
+  --panel: #fbfaf5;
+  --muted: #696d64;
+  --line: #d8d7cc;
+  --orange: #326052;
+  --green: #326052;
+  --blue: #3d5f78;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--paper);
+}
+
+body.portfolio-site {
+  background:
+    linear-gradient(90deg, transparent calc(50% - 590px), rgba(32, 35, 31, .055) calc(50% - 590px), rgba(32, 35, 31, .055) calc(50% - 589px), transparent calc(50% - 589px)),
+    linear-gradient(90deg, transparent calc(50% + 589px), rgba(32, 35, 31, .055) calc(50% + 589px), rgba(32, 35, 31, .055) calc(50% + 590px), transparent calc(50% + 590px)),
+    var(--paper);
+  font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+}
+
+.portfolio-site ::selection {
+  background: #c9d9ce;
+  color: #14241f;
+}
+
+.portfolio-site .topbar {
+  min-height: 76px;
+  padding-block: 12px;
+  border-bottom-color: rgba(32, 35, 31, .12);
+  background: rgba(243, 240, 232, .9);
+  box-shadow: none;
+  backdrop-filter: blur(18px);
+}
+
+.portfolio-site .brand {
+  gap: 12px;
+  font-size: 15px;
+  letter-spacing: -.02em;
+}
+
+.portfolio-site .brand-mark {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #20231f;
+  border-radius: 50%;
+  background: transparent;
+  color: #20231f;
+  font-size: 10px;
+}
+
+.portfolio-site .brand-credit {
+  color: #777a72;
+  font-size: 11px;
+  letter-spacing: 0;
+}
+
+.portfolio-site .primary-nav a,
+.portfolio-site .language-switch {
+  color: #4f534d;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.portfolio-site .primary-nav a:hover,
+.portfolio-site .language-switch:hover {
+  color: var(--orange);
+}
+
+.portfolio-site .profile-shell {
+  max-width: 1180px;
+  padding-top: 54px;
+}
+
+.portfolio-site .profile-hero {
+  position: relative;
+  grid-template-columns: minmax(0, 1.18fr) minmax(300px, .82fr);
+  min-height: 620px;
+  gap: 70px;
+  align-items: center;
+  padding: 52px 0 64px;
+  border-bottom: 1px solid var(--line);
+}
+
+.portfolio-site .profile-hero::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  right: 0;
+  width: 48%;
+  height: calc(100% - 44px);
+  background: #d9ddd2;
+  clip-path: polygon(13% 0, 100% 0, 100% 100%, 0 92%);
+  opacity: .82;
+}
+
+.portfolio-site .profile-hero-content,
+.portfolio-site .profile-hero-media {
+  position: relative;
+  z-index: 1;
+}
+
+.portfolio-site .eyebrow,
+.portfolio-site .profile-section-title > span {
+  margin-bottom: 20px;
+  color: var(--orange);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.portfolio-site .profile-hero h1 {
+  max-width: 760px;
+  font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  font-size: clamp(55px, 6.4vw, 86px);
+  font-weight: 560;
+  line-height: .98;
+  letter-spacing: -.065em;
+}
+
+.portfolio-site .profile-hero h1 span {
+  display: block;
+  max-width: 650px;
+  margin-top: 16px;
+  color: #70766d;
+  font-family: inherit;
+  font-size: .48em;
+  font-weight: 480;
+  line-height: 1.1;
+  letter-spacing: -.045em;
+}
+
+.portfolio-site .profile-intro {
+  max-width: 610px;
+  margin-top: 34px;
+}
+
+.portfolio-site .profile-intro p {
+  color: #555b53;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.portfolio-site .profile-actions {
+  margin-top: 28px;
+}
+
+.portfolio-site .profile-actions a {
+  color: #31362f;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.portfolio-site .profile-actions .profile-primary {
+  padding: 14px 20px;
+  border-radius: 4px;
+  background: #20231f;
+  box-shadow: none;
+  color: #f8f5ed;
+}
+
+.portfolio-site .profile-actions .profile-primary:hover {
+  background: #326052;
+}
+
+.portfolio-site .profile-avatar {
+  width: min(100%, 350px);
+  max-width: none;
+  aspect-ratio: 4 / 5;
+  border: 9px solid rgba(251, 250, 245, .7);
+  border-radius: 48% 48% 8px 8px;
+  box-shadow: 0 28px 55px rgba(48, 55, 46, .18);
+  filter: saturate(.84) contrast(.96);
+  object-fit: cover;
+}
+
+.portfolio-site .profile-facts {
+  margin-top: 22px;
+  border-top: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.portfolio-site .profile-facts span {
+  padding: 22px 16px 22px 0;
+  border-right: 1px solid var(--line);
+  color: #50564f;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.portfolio-site .profile-facts span:last-child {
+  border-right: 0;
+}
+
+.portfolio-site .profile-scope {
+  max-width: 930px;
+  margin: 72px auto 0;
+  padding: 0;
+  border: 0;
+  color: #404640;
+  font-family: inherit;
+  font-size: clamp(25px, 3vw, 39px);
+  font-weight: 480;
+  line-height: 1.35;
+  letter-spacing: -.03em;
+  text-align: center;
+}
+
+.portfolio-site .profile-grid {
+  gap: 0;
+  margin-top: 78px;
+  border-block: 1px solid var(--line);
+}
+
+.portfolio-site .profile-grid > div {
+  min-height: 230px;
+  padding: 34px 32px;
+  border-top: 0;
+  border-right: 1px solid var(--line);
+}
+
+.portfolio-site .profile-grid > div:last-child {
+  border-right: 0;
+}
+
+.portfolio-site .profile-grid h2,
+.portfolio-site .profile-service-grid h3,
+.portfolio-site .profile-section-title h2,
+.portfolio-site .profile-consultation h2,
+.portfolio-site .profile-testimonial-grid blockquote {
+  font-family: inherit;
+}
+
+.portfolio-site .profile-grid h2 {
+  margin-top: 36px;
+  font-size: 21px;
+  font-weight: 650;
+  letter-spacing: -.025em;
+}
+
+.portfolio-site .profile-services {
+  grid-template-columns: .72fr 1.28fr;
+  gap: 88px;
+  margin-top: 118px;
+}
+
+.portfolio-site .profile-section-title h2 {
+  font-size: clamp(38px, 4.8vw, 62px);
+  font-weight: 520;
+  letter-spacing: -.055em;
+}
+
+.portfolio-site .profile-service-grid {
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+
+.portfolio-site .profile-service-grid article {
+  min-height: 210px;
+  padding: 26px 24px;
+  border: 0;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  transition: background 180ms ease;
+}
+
+.portfolio-site .profile-service-grid article:nth-child(even) {
+  border-right: 0;
+}
+
+.portfolio-site .profile-service-grid article:hover {
+  background: rgba(251, 250, 245, .75);
+}
+
+.portfolio-site .profile-service-grid h3 {
+  font-size: 21px;
+  font-weight: 650;
+  letter-spacing: -.025em;
+}
+
+.portfolio-site .profile-work,
+.portfolio-site .profile-testimonials,
+.portfolio-site .profile-summit-feature,
+.portfolio-site .profile-faq,
+.portfolio-site .profile-consultation {
+  margin-top: 118px;
+}
+
+.portfolio-site .profile-work-list article {
+  grid-template-columns: 130px minmax(190px, .72fr) 1.28fr;
+  padding: 27px 0;
+  border-color: var(--line);
+}
+
+.portfolio-site .profile-work-list h3 {
+  font-weight: 650;
+  letter-spacing: -.02em;
+}
+
+.portfolio-site .profile-testimonial-grid {
+  gap: 10px;
+}
+
+.portfolio-site .profile-testimonial-grid figure,
+.portfolio-site .profile-testimonial-grid aside {
+  border: 0;
+  border-radius: 5px;
+  background: #e7e5dc;
+}
+
+.portfolio-site .profile-testimonial-grid figure:nth-child(2) {
+  background: #dce2d9;
+}
+
+.portfolio-site .profile-testimonial-grid blockquote {
+  font-size: 22px;
+  font-weight: 520;
+  letter-spacing: -.02em;
+}
+
+.portfolio-site .profile-summit-feature {
+  border-radius: 6px;
+  background: #242822;
+}
+
+.portfolio-site .summit-image-wrap img {
+  filter: saturate(.72) contrast(1.04);
+}
+
+.portfolio-site .profile-faq details {
+  padding: 22px 0;
+}
+
+.portfolio-site .profile-faq h3 {
+  font-weight: 620;
+}
+
+.portfolio-site .profile-consultation {
+  padding: 48px;
+  border: 0;
+  border-radius: 6px;
+  background: #dfe5db;
+}
+
+.portfolio-site .profile-consultation h2 {
+  font-weight: 520;
+  letter-spacing: -.05em;
+}
+
+.portfolio-site .lead-form {
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+.portfolio-site .profile-contact {
+  border-radius: 6px;
+  background: #20231f;
+}
+
+.portfolio-site footer {
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 850px) {
+  body.portfolio-site {
+    background: var(--paper);
+  }
+
+  .portfolio-site .profile-hero {
+    min-height: 0;
+    padding-top: 18px;
+  }
+
+  .portfolio-site .profile-hero::before {
+    top: auto;
+    bottom: 28px;
+    width: 78%;
+    height: 40%;
+  }
+
+  .portfolio-site .profile-hero h1 {
+    font-size: clamp(45px, 13vw, 61px);
+  }
+
+  .portfolio-site .profile-avatar {
+    width: 230px;
+    max-width: 70vw;
+  }
+
+  .portfolio-site .profile-grid > div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .portfolio-site .profile-services {
+    gap: 40px;
+  }
+
+  .portfolio-site .profile-service-grid {
+    border-top: 0;
+  }
+
+  .portfolio-site .profile-service-grid article {
+    border: 1px solid var(--line);
+    background: var(--panel);
+  }
+
+  .portfolio-site .profile-consultation {
+    padding: 28px 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; }
+}
