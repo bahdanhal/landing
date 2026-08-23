@@ -45,7 +45,6 @@
         <nav class="primary-nav" aria-label="{{ 'base.navigation'|trans }}">
           <a href="{{ path('landing', {_locale: app.request.locale}) }}#services">{{ 'profile.nav.services'|trans }}</a>
           <a href="{{ path('landing', {_locale: app.request.locale}) }}#work">{{ 'profile.nav.work'|trans }}</a>
-          <a href="https://stackhal.com" target="_blank" rel="noopener">StackHal ↗</a>
         </nav>
         {% block language_switch %}
           <a class="language-switch" href="{{ path('home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
@@ -54,7 +53,7 @@
     </div>
   </header>
   <main>{% block body %}{% endblock %}</main>
-  <footer>{{ 'base.footer'|trans }} · <a class="footer-contact" href="mailto:bahdan.hal@hotmail.com">{{ 'base.contact'|trans }}</a><br><span class="copyright">© {{ "now"|date("Y") }} Bahdan Hal</span></footer>
+  <footer>{{ 'base.footer'|trans }} · <a class="footer-contact" href="mailto:bahdan.hal@hotmail.com">{{ 'base.contact'|trans }}</a> · <a class="footer-contact" href="https://stackhal.com/">StackHal</a><br><span class="copyright">© {{ "now"|date("Y") }} <a class="copyright-link" href="https://bahdanhal.pl/">Bahdan Hal</a></span></footer>
   {% block scripts %}{% endblock %}
 </body>
 </html>
