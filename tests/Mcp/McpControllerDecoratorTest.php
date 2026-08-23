@@ -167,4 +167,88 @@ final class McpControllerDecoratorTest extends TestCase
 
         self::assertSame('event: message', $response->getContent());
     }
+
+    public function testReturnsFallbackResponseOnEmptyBodyForSingleRequest(): void
+    {
+        $server = Server::builder()->setServerInfo('test', '1.0.0')->build();
+        $psr17Factory = new Psr17Factory();
+        $httpMessageFactory = $this->createStub(HttpMessageFactoryInterface::class);
+        $httpFoundationFactory = $this->createStub(HttpFoundationFactoryInterface::class);
+        $middlewareFactory = new MiddlewareFactory([]);
+
+        $psrRequest = $this->createStub(ServerRequestInterface::class);
+        $psrRequest->method('getHeader')->willReturn([]);
+        $psrRequest->method('getMethod')->willReturn('POST');
+        $psrRequest->method('getBody')->willReturn($psr17Factory->createStream(''));
+        $httpMessageFactory->method('createRequest')->willReturn($psrRequest);
+
+        $innerResponse = new Response('', 202, ['Content-Type' => 'application/json']);
+        $httpFoundationFactory->method('createResponse')->willReturn($innerResponse);
+
+        $inner = new McpController(
+            $server,
+            $httpMessageFactory,
+            $httpFoundationFactory,
+            $psr17Factory,
+            $psr17Factory,
+            $middlewareFactory
+        );
+
+        $request = Request::create('/mcp', 'POST', [], [], [], [], (string) json_encode([
+            'jsonrpc' => '2.0',
+            'id' => 99,
+            'method' => 'prompts/list',
+        ]));
+
+        $decorator = new McpControllerDecorator($inner);
+        $response = $decorator->handle($request);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertSame(
+            (string) json_encode(['jsonrpc' => '2.0', 'id' => 99, 'result' => ['prompts' => []]]),
+            $response->getContent()
+        );
+    }
+
+    public function testReturnsFallbackResponseOnEmptyArrayForSingleRequest(): void
+    {
+        $server = Server::builder()->setServerInfo('test', '1.0.0')->build();
+        $psr17Factory = new Psr17Factory();
+        $httpMessageFactory = $this->createStub(HttpMessageFactoryInterface::class);
+        $httpFoundationFactory = $this->createStub(HttpFoundationFactoryInterface::class);
+        $middlewareFactory = new MiddlewareFactory([]);
+
+        $psrRequest = $this->createStub(ServerRequestInterface::class);
+        $psrRequest->method('getHeader')->willReturn([]);
+        $psrRequest->method('getMethod')->willReturn('POST');
+        $psrRequest->method('getBody')->willReturn($psr17Factory->createStream(''));
+        $httpMessageFactory->method('createRequest')->willReturn($psrRequest);
+
+        $innerResponse = new Response('[]', 200, ['Content-Type' => 'application/json']);
+        $httpFoundationFactory->method('createResponse')->willReturn($innerResponse);
+
+        $inner = new McpController(
+            $server,
+            $httpMessageFactory,
+            $httpFoundationFactory,
+            $psr17Factory,
+            $psr17Factory,
+            $middlewareFactory
+        );
+
+        $request = Request::create('/mcp', 'POST', [], [], [], [], (string) json_encode([
+            'jsonrpc' => '2.0',
+            'id' => 101,
+            'method' => 'tools/list',
+        ]));
+
+        $decorator = new McpControllerDecorator($inner);
+        $response = $decorator->handle($request);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertSame(
+            (string) json_encode(['jsonrpc' => '2.0', 'id' => 101, 'result' => ['tools' => []]]),
+            $response->getContent()
+        );
+    }
 }

@@ -37,6 +37,29 @@ final class McpControllerDecorator
             }
         }
 
+        $requestBody = $request->getContent();
+        $singleRequest = null;
+        $expectedId = null;
+        $requestMethod = '';
+
+        if ($requestBody !== '') {
+            try {
+                /** @var mixed $decodedRequest */
+                $decodedRequest = json_decode($requestBody, true, 512, \JSON_THROW_ON_ERROR);
+                if (is_array($decodedRequest) && !array_is_list($decodedRequest)) {
+                    $singleRequest = $decodedRequest;
+                    if (isset($decodedRequest['id']) && (is_string($decodedRequest['id']) || is_int($decodedRequest['id']))) {
+                        $expectedId = $decodedRequest['id'];
+                    }
+                    if (isset($decodedRequest['method']) && is_string($decodedRequest['method'])) {
+                        $requestMethod = $decodedRequest['method'];
+                    }
+                }
+            } catch (\JsonException) {
+                // Invalid JSON request, let original response pass through
+            }
+        }
+
         $response = $this->inner->handle($request);
 
         if (!$this->isJsonResponse($response)) {
@@ -45,25 +68,16 @@ final class McpControllerDecorator
 
         $content = $response->getContent();
         if ($content === false || $content === '') {
+            if ($singleRequest !== null && $expectedId !== null) {
+                return $this->createFallbackResponse($expectedId, $requestMethod);
+            }
+
             return $response;
         }
 
         $trimmedContent = trim($content);
-        if (!str_starts_with($trimmedContent, '[') || !str_ends_with($trimmedContent, ']')) {
+        if ($singleRequest === null || !str_starts_with($trimmedContent, '[') || !str_ends_with($trimmedContent, ']')) {
             return $response;
-        }
-
-        $requestBody = $request->getContent();
-        if ($requestBody !== '') {
-            try {
-                /** @var mixed $decodedRequest */
-                $decodedRequest = json_decode($requestBody, true, 512, \JSON_THROW_ON_ERROR);
-                if (is_array($decodedRequest) && array_is_list($decodedRequest)) {
-                    return $response;
-                }
-            } catch (\JsonException) {
-                // Invalid JSON request, let original response pass through
-            }
         }
 
         try {
@@ -73,9 +87,11 @@ final class McpControllerDecorator
                 return $response;
             }
 
-            $unwrapped = $this->extractSingleResponse($items, $requestBody);
+            $unwrapped = $this->extractSingleResponse($items, $expectedId);
             if ($unwrapped !== null) {
                 $response->setContent(json_encode($unwrapped, \JSON_THROW_ON_ERROR));
+            } elseif ($expectedId !== null) {
+                return $this->createFallbackResponse($expectedId, $requestMethod);
             }
         } catch (\JsonException) {
             // Keep original response if JSON parsing fails
@@ -95,23 +111,10 @@ final class McpControllerDecorator
      * @param array<mixed> $items
      * @return array<string, mixed>|null
      */
-    private function extractSingleResponse(array $items, string $requestBody): ?array
+    private function extractSingleResponse(array $items, string|int|null $expectedId): ?array
     {
         if (count($items) === 0) {
             return null;
-        }
-
-        $expectedId = null;
-        if ($requestBody !== '') {
-            try {
-                /** @var mixed $decodedRequest */
-                $decodedRequest = json_decode($requestBody, true, 512, \JSON_THROW_ON_ERROR);
-                if (is_array($decodedRequest) && isset($decodedRequest['id']) && (is_string($decodedRequest['id']) || is_int($decodedRequest['id']))) {
-                    $expectedId = $decodedRequest['id'];
-                }
-            } catch (\JsonException) {
-                // Ignore invalid request JSON
-            }
         }
 
         if ($expectedId !== null) {
@@ -134,5 +137,28 @@ final class McpControllerDecorator
 
         /** @var array<string, mixed>|null */
         return is_array($first) ? $first : null;
+    }
+
+    private function createFallbackResponse(string|int $id, string $method): Response
+    {
+        $result = match ($method) {
+            'prompts/list' => ['prompts' => []],
+            'tools/list' => ['tools' => []],
+            'resources/list' => ['resources' => []],
+            'resources/templates/list' => ['resourceTemplates' => []],
+            default => new \stdClass(),
+        };
+
+        $payload = [
+            'jsonrpc' => '2.0',
+            'id' => $id,
+            'result' => $result,
+        ];
+
+        return new Response(
+            json_encode($payload, \JSON_THROW_ON_ERROR),
+            200,
+            ['Content-Type' => 'application/json']
+        );
     }
 }
