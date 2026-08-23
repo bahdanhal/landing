@@ -38,7 +38,7 @@
     <div class="topbar">
       <div class="brand-lockup">
         {% block brand_lockup %}
-        <a class="brand" href="{{ path('home', {_locale: app.request.locale}) }}" aria-label="{{ 'base.home_label'|trans }}">
+        <a class="brand" href="{{ path('landing', {_locale: app.request.locale}) }}" aria-label="{{ 'base.home_label'|trans }}">
           <span class="brand-mark">↗</span>
           <span class="brand-name"><span class="brand-name-full">{{ 'base.brand'|trans }}</span><span class="brand-name-short">{{ 'base.brand_short'|trans }}</span></span>
         </a>
@@ -50,7 +50,7 @@
           <a href="{{ path('landing', {_locale: app.request.locale}) }}#work">{{ 'profile.nav.work'|trans }}</a>
         </nav>
         {% block language_switch %}
-          <a class="language-switch" href="{{ path('home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
+          <a class="language-switch" href="{{ path('landing', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
         {% endblock %}
       </div>
     </div>

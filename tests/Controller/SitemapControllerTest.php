@@ -20,5 +20,7 @@ final class SitemapControllerTest extends TestCase
         self::assertStringContainsString('<urlset', $content);
         self::assertStringContainsString('https://bahdanhal.pl/', $content);
         self::assertStringContainsString('https://bahdanhal.pl/pl/', $content);
+        self::assertStringNotContainsString('/tools', $content);
+        self::assertStringNotContainsString('/narzedzia', $content);
     }
 }

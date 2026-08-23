@@ -28,10 +28,10 @@ final class PortfolioController extends AbstractController
         return $this->render('portfolio/home.html.twig');
     }
 
-    #[Route(path: ['en' => '/tools', 'pl' => '/pl/narzedzia'], name: 'home', methods: ['GET'])]
-    public function home(): Response
+    #[Route(path: ['en' => '/tools', 'pl' => '/pl/narzedzia'], name: 'legacy_tools', methods: ['GET'])]
+    public function legacyTools(Request $request): Response
     {
-        return $this->render('portfolio/home.html.twig');
+        return $this->redirectToRoute('landing', ['_locale' => $request->getLocale()], Response::HTTP_MOVED_PERMANENTLY);
     }
 
     #[Route(path: ['en' => '/contact', 'pl' => '/pl/kontakt'], name: 'contact', methods: ['POST'])]

@@ -9,6 +9,7 @@ Disallow: /pl/audyt-geo
 Disallow: /pl/kontakt
 Disallow: /healthz
 Disallow: /mcp
+Disallow: /admin/
 
 User-agent: GPTBot
 User-agent: ChatGPT-User
@@ -25,5 +26,6 @@ Disallow: /pl/audyt-geo
 Disallow: /pl/kontakt
 Disallow: /healthz
 Disallow: /mcp
+Disallow: /admin/
 
 Sitemap: https://bahdanhal.pl/sitemap.xml
