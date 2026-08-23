@@ -46,15 +46,19 @@ final readonly class PageViewSubscriber implements EventSubscriberInterface
 
         [$source, $referrerHost] = $this->source($request);
         $clientIp = $request->getClientIp() ?? 'unknown';
+        $userAgent = (string) $request->headers->get('User-Agent');
 
         $this->pageViews->save(new PageView(
             new \DateTimeImmutable('now', new \DateTimeZone('UTC')),
-            hash_hmac('sha256', $clientIp, $this->secret),
+            hash_hmac('sha256', $clientIp . '|' . $userAgent, $this->secret),
             $this->normalizedPath($request->getPathInfo()),
             $source,
             $referrerHost,
         ));
     }
+
+    private const string BOT_PATTERN = '/bot|crawler|spider|slurp|preview|facebookexternalhit'
+        . '|curl|wget|python|guzzle|axios|go-http-client|postman|headless|httpclient|java|php/';
 
     private function isExcluded(Request $request): bool
     {
@@ -66,7 +70,7 @@ final readonly class PageViewSubscriber implements EventSubscriberInterface
             || $path === '/healthz'
             || $request->headers->get('DNT') === '1'
             || $request->headers->get('Sec-GPC') === '1'
-            || preg_match('/bot|crawler|spider|slurp|preview|facebookexternalhit/', $userAgent) === 1;
+            || preg_match(self::BOT_PATTERN, $userAgent) === 1;
     }
 
     /** @return array{string, ?string} */

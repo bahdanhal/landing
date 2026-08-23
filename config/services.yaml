@@ -177,3 +177,12 @@ services:
       $namespace: 'seo-rate-limits-v1'
       $defaultLifetime: 172800
       $directory: '/app/var/rate-limits'
+
+  App\Mcp\Http\McpControllerDecorator:
+    decorates: mcp.server.controller
+    arguments:
+      $inner: '@.inner'
+    public: true
+    tags:
+      - { name: controller.service_arguments }
+
