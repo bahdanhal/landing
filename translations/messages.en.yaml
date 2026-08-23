@@ -30,8 +30,8 @@ common:
 
 home:
     meta:
-        title: "Bahdan’s Toolbox · Useful web and business tools"
-        description: "Free, fast and transparent tools for Polish business calculations, GEO readiness and technical SEO. No signup or tracking pixel."
+        title: "Bahdan’s Toolbox · Free Online Developer, SEO & Business Tools"
+        description: "Free, fast and transparent tools: Nginx to Caddy converter, BIMI SVG studio, domain email security inspector, technical SEO audit, GEO analyzer, and Polish salary calculator."
     eyebrow: "SMALL TOOLS, REAL ANSWERS"
     heading_start: "Useful things,"
     heading_emphasis: "built properly."
@@ -62,7 +62,7 @@ home:
         title: "Domain security & deliverability"
         text: "1-click verification of DMARC policies, BIMI records, MTA-STS strict transport security, SMTP TLS-RPT, and SPF."
     caddy_transpiler:
-        title: "Nginx & Apache ➔ Caddyfile Transpiler"
+        title: "Nginx & Apache ➔ Caddyfile Converter"
         text: "Convert Nginx server blocks and Apache .htaccess into clean, idiomatic Caddyfiles with real-time smart mapping, migration advisories and 1-click presets."
     principles:
         private:
@@ -131,8 +131,8 @@ vat:
 
 bimi:
     meta:
-        title: "BIMI Studio · SVG Tiny 1.2 PS Converter & Live Inbox Simulator"
-        description: "Convert and sanitize brand logos into strict SVG Tiny 1.2 PS, ensure circular safe zones, and simulate avatars across Gmail, Apple Mail, and Yahoo."
+        title: "BIMI SVG Converter · SVG Tiny 1.2 PS Studio & Live Inbox Simulator"
+        description: "Free online BIMI SVG converter. Sanitize brand logos into strict SVG Tiny 1.2 PS, ensure circular safe zones, generate DNS TXT records, and simulate email client inboxes."
     eyebrow: "EMAIL BRANDING · SVG TINY 1.2 PS"
     heading: "BIMI Studio & Live Inbox Simulator"
     lede: "Convert any SVG or logo into strict, BIMI-compliant SVG Tiny 1.2 PS with safe-zone padding and preview your brand avatar live across major email inboxes."
@@ -182,11 +182,19 @@ bimi:
         dmarc: "DMARC policy must be p=quarantine (pct=100) or p=reject."
         vmc: "Apple Mail & Yahoo support self-asserted BIMI; Gmail requires VMC."
         check_domain_link: "Test your domain with Domain Inspector"
+    faq:
+        title: "Frequently Asked Questions about BIMI"
+        q1: "What is BIMI (Brand Indicators for Message Identification)?"
+        a1: "BIMI is an email specification enabling organizations to display their official verified brand logo directly next to incoming messages in supporting email inboxes like Gmail, Apple Mail, and Yahoo."
+        q2: "Why does BIMI require the SVG Tiny 1.2 PS format?"
+        a2: "Mail clients enforce the SVG Tiny Portable/Secure profile for security and performance. It disables JavaScript scripts, external file references, entity expansion, and raster embeds that could pose security risks."
+        q3: "Do I need a Verified Mark Certificate (VMC) for BIMI?"
+        a3: "Apple Mail and Yahoo support self-asserted BIMI without a certificate. Gmail requires a VMC issued by a recognized certificate authority (DigiCert, Entrust) confirming trademark ownership."
 
 domain_inspector:
     meta:
-        title: "Domain Inspector · 1-Click DMARC, BIMI, MTA-STS & SPF Checker"
-        description: "Verify email security and deliverability standards: DMARC BIMI eligibility, BIMI DNS & logo reachability, MTA-STS RFC 8461, SMTP TLS-RPT, and SPF."
+        title: "Domain Email Security Inspector · DMARC, BIMI, MTA-STS & SPF Checker"
+        description: "Instant 1-click domain email security inspection: check DMARC compliance for BIMI, MTA-STS strict transport encryption (RFC 8461), SMTP TLS reporting (RFC 8460), and SPF."
     eyebrow: "EMAIL DELIVERABILITY & SECURITY"
     heading: "Domain Email Security & BIMI Inspector"
     lede: "Verify your domain's email authentication chain in 1 click. Check DMARC compliance for BIMI, MTA-STS strict transport encryption, SMTP TLS reporting, and SPF anti-spoofing."
@@ -207,6 +215,14 @@ domain_inspector:
         tls_rpt:
             title: "SMTP TLS-RPT (RFC 8460)"
             text: "Validates aggregate SMTP TLS reporting records so you receive diagnostic telemetry on delivery failures."
+    faq:
+        title: "Frequently Asked Questions about Email Deliverability"
+        q1: "What DMARC policy is required for BIMI avatars?"
+        a1: "BIMI requires an active DMARC policy of at least p=quarantine with pct=100 or p=reject. A policy of p=none is considered observation-only and does not qualify for BIMI logo display."
+        q2: "What is MTA-STS (RFC 8461) and why is it important?"
+        a2: "Mail Transfer Agent Strict Transport Security (MTA-STS) prevents man-in-the-middle downgrade attacks on SMTP connections by declaring that sending mail servers must use TLS with trusted certificates."
+        q3: "How does SMTP TLS-RPT (RFC 8460) help?"
+        a3: "TLS Reporting enables sending mail providers to send daily aggregate telemetry reports whenever encryption negotiation fails, identifying routing issues and certificate expiration before mail drops."
     report:
         title: "Email Security Report for %domain% · Bahdan’s Toolbox"
         back: "Inspect another domain"
@@ -226,8 +242,8 @@ domain_inspector:
 
 audit:
     meta:
-        title: "Free Technical SEO Audit · Bahdan’s Toolbox"
-        description: "Run a fast technical SEO audit for redirects, canonical URLs, crawler traps, parameters, robots.txt, sitemaps and indexability issues."
+        title: "Free Technical SEO Audit · Crawler, Canonical & Trap Checker"
+        description: "Run a fast technical SEO audit for redirect chains, canonical tags, crawler traps, URL parameters, robots.txt, sitemaps, and indexability errors."
     eyebrow: "FAST TECHNICAL SEO AUDIT"
     heading_start: "Find where Googlebot"
     heading_emphasis: "loses the plot."
@@ -251,6 +267,14 @@ audit:
         index:
             title: "Index signals"
             text: "Canonical tags, robots directives, sitemap coverage, status codes, titles and H1s."
+    faq:
+        title: "Frequently Asked Questions about Technical SEO"
+        q1: "What does this technical SEO audit check?"
+        a1: "It verifies HTTP status codes, protocol/hostname canonicalization, redirect loops, self-referencing canonical tags, robots.txt accessibility, XML sitemaps, and infinite crawler parameter traps."
+        q2: "Why do URL parameters cause crawl traps?"
+        a2: "Uncapped sorting, filter combinations, and session IDs create millions of duplicate URLs that exhaust your search engine crawl budget without adding indexed value."
+        q3: "How does canonicalization affect rankings?"
+        a3: "Proper canonical tags consolidate link equity to your preferred URL version and prevent duplicate content penalties across protocol (HTTP/HTTPS) and www/non-www variations."
     report:
         title: "SEO audit"
         new: "New audit"
@@ -345,8 +369,8 @@ contact:
 
 geo:
     meta:
-        title: "Free GEO Readiness Audit · Generative Engine Optimization"
-        description: "Audit a page for generative engine readiness using transparent checks for access, direct answers, structure, schema, provenance, citations and entity clarity."
+        title: "Free GEO Readiness Audit · Generative Engine Optimization Analyzer"
+        description: "Audit page readiness for AI answer engines (GEO). Inspect direct answers, semantic structure, JSON-LD schema, citations, provenance, and LLM crawler controls."
     eyebrow: "GENERATIVE ENGINE OPTIMIZATION"
     heading_start: "Can answer engines"
     heading_emphasis: "understand and cite you?"
@@ -585,8 +609,8 @@ market:
 
 income:
     meta:
-        title: "UoP, UZ, Ud and B2B Calculator 2026 · Poland Take-home Pay"
-        description: "Compare Polish take-home pay and deductions for umowa o pracę, umowa zlecenie, umowa o dzieło and B2B using 2026 assumptions."
+        title: "Poland Salary & Contract Calculator 2026 · UoP, UZ, Ud, B2B Net-Gross"
+        description: "Compare Polish take-home net income from the same employer budget for Umowa o Pracę (UoP), Umowa Zlecenie (UZ), Umowa o Dzieło (Ud), and B2B under 2026 tax and ZUS rules."
     eyebrow: "POLAND · CONTRACTS · 2026"
     heading: "UoP / UZ / Ud / B2B calculator"
     lede: "Compare what reaches you from the same monthly company budget. See gross amount, social and health contributions, PIT, business costs, and estimated take-home pay side by side."
@@ -635,6 +659,14 @@ income:
         title: "Situations that change the result"
         text: "Other income, joint filing, age relief, copyright costs, PPK, multiple insurance titles, disability, exact accident rate, annual health reconciliation, holidays and industry-specific lump-sum rates can materially change the result."
     disclaimer: "Informational estimate only. Confirm a real contract with payroll/accounting software or a qualified Polish adviser."
+    faq:
+        title: "Frequently Asked Questions about Polish Employment Contracts"
+        q1: "What is the difference between UoP, UZ, Ud, and B2B?"
+        a1: "Umowa o pracę (UoP) provides standard labour code protections and paid leave with full social security. Umowa zlecenie (UZ) is a civil services contract with social and health contributions (exempt for students under 26). Umowa o dzieło (Ud) is a task/result contract without social contributions. B2B is a sole proprietorship contract where you invoice clients directly and manage business costs and ZUS."
+        q2: "Why does the comparison start from company budget rather than gross pay?"
+        a2: "Comparing from the employer's total budget provides an honest apples-to-apples comparison of what a business actually spends versus what lands in your personal bank account."
+        q3: "How does the health contribution (składka zdrowotna) differ on B2B?"
+        a3: "On tax scale (skala) it is 9% of income. On linear PIT (liniowy) it is 4.9% of income. On lump-sum (ryczałt) it is a fixed monthly tier based on annual revenue."
 
 profile:
     meta:
@@ -731,11 +763,11 @@ profile:
 
 caddy_transpiler:
     meta:
-        title: "Nginx & Apache to Caddyfile Transpiler · Instant Web Server Converter"
-        description: "Free real-time transpiler converting Nginx server blocks and Apache .htaccess/VirtualHost to clean Caddyfiles with smart mapping and migration advisories."
-    eyebrow: "WEB SERVER MIGRATION TOOL"
-    heading: "Nginx & Apache ➔ Caddyfile Transpiler"
-    lede: "Convert legacy Nginx and Apache configurations into clean, idiomatic Caddyfiles in real-time. Runs 100% client-side in your browser for privacy."
+        title: "Nginx to Caddy Converter · Apache to Caddyfile Transpiler"
+        description: "Free online Nginx to Caddy converter. Instant, 100% client-side transpiler converting Nginx server blocks and Apache .htaccess to clean Caddyfiles with smart migration advisories."
+    eyebrow: "FREE ONLINE WEB SERVER CONVERTER"
+    heading: "Nginx & Apache ➔ Caddyfile Converter"
+    lede: "Convert legacy Nginx server blocks and Apache .htaccess / VirtualHost configs into clean, idiomatic Caddyfiles in real-time. Runs 100% in your browser for total privacy."
     source_label: "Source Web Server"
     server_nginx: "Nginx (nginx.conf / server)"
     server_apache: "Apache (.htaccess / VirtualHost)"
@@ -756,6 +788,21 @@ caddy_transpiler:
     advisories_empty: "Paste or select a configuration above to see automated migration advisories and smart mappings."
     omitted_title: "Directives Eliminated / Handled Natively"
     features_title: "Detected Features & Routing"
+    why_caddy_title: "Why Migrate from Nginx or Apache to Caddy?"
+    why_caddy_intro: "Caddy replaces hundreds of lines of fragile web server boilerplate with clean, robust defaults designed for modern production."
+    benefits:
+        https:
+            title: "Zero-Touch Automatic HTTPS"
+            text: "Caddy automatically obtains, renews, and staples OCSP certificates via Let's Encrypt and ZeroSSL. No certbot, cron jobs, or renewal failures."
+        syntax:
+            title: "80% Shorter Configuration"
+            text: "Human-friendly syntax replaces cryptic nested blocks. Modern HTTP/2, HTTP/3, and TLS 1.3 are enabled out of the box with zero tuning."
+        proxy:
+            title: "Built-In Reverse Proxy & PHP"
+            text: "WebSocket upgrades, X-Forwarded headers, and connection pooling are handled automatically. One clean php_fastcgi directive routes PHP apps securely."
+        private:
+            title: "100% Client-Side Privacy"
+            text: "All parsing and transpilation run locally in your web browser. No server names, ports, IP addresses, or configs are ever transmitted or saved."
     mapping_cheatsheet_title: "Smart Mapping & Why Caddy is Simpler"
     cheatsheet_proxy_title: "Reverse Proxy & Headers"
     cheatsheet_proxy_desc: "proxy_pass + 5 lines of proxy_set_header collapse to a single reverse_proxy. Host, X-Forwarded-For, and WebSockets are handled automatically."
@@ -765,3 +812,13 @@ caddy_transpiler:
     cheatsheet_php_desc: "try_files + fastcgi_pass and param scripts collapse into php_fastcgi and file_server."
     cheatsheet_rewrite_title: "Clean Redirects"
     cheatsheet_rewrite_desc: "Complex regex RewriteRules translate directly into human-readable redir statements."
+    faq:
+        title: "Frequently Asked Questions"
+        q1: "How do I convert an Nginx configuration to Caddyfile?"
+        a1: "Paste your Nginx server block or location blocks into the input editor. The transpiler analyzes directives like proxy_pass, fastcgi_pass, try_files, root, and rewrite rules, and immediately generates an idiomatic Caddy v2 Caddyfile."
+        q2: "Can I convert Apache .htaccess and VirtualHost files?"
+        a2: "Yes. Switch the server selector to Apache and paste your .htaccess directives or <VirtualHost> block. It translates RewriteRule, DirectoryIndex, header modifications, and basic auth into Caddy directives."
+        q3: "Is my server configuration uploaded or stored?"
+        a3: "No. The entire conversion runs client-side in your browser via JavaScript. No configurations, domains, internal backend IPs, or server credentials are ever sent to any remote server."
+        q4: "What Nginx directives are omitted in Caddy?"
+        a4: "Directives like ssl_certificate, ssl_protocols, proxy_set_header Upgrade, and gzip on are omitted because Caddy handles TLS management, WebSocket upgrading, and compression automatically by default."

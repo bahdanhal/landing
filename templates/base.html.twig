@@ -4,11 +4,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:site_name" content="Bahdan’s Toolbox">
+  <meta property="og:site_name" content="{{ 'base.brand'|trans }}">
+  <meta property="og:type" content="website">
   {% block robots %}<meta name="robots" content="noindex,nofollow">{% endblock %}
   {% block description %}{% endblock %}
   {% block canonical %}{% endblock %}
   <title>{% block title %}{{ 'base.default_title'|trans }}{% endblock %}</title>
+  {% block opengraph %}
+    <meta property="og:title" content="{{ block('title')|striptags|trim }}">
+    <meta property="og:locale" content="{{ app.request ? (app.request.locale == 'pl' ? 'pl_PL' : 'en_US') : 'en_US' }}">
+    <meta property="og:locale:alternate" content="{{ app.request ? (app.request.locale == 'pl' ? 'en_US' : 'pl_PL') : 'pl_PL' }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ block('title')|striptags|trim }}">
+  {% endblock %}
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <link rel="stylesheet" href="/app.css">

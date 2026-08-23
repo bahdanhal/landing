@@ -12,6 +12,35 @@
   <link rel="stylesheet" href="/tools.css">
   <link rel="stylesheet" href="/bimi-studio.css">
 {% endblock %}
+{% block head_scripts %}
+  <script type="application/ld+json">{{ {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebApplication',
+        '@id': (app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/bimi-studio#app' : 'https://bahdanhal.pl/tools/bimi-studio#app'),
+        'name': 'bimi.heading'|trans,
+        'description': 'bimi.meta.description'|trans,
+        'url': (app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/bimi-studio' : 'https://bahdanhal.pl/tools/bimi-studio'),
+        'applicationCategory': 'MultimediaApplication',
+        'operatingSystem': 'Any',
+        'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'USD'},
+        'author': {'@id': 'https://bahdanhal.pl/#bahdan'},
+        'publisher': {'@id': 'https://bahdanhal.pl/#bahdan'}
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': (app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/bimi-studio#faq' : 'https://bahdanhal.pl/tools/bimi-studio#faq'),
+        'inLanguage': app.request.locale,
+        'mainEntity': [
+          {'@type': 'Question', 'name': 'bimi.faq.q1'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'bimi.faq.a1'|trans}},
+          {'@type': 'Question', 'name': 'bimi.faq.q2'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'bimi.faq.a2'|trans}},
+          {'@type': 'Question', 'name': 'bimi.faq.q3'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'bimi.faq.a3'|trans}}
+        ]
+      }
+    ]
+  }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+{% endblock %}
 {% block language_switch %}
   <a class="language-switch" href="{{ path('bimi_studio', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
 {% endblock %}
@@ -293,6 +322,21 @@
             🔍 {{ 'bimi.requirements.check_domain_link'|trans }} →
           </a>
         </div>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="tool-faq ui-panel" style="margin-top: 1.5rem; padding: 1.5rem; background: var(--surface, #1e2430); border: 1px solid var(--border, #2d3748); border-radius: 8px;">
+      <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.15rem; color: #f8fafc;">{{ 'bimi.faq.title'|trans }}</h3>
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        {% for idx in ['q1', 'q2', 'q3'] %}
+          <details style="background: rgba(0,0,0,0.2); border: 1px solid var(--border, #334155); border-radius: 6px; padding: 0.85rem 1.1rem;" {% if loop.first %}open{% endif %}>
+            <summary style="font-size: 0.95rem; color: #f8fafc; cursor: pointer;"><strong>{{ ('bimi.faq.' ~ idx)|trans }}</strong></summary>
+            <div style="margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid rgba(255,255,255,0.08);">
+              <p style="margin: 0; font-size: 0.88rem; line-height: 1.55; color: #cbd5e1;">{{ ('bimi.faq.a' ~ loop.index)|trans }}</p>
+            </div>
+          </details>
+        {% endfor %}
       </div>
     </div>
   </div>

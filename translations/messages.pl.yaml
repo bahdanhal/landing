@@ -30,8 +30,8 @@ common:
 
 home:
     meta:
-        title: "Narzędzia Bahdana · Przydatne narzędzia internetowe i biznesowe"
-        description: "Darmowe, szybkie i przejrzyste narzędzia do polskich obliczeń biznesowych, analizy GEO i technicznego SEO. Bez rejestracji i śledzenia."
+        title: "Narzędzia Bahdana · Darmowe narzędzia online dla programistów, SEO i biznesu"
+        description: "Darmowe, szybkie i przejrzyste narzędzia: konwerter Nginx do Caddy, BIMI SVG Studio, inspektor domen, audyt technicznego SEO, analizator GEO i kalkulator wynagrodzeń."
     eyebrow: "MAŁE NARZĘDZIA, KONKRETNE ODPOWIEDZI"
     heading_start: "Przydatne rzeczy,"
     heading_emphasis: "zrobione porządnie."
@@ -62,7 +62,7 @@ home:
         title: "Inspektor bezpieczeństwa domen i dostarczalności"
         text: "Szybka weryfikacja polityk DMARC, rekordów BIMI, szyfrowania MTA-STS, raportów SMTP TLS-RPT oraz SPF."
     caddy_transpiler:
-        title: "Nginx i Apache ➔ Caddyfile Transpiler"
+        title: "Nginx i Apache ➔ Caddyfile Converter"
         text: "Konwertuj bloki serwera Nginx oraz Apache .htaccess na czysty, czytelny Caddyfile w czasie rzeczywistym, z inteligentnymi podpowiedziami i gotowymi presetami."
     principles:
         private:
@@ -131,8 +131,8 @@ vat:
 
 bimi:
     meta:
-        title: "BIMI Studio · Konwerter SVG Tiny 1.2 PS i symulator skrzynek"
-        description: "Konwertuj i waliduj logo marki do formatu SVG Tiny 1.2 PS, zadbaj o marginesy bezpieczne i przetestuj awatar w Gmailu, Apple Mail i Yahoo."
+        title: "Konwerter BIMI SVG · Generator SVG Tiny 1.2 PS i symulator skrzynek"
+        description: "Darmowy konwerter BIMI do formatu SVG Tiny 1.2 PS. Dopasuj marginesy bezpieczne, wygeneruj rekord DNS TXT i przetestuj awatar marki w Gmailu, Apple Mail i Yahoo."
     eyebrow: "BRANDING POCZTY · SVG TINY 1.2 PS"
     heading: "BIMI Studio i symulator skrzynek pocztowych"
     lede: "Przekształć dowolne logo w zgodny ze standardem plik SVG Tiny 1.2 PS z odpowiednimi marginesami i sprawdź na żywo, jak awatar prezentuje się w skrzynkach odbiorców."
@@ -182,11 +182,19 @@ bimi:
         dmarc: "Polityka DMARC musi być ustawiona na p=quarantine (pct=100) lub p=reject."
         vmc: "Apple Mail i Yahoo obsługują self-asserted BIMI; Gmail wymaga certyfikatu VMC."
         check_domain_link: "Sprawdź domenę w Inspektorze domen"
+    faq:
+        title: "Często zadawane pytania o BIMI"
+        q1: "Czym jest BIMI (Brand Indicators for Message Identification)?"
+        a1: "BIMI to specyfikacja poczty e-mail umożliwiająca wyświetlanie oficjalnego, zweryfikowanego logo marki bezpośrednio przy wiadomościach w skrzynkach odbiorców (Gmail, Apple Mail, Yahoo)."
+        q2: "Dlaczego BIMI wymaga profilu SVG Tiny 1.2 PS?"
+        a2: "Dostawcy poczty wymagają profilu SVG Tiny Portable/Secure ze względów bezpieczeństwa i szybkości. Wyklucza on skrypty JavaScript, zewnętrzne odwołania i niebezpieczne encje."
+        q3: "Czy certyfikat VMC jest wymagany do wdrożenia BIMI?"
+        a3: "Apple Mail i Yahoo obsługują BIMI bez certyfikatu (self-asserted). Gmail wymaga certyfikatu VMC potwierdzającego prawa do znaku towarowego."
 
 domain_inspector:
     meta:
         title: "Inspektor domen · Sprawdzanie DMARC, BIMI, MTA-STS i SPF w 1 kliknięcie"
-        description: "Zweryfikuj standardy bezpieczeństwa poczty i dostarczalności: zgodność DMARC z BIMI, dostępność rekordu BIMI i logo, MTA-STS RFC 8461, SMTP TLS-RPT oraz SPF."
+        description: "Zweryfikuj standardy bezpieczeństwa poczty w domenie: zgodność DMARC z BIMI, dostępność rekordu BIMI i logo, MTA-STS RFC 8461, SMTP TLS-RPT oraz SPF."
     eyebrow: "BEZPIECZEŃSTWO POCZTY I DOSTARCZALNOŚĆ"
     heading: "Inspektor domen i weryfikacja BIMI"
     lede: "Sprawdź łańcuch uwierzytelniania poczty w domenie w 1 kliknięcie. Zbadaj zgodność polityki DMARC z BIMI, wymuszenie szyfrowania MTA-STS, raporty TLS oraz SPF."
@@ -207,6 +215,14 @@ domain_inspector:
         tls_rpt:
             title: "SMTP TLS-RPT (RFC 8460)"
             text: "Sprawdza konfigurację raportowania błędów negocjacji TLS, aby otrzymywać powiadomienia o problemach z doręczaniem."
+    faq:
+        title: "Często zadawane pytania o bezpieczeństwo poczty"
+        q1: "Jaka polityka DMARC jest wymagana do wyświetlania BIMI?"
+        a1: "BIMI wymaga aktywnej polityki DMARC o wartości co najmniej p=quarantine (z pct=100) lub p=reject. Polityka p=none jest traktowana jako tryb obserwacji i nie kwalifikuje się do BIMI."
+        q2: "Czym jest MTA-STS (RFC 8461)?"
+        a2: "MTA-STS wymusza szyfrowanie TLS między serwerami pocztowymi, zapobiegając atakom typu downgrade i podsłuchiwaniu transmisji SMTP."
+        q3: "Jak działa raportowanie SMTP TLS-RPT (RFC 8460)?"
+        a3: "TLS-RPT pozwala serwerom wysyłającym przesyłać zbiorcze raporty telemetryczne o problemach z negocjacją szyfrowania, ułatwiając wykrywanie wygasłych certyfikatów."
     report:
         title: "Raport bezpieczeństwa poczty dla %domain% · Narzędzia Bahdana"
         back: "Sprawdź inną domenę"
@@ -226,8 +242,8 @@ domain_inspector:
 
 audit:
     meta:
-        title: "Darmowy techniczny audyt SEO · Narzędzia Bahdana"
-        description: "Szybki audyt technicznego SEO: przekierowania, canonical, pułapki crawlerów, parametry, robots.txt, mapy witryny i indeksowalność."
+        title: "Darmowy techniczny audyt SEO · Analizator indeksowalności i crawlerów"
+        description: "Szybki audyt technicznego SEO: wykrywanie pętli przekierowań, błędów canonical, pułapek crawlerów, parametrów URL, robots.txt, map witryny i indeksowalności."
     eyebrow: "SZYBKI TECHNICZNY AUDYT SEO"
     heading_start: "Znajdź miejsce, w którym Googlebot"
     heading_emphasis: "gubi wątek."
@@ -251,6 +267,14 @@ audit:
         index:
             title: "Sygnały indeksowania"
             text: "Canonical, dyrektywy robots, pokrycie mapy witryny, statusy, tytuły i nagłówki H1."
+    faq:
+        title: "Często zadawane pytania o techniczny audyt SEO"
+        q1: "Co dokładnie bada ten audyt SEO?"
+        a1: "Weryfikuje kody statusu HTTP, spójność wariantów protokołu i subdomeny www, pętle przekierowań, znaczniki canonical, dostępność robots.txt, mapy XML oraz nieskończone pułapki parametrów URL."
+        q2: "Dlaczego parametry URL tworzą pułapki dla crawlerów?"
+        a2: "Niekontrolowane kombinacje filtrów, sortowań i identyfikatorów sesji generują miliony powielonych stron, które marnują budżet crawlowania (crawl budget) bez wnoszenia wartości do indeksu."
+        q3: "Jak canonical wpływa na widoczność w wyszukiwarce?"
+        a3: "Poprawny tag canonical konsoliduje sygnały rankingowe do wybranego adresu głównego i chroni przed kanibalizacją treści."
     report:
         title: "Audyt SEO"
         new: "Nowy audyt"
@@ -345,8 +369,8 @@ contact:
 
 geo:
     meta:
-        title: "Darmowy audyt GEO · Optymalizacja pod silniki generatywne"
-        description: "Sprawdź gotowość strony do GEO: dostępność, bezpośrednie odpowiedzi, strukturę, dane uporządkowane, autorstwo, źródła i tożsamość podmiotu."
+        title: "Darmowy audyt GEO · Analizator optymalizacji pod silniki AI"
+        description: "Sprawdź gotowość strony dla silników AI i odpowiedzi generatywnych (GEO): bezpośrednie odpowiedzi, strukturę semantyczną, schema.org, cytowania i kontrolę crawlerów."
     eyebrow: "GENERATIVE ENGINE OPTIMIZATION"
     heading_start: "Czy silniki odpowiedzi"
     heading_emphasis: "zrozumieją i zacytują stronę?"
@@ -585,8 +609,8 @@ market:
 
 income:
     meta:
-        title: "Kalkulator UoP, UZ, Ud i B2B 2026 · Wynagrodzenie netto"
-        description: "Porównaj polskie wynagrodzenie netto i potrącenia dla umowy o pracę, zlecenia, dzieła i B2B według założeń na 2026 rok."
+        title: "Kalkulator wynagrodzeń 2026 · Porównanie UoP, UZ, Ud i B2B netto brutto"
+        description: "Porównaj zarobki na rękę z tego samego budżetu pracodawcy dla umowy o pracę (UoP), umowy zlecenia (UZ), umowy o dzieło (Ud) i B2B według zasad podatkowych i ZUS na 2026 rok."
     eyebrow: "POLSKA · FORMY ZATRUDNIENIA · 2026"
     heading: "Kalkulator UoP / UZ / Ud / B2B"
     lede: "Porównaj, ile trafia do Ciebie z tego samego miesięcznego budżetu firmy. Zobacz obok siebie kwotę brutto, składki społeczne i zdrowotne, PIT, koszty firmy oraz szacowaną wypłatę."
@@ -635,6 +659,14 @@ income:
         title: "Sytuacje zmieniające wynik"
         text: "Inne dochody, wspólne rozliczenie, ulga dla młodych, autorskie KUP, PPK, zbieg tytułów, niepełnosprawność, dokładna wypadkowa, roczne rozliczenie zdrowotnej, urlop i właściwa stawka ryczałtu mogą istotnie zmienić wynik."
     disclaimer: "Wyłącznie szacunek informacyjny. Rzeczywistą umowę sprawdź w programie kadrowo-księgowym lub u polskiego specjalisty."
+    faq:
+        title: "Często zadawane pytania o formy zatrudnienia w Polsce"
+        q1: "Czym różnią się formy UoP, UZ, Ud i B2B?"
+        a1: "Umowa o pracę (UoP) zapewnia pełne prawa pracownicze i płatny urlop. Umowa zlecenie (UZ) to elastyczna umowa cywilnoprawna ze składkami społecznymi (zwolniona dla studentów do 26 lat). Umowa o dzieło (Ud) dotyczy wykonania określonego dzieła i nie podlega ZUS. B2B to jednoosobowa działalność gospodarcza z bezpośrednim fakturowaniem i możliwością rozliczania kosztów."
+        q2: "Dlaczego porównanie wychodzi od budżetu firmy, a nie kwoty brutto?"
+        a2: "Punktem wyjścia jest łączny koszt, jaki zleceniodawca lub pracodawca przeznacza na stanowisko. Pozwala to na rzetelne i przejrzyste porównanie kwoty na rękę przy tym samym nakładzie finansowym."
+        q3: "Jak działa składka zdrowotna na B2B w 2026 roku?"
+        a3: "Na skali podatkowej wynosi 9% dochodu, na podatku liniowym 4.9% dochodu, a na ryczałcie jest zryczałtowaną kwotą zależną od rocznego przedziału przychodów."
 
 profile:
     meta:
@@ -731,11 +763,11 @@ profile:
 
 caddy_transpiler:
     meta:
-        title: "Transpiler Nginx i Apache do Caddyfile · Konwerter konfiguracji serwerów"
-        description: "Darmowy konwerter w czasie rzeczywistym przekształcający konfiguracje Nginx i Apache na czysty Caddyfile z inteligentnymi podpowiedziami migracyjnymi."
-    eyebrow: "NARZĘDZIE MIGRACJI SERWERÓW"
-    heading: "Nginx i Apache ➔ Caddyfile Transpiler"
-    lede: "Przekształcaj konfiguracje Nginx i Apache (.htaccess) na czysty, czytelny format Caddyfile w czasie rzeczywistym. Działa w 100% po stronie przeglądarki z poszanowaniem prywatności."
+        title: "Konwerter Nginx do Caddy · Transpiler Apache do Caddyfile"
+        description: "Darmowy konwerter Nginx i Apache do Caddyfile online. Błyskawiczny transpiler po stronie przeglądarki przekształcający konfiguracje Nginx i Apache .htaccess na czysty Caddyfile."
+    eyebrow: "DARMOWY KONWERTER KONFIGURACJI SERWERÓW"
+    heading: "Nginx i Apache ➔ Caddyfile Converter"
+    lede: "Przekształcaj bloki Nginx oraz konfiguracje Apache (.htaccess / VirtualHost) na czysty, czytelny format Caddyfile w czasie rzeczywistym. Działa w 100% w przeglądarce."
     source_label: "Serwer źródłowy"
     server_nginx: "Nginx (nginx.conf / server)"
     server_apache: "Apache (.htaccess / VirtualHost)"
@@ -756,6 +788,21 @@ caddy_transpiler:
     advisories_empty: "Wklej lub wybierz konfigurację powyżej, aby zobaczyć automatyczne podpowiedzi i przekształcenia."
     omitted_title: "Uproszczone lub automatyczne dyrektywy"
     features_title: "Wykryte funkcje i routing"
+    why_caddy_title: "Dlaczego warto przejść z Nginx lub Apache na Caddy?"
+    why_caddy_intro: "Caddy zastępuje dziesiątki linijek powtarzalnej konfiguracji prostymi, bezpiecznymi domyślnymi ustawieniami dla nowoczesnych środowisk produkcyjnych."
+    benefits:
+        https:
+            title: "Automatyczny HTTPS bez certbota"
+            text: "Caddy sam pozyskuje, odnawia i konfiguruje certyfikaty Let's Encrypt oraz ZeroSSL. Brak awarii odnawiania certyfikatów i zadań cron."
+        syntax:
+            title: "O 80% krótsza konfiguracja"
+            text: "Czytelna składnia zastępuje zawiłe bloki. HTTP/2, HTTP/3 oraz nowoczesny TLS 1.3 są włączone domyślnie bez dodatkowego tuningu."
+        proxy:
+            title: "Wbudowane Reverse Proxy i PHP"
+            text: "Automatyczna obsługa WebSocket, nagłówków X-Forwarded i puli połączeń. Pojedyncza dyrektywa php_fastcgi bezpiecznie obsługuje aplikacje PHP."
+        private:
+            title: "100% prywatności w przeglądarce"
+            text: "Całe parsowanie i konwersja odbywają się lokalnie w Twojej przeglądarce. Żadne domeny, porty ani adresy IP nie są przesyłane na serwer."
     mapping_cheatsheet_title: "Inteligentne mapowanie — dlaczego Caddy jest prostszy"
     cheatsheet_proxy_title: "Reverse Proxy i nagłówki"
     cheatsheet_proxy_desc: "proxy_pass i 5 linii proxy_set_header zamieniają się w pojedyncze reverse_proxy. Host, X-Forwarded-For i WebSockets działają automatycznie."
@@ -765,3 +812,13 @@ caddy_transpiler:
     cheatsheet_php_desc: "try_files + fastcgi_pass i parametry skryptów są zastępowane przez php_fastcgi i file_server."
     cheatsheet_rewrite_title: "Przejrzyste przekierowania"
     cheatsheet_rewrite_desc: "Skomplikowane wyrażenia regularne RewriteRule tłumaczą się bezpośrednio na czytelne dyrektywy redir."
+    faq:
+        title: "Często zadawane pytania"
+        q1: "Jak przekonwertować konfigurację Nginx na Caddyfile?"
+        a1: "Wklej blok server lub dyrektywy location do pola edytora. Transpiler automatycznie rozpozna proxy_pass, fastcgi_pass, try_files, root oraz reguły przepisywania i wygeneruje poprawny Caddyfile dla Caddy v2."
+        q2: "Czy mogę przekonwertować plik .htaccess z Apache?"
+        a2: "Tak. Wybierz Apache jako serwer źródłowy i wklej reguły .htaccess lub blok <VirtualHost>. Narzędzie przetłumaczy RewriteRule, DirectoryIndex, nagłówki i podstawowe uwierzytelnianie na dyrektywy Caddy."
+        q3: "Czy moje pliki konfiguracyjne są wysyłane na serwer?"
+        a3: "Nie. Cała konwersja działa w 100% po stronie klienta w przeglądarce w JavaScript. Żadne nazwy domen, porty, wewnętrzne adresy IP ani hasła nie opuszczają Twojego komputera."
+        q4: "Jakie dyrektywy Nginx stają się zbędne w Caddy?"
+        a4: "Dyrektywy takie jak ssl_certificate, ssl_protocols, proxy_set_header Upgrade czy gzip on są pomijane, ponieważ Caddy zarządza certyfikatami TLS, WebSocketami i kompresją w sposób w pełni automatyczny."

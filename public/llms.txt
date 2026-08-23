@@ -7,6 +7,12 @@
 - [About Bahdan Hal](https://bahdanhal.pl/): backend work, infrastructure, AI integrations and contact profiles
 - [Toolbox in English](https://bahdanhal.pl/tools): overview of all tools
 - [Toolbox in Polish](https://bahdanhal.pl/pl/narzedzia): polska wersja zestawu narzędzi
+- [Nginx to Caddy Converter](https://bahdanhal.pl/tools/caddy-transpiler): real-time transpiler converting Nginx server blocks and Apache .htaccess to clean Caddyfiles
+- [Konwerter Caddyfile](https://bahdanhal.pl/pl/narzedzia/konwerter-caddyfile): polska wersja konwertera Nginx i Apache do Caddyfile
+- [BIMI Studio & SVG Tiny 1.2 PS](https://bahdanhal.pl/tools/bimi-studio): BIMI logo sanitizer, safe-zone validator and live email inbox simulator
+- [BIMI Studio PL](https://bahdanhal.pl/pl/narzedzia/bimi-studio): polska wersja konwertera BIMI SVG Tiny 1.2 PS
+- [Domain Inspector](https://bahdanhal.pl/tools/domain-inspector): 1-click email security verification for DMARC, BIMI, MTA-STS, TLS-RPT, and SPF
+- [Inspektor domen](https://bahdanhal.pl/pl/narzedzia/inspektor-domen): polska wersja inspektora bezpieczeństwa domen
 - [Polish used-goods price index](https://bahdanhal.pl/tools/poland-used-price-index): manually reviewed, dated asking-price snapshots with historical observations
 - [Indeks cen używanych](https://bahdanhal.pl/pl/narzedzia/indeks-cen-uzywanych): polska wersja indeksu
 - [GEO analyzer](https://bahdanhal.pl/tools/geo-audit): deterministic generative-engine-readiness checks

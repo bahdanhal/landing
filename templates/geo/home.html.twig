@@ -10,6 +10,25 @@
   <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/tools/geo-audit">
 {% endblock %}
 {% block stylesheets %}<link rel="stylesheet" href="/tools.css"><link rel="stylesheet" href="/geo.css">{% endblock %}
+{% block head_scripts %}
+  <script type="application/ld+json">{{ {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebApplication',
+        '@id': (app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/audyt-geo#app' : 'https://bahdanhal.pl/tools/geo-audit#app'),
+        'name': 'base.nav.geo'|trans,
+        'description': 'geo.meta.description'|trans,
+        'url': (app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/audyt-geo' : 'https://bahdanhal.pl/tools/geo-audit'),
+        'applicationCategory': 'DeveloperApplication',
+        'operatingSystem': 'Any',
+        'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'USD'},
+        'author': {'@id': 'https://bahdanhal.pl/#bahdan'},
+        'publisher': {'@id': 'https://bahdanhal.pl/#bahdan'}
+      }
+    ]
+  }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+{% endblock %}
 {% block language_switch %}<a class="language-switch" href="{{ path('geo_home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
 
 {% block body %}

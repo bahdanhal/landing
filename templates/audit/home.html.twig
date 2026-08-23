@@ -9,6 +9,35 @@
   <link rel="alternate" hreflang="pl" href="https://bahdanhal.pl/pl/narzedzia/audyt-seo">
   <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/tools/seo-audit">
 {% endblock %}
+{% block head_scripts %}
+  <script type="application/ld+json">{{ {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebApplication',
+        '@id': (app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/audyt-seo#app' : 'https://bahdanhal.pl/tools/seo-audit#app'),
+        'name': 'base.nav.seo'|trans,
+        'description': 'audit.meta.description'|trans,
+        'url': (app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/audyt-seo' : 'https://bahdanhal.pl/tools/seo-audit'),
+        'applicationCategory': 'DeveloperApplication',
+        'operatingSystem': 'Any',
+        'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'USD'},
+        'author': {'@id': 'https://bahdanhal.pl/#bahdan'},
+        'publisher': {'@id': 'https://bahdanhal.pl/#bahdan'}
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': (app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/audyt-seo#faq' : 'https://bahdanhal.pl/tools/seo-audit#faq'),
+        'inLanguage': app.request.locale,
+        'mainEntity': [
+          {'@type': 'Question', 'name': 'audit.faq.q1'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'audit.faq.a1'|trans}},
+          {'@type': 'Question', 'name': 'audit.faq.q2'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'audit.faq.a2'|trans}},
+          {'@type': 'Question', 'name': 'audit.faq.q3'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'audit.faq.a3'|trans}}
+        ]
+      }
+    ]
+  }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+{% endblock %}
 {% block language_switch %}<a class="language-switch" href="{{ path('seo_audit_home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>{% endblock %}
 
 {% block body %}
@@ -39,6 +68,17 @@
     <article><b>01</b><h2>{{ 'audit.features.redirect.title'|trans }}</h2><p>{{ 'audit.features.redirect.text'|trans }}</p></article>
     <article><b>02</b><h2>{{ 'audit.features.crawl.title'|trans }}</h2><p>{{ 'audit.features.crawl.text'|trans }}</p></article>
     <article><b>03</b><h2>{{ 'audit.features.index.title'|trans }}</h2><p>{{ 'audit.features.index.text'|trans }}</p></article>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="tool-faq" style="margin-top: 3rem; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 24px;">
+    <h2>{{ 'audit.faq.title'|trans }}</h2>
+    {% for idx in ['q1', 'q2', 'q3'] %}
+      <details style="border-top: 1px solid var(--line); padding: 14px 0;" {% if loop.first %}open{% endif %}>
+        <summary style="font-weight: 800; cursor: pointer;">{{ ('audit.faq.' ~ idx)|trans }}</summary>
+        <p style="margin-top: 8px; color: var(--muted); line-height: 1.6;">{{ ('audit.faq.a' ~ loop.index)|trans }}</p>
+      </details>
+    {% endfor %}
   </div>
 </section>
 {% endblock %}

@@ -12,6 +12,40 @@
   <link rel="stylesheet" href="/tools.css">
   <link rel="stylesheet" href="/caddy-transpiler.css">
 {% endblock %}
+{% block head_scripts %}
+  <script type="application/ld+json">{{ {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebApplication',
+        '@id': (app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/konwerter-caddyfile#app' : 'https://bahdanhal.pl/tools/caddy-transpiler#app'),
+        'name': 'caddy_transpiler.heading'|trans,
+        'description': 'caddy_transpiler.meta.description'|trans,
+        'url': (app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/konwerter-caddyfile' : 'https://bahdanhal.pl/tools/caddy-transpiler'),
+        'applicationCategory': 'DeveloperApplication',
+        'operatingSystem': 'Any',
+        'offers': {
+          '@type': 'Offer',
+          'price': '0',
+          'priceCurrency': 'USD'
+        },
+        'author': {'@id': 'https://bahdanhal.pl/#bahdan'},
+        'publisher': {'@id': 'https://bahdanhal.pl/#bahdan'}
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': (app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/narzedzia/konwerter-caddyfile#faq' : 'https://bahdanhal.pl/tools/caddy-transpiler#faq'),
+        'inLanguage': app.request.locale,
+        'mainEntity': [
+          {'@type': 'Question', 'name': 'caddy_transpiler.faq.q1'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'caddy_transpiler.faq.a1'|trans}},
+          {'@type': 'Question', 'name': 'caddy_transpiler.faq.q2'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'caddy_transpiler.faq.a2'|trans}},
+          {'@type': 'Question', 'name': 'caddy_transpiler.faq.q3'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'caddy_transpiler.faq.a3'|trans}},
+          {'@type': 'Question', 'name': 'caddy_transpiler.faq.q4'|trans, 'acceptedAnswer': {'@type': 'Answer', 'text': 'caddy_transpiler.faq.a4'|trans}}
+        ]
+      }
+    ]
+  }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+{% endblock %}
 {% block language_switch %}
   <a class="language-switch" href="{{ path('caddy_transpiler', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
 {% endblock %}
@@ -117,6 +151,36 @@
       </div>
     </div>
 
+    <!-- Why Migrate Section -->
+    <section class="why-caddy-section ui-panel">
+      <div class="section-title-wrap">
+        <h2>{{ 'caddy_transpiler.why_caddy_title'|trans }}</h2>
+        <p class="section-subtitle">{{ 'caddy_transpiler.why_caddy_intro'|trans }}</p>
+      </div>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">🔒</div>
+          <h3>{{ 'caddy_transpiler.benefits.https.title'|trans }}</h3>
+          <p>{{ 'caddy_transpiler.benefits.https.text'|trans }}</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">📄</div>
+          <h3>{{ 'caddy_transpiler.benefits.syntax.title'|trans }}</h3>
+          <p>{{ 'caddy_transpiler.benefits.syntax.text'|trans }}</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">⚡</div>
+          <h3>{{ 'caddy_transpiler.benefits.proxy.title'|trans }}</h3>
+          <p>{{ 'caddy_transpiler.benefits.proxy.text'|trans }}</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🛡️</div>
+          <h3>{{ 'caddy_transpiler.benefits.private.title'|trans }}</h3>
+          <p>{{ 'caddy_transpiler.benefits.private.text'|trans }}</p>
+        </div>
+      </div>
+    </section>
+
     <!-- Smart Mapping Explainer & Cheatsheet -->
     <div class="cheatsheet-section">
       <div class="cheatsheet-header">
@@ -168,6 +232,23 @@
         </div>
       </div>
     </div>
+
+    <!-- FAQ Section -->
+    <section class="transpiler-faq ui-panel">
+      <div class="section-title-wrap">
+        <h2>{{ 'caddy_transpiler.faq.title'|trans }}</h2>
+      </div>
+      <div class="faq-list">
+        {% for idx in ['q1', 'q2', 'q3', 'q4'] %}
+          <details class="faq-item" {% if loop.first %}open{% endif %}>
+            <summary class="faq-question"><strong>{{ ('caddy_transpiler.faq.' ~ idx)|trans }}</strong></summary>
+            <div class="faq-answer">
+              <p>{{ ('caddy_transpiler.faq.a' ~ loop.index)|trans }}</p>
+            </div>
+          </details>
+        {% endfor %}
+      </div>
+    </section>
   </div>
 </section>
 {% endblock %}
