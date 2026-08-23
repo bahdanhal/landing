@@ -43,7 +43,6 @@ COPY tests ./tests
 COPY phpunit.xml.dist ./phpunit.xml.dist
 COPY phpcs.xml.dist ./phpcs.xml.dist
 COPY phpstan.neon.dist ./phpstan.neon.dist
-COPY phpstan-baseline.neon ./phpstan-baseline.neon
 RUN composer dump-autoload --classmap-authoritative
 CMD ["vendor/bin/phpunit"]
 

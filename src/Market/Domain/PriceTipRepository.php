@@ -10,4 +10,6 @@ interface PriceTipRepository
 
     /** @return list<PriceTip> */
     public function all(): array;
+
+    public function pruneExpired(?\DateTimeImmutable $now = null): int;
 }

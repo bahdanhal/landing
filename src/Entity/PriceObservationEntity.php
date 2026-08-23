@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Market\Domain\PriceObservation;
 use App\Shared\Domain\Grosz;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -131,5 +132,16 @@ class PriceObservationEntity
     public function getMethodology(): string
     {
         return $this->methodology;
+    }
+
+    public function updateFromObservation(PriceObservation $observation): void
+    {
+        $this->medianGrosz = $observation->medianGrosz;
+        $this->lowGrosz = $observation->lowGrosz;
+        $this->highGrosz = $observation->highGrosz;
+        $this->sampleSize = $observation->sampleSize;
+        $this->confidence = $observation->confidence;
+        $this->summary = $observation->summary !== '' ? $observation->summary : null;
+        $this->methodology = $observation->methodology !== '' ? $observation->methodology : PriceObservation::METHODOLOGY_MANUAL;
     }
 }

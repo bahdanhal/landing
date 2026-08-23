@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Mcp;
 
+use App\Market\Application\GetProductPriceHistory;
 use App\Market\Application\ProductCatalog;
-use App\Market\Domain\PriceObservationRepository;
+use App\Market\Application\RecordPriceObservation;
+use App\Market\Domain\PriceObservation;
 use Mcp\Capability\Attribute\McpTool;
 use Mcp\Capability\Attribute\Schema;
 
@@ -13,7 +15,8 @@ final readonly class MarketPriceTools
 {
     public function __construct(
         private ProductCatalog $catalog,
-        private PriceObservationRepository $observations,
+        private GetProductPriceHistory $priceHistory,
+        private RecordPriceObservation $recordObservation,
         private ?AdminAccess $adminAccess = null,
     ) {
     }
@@ -30,7 +33,7 @@ final readonly class MarketPriceTools
                 'name' => $product->name,
                 'category' => $product->category,
                 'configuration' => $product->specifications,
-                'has_observations' => $this->observations->latest($product->slug) !== null,
+                'has_observations' => $this->priceHistory->latestForProduct($product->slug) !== null,
                 'canonical_url' => $this->canonicalUrl($product->slug),
             ], $this->catalog->all()),
             'terms' => 'Public read-only estimates; no account or API key required.',
@@ -60,7 +63,7 @@ final readonly class MarketPriceTools
                 'high_pln' => $item->highGrosz / 100,
                 'sample_size' => $item->sampleSize,
                 'confidence' => $item->confidence,
-            ], $this->observations->history($slug)),
+            ], $this->priceHistory->forProduct($slug)),
             // phpcs:ignore Generic.Files.LineLength
             'methodology' => 'Manually reviewed aggregate of comparable public asking prices; not scraped data, completed-sale statistics, a valuation, or purchasing advice.',
             'canonical_url' => $this->canonicalUrl($slug),
@@ -117,19 +120,21 @@ final readonly class MarketPriceTools
 
         $note = $summary ?? 'Verified and calibrated against Polish secondary market listings.';
 
-        $observation = new \App\Market\Domain\PriceObservation(
-            $slug,
-            $observedDate,
-            $medianGrosz,
-            $lowGrosz,
-            $highGrosz,
-            $sampleSize,
-            $confidenceLevel,
-            $note,
-            \App\Market\Domain\PriceObservation::METHODOLOGY_MANUAL
-        );
-
-        $this->observations->save($observation);
+        try {
+            $this->recordObservation->execute(
+                $slug,
+                $observedDate,
+                $medianGrosz,
+                $lowGrosz,
+                $highGrosz,
+                $sampleSize,
+                $confidenceLevel,
+                $note,
+                PriceObservation::METHODOLOGY_MANUAL
+            );
+        } catch (\Throwable $e) {
+            return $this->json(['error' => $e->getMessage()]);
+        }
 
         return $this->json([
             'status' => 'success',

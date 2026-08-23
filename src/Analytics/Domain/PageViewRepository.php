@@ -10,4 +10,6 @@ interface PageViewRepository
 
     /** @return list<PageView> */
     public function since(\DateTimeImmutable $since): array;
+
+    public function prune(\DateTimeImmutable $now): int;
 }

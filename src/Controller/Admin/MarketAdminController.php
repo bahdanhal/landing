@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Analytics\Application\TrafficAnalytics;
+use App\Market\Application\DeletePriceObservation;
+use App\Market\Application\GetMarketStatistics;
 use App\Market\Application\ProductCatalog;
+use App\Market\Application\RecordPriceObservation;
 use App\Market\Domain\PriceObservation;
-use App\Market\Domain\PriceObservationRepository;
 use App\Market\Domain\PriceTip;
 use App\Market\Domain\PriceTipRepository;
 use App\Market\Domain\Product;
@@ -24,7 +26,9 @@ final class MarketAdminController extends AbstractController
 
     public function __construct(
         private readonly ProductCatalog $catalog,
-        private readonly PriceObservationRepository $observations,
+        private readonly GetMarketStatistics $marketStatistics,
+        private readonly RecordPriceObservation $recordObservation,
+        private readonly DeletePriceObservation $deleteObservation,
         private readonly ProductRequestStore $productRequests,
         private readonly PriceTipRepository $priceTips,
         private readonly TrafficAnalytics $trafficAnalytics,
@@ -42,18 +46,12 @@ final class MarketAdminController extends AbstractController
         $category = $request->query->get('category');
         $search = strtolower(trim((string) $request->query->get('q', '')));
 
-        $allProducts = $this->catalog->all();
-        $allProductData = array_map(function (Product $product): array {
-            $history = $this->observations->history($product->slug);
+        $stats = $this->marketStatistics->calculate();
+        $allProducts = $stats['all_products'];
+        $allProductData = $stats['products'];
 
-            return [
-                'product' => $product,
-                'latest' => $history[0] ?? null,
-                'previous' => $history[1] ?? null,
-                'observation_count' => count($history),
-            ];
-        }, $allProducts);
         $productData = array_values(array_filter($allProductData, function (array $item) use ($category, $search): bool {
+            /** @var Product $product */
             $product = $item['product'];
             if ($category !== null && $category !== '' && $product->category !== $category) {
                 return false;
@@ -68,7 +66,6 @@ final class MarketAdminController extends AbstractController
         $priceTips = $this->priceTips->all();
         $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
         $sevenDaysAgo = $now->modify('-7 days');
-        $thirtyDaysAgo = $now->modify('-30 days');
         $traffic = $this->trafficAnalytics->summary($now);
         $trafficPeak = max(1, ...array_column($traffic['daily'], 'page_views'));
         $traffic['daily'] = array_map(static fn (array $day): array => [
@@ -77,17 +74,6 @@ final class MarketAdminController extends AbstractController
                 ? 2
                 : max(8, (int) round(($day['page_views'] / $trafficPeak) * 100)),
         ], $traffic['daily']);
-
-        $productsWithHistory = count(array_filter(
-            $allProductData,
-            static fn (array $item): bool => $item['latest'] !== null,
-        ));
-        $staleProducts = count(array_filter(
-            $allProductData,
-            static fn (array $item): bool => $item['latest'] === null
-                || $item['latest']->observedAt < $thirtyDaysAgo,
-        ));
-        $trackedProducts = count($allProducts);
 
         return $this->render('admin/market.html.twig', [
             'products' => $productData,
@@ -105,12 +91,10 @@ final class MarketAdminController extends AbstractController
                     $priceTips,
                     static fn (PriceTip $tip): bool => $tip->submittedAt >= $sevenDaysAgo,
                 )),
-                'tracked_products' => $trackedProducts,
-                'catalog_coverage_percent' => $trackedProducts === 0
-                    ? 0
-                    : (int) round(($productsWithHistory / $trackedProducts) * 100),
-                'observation_points' => array_sum(array_column($allProductData, 'observation_count')),
-                'stale_products' => $staleProducts,
+                'tracked_products' => $stats['tracked_products'],
+                'catalog_coverage_percent' => $stats['catalog_coverage_percent'],
+                'observation_points' => $stats['observation_points'],
+                'stale_products' => count($stats['stale_products']),
             ],
             'current_category' => $category,
             'search' => $search,
@@ -185,19 +169,17 @@ final class MarketAdminController extends AbstractController
 
         try {
             $observedAt = new \DateTimeImmutable($dateStr . ' 12:00:00', new \DateTimeZone('Europe/Warsaw'));
-            $observation = new PriceObservation(
+            $this->recordObservation->execute(
                 $slug,
                 $observedAt,
                 (int) round($medianPln * 100),
                 (int) round($lowPln * 100),
                 (int) round($highPln * 100),
                 max(3, $sampleSize),
-                in_array($confidence, ['low', 'medium', 'high'], true) ? $confidence : 'high',
+                $confidence,
                 '',
                 PriceObservation::METHODOLOGY_MANUAL
             );
-
-            $this->observations->save($observation);
         } catch (\Throwable $e) {
             return $this->redirectToRoute('market_admin_dashboard', ['error' => 'Failed to save observation: ' . $e->getMessage()]);
         }
@@ -216,7 +198,7 @@ final class MarketAdminController extends AbstractController
         $date = trim((string) $request->request->get('date'));
 
         try {
-            $this->observations->delete($slug, $date);
+            $this->deleteObservation->execute($slug, $date);
         } catch (\Throwable $e) {
             return $this->redirectToRoute('market_admin_dashboard', ['error' => 'Failed to delete: ' . $e->getMessage()]);
         }
@@ -226,10 +208,16 @@ final class MarketAdminController extends AbstractController
 
     private function isAuthenticated(Request $request): bool
     {
-        $token = $request->query->get('token') ?? $request->headers->get('X-Admin-Token');
+        $token = $request->headers->get('X-Admin-Token');
+        if ($token === null || $token === '') {
+            $authHeader = (string) $request->headers->get('Authorization', '');
+            if (preg_match('/^Bearer\s+(\S+)$/i', $authHeader, $matches)) {
+                $token = $matches[1];
+            }
+        }
         $adminToken = (string) ($_ENV['ADMIN_TOKEN'] ?? $this->secret);
 
-        if ($token !== null && (hash_equals($adminToken, $token) || hash_equals($this->secret, $token))) {
+        if ($token !== null && $token !== '' && (hash_equals($adminToken, $token) || hash_equals($this->secret, $token))) {
             return true;
         }
 

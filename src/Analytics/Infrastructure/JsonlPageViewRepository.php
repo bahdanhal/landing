@@ -74,13 +74,18 @@ final readonly class JsonlPageViewRepository implements PageViewRepository
         }
     }
 
-    private function prune(\DateTimeImmutable $now): void
+    public function prune(\DateTimeImmutable $now): int
     {
         $cutoff = $now->modify(sprintf('-%d days', $this->retentionDays))->format('Y-m-d');
+        $pruned = 0;
         foreach (glob($this->directory . '/*.jsonl') ?: [] as $path) {
             if (basename($path, '.jsonl') < $cutoff) {
-                @unlink($path);
+                if (@unlink($path)) {
+                    ++$pruned;
+                }
             }
         }
+
+        return $pruned;
     }
 }

@@ -27,23 +27,23 @@ final readonly class DoctrinePriceObservationRepository implements PriceObservat
         ]);
 
         if ($existing !== null) {
-            $this->entityManager->remove($existing);
-            $this->entityManager->flush();
+            $existing->updateFromObservation($observation);
+        } else {
+            $entity = new PriceObservationEntity(
+                $observation->productSlug,
+                $observation->observedAt,
+                $observation->medianGrosz,
+                $observation->lowGrosz,
+                $observation->highGrosz,
+                $observation->sampleSize,
+                $observation->confidence,
+                $observation->summary !== '' ? $observation->summary : null,
+                $observation->methodology !== '' ? $observation->methodology : PriceObservation::METHODOLOGY_MANUAL,
+            );
+
+            $this->entityManager->persist($entity);
         }
 
-        $entity = new PriceObservationEntity(
-            $observation->productSlug,
-            $observation->observedAt,
-            $observation->medianGrosz,
-            $observation->lowGrosz,
-            $observation->highGrosz,
-            $observation->sampleSize,
-            $observation->confidence,
-            $observation->summary !== '' ? $observation->summary : null,
-            $observation->methodology !== '' ? $observation->methodology : PriceObservation::METHODOLOGY_MANUAL,
-        );
-
-        $this->entityManager->persist($entity);
         $this->entityManager->flush();
     }
 

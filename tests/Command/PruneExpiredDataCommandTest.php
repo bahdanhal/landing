@@ -73,4 +73,29 @@ final class PruneExpiredDataCommandTest extends DoctrineTestCase
         self::assertStringContainsString('0 price tip(s)', $display);
         self::assertStringContainsString('1 audit log file(s)', $display);
     }
+
+    public function testExecuteWorksWithGenericRepositoriesViaInterface(): void
+    {
+        $pageViewRepo = $this->createMock(\App\Analytics\Domain\PageViewRepository::class);
+        $pageViewRepo->expects(self::once())
+            ->method('prune')
+            ->willReturn(5);
+
+        $priceTipRepo = $this->createMock(\App\Market\Domain\PriceTipRepository::class);
+        $priceTipRepo->expects(self::once())
+            ->method('pruneExpired')
+            ->willReturn(3);
+
+        $auditLogger = new AuditLogger($this->tempLogDir, 30);
+
+        $command = new PruneExpiredDataCommand($pageViewRepo, $priceTipRepo, $auditLogger);
+        $tester = new CommandTester($command);
+
+        $statusCode = $tester->execute([]);
+
+        self::assertSame(0, $statusCode);
+        $display = $tester->getDisplay();
+        self::assertStringContainsString('5 page view(s)', $display);
+        self::assertStringContainsString('3 price tip(s)', $display);
+    }
 }

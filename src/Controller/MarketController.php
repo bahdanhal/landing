@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Market\Application\GetProductPriceHistory;
 use App\Market\Application\ProductCatalog;
-use App\Market\Domain\PriceObservationRepository;
-use App\Market\Domain\PriceTipRepository;
-use App\Market\Domain\ProductRequestStore;
+use App\Market\Application\RecordProductRequest;
+use App\Market\Application\SubmitCommunityPriceTip;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,10 +20,10 @@ final class MarketController extends AbstractController
 {
     public function __construct(
         private readonly ProductCatalog $catalog,
-        private readonly PriceObservationRepository $observations,
-        private readonly ProductRequestStore $productRequests,
+        private readonly GetProductPriceHistory $priceHistory,
+        private readonly RecordProductRequest $recordProductRequest,
         private readonly RateLimiterFactory $productRequestLimiter,
-        private readonly PriceTipRepository $priceTips,
+        private readonly SubmitCommunityPriceTip $submitPriceTip,
         private readonly RateLimiterFactory $priceTipLimiter,
         private readonly TranslatorInterface $translator,
     ) {
@@ -40,7 +40,7 @@ final class MarketController extends AbstractController
             'family' => $family,
             'configurations' => array_map(fn ($product) => [
                 'product' => $product,
-                'latest' => $this->observations->latest($product->slug),
+                'latest' => $this->priceHistory->latestForProduct($product->slug),
             ], $family->configurations),
         ], $this->catalog->families());
 
@@ -55,35 +55,17 @@ final class MarketController extends AbstractController
     )]
     public function product(string $slug): Response
     {
-        $product = $this->catalog->get($slug);
-        if ($product === null) {
+        $detailed = $this->priceHistory->detailedHistory($slug);
+        if ($detailed === null) {
             throw $this->createNotFoundException();
-        }
-        $history = $this->observations->history($slug);
-        $family = $this->catalog->familyFor($slug);
-
-        $latest = array_first($history);
-        $oneMonthAgo = null;
-        if ($latest !== null) {
-            $targetTimestamp = $latest->observedAt->getTimestamp() - (30 * 86400);
-            $closestDiff = null;
-            foreach (array_slice($history, 1) as $item) {
-                $diff = abs($item->observedAt->getTimestamp() - $targetTimestamp);
-                if ($diff <= 15 * 86400) {
-                    if ($closestDiff === null || $diff < $closestDiff) {
-                        $closestDiff = $diff;
-                        $oneMonthAgo = $item;
-                    }
-                }
-            }
         }
 
         return $this->render('market/product.html.twig', [
-            'product' => $product,
-            'family' => $this->catalog->familyFor($slug),
-            'history' => $history,
-            'latest' => $latest,
-            'one_month_ago' => $oneMonthAgo,
+            'product' => $detailed['product'],
+            'family' => $detailed['family'],
+            'history' => $detailed['history'],
+            'latest' => $detailed['latest'],
+            'one_month_ago' => $detailed['one_month_ago'],
         ]);
     }
 
@@ -113,7 +95,9 @@ final class MarketController extends AbstractController
             return $this->json(['error' => $this->translator->trans('market.request.invalid')], 422);
         }
         try {
-            $this->productRequests->save($product, $email, $request->getClientIp() ?? 'unknown');
+            $this->recordProductRequest->execute($product, $email, $request->getClientIp() ?? 'unknown');
+        } catch (\InvalidArgumentException) {
+            return $this->json(['error' => $this->translator->trans('market.request.invalid')], 422);
         } catch (\RuntimeException) {
             return $this->json(['error' => $this->translator->trans('market.request.failed')], 503);
         }
@@ -146,7 +130,7 @@ final class MarketController extends AbstractController
         }
 
         try {
-            $this->priceTips->submit(
+            $this->submitPriceTip->execute(
                 $slug,
                 (string) $request->request->get('listing_url'),
                 (string) $request->request->get('email'),

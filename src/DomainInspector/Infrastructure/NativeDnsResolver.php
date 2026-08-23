@@ -13,6 +13,7 @@ final readonly class NativeDnsResolver implements DnsResolverInterface
      */
     public function getTxtRecords(string $hostname): array
     {
+        error_clear_last();
         $raw = @dns_get_record($hostname, DNS_TXT);
         if ($raw === false || $raw === []) {
             return [];
@@ -35,6 +36,7 @@ final readonly class NativeDnsResolver implements DnsResolverInterface
      */
     public function getMxRecords(string $hostname): array
     {
+        error_clear_last();
         $raw = @dns_get_record($hostname, DNS_MX);
         if ($raw === false || $raw === []) {
             return [];

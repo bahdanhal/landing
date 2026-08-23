@@ -154,8 +154,10 @@ final class AdminToolsTest extends TestCase
             $leads ?? new JsonlLeadRepository($this->directory . '/leads'),
             $requests ?? new JsonProductRequestStore($this->directory . '/market', 'secret'),
             $tips ?? new JsonPriceTipRepository($this->directory . '/market', 'secret'),
-            new ProductCatalog(),
-            $observations ?? new JsonPriceObservationRepository($this->directory . '/market'),
+            new \App\Market\Application\GetMarketStatistics(
+                new ProductCatalog(),
+                $observations ?? new JsonPriceObservationRepository($this->directory . '/market')
+            ),
             $auditLogger ?? new AuditLogger($this->directory . '/audits', 14),
             new TrafficAnalytics(new JsonlPageViewRepository($this->directory . '/analytics', 90)),
         );

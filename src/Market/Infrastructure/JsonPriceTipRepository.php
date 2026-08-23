@@ -43,7 +43,7 @@ final readonly class JsonPriceTipRepository implements PriceTipRepository
             throw new \RuntimeException('Unable to store the price tip.');
         }
         @chmod($path, 0660);
-        $this->removeExpired();
+        $this->pruneExpired();
 
         return $tip;
     }
@@ -51,7 +51,7 @@ final readonly class JsonPriceTipRepository implements PriceTipRepository
     /** @return list<PriceTip> */
     public function all(): array
     {
-        $this->removeExpired();
+        $this->pruneExpired();
         $tips = [];
         foreach (glob($this->tipDirectory() . '/*.json') ?: [] as $path) {
             try {
@@ -98,19 +98,26 @@ final readonly class JsonPriceTipRepository implements PriceTipRepository
         return sprintf('%s://%s%s%s', $scheme, $host, $port, $path === '' ? '/' : $path);
     }
 
-    private function removeExpired(): void
+    public function pruneExpired(?\DateTimeImmutable $now = null): int
     {
-        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+        $reference = $now ?? new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+        $pruned = 0;
         foreach (glob($this->tipDirectory() . '/*.json') ?: [] as $path) {
             try {
                 $data = json_decode((string) file_get_contents($path), true, flags: JSON_THROW_ON_ERROR);
-                if (!is_array($data) || new \DateTimeImmutable((string) ($data['expires_at'] ?? '1970-01-01')) <= $now) {
-                    @unlink($path);
+                if (!is_array($data) || new \DateTimeImmutable((string) ($data['expires_at'] ?? '1970-01-01')) <= $reference) {
+                    if (@unlink($path)) {
+                        ++$pruned;
+                    }
                 }
             } catch (\Throwable) {
-                @unlink($path);
+                if (@unlink($path)) {
+                    ++$pruned;
+                }
             }
         }
+
+        return $pruned;
     }
 
     private function tipDirectory(): string

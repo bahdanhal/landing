@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Analytics\Domain\PageViewRepository;
-use App\Analytics\Infrastructure\DoctrinePageViewRepository;
 use App\Audit\Infrastructure\AuditLogger;
 use App\Market\Domain\PriceTipRepository;
-use App\Market\Infrastructure\DoctrinePriceTipRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,16 +35,10 @@ final class PruneExpiredDataCommand extends Command
         $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
 
         // 1. Prune page views
-        $pageViewsPruned = 0;
-        if ($this->pageViewRepository instanceof DoctrinePageViewRepository) {
-            $pageViewsPruned = $this->pageViewRepository->prune($now);
-        }
+        $pageViewsPruned = $this->pageViewRepository->prune($now);
 
         // 2. Prune price tips
-        $priceTipsPruned = 0;
-        if ($this->priceTipRepository instanceof DoctrinePriceTipRepository) {
-            $priceTipsPruned = $this->priceTipRepository->pruneExpired($now);
-        }
+        $priceTipsPruned = $this->priceTipRepository->pruneExpired($now);
 
         // 3. Prune audit logs
         $auditLogsPruned = $this->auditLogger->pruneExpired();

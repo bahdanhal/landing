@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Mcp;
 
+use App\Market\Application\GetProductPriceHistory;
 use App\Market\Application\ProductCatalog;
+use App\Market\Application\RecordPriceObservation;
 use App\Market\Domain\PriceObservation;
 use App\Market\Domain\PriceObservationRepository;
 use App\Mcp\AdminAccess;
@@ -19,7 +21,11 @@ final class MarketPriceToolsTest extends TestCase
     {
         $catalog = new ProductCatalog();
         $repository = $this->createStub(PriceObservationRepository::class);
-        $tools = new MarketPriceTools($catalog, $repository);
+        $tools = new MarketPriceTools(
+            $catalog,
+            new GetProductPriceHistory($catalog, $repository),
+            new RecordPriceObservation($catalog, $repository),
+        );
 
         $json = $tools->listProducts();
         $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
@@ -46,7 +52,11 @@ final class MarketPriceToolsTest extends TestCase
             ),
         ]);
 
-        $tools = new MarketPriceTools($catalog, $repository);
+        $tools = new MarketPriceTools(
+            $catalog,
+            new GetProductPriceHistory($catalog, $repository),
+            new RecordPriceObservation($catalog, $repository),
+        );
         $json = $tools->getHistory('iphone-13-128gb');
         $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
 
@@ -62,7 +72,12 @@ final class MarketPriceToolsTest extends TestCase
         $request = new Request();
         $request->headers->set('Authorization', 'Bearer wrong-token');
         $requestStack->push($request);
-        $tools = new MarketPriceTools($catalog, $repository, new AdminAccess($requestStack, 'test-token-123'));
+        $tools = new MarketPriceTools(
+            $catalog,
+            new GetProductPriceHistory($catalog, $repository),
+            new RecordPriceObservation($catalog, $repository),
+            new AdminAccess($requestStack, 'test-token-123'),
+        );
 
         $json = $tools->updateObservation('iphone-13-128gb', 950);
         $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
@@ -75,7 +90,12 @@ final class MarketPriceToolsTest extends TestCase
     {
         $catalog = new ProductCatalog();
         $repository = $this->createStub(PriceObservationRepository::class);
-        $tools = new MarketPriceTools($catalog, $repository, new AdminAccess(new RequestStack(), ''));
+        $tools = new MarketPriceTools(
+            $catalog,
+            new GetProductPriceHistory($catalog, $repository),
+            new RecordPriceObservation($catalog, $repository),
+            new AdminAccess(new RequestStack(), ''),
+        );
 
         $json = $tools->updateObservation('iphone-13-128gb', 950);
         $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
@@ -88,7 +108,12 @@ final class MarketPriceToolsTest extends TestCase
     {
         $catalog = new ProductCatalog();
         $repository = $this->createStub(PriceObservationRepository::class);
-        $tools = new MarketPriceTools($catalog, $repository, new AdminAccess(new RequestStack(), 'test-token-123'));
+        $tools = new MarketPriceTools(
+            $catalog,
+            new GetProductPriceHistory($catalog, $repository),
+            new RecordPriceObservation($catalog, $repository),
+            new AdminAccess(new RequestStack(), 'test-token-123'),
+        );
 
         $json = $tools->updateObservation('iphone-13-128gb', 950);
         $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
@@ -108,7 +133,12 @@ final class MarketPriceToolsTest extends TestCase
         $request->headers->set('Authorization', 'Bearer test-token-123');
         $requestStack->push($request);
 
-        $tools = new MarketPriceTools($catalog, $repository, new AdminAccess($requestStack, 'test-token-123'));
+        $tools = new MarketPriceTools(
+            $catalog,
+            new GetProductPriceHistory($catalog, $repository),
+            new RecordPriceObservation($catalog, $repository),
+            new AdminAccess($requestStack, 'test-token-123'),
+        );
         $json = $tools->updateObservation(
             'iphone-13-128gb',
             950,
@@ -136,7 +166,12 @@ final class MarketPriceToolsTest extends TestCase
         $request->headers->set('Authorization', 'Bearer test-token-123');
         $requestStack->push($request);
 
-        $tools = new MarketPriceTools($catalog, $repository, new AdminAccess($requestStack, 'test-token-123'));
+        $tools = new MarketPriceTools(
+            $catalog,
+            new GetProductPriceHistory($catalog, $repository),
+            new RecordPriceObservation($catalog, $repository),
+            new AdminAccess($requestStack, 'test-token-123'),
+        );
         $json = $tools->updateObservation(
             'iphone-13-128gb',
             950,

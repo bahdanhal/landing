@@ -8,8 +8,7 @@ use App\Analytics\Application\TrafficAnalytics;
 use App\Audit\Infrastructure\AuditLogger;
 use App\Lead\Domain\Lead;
 use App\Lead\Domain\LeadRepository;
-use App\Market\Application\ProductCatalog;
-use App\Market\Domain\PriceObservationRepository;
+use App\Market\Application\GetMarketStatistics;
 use App\Market\Domain\PriceTip;
 use App\Market\Domain\PriceTipRepository;
 use App\Market\Domain\ProductRequestStore;
@@ -23,8 +22,7 @@ final readonly class AdminTools
         private LeadRepository $leads,
         private ProductRequestStore $productRequests,
         private PriceTipRepository $priceTips,
-        private ProductCatalog $catalog,
-        private PriceObservationRepository $observations,
+        private GetMarketStatistics $marketStatistics,
         private AuditLogger $auditLogger,
         private TrafficAnalytics $trafficAnalytics,
     ) {
@@ -48,25 +46,7 @@ final readonly class AdminTools
         $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
         $sevenDaysAgo = $now->modify('-7 days');
         $thirtyDaysAgo = $now->modify('-30 days');
-        $observationCount = 0;
-        $productsWithHistory = 0;
-        $productsWithoutHistory = [];
-        $staleProducts = [];
-
-        foreach ($this->catalog->all() as $product) {
-            $history = $this->observations->history($product->slug);
-            $observationCount += count($history);
-            $latest = $history[0] ?? null;
-            if ($latest === null) {
-                $productsWithoutHistory[] = $product->slug;
-                continue;
-            }
-
-            ++$productsWithHistory;
-            if ($latest->observedAt < $thirtyDaysAgo) {
-                $staleProducts[] = $product->slug;
-            }
-        }
+        $market = $this->marketStatistics->calculate($now);
 
         return $this->json([
             'generated_at' => $now->format(DATE_ATOM),
@@ -102,11 +82,11 @@ final readonly class AdminTools
                 $tips,
             )),
             'market_coverage' => [
-                'tracked_products' => count($this->catalog->all()),
-                'products_with_history' => $productsWithHistory,
-                'observation_points' => $observationCount,
-                'products_without_history' => $productsWithoutHistory,
-                'products_not_reviewed_in_30_days' => $staleProducts,
+                'tracked_products' => $market['tracked_products'],
+                'products_with_history' => $market['products_with_history'],
+                'observation_points' => $market['observation_points'],
+                'products_without_history' => $market['products_without_history'],
+                'products_not_reviewed_in_30_days' => $market['stale_products'],
             ],
         ]);
     }
