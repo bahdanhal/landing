@@ -30,7 +30,7 @@
   <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'WebSite','@id':'https://bahdanhal.pl/#website','url':'https://bahdanhal.pl/','name':'Bahdan Hal','inLanguage':['en','pl'],'publisher':{'@id':'https://bahdanhal.pl/#bahdan'},'author':{'@id':'https://bahdanhal.pl/#bahdan'},'dateModified':'2026-08-22'},{'@type':'Person','@id':'https://bahdanhal.pl/#bahdan','name':'Bahdan Hal','url':'https://bahdanhal.pl/','jobTitle':'Backend Engineer','sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.instagram.com/bahdan.hal/','https://www.facebook.com/profile.php?id=100008404566585','https://www.upwork.com/freelancers/~014111a2d384da6af9']}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
   {% block head_scripts %}{% endblock %}
 </head>
-<body class="{% block body_class %}{% endblock %}">
+<body class="portfolio-site {% block body_class %}{% endblock %}">
   <header class="site-header">
     <div class="topbar">
       <div class="brand-lockup">
@@ -43,8 +43,9 @@
       </div>
       <div class="topbar-actions">
         <nav class="primary-nav" aria-label="{{ 'base.navigation'|trans }}">
-          <a href="https://ileza.pl" target="_blank" rel="noopener">IleZa.pl</a>
-          <a href="https://stackhal.com" target="_blank" rel="noopener">StackHal.com</a>
+          <a href="{{ path('landing', {_locale: app.request.locale}) }}#services">{{ 'profile.nav.services'|trans }}</a>
+          <a href="{{ path('landing', {_locale: app.request.locale}) }}#work">{{ 'profile.nav.work'|trans }}</a>
+          <a href="https://stackhal.com" target="_blank" rel="noopener">StackHal ↗</a>
         </nav>
         {% block language_switch %}
           <a class="language-switch" href="{{ path('home', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>

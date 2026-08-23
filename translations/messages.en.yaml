@@ -682,10 +682,13 @@ profile:
         title: "Bahdan Hal · Websites, AI integrations, MCP and production support"
         description: "Websites, AI integrations, MCP servers and workflow automation delivered end to end, plus PHP systems, production support and honest technical consulting."
     role_short: "Web & Backend Engineer"
+    nav:
+        services: "Services"
+        work: "Work"
     eyebrow: "WEB PRESENCE · SYSTEMS · PRODUCTION"
-    heading: "From first idea"
-    heading_emphasis: "to reliable production."
-    intro: "Give me a system nobody understands, a deadline nobody believes in, or an incident nobody can reproduce - I will quickly find my way through a new environment, work within the constraints, and take responsibility for the result."
+    heading: "Web systems"
+    heading_emphasis: "built for production."
+    intro: "I design, modernize and operate web systems—from focused launches and AI integrations to difficult backend migrations and production incidents. You get direct technical judgment and ownership through delivery."
     scope: "I build and take responsibility for online systems end to end: websites, integrations, AI and MCP-powered tools, from the first honest technical decision through deployment, monitoring and the awkward production incident nobody can reproduce."
     contact: "Free consultation"
     tools: "Open the toolbox"
@@ -909,5 +912,4 @@ cidr_matrix:
         a1: "CIDR overlap occurs when two or more network subnets share one or more IP addresses, leading to routing conflicts in VPC peering, Kubernetes pods/services, or VPN connections."
         q2: "How does free subnet allocation work?"
         a2: "Given a parent block and target prefix size, the algorithm scans for the first contiguous IP block of that size that does not overlap with any existing assigned subnets."
-
 
