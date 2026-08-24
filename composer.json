@@ -28,9 +28,9 @@
     ],
     "require": {
         "php": "^8.5",
-        "bahdan/lead-capture-bundle": "@dev",
-        "bahdan/symfony-privacy-analytics-bundle": "@dev",
-        "bahdan/symfony-safe-http-client": "@dev",
+        "bahdan/lead-capture-bundle": "dev-main",
+        "bahdan/symfony-privacy-analytics-bundle": "dev-main",
+        "bahdan/symfony-safe-http-client": "dev-main",
         "doctrine/doctrine-bundle": "^3.0",
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.3",

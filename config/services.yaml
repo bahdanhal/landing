@@ -36,11 +36,17 @@ services:
     arguments:
       $secret: '%env(APP_SECRET)%'
 
+  Bahdan\LeadCaptureBundle\Application\CaptureLead:
+    alias: App\Lead\Application\CaptureLead
+
   App\Analytics\Domain\PageViewRepository:
     alias: App\Analytics\Infrastructure\DoctrinePageViewRepository
 
   Bahdan\PrivacyAnalyticsBundle\Domain\PageViewRepository:
     alias: App\Analytics\Infrastructure\DoctrinePageViewRepository
+
+  Bahdan\PrivacyAnalyticsBundle\Application\TrafficAnalytics:
+    alias: App\Analytics\Application\TrafficAnalytics
 
   App\Analytics\Infrastructure\DoctrinePageViewRepository:
     arguments:
