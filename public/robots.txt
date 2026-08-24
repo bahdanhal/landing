@@ -3,10 +3,10 @@ Allow: /
 Disallow: /api/
 Disallow: /audit
 Disallow: /geo-audit
-Disallow: /contact
+Disallow: /contact$
 Disallow: /pl/audyt
 Disallow: /pl/audyt-geo
-Disallow: /pl/kontakt
+Disallow: /pl/kontakt$
 Disallow: /healthz
 Disallow: /mcp
 Disallow: /admin/
@@ -20,10 +20,10 @@ Allow: /
 Disallow: /api/
 Disallow: /audit
 Disallow: /geo-audit
-Disallow: /contact
+Disallow: /contact$
 Disallow: /pl/audyt
 Disallow: /pl/audyt-geo
-Disallow: /pl/kontakt
+Disallow: /pl/kontakt$
 Disallow: /healthz
 Disallow: /mcp
 Disallow: /admin/
