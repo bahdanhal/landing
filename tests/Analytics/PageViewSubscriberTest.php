@@ -86,13 +86,51 @@ final class PageViewSubscriberTest extends TestCase
     public static function provideExcludedUserAgents(): array
     {
         return [
+            [''],
             ['ExampleBot/1.0'],
+            ['BahdanToolbox/1.0'],
+            ['Google-InspectionTool/1.0'],
+            ['Mozilla/5.0 CMS-Checker/1.0'],
+            ['crt-indexer/1.0'],
+            ['Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15'],
+            ['Mozilla/5.0 Chrome/148.0.0.0 Safari/537.36'],
             ['curl/7.68.0'],
             ['python-requests/2.28.1'],
             ['GuzzleHttp/7'],
             ['Go-http-client/1.1'],
             ['PostmanRuntime/7.26.8'],
             ['Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4896.60 Safari/537.36'],
+        ];
+    }
+
+    #[DataProvider('provideProbePaths')]
+    public function testExcludesSecurityProbePaths(string $path): void
+    {
+        $repository = $this->createMock(PageViewRepository::class);
+        $repository->expects(self::never())->method('save');
+        $request = Request::create('https://bahdanhal.pl' . $path, 'GET', server: [
+            'REMOTE_ADDR' => '198.51.100.8',
+            'HTTP_USER_AGENT' => 'Mozilla/5.0',
+        ]);
+        $response = new Response('<html></html>', 200, ['Content-Type' => 'text/html']);
+        $event = new ResponseEvent(
+            $this->createStub(HttpKernelInterface::class),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $response,
+        );
+
+        (new PageViewSubscriber($repository, 'analytics-secret'))->onResponse($event);
+    }
+
+    /** @return list<array{string}> */
+    public static function provideProbePaths(): array
+    {
+        return [
+            ['/wp-content/themes/index.php'],
+            ['/wp-admin/index.php'],
+            ['/.env'],
+            ['/.git/HEAD'],
         ];
     }
 }
