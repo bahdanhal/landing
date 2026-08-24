@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Lead\Domain;
 
-interface LeadRepository
-{
-    public function save(Lead $lead): void;
+use Bahdan\LeadCaptureBundle\Domain\LeadRepository as BaseLeadRepository;
 
-    /** @return list<Lead> */
-    public function all(): array;
+interface LeadRepository extends BaseLeadRepository
+{
 }

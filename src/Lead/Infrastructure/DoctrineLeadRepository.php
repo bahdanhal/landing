@@ -7,6 +7,7 @@ namespace App\Lead\Infrastructure;
 use App\Entity\LeadEntity;
 use App\Lead\Domain\Lead;
 use App\Lead\Domain\LeadRepository;
+use Bahdan\LeadCaptureBundle\Domain\Lead as BaseLead;
 use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class DoctrineLeadRepository implements LeadRepository
@@ -16,7 +17,7 @@ final readonly class DoctrineLeadRepository implements LeadRepository
     ) {
     }
 
-    public function save(Lead $lead): void
+    public function save(BaseLead $lead): void
     {
         $entity = new LeadEntity(
             $lead->email,

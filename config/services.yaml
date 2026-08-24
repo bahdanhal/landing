@@ -16,7 +16,16 @@ services:
     resource: '../src/'
     exclude: '../src/{DependencyInjection,Entity,Kernel.php}'
 
+  Bahdan\SafeHttpClient\UrlGuard:
+    alias: App\Shared\Infrastructure\Http\UrlGuard
+
+  Bahdan\SafeHttpClient\SafeHttpFetcher:
+    alias: App\Shared\Infrastructure\Http\SafeHttpFetcher
+
   App\Lead\Domain\LeadRepository:
+    alias: App\Lead\Infrastructure\DoctrineLeadRepository
+
+  Bahdan\LeadCaptureBundle\Domain\LeadRepository:
     alias: App\Lead\Infrastructure\DoctrineLeadRepository
 
   App\Lead\Infrastructure\JsonlLeadRepository:
@@ -28,6 +37,9 @@ services:
       $secret: '%env(APP_SECRET)%'
 
   App\Analytics\Domain\PageViewRepository:
+    alias: App\Analytics\Infrastructure\DoctrinePageViewRepository
+
+  Bahdan\PrivacyAnalyticsBundle\Domain\PageViewRepository:
     alias: App\Analytics\Infrastructure\DoctrinePageViewRepository
 
   App\Analytics\Infrastructure\DoctrinePageViewRepository:

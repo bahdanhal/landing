@@ -1,4 +1,10 @@
 {
+    "bahdan/lead-capture-bundle": {
+        "version": "dev-main"
+    },
+    "bahdan/symfony-privacy-analytics-bundle": {
+        "version": "dev-main"
+    },
     "doctrine/deprecations": {
         "version": "1.1",
         "recipe": {

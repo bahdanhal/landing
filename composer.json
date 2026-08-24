@@ -3,8 +3,34 @@
     "description": "Bilingual practical toolbox with a Polish income calculator, GEO and SEO audits, and second-hand market history",
     "type": "project",
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../packages/symfony-safe-http-client",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../packages/symfony-privacy-analytics-bundle",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../packages/lead-capture-bundle",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "require": {
         "php": "^8.5",
+        "bahdan/lead-capture-bundle": "@dev",
+        "bahdan/symfony-privacy-analytics-bundle": "@dev",
+        "bahdan/symfony-safe-http-client": "@dev",
         "doctrine/doctrine-bundle": "^3.0",
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.3",
@@ -14,6 +40,8 @@
         "ext-json": "*",
         "ext-libxml": "*",
         "ext-pdo": "*",
+        "moneyphp/money": "^4.6",
+        "nanasess/bcmath-polyfill": "^1.0",
         "nyholm/psr7": "^1.8",
         "symfony/ai-anthropic-platform": "^0.12.0",
         "symfony/ai-bundle": "^0.12.0",

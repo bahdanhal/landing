@@ -7,6 +7,7 @@ namespace App\Analytics\Infrastructure;
 use App\Analytics\Domain\PageView;
 use App\Analytics\Domain\PageViewRepository;
 use App\Entity\PageViewEntity;
+use Bahdan\PrivacyAnalyticsBundle\Domain\PageView as BasePageView;
 use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class DoctrinePageViewRepository implements PageViewRepository
@@ -17,7 +18,7 @@ final readonly class DoctrinePageViewRepository implements PageViewRepository
     ) {
     }
 
-    public function save(PageView $pageView): void
+    public function save(BasePageView $pageView): void
     {
         $entity = new PageViewEntity(
             $pageView->occurredAt,
