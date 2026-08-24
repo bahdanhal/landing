@@ -5,32 +5,23 @@
     "license": "MIT",
     "repositories": [
         {
-            "type": "path",
-            "url": "../packages/symfony-safe-http-client",
-            "options": {
-                "symlink": true
-            }
+            "type": "vcs",
+            "url": "https://github.com/bahdanhal/symfony-safe-http-client.git"
         },
         {
-            "type": "path",
-            "url": "../packages/symfony-privacy-analytics-bundle",
-            "options": {
-                "symlink": true
-            }
+            "type": "vcs",
+            "url": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle.git"
         },
         {
-            "type": "path",
-            "url": "../packages/lead-capture-bundle",
-            "options": {
-                "symlink": true
-            }
+            "type": "vcs",
+            "url": "https://github.com/bahdanhal/lead-capture-bundle.git"
         }
     ],
     "require": {
         "php": "^8.5",
-        "bahdan/lead-capture-bundle": "dev-main",
-        "bahdan/symfony-privacy-analytics-bundle": "dev-main",
-        "bahdan/symfony-safe-http-client": "dev-main",
+        "bahdan/lead-capture-bundle": "^1.0",
+        "bahdan/symfony-privacy-analytics-bundle": "^1.0",
+        "bahdan/symfony-safe-http-client": "^1.0",
         "doctrine/doctrine-bundle": "^3.0",
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.3",

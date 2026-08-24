@@ -8,11 +8,17 @@
     "packages": [
         {
             "name": "bahdan/lead-capture-bundle",
-            "version": "dev-main",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bahdanhal/lead-capture-bundle.git",
+                "reference": "61fc5a14d2fe3c6beb6a15707467460dc223e096"
+            },
             "dist": {
-                "type": "path",
-                "url": "../packages/lead-capture-bundle",
-                "reference": "dea2f511534e9096d0fd7141870ef4676e6b5636"
+                "type": "zip",
+                "url": "https://api.github.com/repos/bahdanhal/lead-capture-bundle/zipball/61fc5a14d2fe3c6beb6a15707467460dc223e096",
+                "reference": "61fc5a14d2fe3c6beb6a15707467460dc223e096",
+                "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "^3.8 || ^4.0",
@@ -44,18 +50,25 @@
                 }
             ],
             "description": "Lead and contact request capture bundle with dual Doctrine and JSONL storage",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "support": {
+                "source": "https://github.com/bahdanhal/lead-capture-bundle/tree/v1.0.0",
+                "issues": "https://github.com/bahdanhal/lead-capture-bundle/issues"
+            },
+            "time": "2026-08-24T11:46:37+00:00"
         },
         {
             "name": "bahdan/symfony-privacy-analytics-bundle",
-            "version": "dev-main",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle.git",
+                "reference": "521630e89d35086296c3f894cc1f5cb0cf6af885"
+            },
             "dist": {
-                "type": "path",
-                "url": "../packages/symfony-privacy-analytics-bundle",
-                "reference": "3dbbf71e046560c2acff808437de562303bf6104"
+                "type": "zip",
+                "url": "https://api.github.com/repos/bahdanhal/symfony-privacy-analytics-bundle/zipball/521630e89d35086296c3f894cc1f5cb0cf6af885",
+                "reference": "521630e89d35086296c3f894cc1f5cb0cf6af885",
+                "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "^3.8 || ^4.0",
@@ -89,18 +102,25 @@
                 }
             ],
             "description": "Zero-cookie, GDPR-compliant server-side privacy analytics bundle for Symfony",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "support": {
+                "source": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/tree/v1.0.0",
+                "issues": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/issues"
+            },
+            "time": "2026-08-24T11:46:34+00:00"
         },
         {
             "name": "bahdan/symfony-safe-http-client",
-            "version": "dev-main",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bahdanhal/symfony-safe-http-client.git",
+                "reference": "220ebdc9cc8b11aad1780c0927939fdeb2a897a6"
+            },
             "dist": {
-                "type": "path",
-                "url": "../packages/symfony-safe-http-client",
-                "reference": "8e103e7b3434338038f2f2304911fb777ee672d8"
+                "type": "zip",
+                "url": "https://api.github.com/repos/bahdanhal/symfony-safe-http-client/zipball/220ebdc9cc8b11aad1780c0927939fdeb2a897a6",
+                "reference": "220ebdc9cc8b11aad1780c0927939fdeb2a897a6",
+                "shasum": ""
             },
             "require": {
                 "php": ">=8.3",
@@ -130,10 +150,11 @@
                 }
             ],
             "description": "SSRF-protected HTTP Client wrapper for Symfony HttpClient with DNS resolution pinning and subnet validation",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "support": {
+                "source": "https://github.com/bahdanhal/symfony-safe-http-client/tree/v1.0.0",
+                "issues": "https://github.com/bahdanhal/symfony-safe-http-client/issues"
+            },
+            "time": "2026-08-24T11:46:27+00:00"
         },
         {
             "name": "doctrine/collections",
