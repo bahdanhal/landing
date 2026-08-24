@@ -15,8 +15,8 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    name: Build Test Image
+  test:
+    name: Verification & Quality Gate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -26,61 +26,13 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build test image
-        run: docker buildx build --target test --tag portfolio-test --cache-from type=gha --cache-to type=gha,mode=max --output type=docker,dest=/tmp/test-image.tar .
-
-      - name: Upload test image artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-image
-          path: /tmp/test-image.tar
-          retention-days: 1
-
-  phpunit:
-    name: PHPUnit Tests
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download test image artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: test-image
-          path: /tmp
-
-      - name: Load Docker image
-        run: docker load -i /tmp/test-image.tar
+        run: docker buildx build --load --target test --tag portfolio-test --cache-from type=gha --cache-to type=gha,mode=max .
 
       - name: Run PHPUnit Test Suite
         run: docker run --rm --env-file .env.example -e APP_ENV=test portfolio-test vendor/bin/phpunit --fail-on-phpunit-notice
 
-  js-tests:
-    name: JavaScript Tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Run JavaScript Test Suites
         run: docker run --rm -v "$PWD:/app" -w /app node:24-alpine sh -lc 'for test in tests/js/*.test.js; do node "$test" || exit 1; done'
-
-  static-analysis:
-    name: Static Analysis & Code Quality
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download test image artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: test-image
-          path: /tmp
-
-      - name: Load Docker image
-        run: docker load -i /tmp/test-image.tar
 
       - name: Run PSR-12 Code Style
         run: docker run --rm portfolio-test vendor/bin/phpcs
