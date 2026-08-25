@@ -8,22 +8,24 @@
     "packages": [
         {
             "name": "bahdan/lead-capture-bundle",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bahdanhal/lead-capture-bundle.git",
-                "reference": "61fc5a14d2fe3c6beb6a15707467460dc223e096"
+                "reference": "a53e476f60b0dc88db49bfd0f65de55ebc4ef43c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bahdanhal/lead-capture-bundle/zipball/61fc5a14d2fe3c6beb6a15707467460dc223e096",
-                "reference": "61fc5a14d2fe3c6beb6a15707467460dc223e096",
+                "url": "https://api.github.com/repos/bahdanhal/lead-capture-bundle/zipball/a53e476f60b0dc88db49bfd0f65de55ebc4ef43c",
+                "reference": "a53e476f60b0dc88db49bfd0f65de55ebc4ef43c",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "^3.8 || ^4.0",
                 "doctrine/orm": "^3.0",
                 "php": ">=8.3",
+                "symfony/config": "^7.0 || ^8.0",
+                "symfony/dependency-injection": "^7.0 || ^8.0",
                 "symfony/http-kernel": "^7.0 || ^8.0"
             },
             "require-dev": {
@@ -51,29 +53,31 @@
             ],
             "description": "Lead and contact request capture bundle with dual Doctrine and JSONL storage",
             "support": {
-                "source": "https://github.com/bahdanhal/lead-capture-bundle/tree/v1.0.0",
+                "source": "https://github.com/bahdanhal/lead-capture-bundle/tree/v1.0.1",
                 "issues": "https://github.com/bahdanhal/lead-capture-bundle/issues"
             },
-            "time": "2026-08-24T11:46:37+00:00"
+            "time": "2026-08-25T09:53:07+00:00"
         },
         {
             "name": "bahdan/symfony-privacy-analytics-bundle",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle.git",
-                "reference": "521630e89d35086296c3f894cc1f5cb0cf6af885"
+                "reference": "492cd9e26d872e17cecffe3d2a333f68ef9e4dd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bahdanhal/symfony-privacy-analytics-bundle/zipball/521630e89d35086296c3f894cc1f5cb0cf6af885",
-                "reference": "521630e89d35086296c3f894cc1f5cb0cf6af885",
+                "url": "https://api.github.com/repos/bahdanhal/symfony-privacy-analytics-bundle/zipball/492cd9e26d872e17cecffe3d2a333f68ef9e4dd6",
+                "reference": "492cd9e26d872e17cecffe3d2a333f68ef9e4dd6",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "^3.8 || ^4.0",
                 "doctrine/orm": "^3.0",
                 "php": ">=8.3",
+                "symfony/config": "^7.0 || ^8.0",
+                "symfony/dependency-injection": "^7.0 || ^8.0",
                 "symfony/event-dispatcher": "^7.0 || ^8.0",
                 "symfony/http-foundation": "^7.0 || ^8.0",
                 "symfony/http-kernel": "^7.0 || ^8.0"
@@ -103,23 +107,23 @@
             ],
             "description": "Zero-cookie, GDPR-compliant server-side privacy analytics bundle for Symfony",
             "support": {
-                "source": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/tree/v1.0.0",
+                "source": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/tree/v1.0.1",
                 "issues": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/issues"
             },
-            "time": "2026-08-24T11:46:34+00:00"
+            "time": "2026-08-25T09:53:13+00:00"
         },
         {
             "name": "bahdan/symfony-safe-http-client",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bahdanhal/symfony-safe-http-client.git",
-                "reference": "220ebdc9cc8b11aad1780c0927939fdeb2a897a6"
+                "reference": "2e4e75d72302835706e673c9c070e917998be6fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bahdanhal/symfony-safe-http-client/zipball/220ebdc9cc8b11aad1780c0927939fdeb2a897a6",
-                "reference": "220ebdc9cc8b11aad1780c0927939fdeb2a897a6",
+                "url": "https://api.github.com/repos/bahdanhal/symfony-safe-http-client/zipball/2e4e75d72302835706e673c9c070e917998be6fa",
+                "reference": "2e4e75d72302835706e673c9c070e917998be6fa",
                 "shasum": ""
             },
             "require": {
@@ -151,10 +155,10 @@
             ],
             "description": "SSRF-protected HTTP Client wrapper for Symfony HttpClient with DNS resolution pinning and subnet validation",
             "support": {
-                "source": "https://github.com/bahdanhal/symfony-safe-http-client/tree/v1.0.0",
+                "source": "https://github.com/bahdanhal/symfony-safe-http-client/tree/v1.0.1",
                 "issues": "https://github.com/bahdanhal/symfony-safe-http-client/issues"
             },
-            "time": "2026-08-24T11:46:27+00:00"
+            "time": "2026-08-25T09:53:18+00:00"
         },
         {
             "name": "doctrine/collections",
@@ -1427,7 +1431,7 @@
                     "homepage": "http://verraes.net"
                 },
                 {
-                    "name": "M\u00e1rk S\u00e1gi-Kaz\u00e1r",
+                    "name": "Márk Sági-Kazár",
                     "email": "mark.sagikazar@gmail.com"
                 },
                 {
@@ -2015,7 +2019,7 @@
             ],
             "authors": [
                 {
-                    "name": "M\u00e1rk S\u00e1gi-Kaz\u00e1r",
+                    "name": "Márk Sági-Kazár",
                     "email": "mark.sagikazar@gmail.com"
                 }
             ],
@@ -2272,7 +2276,7 @@
                     "role": "Developer"
                 },
                 {
-                    "name": "Hans-J\u00fcrgen Petrich",
+                    "name": "Hans-Jürgen Petrich",
                     "email": "petrich@tronic-media.com",
                     "role": "Developer"
                 },
@@ -5950,7 +5954,7 @@
             ],
             "authors": [
                 {
-                    "name": "Gr\u00e9goire Pineau",
+                    "name": "Grégoire Pineau",
                     "email": "lyrixx@lyrixx.info"
                 },
                 {
@@ -6115,7 +6119,7 @@
             ],
             "authors": [
                 {
-                    "name": "K\u00e9vin Dunglas",
+                    "name": "Kévin Dunglas",
                     "email": "dunglas@gmail.com"
                 },
                 {
@@ -7308,7 +7312,7 @@
             ],
             "authors": [
                 {
-                    "name": "Gr\u00e9goire Pineau",
+                    "name": "Grégoire Pineau",
                     "email": "lyrixx@lyrixx.info"
                 },
                 {
@@ -8010,7 +8014,7 @@
             ],
             "authors": [
                 {
-                    "name": "Ond\u0159ej Mirtes"
+                    "name": "Ondřej Mirtes"
                 },
                 {
                     "name": "Markus Staab"
@@ -9626,7 +9630,7 @@
                     "email": "fabien@symfony.com"
                 },
                 {
-                    "name": "Jean-Fran\u00e7ois Simon",
+                    "name": "Jean-François Simon",
                     "email": "jeanfrancois.simon@sensiolabs.com"
                 },
                 {
@@ -9867,11 +9871,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "bahdan/lead-capture-bundle": 20,
-        "bahdan/symfony-privacy-analytics-bundle": 20,
-        "bahdan/symfony-safe-http-client": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -9883,6 +9883,6 @@
         "ext-libxml": "*",
         "ext-pdo": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.9.0"
 }
