@@ -251,4 +251,32 @@ final class McpControllerDecoratorTest extends TestCase
             $response->getContent()
         );
     }
+
+    public function testReturnsJsonRpcParseErrorForMalformedJson(): void
+    {
+        $server = Server::builder()->setServerInfo('test', '1.0.0')->build();
+        $psr17Factory = new Psr17Factory();
+        $inner = new McpController(
+            $server,
+            $this->createStub(HttpMessageFactoryInterface::class),
+            $this->createStub(HttpFoundationFactoryInterface::class),
+            $psr17Factory,
+            $psr17Factory,
+            new MiddlewareFactory([])
+        );
+
+        $response = (new McpControllerDecorator($inner))->handle(
+            Request::create('/mcp', 'POST', [], [], [], [], '{invalid')
+        );
+
+        self::assertSame(400, $response->getStatusCode());
+        self::assertSame(
+            [
+                'jsonrpc' => '2.0',
+                'error' => ['code' => -32700, 'message' => 'Parse error'],
+                'id' => null,
+            ],
+            json_decode((string) $response->getContent(), true, 512, \JSON_THROW_ON_ERROR)
+        );
+    }
 }

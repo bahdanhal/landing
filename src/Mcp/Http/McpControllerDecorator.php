@@ -26,10 +26,26 @@ final class McpControllerDecorator
     public function handle(Request $request): Response
     {
         $sessionIdHeader = (string) $request->headers->get('Mcp-Session-Id', '');
+        $requestBody = $request->getContent();
+        if ($requestBody !== '' && !$this->isValidJson($requestBody)) {
+            return $this->createParseErrorResponse();
+        }
+
+        $sessionLock = $this->acquireSessionLock($sessionIdHeader);
+        try {
+            return $this->handleLocked($request, $sessionIdHeader);
+        } finally {
+            $this->releaseSessionLock($sessionLock);
+        }
+    }
+
+    private function handleLocked(Request $request, string $sessionIdHeader): Response
+    {
         if ($this->sessionStore !== null && $sessionIdHeader !== '' && Uuid::isValid($sessionIdHeader)) {
             try {
                 $uuid = Uuid::fromString($sessionIdHeader);
-                if (!$this->sessionStore->exists($uuid)) {
+                $sessionData = $this->sessionStore->read($uuid);
+                if ($sessionData === false || !$this->isValidJsonObject($sessionData)) {
                     $this->sessionStore->write($uuid, '{}');
                 }
             } catch (\Throwable) {
@@ -98,6 +114,72 @@ final class McpControllerDecorator
         }
 
         return $response;
+    }
+
+    private function isValidJson(string $payload): bool
+    {
+        try {
+            json_decode($payload, true, 512, \JSON_THROW_ON_ERROR);
+
+            return true;
+        } catch (\JsonException) {
+            return false;
+        }
+    }
+
+    private function isValidJsonObject(string $payload): bool
+    {
+        try {
+            $decoded = json_decode($payload, true, 512, \JSON_THROW_ON_ERROR);
+
+            return is_array($decoded) && !array_is_list($decoded);
+        } catch (\JsonException) {
+            return false;
+        }
+    }
+
+    /** @return resource|null */
+    private function acquireSessionLock(string $sessionId): mixed
+    {
+        if ($sessionId === '' || !Uuid::isValid($sessionId)) {
+            return null;
+        }
+
+        $path = sys_get_temp_dir() . '/bahdan-mcp-session-' . hash('sha256', $sessionId) . '.lock';
+        $lock = @fopen($path, 'c');
+        if ($lock === false || !flock($lock, \LOCK_EX)) {
+            if (is_resource($lock)) {
+                fclose($lock);
+            }
+
+            return null;
+        }
+
+        return $lock;
+    }
+
+    /** @param resource|null $lock */
+    private function releaseSessionLock(mixed $lock): void
+    {
+        if (!is_resource($lock)) {
+            return;
+        }
+
+        flock($lock, \LOCK_UN);
+        fclose($lock);
+    }
+
+    private function createParseErrorResponse(): Response
+    {
+        return new Response(
+            json_encode([
+                'jsonrpc' => '2.0',
+                'error' => ['code' => -32700, 'message' => 'Parse error'],
+                'id' => null,
+            ], \JSON_THROW_ON_ERROR),
+            400,
+            ['Content-Type' => 'application/json']
+        );
     }
 
     private function isJsonResponse(Response $response): bool
