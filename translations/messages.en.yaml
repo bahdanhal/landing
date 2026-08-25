@@ -6,7 +6,7 @@ base:
     by: "by Bahdan Hal"
     navigation: "Tools and language"
     nav:
-        income: "UoP / UZ / Ud / B2B"
+        income: "UoP / UZ / UoD / B2B"
         geo: "GEO analyzer"
         seo: "SEO analyzer"
         market: "Used goods prices"
@@ -82,7 +82,7 @@ home:
             text: "Formulas, evidence, dates, and limitations appear next to the result instead of hiding behind a score."
         fast:
             title: "One job at a time"
-            text: "Each tool is designed around one concrete task, with no signup wall and no artificial waiting."
+            text: "Each tool is designed around one concrete task, with no paywalls, signups, or artificial delays."
 
 vat:
     meta:
@@ -502,7 +502,7 @@ market:
     method:
         title: "What makes this useful—and honest"
         text: "This is a longitudinal observation series, not a scraped marketplace database and not a claim about completed transactions. Every review uses the same exact product definition."
-        one: "Bahdan manually reviews comparable public listings for the exact configuration. No automated marketplace crawler is used."
+        one: "Bahdan manually reviews comparable public listings for the exact hardware configuration, without relying on automated scrapers."
         two: "Only an aggregate median, range, sample size and review date are published. Submitted source links stay in a private review queue."
         three: "Community tips help find unusually good offers, but every published price point remains Bahdan’s manual editorial decision."
         public: "Bahdan manually reviews a small comparable sample using one fixed product definition. The public page contains only the resulting aggregate range, median, sample size and date. Submitted listing links are private, are never republished or fetched automatically, and are removed after 90 days."
@@ -618,10 +618,10 @@ market:
 
 income:
     meta:
-        title: "Poland Salary & Contract Calculator 2026 · UoP, UZ, Ud, B2B Net-Gross"
-        description: "Compare Polish take-home net income from the same employer budget for Umowa o Pracę (UoP), Umowa Zlecenie (UZ), Umowa o Dzieło (Ud), and B2B under 2026 tax and ZUS rules."
+        title: "Poland Salary & Contract Calculator 2026 · UoP, UZ, UoD, B2B Net-Gross"
+        description: "Compare Polish take-home net income from the same employer budget for Umowa o Pracę (UoP), Umowa Zlecenie (UZ), Umowa o Dzieło (UoD), and B2B under 2026 tax and ZUS rules."
     eyebrow: "POLAND · CONTRACTS · 2026"
-    heading: "UoP / UZ / Ud / B2B calculator"
+    heading: "UoP / UZ / UoD / B2B calculator"
     lede: "Compare what reaches you from the same monthly company budget. See gross amount, social and health contributions, PIT, business costs, and estimated take-home pay side by side."
     verified: "Rules checked"
     types:
@@ -657,7 +657,7 @@ income:
         title: "Comparable assumptions"
         text: "This is a planning comparison, not payroll software. It annualizes one unchanged monthly amount and applies the 2026 tax scale and common contribution rules."
         one: "UoP includes employee contributions and an estimated employer burden using a 1.67% accident rate; employee costs are 250 PLN/month."
-        two: "UZ assumes full social insurance including voluntary sickness unless the under-26 student option is selected; the annual youth-relief limit is included. Ud uses 20% deductible costs and no ZUS/health."
+        two: "UZ assumes full social insurance including voluntary sickness unless the under-26 student option is selected; the annual youth-relief limit is included. UoD uses 20% deductible costs and no social or health contributions."
         three: "B2B excludes VAT as normally neutral, assumes the selected ZUS/tax regime, and does not model holidays, accounting fees or every relief and annual adjustment."
     sources:
         title: "Official 2026 references"
@@ -670,8 +670,8 @@ income:
     disclaimer: "Informational estimate only. Confirm a real contract with payroll/accounting software or a qualified Polish adviser."
     faq:
         title: "Frequently Asked Questions about Polish Employment Contracts"
-        q1: "What is the difference between UoP, UZ, Ud, and B2B?"
-        a1: "Umowa o pracę (UoP) provides standard labour code protections and paid leave with full social security. Umowa zlecenie (UZ) is a civil services contract with social and health contributions (exempt for students under 26). Umowa o dzieło (Ud) is a task/result contract without social contributions. B2B is a sole proprietorship contract where you invoice clients directly and manage business costs and ZUS."
+        q1: "What is the difference between UoP, UZ, UoD, and B2B?"
+        a1: "Umowa o pracę (UoP) provides standard labour code protections and paid leave with full social security. Umowa zlecenie (UZ) is a civil services contract with social and health contributions (exempt for students under 26). Umowa o dzieło (UoD) is a task/result contract without social or health contributions. B2B is a sole proprietorship contract where you invoice clients directly and manage business costs and ZUS."
         q2: "Why does the comparison start from company budget rather than gross pay?"
         a2: "Comparing from the employer's total budget provides an honest apples-to-apples comparison of what a business actually spends versus what lands in your personal bank account."
         q3: "How does the health contribution (składka zdrowotna) differ on B2B?"
@@ -912,4 +912,3 @@ cidr_matrix:
         a1: "CIDR overlap occurs when two or more network subnets share one or more IP addresses, leading to routing conflicts in VPC peering, Kubernetes pods/services, or VPN connections."
         q2: "How does free subnet allocation work?"
         a2: "Given a parent block and target prefix size, the algorithm scans for the first contiguous IP block of that size that does not overlap with any existing assigned subnets."
-

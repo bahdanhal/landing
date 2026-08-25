@@ -6,7 +6,7 @@ base:
     by: "autor: Bahdan Hal"
     navigation: "Narzędzia i język"
     nav:
-        income: "UoP / UZ / Ud / B2B"
+        income: "UoP / UZ / UoD / B2B"
         geo: "Analizator GEO"
         seo: "Analizator SEO"
         market: "Ceny używanych rzeczy"
@@ -68,7 +68,7 @@ home:
         title: "Nginx i Apache ➔ Caddyfile Converter"
         text: "Konwertuj bloki serwera Nginx oraz Apache .htaccess na czysty, czytelny Caddyfile w czasie rzeczywistym, z inteligentnymi podpowiedziami i gotowymi presetami."
     cidr_matrix:
-        title: "Wizualna Matryca CIDR i Nachodzenia Podsieci"
+        title: "Wizualna Matryca CIDR i Nakładania się Podsieci"
         text: "Analizuj bloki CIDR IPv4/IPv6, wykrywaj kolizje podsieci, wizualizuj struktury drzewiaste 2D i znajduj wolne podsieci."
     pkpass:
         title: "Inspektor i debugger Apple Wallet (.pkpass)"
@@ -481,15 +481,15 @@ geo:
 
 market:
     meta:
-        title: "Sprawiedliwe Ceny na Marketplace w Polsce · Ile to naprawdę kosztuje"
-        description: "Sprawdź sprawiedliwe ceny rynkowe i historię cen elektroniki i aut w Polsce. Ile kosztuje iPhone, MacBook lub RAM bez scrapowania marketplace."
+        title: "Ceny rynkowe na marketplace w Polsce · Ile to naprawdę kosztuje"
+        description: "Sprawdź ceny rynkowe i historię cen elektroniki oraz aut w Polsce. Ile kosztuje iPhone, MacBook lub RAM bez scrapowania marketplace."
     product_meta:
         title: "Ile kosztuje używany %product%? Aktualna cena i historia w Polsce"
         description: "Sprawdź, ile kosztuje używany %product% w Polsce. Aktualna mediana cen ofertowych, wykres zmian, porównywalny zakres cen i kalkulator opłacalności zakupu."
     eyebrow: "POLSKA · SPOŁECZNOŚCIOWY PRZEWODNIK CEN · RĘCZNA WERYFIKACJA"
-    heading_start: "Ile sprzęt na marketplace"
-    heading_emphasis: "jest naprawdę warty?"
-    lede: "Sprawiedliwe ceny rynkowe i historia wycen w Polsce. Odkryj, ile realnie kosztuje sprzęt na rynku wtórnym i jak zmieniała się jego cena w ubiegłym miesiącu."
+    heading_start: "Ile naprawdę jest warty"
+    heading_emphasis: "używany sprzęt?"
+    lede: "Ceny rynkowe i historia wycen w Polsce. Odkryj, ile realnie kosztuje sprzęt na rynku wtórnym i jak zmieniała się jego cena w ubiegłym miesiącu."
     category:
         smartphones: "SMARTFONY"
         laptops: "LAPTOPY"
@@ -507,12 +507,12 @@ market:
         three: "Zgłoszenia społeczności pomagają znaleźć dobre oferty, ale każdy opublikowany punkt pozostaje ręczną decyzją redakcyjną Bahdana."
         public: "Bahdan ręcznie przegląda małą próbę porównywalnych ofert według jednej definicji produktu. Publiczna strona pokazuje wyłącznie zagregowany zakres, medianę, liczebność próby i datę. Nadesłane linki są prywatne, nigdy nie są automatycznie pobierane ani publikowane i są usuwane po 90 dniach."
         verified_by_bahdan: "Każdy opublikowany punkt jest osobiście sprawdzany i kalibrowany przez Bahdana względem porównywalnych publicznych ofert."
-        verified_badge: "Zweryfikowane i dopracowane przez Bahdana"
+        verified_badge: "Zweryfikowane i zestawione przez Bahdana"
     back: "Wszystkie historie cen"
-    product_eyebrow: "SPRAWIEDLIWA CENA I HISTORIA RYNKOWA W POLSCE"
+    product_eyebrow: "WYCENA RYNKOWA I HISTORIA CEN W POLSCE"
     product_lede: "Ta strona śledzi w czasie porównywalne, w pełni sprawne egzemplarze na polskim rynku wtórnym. Oferty nowe, uszkodzone, na części, zablokowane, w zestawach i odnowione jako nowe są konsekwentnie wykluczane."
     median: "Mediana rynkowa"
-    asking_price: "Sprawiedliwa cena ofertowa"
+    asking_price: "Szacunkowa cena ofertowa"
     range: "Porównywalny zakres"
     comparable_range: "Typowy przedział cenowy"
     evidence: "Próba badawcza"
@@ -522,7 +522,7 @@ market:
     month_change: "Zmiana w 30 dni"
     no_month_data: "Zbieranie historii 30 dni"
     snapshot: "Co mówi najnowsza wycena rynkowa"
-    snapshot_text: "W dniu %date% ręcznie zweryfikowana przez Bahdana mediana ceny ofertowej %product% wynosiła %median%. Porównywalny zakres to %low%–%high%. Pojedyncze ogłoszenia nie są publikowane."
+    snapshot_text: "W dniu %date% ręcznie zweryfikowana przez Bahdana mediana cen ofertowych dla %product% wynosiła %median%. Porównywalny zakres to %low% – %high%. Pojedyncze ogłoszenia nie są publikowane."
     spec:
         generation: "Generacja"
         variant: "Wariant"
@@ -555,7 +555,7 @@ market:
         failed: "Nie udało się teraz zapisać zgłoszenia."
         too_many: "Zbyt wiele zgłoszeń z tego połączenia. Spróbuj ponownie jutro."
     tip:
-        eyebrow: "ZNALEŹLIŚCIE TANIEJ?"
+        eyebrow: "ZNALAZŁEŚ TANIEJ?"
         title: "Pomóż poprawić tę cenę"
         text: "Podeślij publiczne ogłoszenie dokładnie tej konfiguracji. Bahdan sprawdzi je ręcznie, zanim zmieni opublikowaną wartość."
         url: "Link do publicznego ogłoszenia"
@@ -576,7 +576,7 @@ market:
         title: "Często zadawane pytania o ceny"
         price_now:
             q: "Ile kosztuje %product% na marketplace w Polsce?"
-            a: "Aktualna szacowana mediana rynkowa dla sprawnego %product% wynosi %median%, a typowy przedział ofert to %low%–%high%."
+            a: "Aktualna szacowana mediana rynkowa dla sprawnego %product% wynosi %median%, a typowy przedział ofert to %low% – %high%."
         month_ago:
             q: "Ile %product% kosztował miesiąc temu?"
             a: "Około 30 dni temu szacowana mediana wynosiła %median%, co oznacza zmianę o %diff% (%diff_pct%%)."
@@ -618,10 +618,10 @@ market:
 
 income:
     meta:
-        title: "Kalkulator wynagrodzeń 2026 · Porównanie UoP, UZ, Ud i B2B netto brutto"
-        description: "Porównaj zarobki na rękę z tego samego budżetu pracodawcy dla umowy o pracę (UoP), umowy zlecenia (UZ), umowy o dzieło (Ud) i B2B według zasad podatkowych i ZUS na 2026 rok."
+        title: "Kalkulator wynagrodzeń 2026 · Porównanie UoP, UZ, UoD i B2B netto brutto"
+        description: "Porównaj zarobki na rękę z tego samego budżetu pracodawcy dla umowy o pracę (UoP), umowy zlecenia (UZ), umowy o dzieło (UoD) i B2B według zasad podatkowych i ZUS na 2026 rok."
     eyebrow: "POLSKA · FORMY ZATRUDNIENIA · 2026"
-    heading: "Kalkulator UoP / UZ / Ud / B2B"
+    heading: "Kalkulator UoP / UZ / UoD / B2B"
     lede: "Porównaj, ile trafia do Ciebie z tego samego miesięcznego budżetu firmy. Zobacz obok siebie kwotę brutto, składki społeczne i zdrowotne, PIT, koszty firmy oraz szacowaną wypłatę."
     verified: "Zasady sprawdzone"
     types:
@@ -657,7 +657,7 @@ income:
         title: "Wspólne założenia porównania"
         text: "To porównanie planistyczne, a nie program kadrowo-płacowy. Zakłada tę samą kwotę przez 12 miesięcy i stosuje skalę oraz typowe składki z 2026 r."
         one: "UoP obejmuje składki pracownika i szacowane obciążenia pracodawcy przy składce wypadkowej 1,67%; KUP pracownika to 250 zł/mies."
-        two: "UZ zakłada pełne oskładkowanie z dobrowolnym chorobowym, chyba że zaznaczysz studenta do 26 lat; uwzględniamy roczny limit ulgi dla młodych. Ud stosuje 20% KUP bez ZUS i zdrowotnej."
+        two: "UZ zakłada pełne oskładkowanie z dobrowolnym chorobowym, chyba że zaznaczysz studenta do 26 lat; uwzględniamy roczny limit ulgi dla młodych. UoD stosuje 20% KUP bez ZUS i składki zdrowotnej."
         three: "B2B pomija VAT jako zwykle neutralny, używa wybranego ZUS i podatku oraz nie modeluje urlopu, księgowości, każdej ulgi i rozliczenia rocznego."
     sources:
         title: "Oficjalne źródła 2026"
@@ -670,8 +670,8 @@ income:
     disclaimer: "Wyłącznie szacunek informacyjny. Rzeczywistą umowę sprawdź w programie kadrowo-księgowym lub u polskiego specjalisty."
     faq:
         title: "Często zadawane pytania o formy zatrudnienia w Polsce"
-        q1: "Czym różnią się formy UoP, UZ, Ud i B2B?"
-        a1: "Umowa o pracę (UoP) zapewnia pełne prawa pracownicze i płatny urlop. Umowa zlecenie (UZ) to elastyczna umowa cywilnoprawna ze składkami społecznymi (zwolniona dla studentów do 26 lat). Umowa o dzieło (Ud) dotyczy wykonania określonego dzieła i nie podlega ZUS. B2B to jednoosobowa działalność gospodarcza z bezpośrednim fakturowaniem i możliwością rozliczania kosztów."
+        q1: "Czym różnią się formy UoP, UZ, UoD i B2B?"
+        a1: "Umowa o pracę (UoP) zapewnia pełne prawa pracownicze i płatny urlop. Umowa zlecenie (UZ) to elastyczna umowa cywilnoprawna ze składkami społecznymi (zwolniona dla studentów do 26 lat). Umowa o dzieło (UoD) dotyczy wykonania określonego dzieła i nie podlega ubezpieczeniom społecznym ani zdrowotnemu. B2B to jednoosobowa działalność gospodarcza z bezpośrednim fakturowaniem i możliwością rozliczania kosztów."
         q2: "Dlaczego porównanie wychodzi od budżetu firmy, a nie kwoty brutto?"
         a2: "Punktem wyjścia jest łączny koszt, jaki zleceniodawca lub pracodawca przeznacza na stanowisko. Pozwala to na rzetelne i przejrzyste porównanie kwoty na rękę przy tym samym nakładzie finansowym."
         q3: "Jak działa składka zdrowotna na B2B w 2026 roku?"
@@ -884,10 +884,10 @@ pkpass:
 
 cidr_matrix:
     meta:
-        title: "Wizualna Matryca CIDR i Nachodzenia Podsieci · Kalkulator IP Online"
+        title: "Wizualna Matryca CIDR i Nakładania się Podsieci · Kalkulator IP Online"
         description: "Parsuj bloki CIDR IPv4/IPv6, wykrywaj kolizje i nakładanie się zakresów IP, wizualizuj podziały przestrzeni adresowej 2D i alokuj wolne podsieci."
     eyebrow: "SIEĆ · CIDR I PODSIECI"
-    heading: "Wizualna Matryca CIDR i Nachodzenia Podsieci"
+    heading: "Wizualna Matryca CIDR i Nakładania się Podsieci"
     lede: "Wykrywaj konflikty adresacji IP w VPC AWS, klastrach Kubernetes i sieciach VPN, wizualizuj podziały adresów i automatycznie alokuj wolne podsieci."
     form:
         title: "Dane wejściowe bloków CIDR"
