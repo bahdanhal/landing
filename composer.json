@@ -5,15 +5,15 @@
     "license": "MIT",
     "repositories": [
         {
-            "type": "git",
+            "type": "vcs",
             "url": "https://github.com/bahdanhal/symfony-safe-http-client.git"
         },
         {
-            "type": "git",
+            "type": "vcs",
             "url": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle.git"
         },
         {
-            "type": "git",
+            "type": "vcs",
             "url": "https://github.com/bahdanhal/lead-capture-bundle.git"
         }
     ],
