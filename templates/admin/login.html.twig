@@ -16,6 +16,7 @@
             {% endif %}
 
             <form method="post" action="{{ path('portfolio_admin_login') }}" style="display: flex; flex-direction: column; gap: 16px;">
+                <input type="hidden" name="_token" value="{{ admin_csrf_token('portfolio_admin_login') }}">
                 <div>
                     <label for="admin-password" style="display: block; font-weight: 700; font-size: 13px; margin-bottom: 8px; color: var(--ink, #1f1d1a);">Admin Token / Passphrase</label>
                     <input id="admin-password" name="password" type="password" required autofocus placeholder="Enter ADMIN_TOKEN or APP_SECRET" style="width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1px solid var(--line, #e2ded4); border-radius: 8px; font: inherit; font-size: 14px; background: #fff;">
