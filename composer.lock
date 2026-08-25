@@ -710,16 +710,16 @@
         },
         {
             "name": "bahdan/symfony-privacy-analytics-bundle",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle.git",
-                "reference": "89cbd06d5f7f263cd25aab5dad7650adfc4a5356"
+                "reference": "14f4d18e4c613c9d957cb0cae197dfc8da99dc95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bahdanhal/symfony-privacy-analytics-bundle/zipball/89cbd06d5f7f263cd25aab5dad7650adfc4a5356",
-                "reference": "89cbd06d5f7f263cd25aab5dad7650adfc4a5356",
+                "url": "https://api.github.com/repos/bahdanhal/symfony-privacy-analytics-bundle/zipball/14f4d18e4c613c9d957cb0cae197dfc8da99dc95",
+                "reference": "14f4d18e4c613c9d957cb0cae197dfc8da99dc95",
                 "shasum": ""
             },
             "require": {
@@ -761,22 +761,22 @@
             "description": "Zero-cookie, GDPR-compliant server-side privacy analytics bundle for Symfony",
             "support": {
                 "issues": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/issues",
-                "source": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/tree/v1.1.0"
+                "source": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/tree/v1.1.1"
             },
-            "time": "2026-08-25T12:17:29+00:00"
+            "time": "2026-08-25T21:25:13+00:00"
         },
         {
             "name": "bahdan/symfony-safe-http-client",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bahdanhal/symfony-safe-http-client.git",
-                "reference": "2d0358ca697db8e1205414c2cfe7b27a4a3e90e8"
+                "reference": "9a740be25d78cd2d2340adfb434a1115e0f747e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bahdanhal/symfony-safe-http-client/zipball/2d0358ca697db8e1205414c2cfe7b27a4a3e90e8",
-                "reference": "2d0358ca697db8e1205414c2cfe7b27a4a3e90e8",
+                "url": "https://api.github.com/repos/bahdanhal/symfony-safe-http-client/zipball/9a740be25d78cd2d2340adfb434a1115e0f747e8",
+                "reference": "9a740be25d78cd2d2340adfb434a1115e0f747e8",
                 "shasum": ""
             },
             "require": {
@@ -806,9 +806,9 @@
             "description": "SSRF-protected HTTP Client wrapper for Symfony HttpClient with DNS resolution pinning and subnet validation",
             "support": {
                 "issues": "https://github.com/bahdanhal/symfony-safe-http-client/issues",
-                "source": "https://github.com/bahdanhal/symfony-safe-http-client/tree/v1.1.0"
+                "source": "https://github.com/bahdanhal/symfony-safe-http-client/tree/v1.1.1"
             },
-            "time": "2026-08-25T12:17:34+00:00"
+            "time": "2026-08-25T21:25:13+00:00"
         },
         {
             "name": "daverandom/libdns",
