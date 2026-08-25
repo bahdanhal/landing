@@ -1,6 +1,10 @@
 # Bahdan Hal Portfolio (`portfolio`)
 
-Personal brand, engineering showcase, and consulting lead capture, deployed at [bahdanhal.pl](https://bahdanhal.pl/) (also `bahdan-hal.ovh`).
+**Live website:** [Bahdan Hal — software engineering consulting and portfolio](https://bahdanhal.pl/)
+
+Personal engineering portfolio, consulting practice, case studies, and open source work. Also available at `bahdan-hal.ovh`.
+
+**Related projects:** [IleZa.pl — used electronics price intelligence](https://ileza.pl/) · [Stackhal — free developer and DevOps tools](https://stackhal.com/)
 
 ---
 
