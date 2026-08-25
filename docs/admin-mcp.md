@@ -20,15 +20,10 @@ Never pass the token as a tool argument, place it in a prompt, commit it to the 
 
 ## Read-only administrative tools
 
-- `get_admin_dashboard_statistics`: privacy-preserving traffic for seven and thirty days, submission totals, SEO audit outcomes, popular lead sources and requests, active price-tip counts, observation coverage, missing histories, and products not reviewed in thirty days.
+- `get_admin_dashboard_statistics`: privacy-preserving traffic for seven and thirty days, consultation submission totals, and lead-source frequencies.
 - `list_admin_contact_leads`: recent consultation requests with email, phone, message, source, and timestamp.
-- `list_admin_product_requests`: recent products requested for the price index.
-- `list_admin_price_tips`: active normalized listing links awaiting manual review, including their automatic expiry dates.
-- `list_admin_recent_audits`: recent SEO audit runs with sanitized targets, completion status, score, pages crawled, cache state, and duration.
 
-The four list tools accept an optional `limit` from 1 to 100. They never return stored IP hashes.
-
-`update_polish_used_price_observation` remains the only mutating administrative MCP tool. It uses the same Bearer authorization and writes only aggregate manually reviewed observations.
+The list tool accepts an optional `limit` from 1 to 100. It never returns stored IP hashes. The Portfolio MCP server has no mutating administrative tools.
 
 ## Privacy and operations
 
