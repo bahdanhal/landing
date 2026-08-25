@@ -50,7 +50,7 @@ final class PortfolioAdminController extends AbstractController
         $thirtyDaysAgo = $now->modify('-30 days');
 
         $traffic = $this->trafficAnalytics->summary($now);
-        $trafficPeak = max(1, ...array_column($traffic['daily'], 'page_views'));
+        $trafficPeak = max([1, ...array_column($traffic['daily'], 'page_views')]);
         $traffic['daily'] = array_map(static fn (array $day): array => [
             ...$day,
             'height_percent' => $day['page_views'] === 0

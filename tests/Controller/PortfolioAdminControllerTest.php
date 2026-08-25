@@ -165,6 +165,12 @@ final class PortfolioAdminControllerTest extends TestCase
     {
         $pageViews = $this->createStub(PageViewRepository::class);
         $pageViews->method('since')->willReturn([]);
+        $pageViews->method('summary')->willReturn([
+            'privacy' => 'Cookie-free aggregates.',
+            'last_7_days' => ['page_views' => 0, 'unique_visitors' => 0, 'sources' => [], 'referring_domains' => [], 'top_paths' => []],
+            'last_30_days' => ['page_views' => 0, 'unique_visitors' => 0, 'sources' => [], 'referring_domains' => [], 'top_paths' => []],
+            'daily' => [],
+        ]);
 
         return new TrafficAnalytics($pageViews);
     }

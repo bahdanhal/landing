@@ -24,9 +24,10 @@ final readonly class JsonlLeadRepository implements LeadRepository
     }
 
     /** @return list<Lead> */
-    public function all(): array
+    public function all(?int $limit = null): array
     {
-        $leads = $this->inner->all();
+        $leads = $this->inner->all($limit);
+
         return array_map(
             static fn ($lead): Lead => new Lead(
                 $lead->email,

@@ -57,7 +57,7 @@ final class PageViewSubscriberTest extends TestCase
         self::assertSame('/tools', $stored->path);
         self::assertSame('search', $stored->source);
         self::assertSame('google.com', $stored->referrerHost);
-        self::assertSame(hash_hmac('sha256', '198.51.100.8|Mozilla/5.0', 'analytics-secret'), $stored->visitorHash);
+        self::assertSame(hash_hmac('sha256', gmdate('Y-m-d') . '|198.51.100.8|Mozilla/5.0', 'analytics-secret'), $stored->visitorHash);
     }
 
     #[DataProvider('provideExcludedUserAgents')]

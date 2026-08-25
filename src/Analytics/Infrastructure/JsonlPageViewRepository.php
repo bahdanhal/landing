@@ -45,4 +45,9 @@ final readonly class JsonlPageViewRepository implements PageViewRepository
     {
         return $this->inner->prune($now);
     }
+
+    public function summary(\DateTimeImmutable $now): array
+    {
+        return $this->inner->summary($now);
+    }
 }

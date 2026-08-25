@@ -19,25 +19,22 @@ final readonly class DoctrineLeadRepository implements LeadRepository
 
     public function save(BaseLead $lead): void
     {
-        $entity = new LeadEntity(
-            $lead->email,
-            $lead->phone,
-            $lead->message,
-            $lead->ipHash,
-            $lead->source,
-            $lead->createdAt,
-        );
-
-        $this->entityManager->persist($entity);
-        $this->entityManager->flush();
+        $this->entityManager->getConnection()->insert('leads', [
+            'email' => $lead->email,
+            'phone' => $lead->phone,
+            'message' => $lead->message,
+            'ip_hash' => $lead->ipHash,
+            'source' => $lead->source,
+            'created_at' => $lead->createdAt->format('Y-m-d H:i:s'),
+        ]);
     }
 
     /** @return list<Lead> */
-    public function all(): array
+    public function all(?int $limit = null): array
     {
         $repository = $this->entityManager->getRepository(LeadEntity::class);
         /** @var list<LeadEntity> $entities */
-        $entities = $repository->findBy([], ['createdAt' => 'DESC']);
+        $entities = $repository->findBy([], ['createdAt' => 'DESC'], $limit);
 
         return array_map(
             static fn (LeadEntity $entity): Lead => new Lead(
