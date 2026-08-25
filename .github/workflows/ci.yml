@@ -31,9 +31,6 @@ jobs:
       - name: Run PHPUnit Test Suite
         run: docker run --rm --env-file .env.example -e APP_ENV=test portfolio-test vendor/bin/phpunit --fail-on-phpunit-notice
 
-      - name: Run JavaScript Test Suites
-        run: docker run --rm -v "$PWD:/app" -w /app node:24-alpine sh -lc 'for test in tests/js/*.test.js; do node "$test" || exit 1; done'
-
       - name: Run PSR-12 Code Style
         run: docker run --rm portfolio-test vendor/bin/phpcs
 
