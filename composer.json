@@ -3,28 +3,11 @@
     "description": "Bilingual practical toolbox with a Polish income calculator, GEO and SEO audits, and second-hand market history",
     "type": "project",
     "license": "MIT",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/bahdanhal/symfony-safe-http-client.git",
-            "no-api": true
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle.git",
-            "no-api": true
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/bahdanhal/lead-capture-bundle.git",
-            "no-api": true
-        }
-    ],
     "require": {
         "php": "^8.5",
-        "bahdan/lead-capture-bundle": "^1.0",
-        "bahdan/symfony-privacy-analytics-bundle": "^1.0",
-        "bahdan/symfony-safe-http-client": "^1.0",
+        "bahdan/lead-capture-bundle": "^1.1",
+        "bahdan/symfony-privacy-analytics-bundle": "^1.1",
+        "bahdan/symfony-safe-http-client": "^1.1",
         "doctrine/doctrine-bundle": "^3.0",
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.3",

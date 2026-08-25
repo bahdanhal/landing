@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ea6e1d6ad775e15bb9d9a65fd8e83605",
+    "content-hash": "d8ae8208dd38ee606ee01d3e2498d940",
     "packages": [
         {
             "name": "amphp/amp",
@@ -657,22 +657,23 @@
         },
         {
             "name": "bahdan/lead-capture-bundle",
-            "version": "v1.0.2",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bahdanhal/lead-capture-bundle.git",
-                "reference": "c2534233e88ea4464fb5947382edc1bf6ab70b95"
+                "reference": "8d49118ef1d11fbbdf149a13a9fa9c152f2395fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bahdanhal/lead-capture-bundle/zipball/c2534233e88ea4464fb5947382edc1bf6ab70b95",
-                "reference": "c2534233e88ea4464fb5947382edc1bf6ab70b95",
+                "url": "https://api.github.com/repos/bahdanhal/lead-capture-bundle/zipball/8d49118ef1d11fbbdf149a13a9fa9c152f2395fc",
+                "reference": "8d49118ef1d11fbbdf149a13a9fa9c152f2395fc",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.3",
                 "symfony/config": "^7.0 || ^8.0",
                 "symfony/dependency-injection": "^7.0 || ^8.0",
+                "symfony/event-dispatcher-contracts": "^3.0",
                 "symfony/http-kernel": "^7.0 || ^8.0"
             },
             "require-dev": {
@@ -690,11 +691,7 @@
                     "Bahdan\\LeadCaptureBundle\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Bahdan\\LeadCaptureBundle\\Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -705,24 +702,29 @@
                 }
             ],
             "description": "Lead and contact request capture bundle with dual Doctrine and JSONL storage",
-            "time": "2026-08-25T11:10:05+00:00"
+            "support": {
+                "issues": "https://github.com/bahdanhal/lead-capture-bundle/issues",
+                "source": "https://github.com/bahdanhal/lead-capture-bundle/tree/v1.1.0"
+            },
+            "time": "2026-08-25T12:17:26+00:00"
         },
         {
             "name": "bahdan/symfony-privacy-analytics-bundle",
-            "version": "v1.0.2",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle.git",
-                "reference": "9ce45cd476a0f2d3bfb5d27c2355a2c465f4bf24"
+                "reference": "89cbd06d5f7f263cd25aab5dad7650adfc4a5356"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bahdanhal/symfony-privacy-analytics-bundle/zipball/9ce45cd476a0f2d3bfb5d27c2355a2c465f4bf24",
-                "reference": "9ce45cd476a0f2d3bfb5d27c2355a2c465f4bf24",
+                "url": "https://api.github.com/repos/bahdanhal/symfony-privacy-analytics-bundle/zipball/89cbd06d5f7f263cd25aab5dad7650adfc4a5356",
+                "reference": "89cbd06d5f7f263cd25aab5dad7650adfc4a5356",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.3",
+                "symfony/cache-contracts": "^3.0",
                 "symfony/config": "^7.0 || ^8.0",
                 "symfony/dependency-injection": "^7.0 || ^8.0",
                 "symfony/event-dispatcher": "^7.0 || ^8.0",
@@ -737,7 +739,8 @@
             },
             "suggest": {
                 "doctrine/dbal": "Required when using Doctrine storage.",
-                "doctrine/orm": "Required when using Doctrine storage."
+                "doctrine/orm": "Required when using Doctrine storage.",
+                "symfony/messenger": "Required for asynchronous analytics ingestion."
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -745,11 +748,7 @@
                     "Bahdan\\PrivacyAnalyticsBundle\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Bahdan\\PrivacyAnalyticsBundle\\Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -760,20 +759,24 @@
                 }
             ],
             "description": "Zero-cookie, GDPR-compliant server-side privacy analytics bundle for Symfony",
-            "time": "2026-08-25T11:10:05+00:00"
+            "support": {
+                "issues": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/issues",
+                "source": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/tree/v1.1.0"
+            },
+            "time": "2026-08-25T12:17:29+00:00"
         },
         {
             "name": "bahdan/symfony-safe-http-client",
-            "version": "v1.0.2",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bahdanhal/symfony-safe-http-client.git",
-                "reference": "9ae2c2700e802bab2fd8ea8b5f04685727091cfb"
+                "reference": "2d0358ca697db8e1205414c2cfe7b27a4a3e90e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bahdanhal/symfony-safe-http-client/zipball/9ae2c2700e802bab2fd8ea8b5f04685727091cfb",
-                "reference": "9ae2c2700e802bab2fd8ea8b5f04685727091cfb",
+                "url": "https://api.github.com/repos/bahdanhal/symfony-safe-http-client/zipball/2d0358ca697db8e1205414c2cfe7b27a4a3e90e8",
+                "reference": "2d0358ca697db8e1205414c2cfe7b27a4a3e90e8",
                 "shasum": ""
             },
             "require": {
@@ -790,11 +793,7 @@
                     "Bahdan\\SafeHttpClient\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Bahdan\\SafeHttpClient\\Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -805,7 +804,11 @@
                 }
             ],
             "description": "SSRF-protected HTTP Client wrapper for Symfony HttpClient with DNS resolution pinning and subnet validation",
-            "time": "2026-08-25T11:10:05+00:00"
+            "support": {
+                "issues": "https://github.com/bahdanhal/symfony-safe-http-client/issues",
+                "source": "https://github.com/bahdanhal/symfony-safe-http-client/tree/v1.1.0"
+            },
+            "time": "2026-08-25T12:17:34+00:00"
         },
         {
             "name": "daverandom/libdns",

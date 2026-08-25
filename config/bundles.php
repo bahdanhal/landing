@@ -7,6 +7,4 @@ return [
     Symfony\AI\McpBundle\McpBundle::class => ['all' => true],
     Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
-    Bahdan\PrivacyAnalyticsBundle\PrivacyAnalyticsBundle::class => ['all' => true],
-    Bahdan\LeadCaptureBundle\LeadCaptureBundle::class => ['all' => true],
 ];
