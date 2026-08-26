@@ -48,7 +48,7 @@ final readonly class PageViewSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $this->inner->onResponse($event);
+        $this->inner->onTerminate($event);
     }
 
     private function hasSuspiciousChromiumHeaders(Request $request, string $userAgent): bool
