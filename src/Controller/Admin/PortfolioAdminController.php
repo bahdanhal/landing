@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Analytics\Application\TrafficAnalytics;
+use App\Lead\Domain\LeadRepository;
 use Bahdan\LeadCaptureBundle\Domain\Lead;
-use Bahdan\LeadCaptureBundle\Domain\LeadRepository;
-use Bahdan\PrivacyAnalyticsBundle\Application\TrafficAnalytics;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;

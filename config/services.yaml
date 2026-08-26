@@ -3,6 +3,8 @@ parameters:
   env(ANALYTICS_DATA_DIRECTORY): '/app/var/analytics-data'
   env(ANALYTICS_RETENTION_DAYS): '90'
   env(MARKET_ADMIN_TOKEN): ''
+  env(AI_PROVIDER): 'anthropic'
+  env(AI_SUMMARY_MODEL): 'claude-haiku-4-5-20251001'
   contact.lead_directory: '%env(CONTACT_LEAD_DIRECTORY)%'
   analytics.data_directory: '%env(ANALYTICS_DATA_DIRECTORY)%'
   analytics.retention_days: '%env(int:ANALYTICS_RETENTION_DAYS)%'
@@ -77,6 +79,20 @@ services:
     arguments:
       $contactLeadDirectory: '%contact.lead_directory%'
       $analyticsDataDirectory: '%analytics.data_directory%'
+
+  App\Shared\Application\DailyQuota:
+    arguments:
+      $limiter: '@limiter.contact'
+
+  App\Shared\AI\SymfonyAiClient:
+    arguments:
+      $anthropicPlatform: '@ai.platform.anthropic'
+      $geminiPlatform: '@ai.platform.gemini'
+      $provider: '%env(AI_PROVIDER)%'
+      $summaryModel: '%env(AI_SUMMARY_MODEL)%'
+
+  App\Shared\AI\AiClient:
+    alias: App\Shared\AI\SymfonyAiClient
 
   app.rate_limit_cache:
     class: Symfony\Component\Cache\Adapter\FilesystemAdapter

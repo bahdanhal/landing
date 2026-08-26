@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Mcp;
 
+use App\Analytics\Application\TrafficAnalytics;
+use App\Lead\Domain\LeadRepository;
 use Bahdan\LeadCaptureBundle\Domain\Lead;
-use Bahdan\LeadCaptureBundle\Domain\LeadRepository;
-use Bahdan\PrivacyAnalyticsBundle\Application\TrafficAnalytics;
 use Mcp\Capability\Attribute\McpTool;
 use Mcp\Capability\Attribute\Schema;
 

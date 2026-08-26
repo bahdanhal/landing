@@ -73,7 +73,7 @@ final class PortfolioController extends AbstractController
                 $request->getClientIp() ?? 'unknown',
                 (string) $request->request->get('source', 'website'),
             );
-        } catch (\RuntimeException) {
+        } catch (\Throwable) {
             return $this->json(['error' => $this->translator->trans('contact.failed')], 503);
         }
 

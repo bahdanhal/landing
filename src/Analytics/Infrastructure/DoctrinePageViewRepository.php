@@ -188,7 +188,7 @@ final readonly class DoctrinePageViewRepository implements PageViewRepository
 
         /** @var list<array{occurredAt: mixed, visitorHash: mixed}> $records */
         $records = $this->entityManager->createQueryBuilder()
-            ->select('p.occurredAt', 'p.visitorHash')
+            ->select('p.occurredAt AS occurredAt', 'p.visitorHash AS visitorHash')
             ->from(PageViewEntity::class, 'p')
             ->where('p.occurredAt >= :since')
             ->setParameter('since', $thirtyDaysAgo)
