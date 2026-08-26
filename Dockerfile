@@ -21,7 +21,7 @@ COPY specs ./specs
 COPY migrations ./migrations
 RUN composer dump-autoload --classmap-authoritative --no-dev \
     && APP_ENV=prod APP_DEBUG=0 php bin/console cache:warmup \
-    && mkdir -p var/audit-cache var/audit-logs var/contact-leads var/rate-limits var/market-data var/analytics-data \
+    && mkdir -p var/audit-cache var/audit-logs var/contact-leads var/rate-limits var/market-data var/analytics-data var/mcp-sessions \
     && chown -R www-data:www-data var
 
 USER www-data
