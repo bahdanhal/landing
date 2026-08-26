@@ -77,8 +77,10 @@ final class PortfolioAdminController extends AbstractController
     #[Route('/admin/login', name: 'portfolio_admin_login', methods: ['POST'])]
     public function login(Request $request): Response
     {
-        $password = (string) $request->request->get('password', '');
-        $adminToken = (string) ($_ENV['ADMIN_TOKEN'] ?? ($_ENV['MARKET_ADMIN_TOKEN'] ?? $this->secret));
+        $password = trim((string) $request->request->get('password', ''));
+        $adminToken = trim((string) ($_ENV['ADMIN_TOKEN'] ?? ($_ENV['MARKET_ADMIN_TOKEN'] ?? $this->secret)));
+        $marketAdminToken = trim((string) ($_ENV['MARKET_ADMIN_TOKEN'] ?? ''));
+        $secret = trim($this->secret);
 
         if (
             !$this->isHeaderAuthenticated($request)
@@ -90,9 +92,12 @@ final class PortfolioAdminController extends AbstractController
         }
 
         if (
-            hash_equals($adminToken, $password)
-            || hash_equals($this->secret, $password)
-            || (isset($_ENV['MARKET_ADMIN_TOKEN']) && hash_equals((string) $_ENV['MARKET_ADMIN_TOKEN'], $password))
+            $password !== ''
+            && (
+                ($adminToken !== '' && hash_equals($adminToken, $password))
+                || ($secret !== '' && hash_equals($secret, $password))
+                || ($marketAdminToken !== '' && hash_equals($marketAdminToken, $password))
+            )
         ) {
             $response = $this->redirectToRoute('portfolio_admin_dashboard');
             $authHash = hash_hmac('sha256', 'portfolio_admin_authenticated', $this->secret);
@@ -137,13 +142,18 @@ final class PortfolioAdminController extends AbstractController
             }
         }
 
-        $adminToken = (string) ($_ENV['ADMIN_TOKEN'] ?? ($_ENV['MARKET_ADMIN_TOKEN'] ?? $this->secret));
+        if ($token === null || trim($token) === '') {
+            return false;
+        }
 
-        return $token !== null
-            && $token !== ''
-            && (hash_equals($adminToken, $token)
-                || hash_equals($this->secret, $token)
-                || (isset($_ENV['MARKET_ADMIN_TOKEN']) && hash_equals((string) $_ENV['MARKET_ADMIN_TOKEN'], $token)));
+        $cleanToken = trim($token);
+        $adminToken = trim((string) ($_ENV['ADMIN_TOKEN'] ?? ($_ENV['MARKET_ADMIN_TOKEN'] ?? $this->secret)));
+        $marketAdminToken = trim((string) ($_ENV['MARKET_ADMIN_TOKEN'] ?? ''));
+        $secret = trim($this->secret);
+
+        return ($adminToken !== '' && hash_equals($adminToken, $cleanToken))
+            || ($secret !== '' && hash_equals($secret, $cleanToken))
+            || ($marketAdminToken !== '' && hash_equals($marketAdminToken, $cleanToken));
     }
 
     private function isAuthenticated(Request $request): bool
@@ -152,8 +162,8 @@ final class PortfolioAdminController extends AbstractController
             return true;
         }
 
-        $cookie = $request->cookies->get(self::AUTH_COOKIE_NAME);
-        if ($cookie !== null) {
+        $cookie = (string) $request->cookies->get(self::AUTH_COOKIE_NAME, '');
+        if ($cookie !== '' && trim($this->secret) !== '') {
             $expected = hash_hmac('sha256', 'portfolio_admin_authenticated', $this->secret);
             return hash_equals($expected, $cookie);
         }
@@ -163,7 +173,7 @@ final class PortfolioAdminController extends AbstractController
 
     protected function isCsrfTokenValid(string $id, #[\SensitiveParameter] ?string $token): bool
     {
-        if ($token === null || $token === '') {
+        if ($token === null || $token === '' || trim($this->secret) === '') {
             return false;
         }
 

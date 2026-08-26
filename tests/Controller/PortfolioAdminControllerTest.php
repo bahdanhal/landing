@@ -72,6 +72,36 @@ final class PortfolioAdminControllerTest extends TestCase
         self::assertSame('portfolio_admin_auth', $cookies[0]->getName());
     }
 
+    public function testRejectsEmptyPasswordLogin(): void
+    {
+        $leads = $this->createStub(LeadRepository::class);
+        $secret = 'test-secret-key';
+
+        $twig = $this->createMock(Environment::class);
+        $twig->expects(self::once())
+            ->method('render')
+            ->with('admin/login.html.twig', self::callback(static function (array $context): bool {
+                return isset($context['error']) && str_contains($context['error'], 'Invalid admin token');
+            }))
+            ->willReturn('<html>login error</html>');
+
+        $container = new Container();
+        $container->set('twig', $twig);
+
+        $controller = new PortfolioAdminController(
+            $leads,
+            $this->trafficAnalytics(),
+            $secret,
+        );
+        $controller->setContainer($container);
+
+        $validToken = hash_hmac('sha256', 'csrf:portfolio_admin_login', $secret);
+        $request = new Request(request: ['password' => '', '_token' => $validToken]);
+        $response = $controller->login($request);
+
+        self::assertSame(200, $response->getStatusCode());
+    }
+
     public function testRejectsLoginWithInvalidCsrfToken(): void
     {
         $leads = $this->createStub(LeadRepository::class);

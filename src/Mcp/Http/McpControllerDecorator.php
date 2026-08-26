@@ -147,11 +147,22 @@ final class McpControllerDecorator
 
         $path = sys_get_temp_dir() . '/bahdan-mcp-session-' . hash('sha256', $sessionId) . '.lock';
         $lock = @fopen($path, 'c');
-        if ($lock === false || !flock($lock, \LOCK_EX)) {
-            if (is_resource($lock)) {
-                fclose($lock);
-            }
+        if ($lock === false) {
+            return null;
+        }
 
+        // Bounded non-blocking retry to prevent worker deadlocks
+        $acquired = false;
+        for ($retry = 0; $retry < 5; $retry++) {
+            if (@flock($lock, \LOCK_EX | \LOCK_NB)) {
+                $acquired = true;
+                break;
+            }
+            usleep(20000); // 20ms
+        }
+
+        if (!$acquired) {
+            fclose($lock);
             return null;
         }
 
@@ -165,7 +176,7 @@ final class McpControllerDecorator
             return;
         }
 
-        flock($lock, \LOCK_UN);
+        @flock($lock, \LOCK_UN);
         fclose($lock);
     }
 
