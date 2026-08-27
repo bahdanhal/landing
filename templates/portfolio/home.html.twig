@@ -11,7 +11,7 @@
 {% endblock %}
 {% block stylesheets %}<link rel="stylesheet" href="/portfolio.css"><link rel="stylesheet" href="/portfolio-services.css">{% endblock %}
 {% block head_scripts %}
-  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'ProfessionalService','@id':'https://bahdanhal.pl/#services','name':'Bahdan Hal — web engineering, AI integration and production support','url':'https://bahdanhal.pl/','areaServed':['Poland','European Union','Remote'],'provider':{'@id':'https://bahdanhal.pl/#bahdan'},'serviceType':['Web development','Systems integration','AI integration consulting','MCP server development','Workflow automation','Production deployment','Legacy modernization','Performance optimization','Technical audit']},{'@type':'FAQPage','@id':'https://bahdanhal.pl/#faq','inLanguage':app.request.locale,'dateModified':'2026-08-22','author':{'@id':'https://bahdanhal.pl/#bahdan'},'publisher':{'@id':'https://bahdanhal.pl/#bahdan'},'mainEntity':[{'@type':'Question','name':'profile.faq.q1'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a1'|trans}},{'@type':'Question','name':'profile.faq.q2'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a2'|trans}},{'@type':'Question','name':'profile.faq.q3'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a3'|trans}},{'@type':'Question','name':'profile.faq.q4'|trans,'acceptedAnswer':{'@type':'Answer','text':'profile.faq.a4'|trans}}]}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'ProfessionalService','@id':'https://bahdanhal.pl/#services','name':'Bahdan Hal — web engineering, AI integration and production support','url':'https://bahdanhal.pl/','areaServed':['Poland','European Union','Remote'],'provider':{'@id':'https://bahdanhal.pl/#bahdan'},'serviceType':['Web development','Systems integration','AI integration consulting','MCP server development','Workflow automation','Production deployment','Legacy modernization','Performance optimization','Technical audit']}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
 {% endblock %}
 {% block brand_lockup %}
     <a class="brand" href="{{ path('landing', {_locale: app.request.locale}) }}" aria-label="Bahdan Hal">
@@ -141,28 +141,6 @@
                 <p>{{ 'profile.summit_subtext'|trans }}</p>
             </figcaption>
         </figure>
-
-        <section class="profile-faq">
-            <div class="profile-section-title"><span>FAQ</span><h2>{{ 'profile.faq.title'|trans }}</h2></div>
-            <div class="profile-faq-list">
-                <details open>
-                    <summary><h3>{{ 'profile.faq.q1'|trans }}</h3></summary>
-                    <p>{{ 'profile.faq.a1'|trans }}</p>
-                </details>
-                <details open>
-                    <summary><h3>{{ 'profile.faq.q2'|trans }}</h3></summary>
-                    <p>{{ 'profile.faq.a2'|trans }}</p>
-                </details>
-                <details>
-                    <summary><h3>{{ 'profile.faq.q3'|trans }}</h3></summary>
-                    <p>{{ 'profile.faq.a3'|trans }}</p>
-                </details>
-                <details>
-                    <summary><h3>{{ 'profile.faq.q4'|trans }}</h3></summary>
-                    <p>{{ 'profile.faq.a4'|trans }}</p>
-                </details>
-            </div>
-        </section>
 
         <section class="profile-consultation" id="consultation">
             <div>

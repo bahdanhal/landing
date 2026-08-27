@@ -54,7 +54,20 @@
     </div>
   </header>
   <main>{% block body %}{% endblock %}</main>
-  <footer>{{ 'base.footer'|trans }} · <a class="footer-contact" href="mailto:bahdan.hal@hotmail.com">{{ 'base.contact'|trans }}</a> · <a class="footer-contact" href="https://stackhal.com/">StackHal</a> · <a class="footer-contact" href="https://ileza.pl/">IleZa</a><br><span class="copyright">© {{ "now"|date("Y") }} <a class="copyright-link" href="https://bahdanhal.pl/">Bahdan Hal</a></span></footer>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div class="site-footer-identity"><strong>Bahdan Hal</strong><span>{{ 'base.footer_role'|trans }}</span></div>
+      <nav aria-label="{{ 'base.footer_navigation'|trans }}">
+        <a href="/resume.pdf" download>{{ 'base.resume'|trans }}</a>
+        <a href="mailto:bahdan.hal@hotmail.com">{{ 'base.contact'|trans }}</a>
+        <a href="https://www.linkedin.com/in/bahdan-hal/" rel="me">LinkedIn</a>
+        <a href="https://github.com/bahdanhal" rel="me">GitHub</a>
+        <a href="https://stackhal.com/" rel="me">StackHal</a>
+        <a href="https://ileza.pl/" rel="me">IleZa</a>
+      </nav>
+    </div>
+    <div class="copyright">© {{ "now"|date("Y") }} · {{ 'base.footer_note'|trans }}</div>
+  </footer>
   {% block scripts %}{% endblock %}
 </body>
 </html>
