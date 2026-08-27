@@ -39,6 +39,9 @@ profile:
     intro: "Projektuję, modernizuję i utrzymuję systemy webowe — od konkretnych wdrożeń i integracji AI po trudne migracje backendu i incydenty produkcyjne. Otrzymujesz bezpośrednią ocenę techniczną i odpowiedzialność za realizację."
     scope: "Buduję i biorę odpowiedzialność za systemy online od początku do końca: strony, integracje oraz narzędzia oparte na AI i MCP — od pierwszej uczciwej decyzji technicznej przez wdrożenie i monitoring aż po dziwną awarię, której nikt nie potrafi odtworzyć."
     contact: "Bezpłatna konsultacja"
+    resume:
+        download: "Pobierz CV"
+        consent: "Wyrażam zgodę na przetwarzanie moich danych osobowych zawartych w CV w celu prowadzenia rekrutacji."
     tools: "Otwórz toolbox"
     facts_label: "Podsumowanie zawodowe"
     years: "lat w branży"
@@ -94,6 +97,21 @@ profile:
         transfer: "Nocna migracja serwera Shopware"
         success: "Job Success na Upwork"
         status: "Top Rated · 28 zleceń"
+    projects:
+        eyebrow: "WŁASNE / OSOBISTE PROJEKTY"
+        title: "Rzeczy, które buduję dla siebie"
+        intro: "Dwa działające produkty, w których odpowiadam za pomysł, kod, infrastrukturę i całą długą drogę utrzymywania ich użyteczności."
+        visit: "Odwiedź projekt"
+        ileza:
+            label: "Analiza cen"
+            title: "Spokojniejszy sposób na zrozumienie cen używanej elektroniki"
+            text: "Polski radar cen używanej elektroniki z ręcznie zbieranymi obserwacjami, kontekstem rynku i praktycznymi narzędziami pomagającymi ocenić, ile coś naprawdę jest warte."
+            image_alt: "Strona główna radaru cen używanej elektroniki IleZa.pl"
+        stackhal:
+            label: "Toolbox dla developerów"
+            title: "Małe narzędzia do poważnej pracy technicznej"
+            text: "Rosnąca kolekcja bezpłatnych narzędzi dla developerów, SEO i infrastruktury — konkretnych rozwiązań na momenty, w których szybka odpowiedź jest lepsza niż kolejna ciężka platforma."
+            image_alt: "Strona główna narzędzi developerskich i infrastrukturalnych StackHal"
     present: "obecnie"
     contact_eyebrow: "KONTAKT"
     contact_heading: "Masz wyzwanie albo po prostu ciekawy pomysł?"

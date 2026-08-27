@@ -30,8 +30,10 @@
                     <p>{{ 'profile.intro'|trans }}</p>
                     <div class="profile-actions">
                         <a class="profile-primary" href="#consultation">{{ 'profile.contact'|trans }}</a>
+                        <a href="/resume.pdf" download>{{ 'profile.resume.download'|trans }}</a>
                         <a href="https://stackhal.com" target="_blank" rel="noopener">Dev Tools →</a>
                     </div>
+                    <p class="profile-resume-note">* {{ 'profile.resume.consent'|trans }}</p>
                 </div>
             </div>
             <div class="profile-hero-media">
@@ -94,6 +96,38 @@
                     <span>{{ 'profile.testimonials.success'|trans }}</span>
                     <small>{{ 'profile.testimonials.status'|trans }}</small>
                 </aside>
+            </div>
+        </section>
+
+        <section class="profile-projects" id="projects" aria-labelledby="projects-title">
+            <div class="profile-section-title">
+                <span>{{ 'profile.projects.eyebrow'|trans }}</span>
+                <h2 id="projects-title">{{ 'profile.projects.title'|trans }}</h2>
+                <p>{{ 'profile.projects.intro'|trans }}</p>
+            </div>
+            <div class="profile-project-grid">
+                <article class="profile-project-card">
+                    <a href="https://ileza.pl/" target="_blank" rel="noopener" class="profile-project-image-link">
+                        <img src="/images/projects/ileza-home.jpg" alt="{{ 'profile.projects.ileza.image_alt'|trans }}" loading="lazy" width="1280" height="720">
+                    </a>
+                    <div class="profile-project-content">
+                        <div class="profile-project-meta"><span>IleZa.pl</span><span>{{ 'profile.projects.ileza.label'|trans }}</span></div>
+                        <h3>{{ 'profile.projects.ileza.title'|trans }}</h3>
+                        <p>{{ 'profile.projects.ileza.text'|trans }}</p>
+                        <a href="https://ileza.pl/" target="_blank" rel="noopener" class="profile-project-link">{{ 'profile.projects.visit'|trans }} →</a>
+                    </div>
+                </article>
+                <article class="profile-project-card">
+                    <a href="https://stackhal.com/" target="_blank" rel="noopener" class="profile-project-image-link">
+                        <img src="/images/projects/stackhal-home.jpg" alt="{{ 'profile.projects.stackhal.image_alt'|trans }}" loading="lazy" width="1280" height="720">
+                    </a>
+                    <div class="profile-project-content">
+                        <div class="profile-project-meta"><span>StackHal</span><span>{{ 'profile.projects.stackhal.label'|trans }}</span></div>
+                        <h3>{{ 'profile.projects.stackhal.title'|trans }}</h3>
+                        <p>{{ 'profile.projects.stackhal.text'|trans }}</p>
+                        <a href="https://stackhal.com/" target="_blank" rel="noopener" class="profile-project-link">{{ 'profile.projects.visit'|trans }} →</a>
+                    </div>
+                </article>
             </div>
         </section>
 
