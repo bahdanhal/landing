@@ -6,7 +6,8 @@ namespace App\Tests\Controller;
 
 use App\Analytics\Application\TrafficAnalytics;
 use App\Analytics\Domain\PageViewRepository;
-use App\Controller\Admin\PortfolioAdminController;
+use App\Lead\Presentation\Http\Admin\PortfolioAdminController;
+use App\Lead\Application\SearchLeads;
 use App\Lead\Domain\Lead;
 use App\Lead\Domain\LeadRepository;
 use PHPUnit\Framework\TestCase;
@@ -31,7 +32,7 @@ final class PortfolioAdminControllerTest extends TestCase
         $container->set('twig', $twig);
 
         $controller = new PortfolioAdminController(
-            $leads,
+            new SearchLeads($leads),
             $this->trafficAnalytics(),
             $secret,
         );
@@ -56,7 +57,7 @@ final class PortfolioAdminControllerTest extends TestCase
         $container->set('router', $router);
 
         $controller = new PortfolioAdminController(
-            $leads,
+            new SearchLeads($leads),
             $this->trafficAnalytics(),
             $secret,
         );
@@ -89,7 +90,7 @@ final class PortfolioAdminControllerTest extends TestCase
         $container->set('twig', $twig);
 
         $controller = new PortfolioAdminController(
-            $leads,
+            new SearchLeads($leads),
             $this->trafficAnalytics(),
             $secret,
         );
@@ -119,7 +120,7 @@ final class PortfolioAdminControllerTest extends TestCase
         $container->set('twig', $twig);
 
         $controller = new PortfolioAdminController(
-            $leads,
+            new SearchLeads($leads),
             $this->trafficAnalytics(),
             $secret,
         );
@@ -155,7 +156,7 @@ final class PortfolioAdminControllerTest extends TestCase
         $container->set('twig', $twig);
 
         $controller = new PortfolioAdminController(
-            $leads,
+            new SearchLeads($leads),
             $this->trafficAnalytics(),
             $secret,
         );
@@ -181,7 +182,7 @@ final class PortfolioAdminControllerTest extends TestCase
         $container->set('router', $router);
 
         $controller = new PortfolioAdminController(
-            $leads,
+            new SearchLeads($leads),
             $this->trafficAnalytics(),
             $secret,
         );

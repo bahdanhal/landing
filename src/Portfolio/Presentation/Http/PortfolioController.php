@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Portfolio\Presentation\Http;
 
 use App\Lead\Application\CaptureLead;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

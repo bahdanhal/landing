@@ -67,11 +67,11 @@ services:
     arguments:
       $token: '%env(MARKET_ADMIN_TOKEN)%'
 
-  App\Controller\PortfolioController:
+  App\Portfolio\Presentation\Http\PortfolioController:
     arguments:
       $contactLimiter: '@limiter.contact'
 
-  App\Controller\Admin\PortfolioAdminController:
+  App\Lead\Presentation\Http\Admin\PortfolioAdminController:
     arguments:
       $secret: '%env(APP_SECRET)%'
 

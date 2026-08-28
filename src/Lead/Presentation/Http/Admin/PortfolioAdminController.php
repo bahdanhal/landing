@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Lead\Presentation\Http\Admin;
 
 use App\Analytics\Application\TrafficAnalytics;
-use App\Lead\Domain\LeadRepository;
+use App\Lead\Application\SearchLeads;
 use Bahdan\LeadCaptureBundle\Domain\Lead;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -18,7 +18,7 @@ final class PortfolioAdminController extends AbstractController
     private const AUTH_COOKIE_NAME = 'portfolio_admin_auth';
 
     public function __construct(
-        private readonly LeadRepository $leadRepository,
+        private readonly SearchLeads $searchLeads,
         private readonly TrafficAnalytics $trafficAnalytics,
         private readonly string $secret,
     ) {
@@ -32,18 +32,8 @@ final class PortfolioAdminController extends AbstractController
         }
 
         $search = strtolower(trim((string) $request->query->get('q', '')));
-        $allLeads = $this->leadRepository->all();
-
-        $leads = array_values(array_filter($allLeads, function (Lead $lead) use ($search): bool {
-            if ($search === '') {
-                return true;
-            }
-
-            return str_contains(strtolower($lead->email), $search)
-                || str_contains(strtolower($lead->phone), $search)
-                || str_contains(strtolower($lead->message), $search)
-                || str_contains(strtolower($lead->source), $search);
-        }));
+        $allLeads = $this->searchLeads->all();
+        $leads = $this->searchLeads->execute($search);
 
         $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
         $sevenDaysAgo = $now->modify('-7 days');
