@@ -11,7 +11,7 @@
 {% endblock %}
 {% block stylesheets %}<link rel="stylesheet" href="/portfolio.css"><link rel="stylesheet" href="/portfolio-services.css">{% endblock %}
 {% block head_scripts %}
-  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'ProfessionalService','@id':'https://bahdanhal.pl/#services','name':'Bahdan Hal — web engineering, AI integration and production support','url':'https://bahdanhal.pl/','areaServed':['Poland','European Union','Remote'],'provider':{'@id':'https://bahdanhal.pl/#bahdan'},'serviceType':['Web development','Systems integration','AI integration consulting','MCP server development','Workflow automation','Production deployment','Legacy modernization','Performance optimization','Technical audit']}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'ProfessionalService','@id':'https://bahdanhal.pl/#services','name':'Bahdan Hal — web engineering, AI integration and production support','url':'https://bahdanhal.pl/','areaServed':['Poland','European Union','Remote'],'provider':{'@id':'https://bahdanhal.pl/#bahdan'},'serviceType':['Web development','Systems integration','AI integration consulting','MCP server development','Workflow automation','Production deployment','Legacy modernization','Performance optimization','Technical audit']},{'@type':'FAQPage','@id':'https://bahdanhal.pl/#faq','mainEntity':[{'@type':'Question','name':('profile.faq.q1'|trans),'acceptedAnswer':{'@type':'Answer','text':('profile.faq.a1'|trans)}},{'@type':'Question','name':('profile.faq.q2'|trans),'acceptedAnswer':{'@type':'Answer','text':('profile.faq.a2'|trans)}},{'@type':'Question','name':('profile.faq.q3'|trans),'acceptedAnswer':{'@type':'Answer','text':('profile.faq.a3'|trans)}}]},{'@type':'WebApplication','@id':'https://stackhal.com/#app','name':'StackHal Developer Utilities Suite','url':'https://stackhal.com/','applicationCategory':'DeveloperApplication','operatingSystem':'All','author':{'@id':'https://bahdanhal.pl/#bahdan'}},{'@type':'WebApplication','@id':'https://ileza.pl/#app','name':'IleZa.pl Price Radar','url':'https://ileza.pl/','applicationCategory':'FinanceApplication','operatingSystem':'All','author':{'@id':'https://bahdanhal.pl/#bahdan'}}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
 {% endblock %}
 {% block brand_lockup %}
     <a class="brand" href="{{ path('landing', {_locale: app.request.locale}) }}" aria-label="Bahdan Hal">
@@ -150,6 +150,27 @@
                 <ul><li>{{ 'profile.consultation.one'|trans }}</li><li>{{ 'profile.consultation.two'|trans }}</li><li>{{ 'profile.consultation.three'|trans }}</li><li>{{ 'profile.consultation.four'|trans }}</li></ul>
             </div>
             {% include 'portfolio/_contact_form.html.twig' with {source: 'landing'} %}
+        </section>
+
+        <section class="profile-faq" id="faq">
+            <div class="profile-section-title">
+                <span>{{ 'profile.faq.eyebrow'|trans }}</span>
+                <h2>{{ 'profile.faq.title'|trans }}</h2>
+            </div>
+            <div class="profile-faq-list">
+                <article>
+                    <h2>{{ 'profile.faq.q1'|trans }}</h2>
+                    <p>{{ 'profile.faq.a1'|trans }}</p>
+                </article>
+                <article>
+                    <h2>{{ 'profile.faq.q2'|trans }}</h2>
+                    <p>{{ 'profile.faq.a2'|trans }}</p>
+                </article>
+                <article>
+                    <h2>{{ 'profile.faq.q3'|trans }}</h2>
+                    <p>{{ 'profile.faq.a3'|trans }}</p>
+                </article>
+            </div>
         </section>
 
         <section class="profile-contact">

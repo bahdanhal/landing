@@ -144,3 +144,12 @@ profile:
     summit_eyebrow: "FIELD TESTING"
     summit_caption: "The only incident here is the weather."
     summit_subtext: "The same rules help in production: prepare, simplify and leave a way back."
+    faq:
+        eyebrow: "COMMON QUESTIONS"
+        title: "Frequently Asked Questions"
+        q1: "How do we start a software engineering or AI consulting engagement?"
+        a1: "Send a brief note through the contact form or email describing your technical problem, architecture, or project goals. We will schedule a direct technical call to discuss feasibility, scope, and initial next steps without sales friction."
+        q2: "What tech stack and backend architectures do you specialize in?"
+        a2: "I specialize in modern PHP (Symfony, Laravel), Linux and Docker infrastructure, REST/GraphQL APIs, MCP server development for AI agents, PostgreSQL/MySQL database tuning, and high-reliability production operations."
+        q3: "How are projects scoped and delivered?"
+        a3: "Engagements can be structured as fixed-scope end-to-end delivery, dedicated problem investigations, overnight migration duty, or ongoing technical consulting with transparent communication and production responsibility."

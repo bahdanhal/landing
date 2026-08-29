@@ -144,3 +144,12 @@ profile:
     summit_eyebrow: "TESTY W TERENIE"
     summit_caption: "Jedyny incydent tutaj to pogoda."
     summit_subtext: "W produkcji działają te same zasady: przygotować się, uprościć i zostawić drogę odwrotu."
+    faq:
+        eyebrow: "PYTANIA I ODPOWIEDZI"
+        title: "Często zadawane pytania"
+        q1: "Jak rozpocząć współpracę programistyczną lub konsultacje AI?"
+        a1: "Napisz krótką wiadomość przez formularz kontaktowy lub e-mail z opisem problemu technicznego, architektury lub celów projektu. Umówimy się na bezpośrednią rozmowę techniczną, aby omówić możliwości, zakres i kolejny krok bez handlowego narzutu."
+        q2: "W jakich technologiach i architekturach backendowych się specjalizujesz?"
+        a2: "Specjalizuję się w nowoczesnym PHP (Symfony, Laravel), infrastrukturze Linux i Docker, API REST/GraphQL, tworzeniu serwerów MCP dla agentów AI, optymalizacji baz PostgreSQL/MySQL oraz operacjach produkcyjnych o wysokiej niezawodności."
+        q3: "Jak wyceniane i realizowane są projekty?"
+        a3: "Współpraca może mieć formę kompleksowej realizacji od A do Z, analizy trudnych problemów produkcyjnych, nocnych asyst migracyjnych lub stałego doradztwa technicznego z przejrzystą komunikacją."
