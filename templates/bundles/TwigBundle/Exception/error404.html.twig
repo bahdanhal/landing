@@ -1,0 +1,201 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'error404.title'|trans }}{% endblock %}
+{% block robots %}<meta name="robots" content="noindex,nofollow">{% endblock %}
+
+{% block stylesheets %}
+<style>
+  .error-hero {
+    padding: clamp(3rem, 8vw, 6rem) 1.5rem clamp(4rem, 10vw, 8rem);
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .error-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8c827a;
+    padding: 0.35rem 0.75rem;
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 999px;
+    margin-bottom: 1.5rem;
+  }
+  .error-code {
+    font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+    font-size: clamp(4rem, 12vw, 8rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: #1a1918;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+  .error-code-dot {
+    display: inline-block;
+    width: 0.25em;
+    height: 0.25em;
+    background: #d9534f;
+    border-radius: 50%;
+  }
+  .error-heading {
+    font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+    font-weight: 600;
+    color: #1a1918;
+    line-height: 1.25;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+  .error-desc {
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    color: #5c554e;
+    line-height: 1.6;
+    max-width: 580px;
+    margin: 0 0 2.5rem;
+  }
+  .error-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3.5rem;
+  }
+  .error-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
+    background: #1a1918;
+    color: #f3f0e8;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .error-btn-primary:hover {
+    background: #33312e;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .error-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
+    background: transparent;
+    color: #1a1918;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .error-btn-secondary:hover {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.35);
+  }
+  .error-explore {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding-top: 2rem;
+  }
+  .error-explore-title {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #8c827a;
+    display: block;
+    margin-bottom: 1.25rem;
+  }
+  .error-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .error-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    text-decoration: none;
+    color: #1a1918;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    transition: all 0.2s ease;
+  }
+  .error-card:hover {
+    background: #fff;
+    border-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    transform: translateY(-1px);
+  }
+  .error-card-arrow {
+    color: #8c827a;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  .error-card:hover .error-card-arrow {
+    color: #1a1918;
+    transform: translateX(3px);
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="error-hero">
+  <div class="error-badge">
+    <span>●</span>
+    <span>{{ 'error404.eyebrow'|trans }}</span>
+  </div>
+  
+  <div class="error-code">
+    404<span class="error-code-dot"></span>
+  </div>
+
+  <h1 class="error-heading">{{ 'error404.heading'|trans }}</h1>
+  <p class="error-desc">{{ 'error404.description'|trans }}</p>
+
+  <div class="error-actions">
+    <a href="{{ path('landing', {_locale: app.request ? app.request.locale : 'en'}) }}" class="error-btn-primary">
+      {{ 'error404.home_button'|trans }} ↗
+    </a>
+    <a href="{{ path('landing', {_locale: app.request ? app.request.locale : 'en'}) }}#contact" class="error-btn-secondary">
+      {{ 'error404.contact_button'|trans }}
+    </a>
+  </div>
+
+  <div class="error-explore">
+    <span class="error-explore-title">{{ 'error404.explore_heading'|trans }}</span>
+    <div class="error-grid">
+      <a href="{{ path('landing', {_locale: app.request ? app.request.locale : 'en'}) }}#services" class="error-card">
+        <span>{{ 'error404.services'|trans }}</span>
+        <span class="error-card-arrow">→</span>
+      </a>
+      <a href="{{ path('landing', {_locale: app.request ? app.request.locale : 'en'}) }}#work" class="error-card">
+        <span>{{ 'error404.work'|trans }}</span>
+        <span class="error-card-arrow">→</span>
+      </a>
+      <a href="https://stackhal.com/" class="error-card" target="_blank" rel="noopener">
+        <span>{{ 'error404.tools_stackhal'|trans }}</span>
+        <span class="error-card-arrow">↗</span>
+      </a>
+      <a href="https://ileza.pl/" class="error-card" target="_blank" rel="noopener">
+        <span>{{ 'error404.tools_ileza'|trans }}</span>
+        <span class="error-card-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

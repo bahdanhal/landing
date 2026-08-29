@@ -11,6 +11,19 @@ base:
     contact: "Contact"
     resume: "Résumé"
 
+error404:
+    title: "404 — Page Not Found · Bahdan Hal"
+    eyebrow: "404 · NOT FOUND"
+    heading: "Lost in the architecture."
+    description: "The requested route does not exist or has been moved to a cleaner namespace. No tracking was triggered."
+    home_button: "Back to Home"
+    contact_button: "Get in touch"
+    explore_heading: "Useful destinations:"
+    services: "Engineering Services"
+    work: "Case Studies & Work"
+    tools_stackhal: "StackHal Developer Tools"
+    tools_ileza: "IleZa Price Radar"
+
 contact:
     email: "Your email"
     email_optional: "Email (optional if you leave a phone number)"

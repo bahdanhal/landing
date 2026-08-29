@@ -11,6 +11,19 @@ base:
     contact: "Kontakt"
     resume: "CV"
 
+error404:
+    title: "404 — Nie znaleziono strony · Bahdan Hal"
+    eyebrow: "404 · BRAK STRONY"
+    heading: "Brak podanej ścieżki."
+    description: "Wybrany adres nie istnieje lub został przeniesiony do nowej struktury. Zapytanie nie wywołało żadnego śledzenia."
+    home_button: "Strona główna"
+    contact_button: "Skontaktuj się"
+    explore_heading: "Przydatne miejsca:"
+    services: "Usługi inżynieryjne"
+    work: "Realizacje i projekty"
+    tools_stackhal: "Narzędzia StackHal"
+    tools_ileza: "Radar cenowy IleZa"
+
 contact:
     email: "Twój e-mail"
     email_optional: "E-mail (opcjonalny, jeśli podasz telefon)"
