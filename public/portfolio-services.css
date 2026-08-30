@@ -366,7 +366,7 @@
 }
 
 .portfolio-page .profile-shell {
-    padding-top: 68px;
+    padding-top: 34px;
 }
 
 .portfolio-page .profile-hero {
@@ -376,7 +376,7 @@
 
 .portfolio-page .profile-hero h1 {
     max-width: 720px;
-    font-size: clamp(52px, 6.5vw, 82px);
+    font-size: clamp(48px, 5.3vw, 70px);
     line-height: .98;
     letter-spacing: -.05em;
 }
@@ -418,7 +418,7 @@
     }
 
     .portfolio-page .profile-shell {
-        padding-top: 38px;
+        padding-top: 26px;
     }
 
     .portfolio-page .profile-hero {
@@ -427,7 +427,7 @@
     }
 
     .portfolio-page .profile-hero h1 {
-        font-size: clamp(44px, 13vw, 58px);
+        font-size: clamp(40px, 11vw, 54px);
     }
 
     .portfolio-page .profile-hero h1 span {
@@ -440,17 +440,17 @@
    ========================================================================== */
 
 .services-shell {
-    padding-top: 54px;
+    padding-top: 34px;
 }
 
 .services-hero {
-    padding-bottom: 48px;
+    padding-bottom: 34px;
     border-bottom: 1px solid var(--line);
 }
 
 .services-hero h1 {
     font-family: Georgia, serif;
-    font-size: clamp(44px, 6vw, 76px);
+    font-size: clamp(40px, 5vw, 64px);
     line-height: 1.02;
     letter-spacing: -0.04em;
     margin: 12px 0 20px;
@@ -660,4 +660,3 @@
         padding: 24px;
     }
 }
-

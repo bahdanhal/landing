@@ -72,16 +72,16 @@ body.portfolio-site {
 
 .portfolio-site .profile-shell {
   max-width: 1180px;
-  padding-top: 54px;
+  padding-top: 34px;
 }
 
 .portfolio-site .profile-hero {
   position: relative;
   grid-template-columns: minmax(0, 1.18fr) minmax(300px, .82fr);
-  min-height: 620px;
+  min-height: 0;
   gap: 70px;
   align-items: center;
-  padding: 52px 0 64px;
+  padding: 30px 0 44px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -116,7 +116,7 @@ body.portfolio-site {
 .portfolio-site .profile-hero h1 {
   max-width: 760px;
   font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
-  font-size: clamp(55px, 6.4vw, 86px);
+  font-size: clamp(48px, 5.2vw, 70px);
   font-weight: 560;
   line-height: .98;
   letter-spacing: -.065em;
@@ -136,7 +136,7 @@ body.portfolio-site {
 
 .portfolio-site .profile-intro {
   max-width: 610px;
-  margin-top: 34px;
+  margin-top: 24px;
 }
 
 .portfolio-site .profile-intro p {
@@ -402,7 +402,7 @@ body.portfolio-site {
   }
 
   .portfolio-site .profile-hero h1 {
-    font-size: clamp(45px, 13vw, 61px);
+    font-size: clamp(40px, 11vw, 54px);
   }
 
   .portfolio-site .profile-avatar {
