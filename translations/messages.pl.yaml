@@ -45,7 +45,7 @@ contact:
     invalid_email: "Wpisz poprawny adres e-mail."
     invalid_contact: "Wpisz poprawny e-mail albo numer telefonu."
     failed: "Nie udało się teraz zapisać wiadomości. Skorzystaj z bezpośrednich linków do kontaktu."
-    saving: "Zapisywanie…"
+    saving: "Zapisywanie..."
 
 about:
     meta:

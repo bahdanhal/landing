@@ -45,7 +45,7 @@ contact:
     invalid_email: "Please enter a valid email address."
     invalid_contact: "Please enter a valid email address or phone number."
     failed: "Could not save your contact request right now. Please use a direct contact link."
-    saving: "Saving…"
+    saving: "Saving..."
 
 about:
     meta:
@@ -77,7 +77,7 @@ about:
         item1_text: "Technology serves the business and the end user. I choose proven, high-performance tools based on reliability and maintainability, avoiding unnecessary dependencies and trend cycles."
         item2_number: "02"
         item2_title: "End-to-end ownership"
-        item2_text: "From database schema design and business domain models to Docker containerization, reverse proxies, and production monitoring-I take full responsibility for delivery."
+        item2_text: "From database schema design and business domain models to Docker containerization, reverse proxies, and production monitoring - I take full responsibility for delivery."
         item3_number: "03"
         item3_title: "Pragmatic AI adoption"
         item3_text: "AI is a powerful accelerator when integrated deeply into business workflows (LLM APIs, MCP servers, smart extraction), not just a cosmetic feature."
@@ -94,7 +94,7 @@ about:
         stackhal:
             label: "Developer Toolbox"
             title: "Lightweight tools for serious technical work"
-            text: "A fast suite of online developer, SEO, and infrastructure utilities-from Caddyfile transpiling to PKPass inspection and CIDR calculations."
+            text: "A fast suite of online developer, SEO, and infrastructure utilities - from Caddyfile transpiling to PKPass inspection and CIDR calculations."
             image_alt: "StackHal developer suite screenshot"
     summit:
         eyebrow: "FIELD TESTING & RESILIENCE"
