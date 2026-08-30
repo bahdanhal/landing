@@ -434,3 +434,230 @@
         font-size: .58em;
     }
 }
+
+/* ==========================================================================
+   Full Services Page Specialized Styles
+   ========================================================================== */
+
+.services-shell {
+    padding-top: 54px;
+}
+
+.services-hero {
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--line);
+}
+
+.services-hero h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(44px, 6vw, 76px);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    margin: 12px 0 20px;
+}
+
+.services-hero h1 span {
+    display: block;
+    color: var(--orange);
+}
+
+.services-intro p {
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 780px;
+    margin: 0 0 28px;
+}
+
+.services-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.services-actions a {
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 15px;
+    padding: 13px 22px;
+    border-radius: 9px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.services-catalog {
+    margin-top: 80px;
+}
+
+.detailed-services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    margin-top: 36px;
+}
+
+.service-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.service-card:hover {
+    border-color: var(--orange);
+    transform: translateY(-2px);
+}
+
+.service-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.service-number {
+    color: var(--orange);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+}
+
+.service-tag {
+    background: rgba(255, 92, 53, 0.1);
+    color: var(--orange);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.service-card h3 {
+    font-family: Georgia, serif;
+    font-size: 24px;
+    line-height: 1.2;
+    margin: 4px 0 8px;
+    color: var(--ink);
+}
+
+.service-block {
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.service-block strong {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    margin-bottom: 3px;
+}
+
+.service-block p {
+    margin: 0;
+    color: var(--muted);
+}
+
+.service-solution strong {
+    color: var(--green);
+}
+
+.services-process {
+    margin-top: 96px;
+}
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 36px;
+}
+
+.process-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.process-step {
+    font-family: Georgia, serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 14px;
+}
+
+.process-card h3 {
+    font-size: 18px;
+    margin: 0 0 10px;
+    line-height: 1.3;
+}
+
+.process-card p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.55;
+    margin: 0;
+}
+
+.services-faq {
+    margin-top: 96px;
+}
+
+.services-faq-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 36px;
+}
+
+.faq-item {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px;
+}
+
+.faq-item h3 {
+    font-family: Georgia, serif;
+    font-size: 20px;
+    line-height: 1.25;
+    margin: 0 0 12px;
+    color: var(--ink);
+}
+
+.faq-item p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+@media (max-width: 850px) {
+    .detailed-services-grid,
+    .process-grid,
+    .services-faq-list {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .services-shell {
+        padding-top: 36px;
+    }
+
+    .service-card {
+        padding: 24px;
+    }
+}
+

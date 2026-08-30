@@ -1,6 +1,6 @@
-# Contributing & Development Standards — Bahdan’s Toolbox
+# Contributing & Development Standards - Bahdan's Toolbox
 
-This document defines the engineering standards, architecture principles, language requirements, and development workflows for **Bahdan’s Toolbox** (`bahdan-landing`).
+This document defines the engineering standards, architecture principles, language requirements, and development workflows for **Bahdan's Toolbox** (`bahdan-landing`).
 
 All contributors and AI coding assistants must adhere to these guidelines.
 

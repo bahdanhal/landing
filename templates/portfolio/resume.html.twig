@@ -1,0 +1,191 @@
+{% extends 'base.html.twig' %}
+{% block body_class %}portfolio-page resume-page-layout{% endblock %}
+{% block title %}{{ 'resume_page.meta.title'|trans }}{% endblock %}
+{% block robots %}<meta name="robots" content="index,follow">{% endblock %}
+{% block description %}<meta name="description" content="{{ 'resume_page.meta.description'|trans }}">{% endblock %}
+{% block canonical %}
+    <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/cv' : 'https://bahdanhal.pl/resume' }}">
+    <link rel="alternate" hreflang="en" href="https://bahdanhal.pl/resume">
+    <link rel="alternate" hreflang="pl" href="https://bahdanhal.pl/pl/cv">
+    <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/resume">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="/portfolio.css">
+    <link rel="stylesheet" href="/portfolio-resume.css">
+{% endblock %}
+{% block head_scripts %}
+  <script type="application/ld+json">{{ {'@context':'https://schema.org','@type':'ProfilePage','mainEntity':{'@type':'Person','@id':'https://bahdanhal.pl/#bahdan','name':'Bahdan Hal','jobTitle':'Senior Backend & Systems Engineer','url':'https://bahdanhal.pl/resume','address':{'@type':'PostalAddress','addressLocality':'Gdańsk','addressCountry':'PL'},'sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.upwork.com/freelancers/~014111a2d384da6af9'],'knowsAbout':['PHP','Symfony','Laravel','PostgreSQL','Docker','Linux','Caddy','MCP','System Architecture']}}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+{% endblock %}
+
+{% block body %}
+    <article class="profile-shell resume-sheet">
+        <header class="resume-header">
+            <div class="resume-header-main">
+                <span class="eyebrow">{{ 'resume_page.eyebrow'|trans }}</span>
+                <h1>{{ 'resume_page.heading'|trans }}</h1>
+                <div class="resume-headline">
+                    <strong>{{ 'resume_page.role'|trans }}</strong>
+                    <span>{{ 'resume_page.location'|trans }}</span>
+                </div>
+            </div>
+            <div class="resume-header-actions">
+                <a href="/resume.pdf" download class="resume-download-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <span>{{ 'resume_page.download_pdf'|trans }}</span>
+                </a>
+                <div class="resume-social-links">
+                    <a href="https://www.linkedin.com/in/bahdan-hal/" target="_blank" rel="me">LinkedIn ↗</a>
+                    <a href="https://github.com/bahdanhal" target="_blank" rel="me">GitHub ↗</a>
+                    <a href="mailto:bahdan.hal@hotmail.com">Email ↗</a>
+                </div>
+            </div>
+        </header>
+
+        <section class="resume-section resume-summary-section">
+            <div class="resume-section-title">
+                <h2>{{ 'resume_page.summary_title'|trans }}</h2>
+            </div>
+            <div class="resume-section-body">
+                <p class="resume-lead-text">{{ 'resume_page.summary_text'|trans }}</p>
+            </div>
+        </section>
+
+        <section class="resume-section resume-experience-section">
+            <div class="resume-section-title">
+                <h2>{{ 'resume_page.experience_title'|trans }}</h2>
+            </div>
+            <div class="resume-section-body">
+                <div class="resume-timeline">
+                    <article class="timeline-item">
+                        <div class="timeline-meta">
+                            <time class="timeline-period">{{ 'resume_page.freedom.period'|trans }}</time>
+                            <span class="timeline-location">{{ 'resume_page.freedom.location'|trans }}</span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-heading">
+                                <h3>{{ 'resume_page.freedom.role'|trans }}</h3>
+                                <span class="timeline-company">{{ 'resume_page.freedom.company'|trans }}</span>
+                            </div>
+                            <ul class="timeline-bullets">
+                                <li>{{ 'resume_page.freedom.bullet1'|trans }}</li>
+                                <li>{{ 'resume_page.freedom.bullet2'|trans }}</li>
+                                <li>{{ 'resume_page.freedom.bullet3'|trans }}</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="timeline-item">
+                        <div class="timeline-meta">
+                            <time class="timeline-period">{{ 'resume_page.gwo.period'|trans }}</time>
+                            <span class="timeline-location">{{ 'resume_page.gwo.location'|trans }}</span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-heading">
+                                <h3>{{ 'resume_page.gwo.role'|trans }}</h3>
+                                <span class="timeline-company">{{ 'resume_page.gwo.company'|trans }}</span>
+                            </div>
+                            <ul class="timeline-bullets">
+                                <li>{{ 'resume_page.gwo.bullet1'|trans }}</li>
+                                <li>{{ 'resume_page.gwo.bullet2'|trans }}</li>
+                                <li>{{ 'resume_page.gwo.bullet3'|trans }}</li>
+                                <li>{{ 'resume_page.gwo.bullet4'|trans }}</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="timeline-item">
+                        <div class="timeline-meta">
+                            <time class="timeline-period">{{ 'resume_page.consulting.period'|trans }}</time>
+                            <span class="timeline-location">{{ 'resume_page.consulting.location'|trans }}</span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-heading">
+                                <h3>{{ 'resume_page.consulting.role'|trans }}</h3>
+                                <span class="timeline-company">{{ 'resume_page.consulting.company'|trans }}</span>
+                            </div>
+                            <ul class="timeline-bullets">
+                                <li>{{ 'resume_page.consulting.bullet1'|trans }}</li>
+                                <li>{{ 'resume_page.consulting.bullet2'|trans }}</li>
+                                <li>{{ 'resume_page.consulting.bullet3'|trans }}</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="resume-section resume-skills-section">
+            <div class="resume-section-title">
+                <h2>{{ 'resume_page.skills_title'|trans }}</h2>
+            </div>
+            <div class="resume-section-body">
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h4>{{ 'resume_page.skills.backend'|trans }}</h4>
+                        <p>{{ 'resume_page.skills.backend_list'|trans }}</p>
+                    </div>
+                    <div class="skill-category">
+                        <h4>{{ 'resume_page.skills.databases'|trans }}</h4>
+                        <p>{{ 'resume_page.skills.databases_list'|trans }}</p>
+                    </div>
+                    <div class="skill-category">
+                        <h4>{{ 'resume_page.skills.infrastructure'|trans }}</h4>
+                        <p>{{ 'resume_page.skills.infrastructure_list'|trans }}</p>
+                    </div>
+                    <div class="skill-category">
+                        <h4>{{ 'resume_page.skills.architecture'|trans }}</h4>
+                        <p>{{ 'resume_page.skills.architecture_list'|trans }}</p>
+                    </div>
+                    <div class="skill-category skill-category-wide">
+                        <h4>{{ 'resume_page.skills.ai_tools'|trans }}</h4>
+                        <p>{{ 'resume_page.skills.ai_tools_list'|trans }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="resume-section resume-education-section">
+            <div class="resume-section-title">
+                <h2>{{ 'resume_page.education_title'|trans }}</h2>
+            </div>
+            <div class="resume-section-body">
+                <div class="education-block">
+                    <p class="education-degree"><strong>{{ 'resume_page.education_item'|trans }}</strong></p>
+                    <p class="languages-row"><strong>{{ 'resume_page.languages_label'|trans }}</strong> {{ 'resume_page.languages_list'|trans }}</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="resume-section resume-reputation-section">
+            <div class="resume-section-title">
+                <h2>{{ 'resume_page.testimonials_title'|trans }}</h2>
+            </div>
+            <div class="resume-section-body">
+                <div class="resume-reputation-card">
+                    <div class="reputation-badge">
+                        <strong>{{ 'resume_page.upwork_success'|trans }}</strong>
+                        <span>{{ 'resume_page.upwork_status'|trans }}</span>
+                    </div>
+                    <div class="reputation-quotes">
+                        <blockquote>„Easy to work with. Great communication. Excellent ability."</blockquote>
+                        <blockquote>„Perfect freelancer! Was a pleasure to work with him."</blockquote>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="resume-consent-box">
+            <h4>{{ 'resume_page.consent_title'|trans }}</h4>
+            <p>{{ 'resume_page.consent_text'|trans }}</p>
+        </section>
+
+        <section class="profile-consultation" id="contact">
+            <div>
+                <span class="eyebrow">{{ 'resume_page.eyebrow'|trans }}</span>
+                <h2>{{ 'resume_page.contact_box_title'|trans }}</h2>
+                <p>{{ 'resume_page.contact_box_text'|trans }}</p>
+            </div>
+            {% include 'portfolio/_contact_form.html.twig' with {source: 'landing_resume'} %}
+        </section>
+    </article>
+{% endblock %}

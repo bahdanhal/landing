@@ -4,7 +4,7 @@ mcp:
   description: 'Bahdan Hal consulting portfolio and contact lead submissions, plus Bearer-protected admin analytics.'
   website_url: 'https://bahdanhal.pl/'
   instructions: |
-    Public tools provide information on Bahdan’s engineering expertise and allow submitting consultation requests. Administrative tools require an Authorization: Bearer header and provide lead management and traffic analytics.
+    Public tools provide information on Bahdan's engineering expertise and allow submitting consultation requests. Administrative tools require an Authorization: Bearer header and provide lead management and traffic analytics.
   client_transports:
     http: true
     stdio: true

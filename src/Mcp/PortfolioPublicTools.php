@@ -17,7 +17,7 @@ final readonly class PortfolioPublicTools
 
     #[McpTool(
         name: 'get_portfolio_overview',
-        description: 'Get an overview of Bahdan Hal’s software engineering consulting services, technical stack, and ecosystem projects.'
+        description: "Get an overview of Bahdan Hal's software engineering consulting services, technical stack, and ecosystem projects."
     )]
     public function overview(): string
     {

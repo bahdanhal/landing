@@ -1,0 +1,172 @@
+{% extends 'base.html.twig' %}
+{% block body_class %}portfolio-page services-page-layout{% endblock %}
+{% block title %}{{ 'services_page.meta.title'|trans }}{% endblock %}
+{% block robots %}<meta name="robots" content="index,follow">{% endblock %}
+{% block description %}<meta name="description" content="{{ 'services_page.meta.description'|trans }}">{% endblock %}
+{% block canonical %}
+    <link rel="canonical" href="{{ app.request.locale == 'pl' ? 'https://bahdanhal.pl/pl/uslugi' : 'https://bahdanhal.pl/services' }}">
+    <link rel="alternate" hreflang="en" href="https://bahdanhal.pl/services">
+    <link rel="alternate" hreflang="pl" href="https://bahdanhal.pl/pl/uslugi">
+    <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/services">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="/portfolio.css">
+    <link rel="stylesheet" href="/portfolio-services.css">
+{% endblock %}
+{% block head_scripts %}
+  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'ProfessionalService','@id':'https://bahdanhal.pl/#services','name':'Bahdan Hal - Engineering Consulting & Web Development','url':'https://bahdanhal.pl/services','areaServed':['Poland','European Union','Remote'],'provider':{'@id':'https://bahdanhal.pl/#bahdan'},'serviceType':['Turnkey Websites','E-Commerce Stores','Client Portals','AI & MCP Integrations','Process Automation','Technical Audits']},{'@type':'FAQPage','@id':'https://bahdanhal.pl/services#faq','mainEntity':[{'@type':'Question','name':('services_page.faq.q1'|trans),'acceptedAnswer':{'@type':'Answer','text':('services_page.faq.a1'|trans)}},{'@type':'Question','name':('services_page.faq.q2'|trans),'acceptedAnswer':{'@type':'Answer','text':('services_page.faq.a2'|trans)}},{'@type':'Question','name':('services_page.faq.q3'|trans),'acceptedAnswer':{'@type':'Answer','text':('services_page.faq.a3'|trans)}},{'@type':'Question','name':('services_page.faq.q4'|trans),'acceptedAnswer':{'@type':'Answer','text':('services_page.faq.a4'|trans)}}]}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+{% endblock %}
+
+{% block body %}
+    <article class="profile-shell services-shell">
+        <header class="services-hero">
+            <div class="services-hero-content">
+                <span class="eyebrow">{{ 'services_page.eyebrow'|trans }}</span>
+                <h1>{{ 'services_page.heading'|trans }} <span>{{ 'services_page.heading_emphasis'|trans }}</span></h1>
+                <div class="services-intro">
+                    <p>{{ 'services_page.intro'|trans }}</p>
+                    <div class="services-actions">
+                        <a class="profile-primary" href="#contact">{{ 'services_page.cta_consultation'|trans }}</a>
+                        <a class="profile-secondary" href="#process">{{ 'services_page.cta_process'|trans }} ↓</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="services-catalog" id="services">
+            <div class="profile-section-title">
+                <span>{{ 'services_page.offerings_eyebrow'|trans }}</span>
+                <h2>{{ 'services_page.offerings_title'|trans }}</h2>
+                <p>{{ 'services_page.offerings_intro'|trans }}</p>
+            </div>
+
+            <div class="detailed-services-grid">
+                {% for i in ['s1', 's2', 's3', 's4', 's5', 's6'] %}
+                    <article class="service-card">
+                        <div class="service-card-header">
+                            <span class="service-number">{{ ('services_page.' ~ i ~ '.number')|trans }}</span>
+                            <span class="service-tag">{{ ('services_page.' ~ i ~ '.tag')|trans }}</span>
+                        </div>
+                        <h3>{{ ('services_page.' ~ i ~ '.title')|trans }}</h3>
+                        
+                        <div class="service-block service-problem">
+                            <strong>Problem:</strong>
+                            <p>{{ ('services_page.' ~ i ~ '.problem')|trans }}</p>
+                        </div>
+
+                        <div class="service-block service-solution">
+                            <strong>Solution:</strong>
+                            <p>{{ ('services_page.' ~ i ~ '.solution')|trans }}</p>
+                        </div>
+
+                        <div class="service-block service-deliverables">
+                            <strong>Deliverables:</strong>
+                            <p>{{ ('services_page.' ~ i ~ '.deliverables')|trans }}</p>
+                        </div>
+
+                        <div class="service-block service-ideal">
+                            <strong>Ideal for:</strong>
+                            <p>{{ ('services_page.' ~ i ~ '.ideal_for')|trans }}</p>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="services-process" id="process">
+            <div class="profile-section-title">
+                <span>{{ 'services_page.process_eyebrow'|trans }}</span>
+                <h2>{{ 'services_page.process_title'|trans }}</h2>
+                <p>{{ 'services_page.process_intro'|trans }}</p>
+            </div>
+
+            <div class="process-grid">
+                <article class="process-card">
+                    <span class="process-step">{{ 'services_page.p1_step'|trans }}</span>
+                    <h3>{{ 'services_page.p1_title'|trans }}</h3>
+                    <p>{{ 'services_page.p1_text'|trans }}</p>
+                </article>
+                <article class="process-card">
+                    <span class="process-step">{{ 'services_page.p2_step'|trans }}</span>
+                    <h3>{{ 'services_page.p2_title'|trans }}</h3>
+                    <p>{{ 'services_page.p2_text'|trans }}</p>
+                </article>
+                <article class="process-card">
+                    <span class="process-step">{{ 'services_page.p3_step'|trans }}</span>
+                    <h3>{{ 'services_page.p3_title'|trans }}</h3>
+                    <p>{{ 'services_page.p3_text'|trans }}</p>
+                </article>
+                <article class="process-card">
+                    <span class="process-step">{{ 'services_page.p4_step'|trans }}</span>
+                    <h3>{{ 'services_page.p4_title'|trans }}</h3>
+                    <p>{{ 'services_page.p4_text'|trans }}</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="profile-testimonials" aria-labelledby="testimonials-title">
+            <div class="profile-section-title">
+                <span>{{ 'services_page.testimonials_eyebrow'|trans }}</span>
+                <h2 id="testimonials-title">{{ 'services_page.testimonials_title'|trans }}</h2>
+                <a href="https://www.upwork.com/freelancers/~014111a2d384da6af9" target="_blank" rel="noopener me">{{ 'services_page.testimonials_link'|trans }} →</a>
+            </div>
+            <div class="profile-testimonial-grid">
+                <figure>
+                    <div role="img" aria-label="5 stars">★★★★★</div>
+                    <blockquote>„Easy to work with. Great communication. Excellent ability."</blockquote>
+                    <figcaption>Rollup build repair & system optimization</figcaption>
+                </figure>
+                <figure>
+                    <div role="img" aria-label="5 stars">★★★★★</div>
+                    <blockquote>„Perfect freelancer! Was a pleasure to work with him."</blockquote>
+                    <figcaption>Overnight Shopware server transfer & payment setup</figcaption>
+                </figure>
+                <aside>
+                    <strong>100%</strong>
+                    <span>Job Success on Upwork</span>
+                    <small>Top Rated · 28 completed projects</small>
+                </aside>
+            </div>
+        </section>
+
+        <section class="services-faq" id="faq">
+            <div class="profile-section-title">
+                <span>{{ 'services_page.faq_eyebrow'|trans }}</span>
+                <h2>{{ 'services_page.faq_title'|trans }}</h2>
+            </div>
+            <div class="services-faq-list">
+                <article class="faq-item">
+                    <h3>{{ 'services_page.faq.q1'|trans }}</h3>
+                    <p>{{ 'services_page.faq.a1'|trans }}</p>
+                </article>
+                <article class="faq-item">
+                    <h3>{{ 'services_page.faq.q2'|trans }}</h3>
+                    <p>{{ 'services_page.faq.a2'|trans }}</p>
+                </article>
+                <article class="faq-item">
+                    <h3>{{ 'services_page.faq.q3'|trans }}</h3>
+                    <p>{{ 'services_page.faq.a3'|trans }}</p>
+                </article>
+                <article class="faq-item">
+                    <h3>{{ 'services_page.faq.q4'|trans }}</h3>
+                    <p>{{ 'services_page.faq.a4'|trans }}</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="profile-consultation" id="contact">
+            <div>
+                <span class="eyebrow">{{ 'services_page.consultation_eyebrow'|trans }}</span>
+                <h2>{{ 'services_page.consultation_title'|trans }}</h2>
+                <p>{{ 'services_page.consultation_text'|trans }}</p>
+                <ul>
+                    <li>{{ 'services_page.consultation_point1'|trans }}</li>
+                    <li>{{ 'services_page.consultation_point2'|trans }}</li>
+                    <li>{{ 'services_page.consultation_point3'|trans }}</li>
+                    <li>{{ 'services_page.consultation_point4'|trans }}</li>
+                </ul>
+            </div>
+            {% include 'portfolio/_contact_form.html.twig' with {source: 'landing_services'} %}
+        </section>
+    </article>
+{% endblock %}

@@ -1,4 +1,4 @@
-# Architecture Documentation — portfolio (bahdanhal.pl)
+# Architecture Documentation - portfolio (bahdanhal.pl)
 
 `portfolio` (`bahdanhal.pl`) is the consulting portfolio, engineering showcase, and contact lead ingestion application for Bahdan Hal.
 

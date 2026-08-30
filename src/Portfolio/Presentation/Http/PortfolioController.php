@@ -28,6 +28,18 @@ final class PortfolioController extends AbstractController
         return $this->render('portfolio/home.html.twig');
     }
 
+    #[Route(path: ['en' => '/resume', 'pl' => '/pl/cv'], name: 'resume', methods: ['GET'])]
+    public function resume(): Response
+    {
+        return $this->render('portfolio/resume.html.twig');
+    }
+
+    #[Route(path: ['en' => '/services', 'pl' => '/pl/uslugi'], name: 'services', methods: ['GET'])]
+    public function services(): Response
+    {
+        return $this->render('portfolio/services.html.twig');
+    }
+
     #[Route(path: ['en' => '/tools', 'pl' => '/pl/narzedzia'], name: 'legacy_tools', methods: ['GET'])]
     public function legacyTools(Request $request): Response
     {

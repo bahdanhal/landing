@@ -14,6 +14,8 @@ final readonly class SitemapController
     {
         $pairs = [
             ['/', '/pl/'],
+            ['/resume', '/pl/cv'],
+            ['/services', '/pl/uslugi'],
         ];
         $entries = [];
         foreach ($pairs as [$en, $pl]) {

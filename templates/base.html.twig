@@ -31,24 +31,29 @@
   <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'WebSite','@id':'https://bahdanhal.pl/#website','url':'https://bahdanhal.pl/','name':'Bahdan Hal','inLanguage':['en','pl'],'publisher':{'@id':'https://bahdanhal.pl/#bahdan'},'author':{'@id':'https://bahdanhal.pl/#bahdan'},'dateModified':'2026-08-22'},{'@type':'Person','@id':'https://bahdanhal.pl/#bahdan','name':'Bahdan Hal','url':'https://bahdanhal.pl/','jobTitle':'Backend Engineer','sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.instagram.com/bahdan.hal/','https://www.facebook.com/profile.php?id=100008404566585','https://www.upwork.com/freelancers/~014111a2d384da6af9']}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
   {% block head_scripts %}{% endblock %}
 </head>
+{% set current_route = app.request ? (app.request.attributes.get('_route') ?: 'landing') : 'landing' %}
+{% set target_route = current_route in ['landing', 'resume', 'services'] ? current_route : 'landing' %}
+{% set target_locale = app.request and app.request.locale == 'pl' ? 'en' : 'pl' %}
 <body class="portfolio-site {% block body_class %}{% endblock %}">
   <header class="site-header">
     <div class="topbar">
       <div class="brand-lockup">
         {% block brand_lockup %}
-        <a class="brand" href="{{ path('landing', {_locale: app.request.locale}) }}" aria-label="{{ 'base.home_label'|trans }}">
-          <span class="brand-mark">↗</span>
+        <a class="brand" href="{{ path('landing', {_locale: app.request ? app.request.locale : 'en'}) }}" aria-label="{{ 'base.home_label'|trans }}">
+          <span class="brand-mark">BH</span>
           <span class="brand-name"><span class="brand-name-full">{{ 'base.brand'|trans }}</span><span class="brand-name-short">{{ 'base.brand_short'|trans }}</span></span>
         </a>
+        <span class="brand-credit">{{ 'about.role_short'|trans }}</span>
         {% endblock %}
       </div>
       <div class="topbar-actions">
         <nav class="primary-nav" aria-label="{{ 'base.navigation'|trans }}">
-          <a href="{{ path('landing', {_locale: app.request.locale}) }}#services">{{ 'profile.nav.services'|trans }}</a>
-          <a href="{{ path('landing', {_locale: app.request.locale}) }}#work">{{ 'profile.nav.work'|trans }}</a>
+          <a href="{{ path('landing', {_locale: app.request ? app.request.locale : 'en'}) }}" class="{{ current_route == 'landing' ? 'active' : '' }}">{{ 'base.nav.about'|trans }}</a>
+          <a href="{{ path('resume', {_locale: app.request ? app.request.locale : 'en'}) }}" class="{{ current_route == 'resume' ? 'active' : '' }}">{{ 'base.nav.resume'|trans }}</a>
+          <a href="{{ path('services', {_locale: app.request ? app.request.locale : 'en'}) }}" class="{{ current_route == 'services' ? 'active' : '' }}">{{ 'base.nav.services'|trans }}</a>
         </nav>
         {% block language_switch %}
-          <a class="language-switch" href="{{ path('landing', {_locale: app.request.locale == 'pl' ? 'en' : 'pl'}) }}" hreflang="{{ app.request.locale == 'pl' ? 'en' : 'pl' }}">{{ app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
+          <a class="language-switch" href="{{ path(target_route, {_locale: target_locale}) }}" hreflang="{{ target_locale }}">{{ app.request and app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
         {% endblock %}
       </div>
     </div>
@@ -58,7 +63,9 @@
     <div class="site-footer-inner">
       <div class="site-footer-identity"><strong>Bahdan Hal</strong><span>{{ 'base.footer_role'|trans }}</span></div>
       <nav aria-label="{{ 'base.footer_navigation'|trans }}">
-        <a href="/resume.pdf" download>{{ 'base.resume'|trans }}</a>
+        <a href="{{ path('resume', {_locale: app.request ? app.request.locale : 'en'}) }}">{{ 'base.resume'|trans }}</a>
+        <a href="{{ path('services', {_locale: app.request ? app.request.locale : 'en'}) }}">{{ 'base.nav.services'|trans }}</a>
+        <a href="/resume.pdf" download>{{ 'resume_page.download_pdf'|trans }}</a>
         <a href="mailto:bahdan.hal@hotmail.com">{{ 'base.contact'|trans }}</a>
         <a href="https://www.linkedin.com/in/bahdan-hal/" rel="me">LinkedIn</a>
         <a href="https://github.com/bahdanhal" rel="me">GitHub</a>

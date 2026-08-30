@@ -1,4 +1,4 @@
-# AI Agent Guidelines & System Instructions — portfolio (bahdanhal.pl)
+# AI Agent Guidelines & System Instructions - portfolio (bahdanhal.pl)
 
 This document provides mandatory directives for all AI coding agents interacting with the `portfolio` repository (`bahdanhal.pl`).
 
