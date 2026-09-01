@@ -97,10 +97,8 @@ about:
             text: "A fast suite of online developer, SEO, and infrastructure utilities - from Caddyfile transpiling to PKPass inspection and CIDR calculations."
             image_alt: "StackHal developer suite screenshot"
     summit:
-        eyebrow: "FIELD TESTING & RESILIENCE"
         alt: "Bahdan Hal on a mountain summit"
-        caption: "The only incident here is the weather."
-        subtext: "The same discipline applies in the high mountains and in high-load production: prepare thoroughly, keep gear minimal, respect the terrain, and always have a safe way back."
+        caption: "I am taking your business to new heights!!!"
     gateways:
         eyebrow: "WHERE TO NEXT?"
         title: "Choose the path that fits your goal"
