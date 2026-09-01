@@ -67,7 +67,7 @@ about:
     story:
         eyebrow: "TŁO I DROGA ZAWODOWA"
         title: "Od ciekawości do rzemiosła produkcyjnego"
-        p1: "Moja droga w programowaniu zaczęła się od fascynacji tym, jak systemy zachowują się pod realnym obciążeniem. Przez ponad 5 lat rozwijałem backendy telekomunikacyjne, skalowałem platformy edukacyjne dla ponad 2 milionów użytkowników i wdrożyłem dziesiątki niezależnych rozwiązań produkcyjnych."
+        p1: "Programowanie zaczęło się dla mnie od ciekawości, jak systemy zachowują się pod obciążeniem. Przez ponad 5 lat rozwijałem backendy telekomunikacyjne i skalowałem platformy edukacyjne dla ponad 2 milionów użytkowników. Wdrożyłem dziesiątki rozwiązań produkcyjnych."
         p2: "Wierzę w pragmatyzm zamiast mody: pisanie kodu, który łatwo zrozumieć i utrzymać, automatyzację wdrożeń bez stresu na produkcji oraz narzędzia AI tam, gdzie naprawdę oszczędzają czas i eliminują ludzką rutynę."
     philosophy:
         eyebrow: "ZASADY INŻYNIERSKIE"
@@ -124,7 +124,7 @@ resume_page:
     location: "Gdańsk, Polska (Praca zdalna / hybrydowa)"
     download_pdf: "Pobierz CV (PDF)"
     summary_title: "Podsumowanie zawodowe"
-    summary_text: "Senior Backend i Systems Engineer z ponad 5-letnim doświadczeniem w projektowaniu skalowalnych systemów webowych, mikroserwisów i praktycznych integracji AI. Doświadczenie w modernizacji platform PHP dla milionów użytkowników, projektowaniu wydajnych baz danych oraz wdrażaniu bezpiecznej infrastruktury Linux/Docker. Zwolennik czystej architektury, pragmatyzmu inżynierskiego i testów automatycznych."
+    summary_text: "Senior Backend i Systems Engineer z ponad 5-letnim doświadczeniem. Projektuję skalowalne systemy webowe, mikroserwisy i integracje AI. Modernizowałem platformy PHP dla milionów użytkowników, wydajne bazy danych oraz bezpieczną infrastrukturę Linux/Docker. Stawiam na czystą architekturę, pragmatyzm i testy automatyczne."
     experience_title: "Doświadczenie zawodowe"
     freedom:
         period: "2026 - obecnie"
@@ -258,7 +258,7 @@ services_page:
     faq_title: "Najczęściej zadawane pytania o usługi"
     faq:
         q1: "Ile trwa realizacja projektu?"
-        a1: "Strona internetowa lub szybki landing page zazwyczaj zajmuje od 1 do 2 tygodni. Dedykowana aplikacja, sklep internetowy czy integracja AI to zazwyczaj 3 do 6 tygodni w zależności od zakresu. Dokładny harmonogram ustalamy przed rozpoczęciem prac."
+        a1: "Strona internetowa lub szybki landing page zwykle zajmuje od 1 do 2 tygodni. Dedykowana aplikacja, sklep internetowy lub integracja AI zajmuje od 3 do 6 tygodni, zależnie od zakresu. Harmonogram ustalamy przed rozpoczęciem prac."
         q2: "Jak wyglądają rozliczenia i umowa?"
         a2: "Pracujemy w oparciu o etapy (zazwyczaj 30-50% zaliczki, reszta po prezentacji i akceptacji wdrożenia). Wystawiam faktury VAT (B2B) z przejrzystymi warunkami płatności."
         q3: "Czy oferujesz wsparcie po wdrożeniu projektu?"
