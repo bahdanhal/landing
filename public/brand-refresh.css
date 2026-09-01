@@ -177,9 +177,9 @@ body.portfolio-site {
   width: min(100%, 350px);
   max-width: none;
   aspect-ratio: 4 / 5;
-  border: 9px solid rgba(251, 250, 245, .7);
-  border-radius: 48% 48% 8px 8px;
-  box-shadow: 0 28px 55px rgba(48, 55, 46, .18);
+  border: 6px solid rgba(251, 250, 245, .82);
+  border-radius: 16px;
+  box-shadow: 0 20px 42px rgba(48, 55, 46, .16);
   filter: saturate(.84) contrast(.96);
   object-fit: cover;
 }
