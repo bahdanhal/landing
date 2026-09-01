@@ -7,7 +7,7 @@ base:
     navigation: "Nawigacja i język"
     footer_role: "Senior Backend & Systems Engineer · Systemy produkcyjne"
     footer_navigation: "Linki zawodowe"
-    footer_note: "Bez pikseli śledzących. Bez frameworkowego teatru."
+    footer_note: "Bez pikseli śledzących."
     contact: "Kontakt"
     resume: "CV"
     nav:
