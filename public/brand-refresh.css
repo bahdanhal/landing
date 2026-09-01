@@ -198,6 +198,10 @@ body.portfolio-site {
   font-weight: 650;
 }
 
+.portfolio-site .profile-facts span:nth-child(even) {
+  padding-left: 24px;
+}
+
 .portfolio-site .profile-facts span:last-child {
   border-right: 0;
 }
