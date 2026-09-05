@@ -62,6 +62,9 @@ final class AdminToolsTest extends TestCase
         self::assertSame(0, $statistics['traffic']['last_30_days']['page_views']);
         self::assertSame('person@example.com', $leads['items'][0]['email']);
         self::assertArrayNotHasKey('ip_hash', $leads['items'][0]);
+        self::assertArrayHasKey('ai_telemetry', $statistics);
+        self::assertArrayHasKey('last_7_days', $statistics['ai_telemetry']);
+        self::assertArrayHasKey('endpoints', $statistics['ai_telemetry']['last_7_days']);
     }
 
     public function testAdminListsRejectUnsafeResultLimits(): void
@@ -75,6 +78,7 @@ final class AdminToolsTest extends TestCase
     private function tools(
         bool $authenticated,
         ?LeadRepository $leads = null,
+        ?\App\Analytics\Domain\AiInteractionRepository $aiTelemetry = null,
     ): AdminTools {
         $requestStack = new RequestStack();
         $request = new Request();
@@ -87,6 +91,7 @@ final class AdminToolsTest extends TestCase
             new AdminAccess($requestStack, 'admin-test-token'),
             $leads ?? new JsonlLeadRepository($this->directory . '/leads'),
             new TrafficAnalytics(new JsonlPageViewRepository($this->directory . '/analytics', 90)),
+            $aiTelemetry ?? new \App\Analytics\Infrastructure\JsonlAiInteractionRepository($this->directory . '/ai-telemetry', 90),
         );
     }
 

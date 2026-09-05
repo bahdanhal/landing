@@ -279,4 +279,74 @@ final class McpControllerDecoratorTest extends TestCase
             json_decode((string) $response->getContent(), true, 512, \JSON_THROW_ON_ERROR)
         );
     }
+
+    public function testRecordsNonAdminMcpToolCall(): void
+    {
+        $server = Server::builder()->setServerInfo('test', '1.0.0')->build();
+        $psr17Factory = new Psr17Factory();
+        $inner = new McpController(
+            $server,
+            $this->createStub(HttpMessageFactoryInterface::class),
+            $this->createStub(HttpFoundationFactoryInterface::class),
+            $psr17Factory,
+            $psr17Factory,
+            new MiddlewareFactory([])
+        );
+
+        $aiTelemetry = $this->createMock(\App\Analytics\Domain\AiInteractionRepository::class);
+        $aiTelemetry->expects(self::once())
+            ->method('save')
+            ->with(self::callback(static function (\App\Analytics\Domain\AiInteraction $interaction): bool {
+                return $interaction->type === \App\Analytics\Domain\AiInteraction::TYPE_MCP_TOOL
+                    && $interaction->identifier === 'get_services_and_pricing'
+                    && $interaction->path === '/mcp';
+            }));
+
+        $decorator = new McpControllerDecorator($inner, null, $aiTelemetry, 'test-secret');
+        $payload = (string) json_encode([
+            'jsonrpc' => '2.0',
+            'id' => 1,
+            'method' => 'tools/call',
+            'params' => ['name' => 'get_services_and_pricing'],
+        ]);
+
+        $decorator->handle(Request::create('/mcp', 'POST', [], [], [], [], $payload));
+    }
+
+    public function testDoesNotRecordAdminToolCalls(): void
+    {
+        $server = Server::builder()->setServerInfo('test', '1.0.0')->build();
+        $psr17Factory = new Psr17Factory();
+        $inner = new McpController(
+            $server,
+            $this->createStub(HttpMessageFactoryInterface::class),
+            $this->createStub(HttpFoundationFactoryInterface::class),
+            $psr17Factory,
+            $psr17Factory,
+            new MiddlewareFactory([])
+        );
+
+        $aiTelemetry = $this->createMock(\App\Analytics\Domain\AiInteractionRepository::class);
+        $aiTelemetry->expects(self::never())->method('save');
+
+        $decorator = new McpControllerDecorator($inner, null, $aiTelemetry, 'test-secret');
+
+        // Admin call 1: get_admin_dashboard_statistics
+        $payload1 = (string) json_encode([
+            'jsonrpc' => '2.0',
+            'id' => 1,
+            'method' => 'tools/call',
+            'params' => ['name' => 'get_admin_dashboard_statistics'],
+        ]);
+        $decorator->handle(Request::create('/mcp', 'POST', [], [], [], [], $payload1));
+
+        // Admin call 2: list_admin_contact_leads
+        $payload2 = (string) json_encode([
+            'jsonrpc' => '2.0',
+            'id' => 2,
+            'method' => 'tools/call',
+            'params' => ['name' => 'list_admin_contact_leads'],
+        ]);
+        $decorator->handle(Request::create('/mcp', 'POST', [], [], [], [], $payload2));
+    }
 }

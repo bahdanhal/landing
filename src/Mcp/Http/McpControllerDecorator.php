@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Mcp\Http;
 
+use App\Analytics\Domain\AiInteraction;
+use App\Analytics\Domain\AiInteractionRepository;
 use Mcp\Server\Session\SessionStoreInterface;
 use Symfony\AI\McpBundle\Controller\McpController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,9 +19,16 @@ use Symfony\Component\Uid\Uuid;
  */
 final class McpControllerDecorator
 {
+    private const array ADMIN_TOOLS = [
+        'get_admin_dashboard_statistics',
+        'list_admin_contact_leads',
+    ];
+
     public function __construct(
         private readonly McpController $inner,
         private readonly ?SessionStoreInterface $sessionStore = null,
+        private readonly ?AiInteractionRepository $aiTelemetry = null,
+        private readonly string $secret = '',
     ) {
     }
 
@@ -62,13 +71,16 @@ final class McpControllerDecorator
             try {
                 /** @var mixed $decodedRequest */
                 $decodedRequest = json_decode($requestBody, true, 512, \JSON_THROW_ON_ERROR);
-                if (is_array($decodedRequest) && !array_is_list($decodedRequest)) {
-                    $singleRequest = $decodedRequest;
-                    if (isset($decodedRequest['id']) && (is_string($decodedRequest['id']) || is_int($decodedRequest['id']))) {
-                        $expectedId = $decodedRequest['id'];
-                    }
-                    if (isset($decodedRequest['method']) && is_string($decodedRequest['method'])) {
-                        $requestMethod = $decodedRequest['method'];
+                if (is_array($decodedRequest)) {
+                    $this->recordPublicToolCall($request, $decodedRequest);
+                    if (!array_is_list($decodedRequest)) {
+                        $singleRequest = $decodedRequest;
+                        if (isset($decodedRequest['id']) && (is_string($decodedRequest['id']) || is_int($decodedRequest['id']))) {
+                            $expectedId = $decodedRequest['id'];
+                        }
+                        if (isset($decodedRequest['method']) && is_string($decodedRequest['method'])) {
+                            $requestMethod = $decodedRequest['method'];
+                        }
                     }
                 }
             } catch (\JsonException) {
@@ -253,5 +265,49 @@ final class McpControllerDecorator
             200,
             ['Content-Type' => 'application/json']
         );
+    }
+
+    /**
+     * @param array<mixed> $decodedRequest
+     */
+    private function recordPublicToolCall(Request $request, array $decodedRequest): void
+    {
+        if ($this->aiTelemetry === null) {
+            return;
+        }
+
+        $items = array_is_list($decodedRequest) ? $decodedRequest : [$decodedRequest];
+        foreach ($items as $item) {
+            if (!is_array($item)) {
+                continue;
+            }
+            $method = (string) ($item['method'] ?? '');
+            if ($method !== 'tools/call') {
+                continue;
+            }
+            $params = $item['params'] ?? null;
+            $toolName = is_array($params) ? (string) ($params['name'] ?? '') : '';
+            if ($toolName === '' || in_array($toolName, self::ADMIN_TOOLS, true)) {
+                continue;
+            }
+
+            try {
+                $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+                $dateSalt = $now->format('Y-m-d');
+                $clientIp = $request->getClientIp() ?? 'unknown';
+                $userAgent = (string) $request->headers->get('User-Agent', '');
+                $visitorHash = hash_hmac('sha256', $dateSalt . '|' . $clientIp . '|' . $userAgent, $this->secret);
+
+                $this->aiTelemetry->save(new AiInteraction(
+                    $now,
+                    AiInteraction::TYPE_MCP_TOOL,
+                    $toolName,
+                    $request->getPathInfo(),
+                    $visitorHash,
+                ));
+            } catch (\Throwable) {
+                // Silently avoid telemetry failure interfering with core response
+            }
+        }
     }
 }

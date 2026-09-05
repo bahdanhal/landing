@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Mcp;
 
 use App\Analytics\Application\TrafficAnalytics;
+use App\Analytics\Domain\AiInteractionRepository;
 use App\Lead\Domain\LeadRepository;
 use Bahdan\LeadCaptureBundle\Domain\Lead;
 use Mcp\Capability\Attribute\McpTool;
@@ -16,6 +17,7 @@ final readonly class AdminTools
         private AdminAccess $access,
         private LeadRepository $leads,
         private TrafficAnalytics $trafficAnalytics,
+        private ?AiInteractionRepository $aiTelemetry = null,
     ) {
     }
 
@@ -35,7 +37,7 @@ final readonly class AdminTools
         $sevenDaysAgo = $now->modify('-7 days');
         $thirtyDaysAgo = $now->modify('-30 days');
 
-        return $this->json([
+        $stats = [
             'generated_at' => $now->format(DATE_ATOM),
             'submissions' => [
                 'contact_leads' => $this->submissionStats(
@@ -47,7 +49,13 @@ final readonly class AdminTools
             ],
             'traffic' => $this->trafficAnalytics->summary($now),
             'lead_sources' => $this->frequencies(array_map(static fn (Lead $lead): string => $lead->source, $leads)),
-        ]);
+        ];
+
+        if ($this->aiTelemetry !== null) {
+            $stats['ai_telemetry'] = $this->aiTelemetry->summary($now);
+        }
+
+        return $this->json($stats);
     }
 
     #[McpTool(

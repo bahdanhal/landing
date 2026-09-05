@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
 Disallow: /api/
 Disallow: /audit
 Disallow: /geo-audit
@@ -16,7 +18,11 @@ User-agent: ChatGPT-User
 User-agent: ClaudeBot
 User-agent: PerplexityBot
 User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Bytespider
 Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
 Disallow: /api/
 Disallow: /audit
 Disallow: /geo-audit

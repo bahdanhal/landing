@@ -20,7 +20,7 @@ Never pass the token as a tool argument, place it in a prompt, commit it to the 
 
 ## Read-only administrative tools
 
-- `get_admin_dashboard_statistics`: privacy-preserving traffic for seven and thirty days, consultation submission totals, and lead-source frequencies.
+- `get_admin_dashboard_statistics`: privacy-preserving traffic for seven and thirty days, consultation submission totals, AI/MCP telemetry (public tool invocations, AI crawler hits, document views, and endpoint breakdowns; strictly excluding administrative tools), and lead-source frequencies.
 - `list_admin_contact_leads`: recent consultation requests with email, phone, message, source, and timestamp.
 
 The list tool accepts an optional `limit` from 1 to 100. It never returns stored IP hashes. The Portfolio MCP server has no mutating administrative tools.

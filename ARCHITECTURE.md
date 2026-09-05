@@ -42,8 +42,12 @@ graph TD
 
 3. **Model Context Protocol (MCP) Integration**
    - Exposes public and authenticated tools at `/mcp` via `symfony/mcp-bundle` and `mcp/sdk`.
-   - Public tools: `get_portfolio_overview`, `submit_contact_lead`.
-   - Admin tools: `get_admin_dashboard_statistics`, `list_admin_contact_leads`.
+   - Public tools: `get_portfolio_overview`, `get_services_and_pricing`, `get_cv_and_skills`, `submit_contact_lead`.
+   - Admin tools: `get_admin_dashboard_statistics` (including privacy-preserving `ai_telemetry` with tool & endpoint breakdowns, strictly excluding admin tool self-counts), `list_admin_contact_leads`.
+
+4. **AI Discovery & Markup**
+   - Provides standardized `/llms.txt` and comprehensive `/llms-full.txt` documentation.
+   - Embeds Schema.org JSON-LD structured data including `OfferCatalog` and `Offer` rates.
 
 ---
 

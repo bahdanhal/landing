@@ -11,19 +11,25 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 final class PruneExpiredDataCommandTest extends TestCase
 {
-    public function testExecutePrunesPageViews(): void
+    public function testExecutePrunesPageViewsAndAiInteractions(): void
     {
         $pageViewRepo = $this->createMock(PageViewRepository::class);
         $pageViewRepo->expects(self::once())
             ->method('prune')
             ->willReturn(5);
 
-        $command = new PruneExpiredDataCommand($pageViewRepo);
+        $aiRepo = $this->createMock(\App\Analytics\Domain\AiInteractionRepository::class);
+        $aiRepo->expects(self::once())
+            ->method('prune')
+            ->willReturn(3);
+
+        $command = new PruneExpiredDataCommand($pageViewRepo, $aiRepo);
         $tester = new CommandTester($command);
 
         $tester->execute([]);
 
         $tester->assertCommandIsSuccessful();
-        self::assertStringContainsString('5 page view(s) removed', $tester->getDisplay());
+        self::assertStringContainsString('5 page view(s)', $tester->getDisplay());
+        self::assertStringContainsString('3 AI interaction(s)', $tester->getDisplay());
     }
 }

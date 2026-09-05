@@ -1,21 +1,57 @@
 # Bahdan Hal — Consulting & Engineering Portfolio
 
-> Personal portfolio, backend consulting, infrastructure architecture, AI integrations, and contact lead ingestion by Bahdan Hal.
+> Senior Backend & Systems Engineer and Software Architect based in Gdańsk, Poland (UTC+1 / UTC+2), available for Remote and Hybrid engagements worldwide.
 
-## Primary pages
+## Profile Summary
 
-- [About Bahdan Hal](https://bahdanhal.pl/): backend work, infrastructure architecture, AI integrations, and case studies
-- [Services & Experience](https://bahdanhal.pl/#services): backend engineering, production support, system integrations, and MCP development
-- [Contact & Consultation](https://bahdanhal.pl/#consultation): direct consultation inquiries and project scope discussion
+- **Engineer**: Bahdan Hal
+- **Role**: Senior Backend & Systems Engineer / Software Architect
+- **Experience**: 5+ years building high-throughput distributed systems, modernizing large platforms, and architecting AI-assisted workflows.
+- **Location**: Gdańsk, Poland (open to Remote & Hybrid)
+- **Languages**: English (Professional proficiency), Polish (Fluent), Belarusian (Native), Russian (Native)
+- **Reputation**: Top Rated on Upwork · 100% Job Success · 28+ completed international contracts · 5.0 ★ rating
 
-## Ecosystem applications
+## Pricing & Engagement Terms
 
-- [StackHal](https://stackhal.com/): developer tools and web infrastructure diagnostics
-- [IleZa](https://ileza.pl/): Polish used tech price radar and salary calculator
+- **Standard Contract Rate**: $35/hour
+- **Promotional Discount Rate**: $30/hour (active for current contract engagements)
+- **Long-Term Cooperation Rate**: $25/hour (for dedicated ongoing partnerships)
+- **Currency**: USD (or EUR / PLN equivalent)
+- **Contract Model**: B2B contract with EU/international invoicing
+- **Billing Formats**: Transparent hourly tracking or milestone-based fixed scope
 
-## Data access
+## Commercial Services
 
-- Public read-only MCP endpoint: `https://bahdanhal.pl/mcp`
-- Public MCP tools: `get_portfolio_overview`, `submit_contact_lead`.
-- No account or API key is required for public tools.
+1. **Turnkey Websites & High-Performance Landing Pages**: Ultra-fast bilingual websites built with semantic HTML/CSS, robust backend, automated SSL, and 95-100 Google Lighthouse scores.
+2. **E-Commerce & Online Stores**: High-converting webshops with PayU, BLIK, Przelewy24, Stripe, and InPost integrations, automatic invoicing, and sales dashboards.
+3. **Client Portals, Dashboards & Custom Web Apps**: Role-based access control, interactive reporting, PDF generation, and background queue workers.
+4. **AI Integrations & Custom MCP Tools**: Embedding Claude, OpenAI, and Gemini models with custom Model Context Protocol (MCP) servers for internal systems.
+5. **Process Automation & API Integrations**: Resilient background pipelines, CRM synchronization (HubSpot, Pipedrive), and automated webhooks.
+6. **Technical Audits, Speed Optimization & Production Rescue**: Database indexing and query tuning, Linux/Docker security hardening, PHP modernization, and emergency defect fixes.
+
+## Key Technical Stack
+
+- **Backend & Languages**: PHP 8.2-8.5, Symfony 6/7/8, Laravel 10/11, Go, Python, TypeScript, Node.js, REST APIs, GraphQL, Model Context Protocol (MCP)
+- **Databases & Caching**: PostgreSQL 14-17, MySQL / MariaDB, Redis, SQLite, Doctrine ORM, Eloquent, Index Tuning
+- **Infrastructure & DevOps**: Docker, Docker Compose, Linux (Debian, Ubuntu), Caddy 2, Nginx, GitHub Actions CI/CD, Bash, SSH
+- **Architecture**: Clean Architecture, Domain-Driven Design (DDD), Event-Driven Architecture, Microservices, PHPUnit, PHPStan Level 8
+
+## Ecosystem Projects
+
+- [Bahdan Hal Portfolio & Consulting](https://bahdanhal.pl/): Engineering portfolio, CV, commercial services, and contact intake.
+- [IleZa.pl](https://ileza.pl/): Polish second-hand electronics price radar and tax/net salary calculator.
+- [StackHal](https://stackhal.com/): Online developer utilities (Caddyfile transpiler, Apple PKPass inspector, CIDR overlap matrix, SEO/GEO audit).
+
+## Model Context Protocol (MCP) Access
+
+- **Public Endpoint**: `https://bahdanhal.pl/mcp` (HTTP POST / SSE)
+- **No authentication required for public tools**:
+  - `get_portfolio_overview`: Overview of services, projects, rates, and tools.
+  - `get_services_and_pricing`: Detailed catalog of all 6 services with deliverables and hourly rates ($30-$35/hr contracts, $25/hr long-term).
+  - `get_cv_and_skills`: Complete CV, employment history (Freedom Mobile, GWO, Consulting), skills taxonomy, and languages.
+  - `submit_contact_lead`: Direct consultation inquiry and contact lead submission.
+
+## Full Documentation
+
+- Complete CV, full service descriptions, and detailed background: [llms-full.txt](https://bahdanhal.pl/llms-full.txt)
 

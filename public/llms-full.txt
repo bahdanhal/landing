@@ -1,0 +1,167 @@
+# Bahdan Hal — Complete Curriculum Vitae, Commercial Services & Technical Profile
+
+> Senior Backend & Systems Engineer and Software Architect based in Gdańsk, Poland (UTC+1 / UTC+2). Available for contract work and long-term remote cooperation worldwide.
+
+---
+
+## 1. Executive Summary
+
+Senior Backend and Systems Engineer with 5+ years of production experience designing high-throughput web systems, distributed microservices, and practical AI integrations. Proven track record of modernizing legacy PHP platforms serving millions of users, architecting robust database schemas, and building hardened Linux/Docker infrastructure. Strong advocate for clean architecture, pragmatic engineering, and test-driven reliability.
+
+- **Primary Stack**: PHP 8.5, Symfony 7/8, Laravel 10/11, Go, Python, PostgreSQL 17, Docker, Caddy 2, Linux.
+- **Specializations**: Model Context Protocol (MCP), distributed microservices, REST/GraphQL APIs, high-performance database indexing, zero-downtime migrations.
+- **Location**: Gdańsk, Poland (Open to Remote / Hybrid worldwide).
+- **Languages**: English (Professional proficiency), Polish (Fluent), Belarusian (Native), Russian (Native).
+- **Reputation**: Top Rated Freelancer on Upwork with 100% Job Success score and 28+ completed international contracts (5.0 ★).
+
+---
+
+## 2. Transparent Pricing & Engagement Terms
+
+- **Standard Contract Rate**: $35 / hour
+- **Promotional Discount Rate**: $30 / hour (active promotional discount for standard contracts)
+- **Long-Term Cooperation Rate**: $25 / hour (for ongoing partnerships and dedicated team extensions)
+- **Currency**: USD, EUR, or PLN equivalent
+- **Contract Type**: B2B contract with EU/international invoicing
+- **Engagement Models**:
+  - Hourly engagement with transparent activity tracking
+  - Milestone-based fixed scope for turnkey websites, audits, and integrations
+  - Dedicated long-term retainer / staff augmentation
+
+---
+
+## 3. Commercial Services Catalog
+
+### Service 01: Turnkey Websites & High-Performance Landing Pages
+- **Problem**: Slow, fragile WordPress themes with dozens of plugins that break on updates, load in 4+ seconds, and suffer from poor Google SEO rankings.
+- **Solution**: Custom-crafted, lightning-fast bilingual websites built with semantic HTML/CSS, robust backend, automated SSL, and perfect 95-100 Google Lighthouse scores.
+- **Deliverables**:
+  - Mobile-first responsive design
+  - Complete SEO meta tags and Schema.org structured JSON-LD data
+  - Spam-protected fast contact forms
+  - Caddy 2 / Nginx hosting configuration with automated TLS
+  - Google Search Console and analytics integration
+- **Target Audience**: B2B companies, consulting firms, agencies, and service businesses requiring a fast, trustworthy online presence.
+
+### Service 02: E-Commerce & Online Stores
+- **Problem**: Abandoned carts caused by clumsy checkout flows, slow loading pages, or difficulty integrating local Polish and international payment methods.
+- **Solution**: High-converting online shops and product portals with seamless integrations for Polish and global payment gateways, shipping couriers, and automatic invoicing.
+- **Deliverables**:
+  - Product catalog with faceted search and filtering
+  - Streamlined cart & checkout experience
+  - Native payment integrations: PayU, BLIK, Przelewy24, Stripe
+  - Shipping integrations: InPost Paczkomaty, courier APIs
+  - Automated PDF invoices, email notifications, and admin order dashboard
+- **Target Audience**: Direct-to-consumer (D2C) brands, retailers, and B2B wholesale portals.
+
+### Service 03: Client Portals, Dashboards & Custom Web Applications
+- **Problem**: Business operations scattered across unmaintained Excel spreadsheets, lack of customer visibility, and expensive recurring SaaS fees for rigid tools.
+- **Solution**: Bespoke web applications, customer self-service portals, and secure role-based admin panels tailored precisely to company workflows.
+- **Deliverables**:
+  - User authentication with granular role-based permissions (RBAC)
+  - Interactive charts, KPI monitoring, and audit trails
+  - Automated PDF document and invoice generation
+  - Data import/export pipelines (CSV, Excel, JSON)
+  - Background asynchronous task queues (Symfony Messenger, Redis)
+- **Target Audience**: Growing companies needing custom operational software and process digitization.
+
+### Service 04: AI Integrations & Custom MCP Tools
+- **Problem**: Teams spending countless manual hours classifying documents, answering repetitive support requests, or copying data between incompatible systems.
+- **Solution**: Embedding modern LLMs (Anthropic Claude, OpenAI, Google Gemini) and Model Context Protocol (MCP) servers directly into software for intelligent automation.
+- **Deliverables**:
+  - Custom AI agents and task-specific tooling
+  - Automated document parsing (PDFs, invoices, receipts)
+  - Semantic vector search over internal knowledge bases
+  - Production MCP server endpoints exposing internal databases safely to AI agents
+- **Target Audience**: Modern businesses looking to leverage AI agents securely on top of internal business data.
+
+### Service 05: Process Automation & API Integrations
+- **Problem**: Disjointed software tools requiring manual double-entry between CRM, email platforms, accounting software, and inventory systems.
+- **Solution**: Resilient background synchronization pipelines, webhook handlers, and automated workflows keeping systems in sync 24/7.
+- **Deliverables**:
+  - REST and GraphQL API integrations
+  - Bi-directional CRM synchronization (HubSpot, Pipedrive, etc.)
+  - Automated notification pipelines (Email, SMS, Slack, Telegram)
+  - Custom web scraping and price radar observation pipelines
+- **Target Audience**: Companies seeking to eliminate human data-entry bottlenecks.
+
+### Service 06: Technical Audits, Speed Optimization & Production Rescue
+- **Problem**: Recurring server crashes, sluggish database queries, security vulnerabilities, or legacy codebases that teams are afraid to touch.
+- **Solution**: In-depth technical audits, database query tuning, Linux/Docker security hardening, PHP version upgrades, and emergency production defect resolution.
+- **Deliverables**:
+  - Prioritized technical audit report with clear risk assessment
+  - Query optimization, index creation, and caching layers
+  - PHP 8.x upgrade roadmap and automated refactoring
+  - Automated daily backups and recovery testing
+  - DMARC, SPF, and DKIM email deliverability corrections
+- **Target Audience**: Existing web systems needing speed improvements, reliability, or modernization.
+
+---
+
+## 4. Professional Experience
+
+### Backend & Systems Engineer · Freedom Mobile
+*2026 - Present | Remote*
+- Architected and implemented backend services and internal AI-assisted agent tooling for a telecommunications platform.
+- Developed robust third-party API integration layers with resilient webhook processing and retry policies.
+- Investigated and resolved complex production defects, reducing incident recovery time and improving overall platform stability.
+
+### Full-Stack & Backend Developer · Gdańskie Wydawnictwo Oświatowe (GWO)
+*2022 - 2026 | Gdańsk, Poland*
+- Maintained and modernized high-traffic educational web platforms (Symfony, Laravel) serving over 2 million active students and teachers.
+- Refactored legacy monolithic subsystems into modular architectures, optimizing complex SQL queries and caching to cut response times by up to 70%.
+- Designed editorial content tools and integrated generative and computer vision AI models into automated publishing pipelines.
+- Established automated CI/CD quality gates, static analysis pipelines (PHPStan Level 8), and unit/functional test suites.
+
+### Software Architect & Consultant · Independent Software Consulting
+*2022 - Present | Global / Remote*
+- Completed 28+ international client projects on Upwork with a 100% Job Success score and Top Rated status.
+- Executed zero-downtime server migrations, Linux security hardening, database index tuning, and SMTP deliverability fixes.
+- Engineered custom web applications, e-commerce stores, and Model Context Protocol (MCP) server endpoints.
+
+---
+
+## 5. Technical Skills Taxonomy
+
+- **Backend Development**: PHP 8.2, 8.3, 8.4, 8.5, Symfony (6/7/8), Laravel (10/11), Go, Python, TypeScript, Node.js, REST APIs, GraphQL, SSE, WebSockets.
+- **Model Context Protocol (MCP)**: Custom MCP server architecture, tools, resources, session management, FastCGI, JSON-RPC 2.0.
+- **Databases & Caching**: PostgreSQL (14-17), MySQL / MariaDB, Redis, SQLite, Doctrine ORM, Eloquent, Index Tuning, Query Optimization.
+- **DevOps & Infrastructure**: Docker, Docker Compose, Linux (Debian, Ubuntu), Caddy 2, Nginx, CI/CD (GitHub Actions), Bash, SSH Hardening.
+- **Architecture & Best Practices**: Clean Architecture, Domain-Driven Design (DDD), Event-Driven Architecture, Microservices, PHPUnit, PHPStan Level 8, CodeSniffer.
+- **AI & Integrations**: OpenAI API, Anthropic Claude API, Google Gemini API, Vector Embeddings, Web Scraping, Git.
+
+---
+
+## 6. Education & Languages
+
+- **Education**: Higher Technical Education in Information Technology & Software Engineering.
+- **Languages**:
+  - English: Professional working proficiency
+  - Polish: Fluent (C1/C2)
+  - Belarusian: Native
+  - Russian: Native
+
+---
+
+## 7. Model Context Protocol (MCP) Integration Details
+
+Bahdan Hal's portfolio provides a public, unauthenticated Model Context Protocol (MCP) server for direct querying by AI models:
+- **Server Endpoint**: `https://bahdanhal.pl/mcp`
+- **Transport**: HTTP POST / Server-Sent Events (SSE)
+- **Available Public Tools**:
+  1. `get_portfolio_overview`: Returns a high-level summary of skills, projects, and pricing.
+  2. `get_services_and_pricing`: Returns complete commercial service catalog, rates ($30-$35/hr contracts, $25/hr long-term), and terms.
+  3. `get_cv_and_skills`: Returns complete structured CV, employment history, skills breakdown, and languages.
+  4. `submit_contact_lead`: Ingests an inquiry or consultation request directly into Bahdan's lead inbox.
+
+---
+
+## 8. Direct Contact & Links
+
+- **Website**: [https://bahdanhal.pl](https://bahdanhal.pl)
+- **CV / Resume**: [https://bahdanhal.pl/resume](https://bahdanhal.pl/resume)
+- **Commercial Services**: [https://bahdanhal.pl/services](https://bahdanhal.pl/services)
+- **Email**: `bahdan.hal@hotmail.com`
+- **LinkedIn**: [https://www.linkedin.com/in/bahdan-hal/](https://www.linkedin.com/in/bahdan-hal/)
+- **GitHub**: [https://github.com/bahdanhal](https://github.com/bahdanhal)
+- **Upwork Profile**: [https://www.upwork.com/freelancers/~014111a2d384da6af9](https://www.upwork.com/freelancers/~014111a2d384da6af9)

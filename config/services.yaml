@@ -50,6 +50,18 @@ services:
   Bahdan\PrivacyAnalyticsBundle\Application\TrafficAnalytics:
     alias: App\Analytics\Application\TrafficAnalytics
 
+  App\Analytics\Domain\AiInteractionRepository:
+    alias: App\Analytics\Infrastructure\DoctrineAiInteractionRepository
+
+  App\Analytics\Infrastructure\DoctrineAiInteractionRepository:
+    arguments:
+      $retentionDays: '%analytics.retention_days%'
+
+  App\Analytics\Infrastructure\JsonlAiInteractionRepository:
+    arguments:
+      $directory: '%analytics.data_directory%'
+      $retentionDays: '%analytics.retention_days%'
+
   App\Analytics\Infrastructure\DoctrinePageViewRepository:
     arguments:
       $retentionDays: '%analytics.retention_days%'
@@ -60,6 +72,10 @@ services:
       $retentionDays: '%analytics.retention_days%'
 
   App\Analytics\Infrastructure\PageViewSubscriber:
+    arguments:
+      $secret: '%env(APP_SECRET)%'
+
+  App\Analytics\Infrastructure\AiTelemetrySubscriber:
     arguments:
       $secret: '%env(APP_SECRET)%'
 
@@ -106,6 +122,8 @@ services:
     arguments:
       $inner: '@.inner'
       $sessionStore: '@mcp.session.store'
+      $aiTelemetry: '@App\Analytics\Domain\AiInteractionRepository'
+      $secret: '%env(APP_SECRET)%'
     public: true
     tags:
       - { name: controller.service_arguments }
