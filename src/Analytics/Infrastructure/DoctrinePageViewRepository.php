@@ -70,19 +70,22 @@ final readonly class DoctrinePageViewRepository implements PageViewRepository
      *         referring_domains: array<string, int>,
      *         top_paths: array<string, int>
      *     },
-     *     daily: list<array{date: string, page_views: int, unique_visitors: int}>
+     *     daily: list<array{date: string, page_views: int, unique_visitors: int, top_paths: array<string, int>}>,
+     *     weekly: list<array{week: string, start_date: string, end_date: string, page_views: int, unique_visitors: int, top_paths: array<string, int>}>
      * }
      */
     public function summary(\DateTimeImmutable $now): array
     {
         $thirtyDaysAgo = $now->modify('-30 days');
         $sevenDaysAgo = $now->modify('-7 days');
+        $aggregates = $this->aggregateDailyAndWeekly($now, $thirtyDaysAgo);
 
         return [
             'privacy' => 'Cookie-free aggregates. IP addresses, query strings and full referrers are never stored.',
             'last_7_days' => $this->aggregatePeriod($sevenDaysAgo),
             'last_30_days' => $this->aggregatePeriod($thirtyDaysAgo),
-            'daily' => $this->aggregateDaily($now, $thirtyDaysAgo),
+            'daily' => $aggregates['daily'],
+            'weekly' => $aggregates['weekly'],
         ];
     }
 
@@ -175,20 +178,41 @@ final readonly class DoctrinePageViewRepository implements PageViewRepository
     }
 
     /**
-     * @return list<array{date: string, page_views: int, unique_visitors: int}>
+     * @return array{
+     *     daily: list<array{date: string, page_views: int, unique_visitors: int, top_paths: array<string, int>}>,
+     *     weekly: list<array{week: string, start_date: string, end_date: string, page_views: int, unique_visitors: int, top_paths: array<string, int>}>
+     * }
      */
-    private function aggregateDaily(\DateTimeImmutable $now, \DateTimeImmutable $thirtyDaysAgo): array
+    private function aggregateDailyAndWeekly(\DateTimeImmutable $now, \DateTimeImmutable $thirtyDaysAgo): array
     {
-        /** @var array<string, array{page_views: int, visitors: array<string, bool>}> $days */
+        /** @var array<string, array{page_views: int, visitors: array<string, bool>, paths: array<string, int>}> $days */
         $days = [];
         for ($offset = 29; $offset >= 0; --$offset) {
             $date = $now->modify(sprintf('-%d days', $offset))->format('Y-m-d');
-            $days[$date] = ['page_views' => 0, 'visitors' => []];
+            $days[$date] = ['page_views' => 0, 'visitors' => [], 'paths' => []];
         }
 
-        /** @var list<array{occurredAt: mixed, visitorHash: mixed}> $records */
+        /** @var array<string, array{week: string, start_date: string, end_date: string, views: int, visitors: array<string, bool>, paths: array<string, int>}> $weeks */
+        $weeks = [];
+        $earliestDay = $now->modify('-29 days');
+        $cursor = $earliestDay->modify('Monday this week');
+        $endSunday = $now->modify('Sunday this week');
+        while ($cursor <= $endSunday) {
+            $weekKey = $cursor->format('o-\WW');
+            $weeks[$weekKey] = [
+                'week' => $weekKey,
+                'start_date' => $cursor->format('Y-m-d'),
+                'end_date' => $cursor->modify('+6 days')->format('Y-m-d'),
+                'views' => 0,
+                'visitors' => [],
+                'paths' => [],
+            ];
+            $cursor = $cursor->modify('+7 days');
+        }
+
+        /** @var list<array{occurredAt: mixed, visitorHash: mixed, path: mixed}> $records */
         $records = $this->entityManager->createQueryBuilder()
-            ->select('p.occurredAt AS occurredAt', 'p.visitorHash AS visitorHash')
+            ->select('p.occurredAt AS occurredAt', 'p.visitorHash AS visitorHash', 'p.path AS path')
             ->from(PageViewEntity::class, 'p')
             ->where('p.occurredAt >= :since')
             ->setParameter('since', $thirtyDaysAgo)
@@ -197,24 +221,74 @@ final readonly class DoctrinePageViewRepository implements PageViewRepository
 
         foreach ($records as $record) {
             $rawDate = $record['occurredAt'];
-            $date = is_string($rawDate) ? substr($rawDate, 0, 10) : ($rawDate instanceof \DateTimeInterface ? $rawDate->format('Y-m-d') : '');
-            if (!isset($days[$date])) {
+            $dt = null;
+            if ($rawDate instanceof \DateTimeInterface) {
+                $dt = \DateTimeImmutable::createFromInterface($rawDate);
+            } elseif (is_string($rawDate) && $rawDate !== '') {
+                try {
+                    $dt = new \DateTimeImmutable($rawDate);
+                } catch (\Throwable) {
+                    $dt = null;
+                }
+            }
+            if ($dt === null) {
                 continue;
             }
-            ++$days[$date]['page_views'];
-            $days[$date]['visitors'][(string) $record['visitorHash']] = true;
+
+            $date = $dt->format('Y-m-d');
+            $weekKey = $dt->format('o-\WW');
+            $visitor = (string) $record['visitorHash'];
+            $path = trim((string) ($record['path'] ?? ''));
+
+            if (isset($days[$date])) {
+                ++$days[$date]['page_views'];
+                $days[$date]['visitors'][$visitor] = true;
+                if ($path !== '') {
+                    $days[$date]['paths'][$path] = ($days[$date]['paths'][$path] ?? 0) + 1;
+                }
+            }
+
+            if (isset($weeks[$weekKey])) {
+                ++$weeks[$weekKey]['views'];
+                $weeks[$weekKey]['visitors'][$visitor] = true;
+                if ($path !== '') {
+                    $weeks[$weekKey]['paths'][$path] = ($weeks[$weekKey]['paths'][$path] ?? 0) + 1;
+                }
+            }
         }
 
-        $result = [];
+        $sortTop = static function (array $paths): array {
+            arsort($paths);
+
+            return array_slice($paths, 0, 10, true);
+        };
+
+        $daily = [];
         foreach ($days as $date => $data) {
-            $result[] = [
+            $daily[] = [
                 'date' => $date,
                 'page_views' => $data['page_views'],
                 'unique_visitors' => count($data['visitors']),
+                'top_paths' => $sortTop($data['paths']),
             ];
         }
 
-        return $result;
+        $weekly = [];
+        foreach ($weeks as $w) {
+            $weekly[] = [
+                'week' => $w['week'],
+                'start_date' => $w['start_date'],
+                'end_date' => $w['end_date'],
+                'page_views' => $w['views'],
+                'unique_visitors' => count($w['visitors']),
+                'top_paths' => $sortTop($w['paths']),
+            ];
+        }
+
+        return [
+            'daily' => $daily,
+            'weekly' => $weekly,
+        ];
     }
 
     public function prune(\DateTimeImmutable $now): int

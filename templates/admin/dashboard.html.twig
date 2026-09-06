@@ -99,7 +99,7 @@
                 <div style="font-size: 12px; font-weight: 700; color: var(--muted, #68645d); margin-bottom: 12px;">Daily Page Views (Last 30 Days)</div>
                 <div style="display: flex; align-items: flex-end; gap: 4px; height: 120px;">
                     {% for day in traffic.daily %}
-                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end;" title="{{ day.date }}: {{ day.page_views }} views, {{ day.unique_visitors }} visitors">
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end;" title="{{ day.date }}: {{ day.page_views }} views, {{ day.unique_visitors }} visitors{% if day.top_paths is defined and day.top_paths is not empty %} — Top: {{ day.top_paths|keys|first }} ({{ day.top_paths|first }}){% endif %}">
                             <div style="width: 100%; min-width: 4px; background: var(--accent, #d9532f); border-radius: 2px 2px 0 0; height: {{ day.height_percent }}%;"></div>
                         </div>
                     {% endfor %}
@@ -147,6 +147,42 @@
                     </table>
                 </div>
             </div>
+
+            {% if traffic.weekly is defined and traffic.weekly is not empty %}
+                <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line, #e2ded4);">
+                    <h3 style="font-size: 14px; font-weight: 700; margin: 0 0 12px; color: var(--ink, #1f1d1a);">Weekly Breakdown</h3>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--line, #e2ded4); color: var(--muted, #68645d); text-align: left;">
+                                    <th style="padding: 6px 8px; font-weight: 700;">Week</th>
+                                    <th style="padding: 6px 8px; font-weight: 700;">Dates</th>
+                                    <th style="padding: 6px 8px; font-weight: 700; text-align: right;">Views</th>
+                                    <th style="padding: 6px 8px; font-weight: 700; text-align: right;">Visitors</th>
+                                    <th style="padding: 6px 8px; font-weight: 700;">Top Paths</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for w in traffic.weekly %}
+                                    <tr style="border-bottom: 1px solid #f0eee6;">
+                                        <td style="padding: 6px 8px; font-weight: 700; color: var(--ink, #1f1d1a);">{{ w.week }}</td>
+                                        <td style="padding: 6px 8px; color: var(--muted, #68645d);">{{ w.start_date }} – {{ w.end_date }}</td>
+                                        <td style="padding: 6px 8px; text-align: right; font-weight: 700;">{{ w.page_views }}</td>
+                                        <td style="padding: 6px 8px; text-align: right;">{{ w.unique_visitors }}</td>
+                                        <td style="padding: 6px 8px; font-family: monospace; font-size: 11px; color: var(--ink, #1f1d1a);">
+                                            {% for path, count in w.top_paths %}
+                                                <span style="display: inline-block; margin-right: 8px;">{{ path }} ({{ count }})</span>
+                                            {% else %}
+                                                <span style="color: var(--muted, #68645d);">—</span>
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

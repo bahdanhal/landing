@@ -89,4 +89,33 @@ final class DoctrinePageViewRepositoryTest extends DoctrineTestCase
         self::assertCount(1, $allViews);
         self::assertSame('recent-visitor', $allViews[0]->visitorHash);
     }
+
+    public function testSummaryAggregatesDailyAndWeeklyMetricsWithTopPaths(): void
+    {
+        $repository = new DoctrinePageViewRepository($this->entityManager, 90);
+        $now = new \DateTimeImmutable('2026-08-25T12:00:00+00:00');
+
+        $repository->save(new PageView($now->modify('-1 hour'), 'visitor-one', '/one', 'direct', null));
+        $repository->save(new PageView($now->modify('-30 minutes'), 'visitor-one', '/two', 'search', 'google.com'));
+        $repository->save(new PageView($now->modify('-10 days'), 'visitor-two', '/old', 'direct', null));
+
+        $summary = $repository->summary($now);
+
+        self::assertCount(30, $summary['daily']);
+        $today = $summary['daily'][29];
+        self::assertSame($now->format('Y-m-d'), $today['date']);
+        self::assertSame(2, $today['page_views']);
+        self::assertSame(1, $today['unique_visitors']);
+        self::assertSame(1, $today['top_paths']['/one'] ?? null);
+        self::assertSame(1, $today['top_paths']['/two'] ?? null);
+
+        self::assertNotEmpty($summary['weekly']);
+        $currentWeek = end($summary['weekly']);
+        self::assertIsArray($currentWeek);
+        self::assertArrayHasKey('top_paths', $currentWeek);
+        self::assertSame(2, $currentWeek['page_views']);
+        self::assertSame(1, $currentWeek['unique_visitors']);
+        self::assertSame(1, $currentWeek['top_paths']['/one'] ?? null);
+        self::assertSame(1, $currentWeek['top_paths']['/two'] ?? null);
+    }
 }
