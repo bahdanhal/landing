@@ -1,17 +1,20 @@
 mcp:
-  app: 'Bahdan Hal Portfolio MCP'
-  version: '1.1.0'
-  description: 'Bahdan Hal consulting portfolio and contact lead submissions, plus Bearer-protected admin analytics.'
-  website_url: 'https://bahdanhal.pl/'
-  instructions: |
-    Public tools provide information on Bahdan's engineering expertise and allow submitting consultation requests. Administrative tools require an Authorization: Bearer header and provide lead management and traffic analytics.
-  client_transports:
-    http: true
-    stdio: true
-  http:
-    path: '/mcp'
-    allowed_hosts: ['bahdanhal.pl', 'www.bahdanhal.pl', 'bahdan-hal.ovh', 'www.bahdan-hal.ovh', 'localhost', '127.0.0.1']
-    session:
-      store: file
-      directory: '%kernel.project_dir%/var/mcp-sessions'
-      ttl: 3600
+  servers:
+    default:
+      name: 'Bahdan Hal Portfolio MCP'
+      version: '1.1.0'
+      description: 'Bahdan Hal consulting portfolio and contact lead submissions, plus Bearer-protected admin analytics.'
+      website_url: 'https://bahdanhal.pl/'
+      instructions: |
+        Public tools provide information on Bahdan's engineering expertise and allow submitting consultation requests. Administrative tools require an Authorization: Bearer header and provide lead management and traffic analytics.
+      transports:
+        http: true
+        stdio: true
+      http:
+        path: '/mcp'
+        allowed_hosts: ['bahdanhal.pl', 'www.bahdanhal.pl', 'bahdan-hal.ovh', 'www.bahdan-hal.ovh', 'localhost', '127.0.0.1']
+      session:
+        store: file
+        directory: '%kernel.project_dir%/var/mcp-sessions'
+        ttl: 3600
+      registry: '*'

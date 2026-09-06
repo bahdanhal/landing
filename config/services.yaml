@@ -118,10 +118,10 @@ services:
       $directory: '/app/var/rate-limits'
 
   App\Mcp\Http\McpControllerDecorator:
-    decorates: mcp.server.controller
+    decorates: mcp.server.default.controller
     arguments:
       $inner: '@.inner'
-      $sessionStore: '@mcp.session.store'
+      $sessionStore: '@mcp.server.default.session.store'
       $aiTelemetry: '@App\Analytics\Domain\AiInteractionRepository'
       $secret: '%env(APP_SECRET)%'
     public: true
