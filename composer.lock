@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8ae8208dd38ee606ee01d3e2498d940",
+    "content-hash": "4a7232bb3b9963959e9be797a81d19c1",
     "packages": [
         {
             "name": "amphp/amp",
@@ -710,16 +710,16 @@
         },
         {
             "name": "bahdan/symfony-privacy-analytics-bundle",
-            "version": "v1.2.2",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle.git",
-                "reference": "7424a69a21038874ab46e55847575354be482e1f"
+                "reference": "acc1aab3d038b80bd17df5a6e2cbef713600cdea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bahdanhal/symfony-privacy-analytics-bundle/zipball/7424a69a21038874ab46e55847575354be482e1f",
-                "reference": "7424a69a21038874ab46e55847575354be482e1f",
+                "url": "https://api.github.com/repos/bahdanhal/symfony-privacy-analytics-bundle/zipball/acc1aab3d038b80bd17df5a6e2cbef713600cdea",
+                "reference": "acc1aab3d038b80bd17df5a6e2cbef713600cdea",
                 "shasum": ""
             },
             "require": {
@@ -748,7 +748,11 @@
                     "Bahdan\\PrivacyAnalyticsBundle\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Bahdan\\PrivacyAnalyticsBundle\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -760,10 +764,10 @@
             ],
             "description": "Zero-cookie, GDPR-compliant server-side privacy analytics bundle for Symfony",
             "support": {
-                "issues": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/issues",
-                "source": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/tree/v1.2.2"
+                "source": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/tree/v1.3.0",
+                "issues": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/issues"
             },
-            "time": "2026-08-30T08:43:22+00:00"
+            "time": "2026-09-06T10:58:50+00:00"
         },
         {
             "name": "bahdan/symfony-safe-http-client",

@@ -48,6 +48,12 @@
     },
     "autoload": {"psr-4": {"App\\": "src/"}},
     "autoload-dev": {"psr-4": {"App\\Tests\\": "tests/"}},
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle.git"
+        }
+    ],
     "config": {
         "allow-plugins": {"symfony/flex": true, "symfony/runtime": true},
         "sort-packages": true
