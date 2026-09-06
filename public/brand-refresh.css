@@ -1,12 +1,12 @@
 :root {
-  --ink: #20231f;
-  --paper: #f3f0e8;
-  --panel: #fbfaf5;
-  --muted: #696d64;
-  --line: #d8d7cc;
-  --orange: #326052;
-  --green: #326052;
-  --blue: #3d5f78;
+  --ink: #181c19;
+  --paper: #fafafa;
+  --panel: #ffffff;
+  --muted: #4e534d;
+  --line: #e2e4dc;
+  --orange: #285446;
+  --green: #285446;
+  --blue: #2c4d63;
 }
 
 html {
@@ -17,8 +17,8 @@ html {
 body.portfolio-site {
   overflow-x: clip;
   background:
-    linear-gradient(90deg, transparent calc(50% - 590px), rgba(32, 35, 31, .055) calc(50% - 590px), rgba(32, 35, 31, .055) calc(50% - 589px), transparent calc(50% - 589px)),
-    linear-gradient(90deg, transparent calc(50% + 589px), rgba(32, 35, 31, .055) calc(50% + 589px), rgba(32, 35, 31, .055) calc(50% + 590px), transparent calc(50% + 590px)),
+    linear-gradient(90deg, transparent calc(50% - 590px), rgba(24, 28, 25, .04) calc(50% - 590px), rgba(24, 28, 25, .04) calc(50% - 589px), transparent calc(50% - 589px)),
+    linear-gradient(90deg, transparent calc(50% + 589px), rgba(24, 28, 25, .04) calc(50% + 589px), rgba(24, 28, 25, .04) calc(50% + 590px), transparent calc(50% + 590px)),
     var(--paper);
   font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
 }
@@ -31,8 +31,8 @@ body.portfolio-site {
 .portfolio-site .topbar {
   min-height: 76px;
   padding-block: 12px;
-  border-bottom-color: rgba(32, 35, 31, .12);
-  background: rgba(243, 240, 232, .9);
+  border-bottom-color: rgba(24, 28, 25, .08);
+  background: rgba(250, 250, 250, .94);
   box-shadow: none;
   backdrop-filter: blur(18px);
 }
@@ -97,7 +97,7 @@ body.portfolio-site {
   right: 0;
   width: 48%;
   height: calc(100% - 44px);
-  background: #d9ddd2;
+  background: #e4e7df;
   clip-path: polygon(13% 0, 100% 0, 100% 100%, 0 92%);
   opacity: .82;
 }
@@ -110,12 +110,12 @@ body.portfolio-site {
 
 .portfolio-site .eyebrow,
 .portfolio-site .profile-section-title > span {
-  margin-bottom: 20px;
-  color: var(--orange);
-  font-size: 11px;
-  font-weight: 750;
-  letter-spacing: .16em;
-  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 .portfolio-site .profile-hero h1 {
@@ -124,7 +124,7 @@ body.portfolio-site {
   font-size: clamp(48px, 5.2vw, 70px);
   font-weight: 560;
   line-height: .98;
-  letter-spacing: -.065em;
+  letter-spacing: -0.015em;
 }
 
 .portfolio-site .profile-hero h1 span {
@@ -136,7 +136,7 @@ body.portfolio-site {
   font-size: .48em;
   font-weight: 480;
   line-height: 1.1;
-  letter-spacing: -.045em;
+  letter-spacing: -0.01em;
 }
 
 .portfolio-site .profile-intro {
@@ -177,7 +177,7 @@ body.portfolio-site {
   width: min(100%, 350px);
   max-width: none;
   aspect-ratio: 4 / 5;
-  border: 6px solid rgba(251, 250, 245, .82);
+  border: 6px solid #ffffff;
   border-radius: 16px;
   box-shadow: 0 20px 42px rgba(48, 55, 46, .16);
   filter: saturate(.84) contrast(.96);
@@ -216,13 +216,17 @@ body.portfolio-site {
   font-size: clamp(25px, 3vw, 39px);
   font-weight: 480;
   line-height: 1.35;
-  letter-spacing: -.03em;
+  letter-spacing: -0.01em;
   text-align: center;
+}
+
+.portfolio-site .about-principles-section {
+  margin-top: 118px;
 }
 
 .portfolio-site .profile-grid {
   gap: 0;
-  margin-top: 78px;
+  margin-top: 36px;
   border-block: 1px solid var(--line);
 }
 
@@ -238,6 +242,7 @@ body.portfolio-site {
 }
 
 .portfolio-site .profile-grid h2,
+.portfolio-site .profile-grid h3,
 .portfolio-site .profile-service-grid h3,
 .portfolio-site .profile-section-title h2,
 .portfolio-site .profile-consultation h2,
@@ -245,11 +250,12 @@ body.portfolio-site {
   font-family: inherit;
 }
 
-.portfolio-site .profile-grid h2 {
+.portfolio-site .profile-grid h2,
+.portfolio-site .profile-grid h3 {
   margin-top: 36px;
   font-size: 21px;
   font-weight: 650;
-  letter-spacing: -.025em;
+  letter-spacing: -0.01em;
 }
 
 .portfolio-site .profile-services {
@@ -261,7 +267,7 @@ body.portfolio-site {
 .portfolio-site .profile-section-title h2 {
   font-size: clamp(38px, 4.8vw, 62px);
   font-weight: 520;
-  letter-spacing: -.055em;
+  letter-spacing: -0.015em;
 }
 
 .portfolio-site .profile-service-grid {
@@ -285,13 +291,13 @@ body.portfolio-site {
 }
 
 .portfolio-site .profile-service-grid article:hover {
-  background: rgba(251, 250, 245, .75);
+  background: rgba(255, 255, 255, .85);
 }
 
 .portfolio-site .profile-service-grid h3 {
   font-size: 21px;
   font-weight: 650;
-  letter-spacing: -.025em;
+  letter-spacing: -0.01em;
 }
 
 .portfolio-site .profile-work,
@@ -371,12 +377,19 @@ body.portfolio-site {
   padding: 48px;
   border: 0;
   border-radius: 6px;
-  background: #dfe5db;
+  background: #edf1ea;
 }
 
 .portfolio-site .profile-consultation h2 {
   font-weight: 520;
-  letter-spacing: -.05em;
+  letter-spacing: -0.015em;
+}
+
+.portfolio-site .profile-project-meta {
+  letter-spacing: normal;
+  text-transform: none;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .portfolio-site .lead-form {
@@ -401,6 +414,7 @@ body.portfolio-site {
   .portfolio-site .profile-shell,
   .portfolio-site .topbar,
   .portfolio-site .profile-hero,
+  .portfolio-site .about-principles-section,
   .portfolio-site .profile-services,
   .portfolio-site .profile-work,
   .portfolio-site .profile-faq,

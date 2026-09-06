@@ -31,7 +31,7 @@
     color: var(--orange);
     font-size: 11px;
     font-weight: 900;
-    letter-spacing: 0.1em;
+    letter-spacing: normal;
 }
 
 .profile-service-grid h3 {
@@ -143,7 +143,7 @@
 .profile-testimonial-grid figure > div {
     color: var(--orange);
     font-size: 13px;
-    letter-spacing: .14em;
+    letter-spacing: normal;
 }
 
 .profile-testimonial-grid blockquote {
@@ -335,7 +335,7 @@
     border-radius: 8px;
     box-shadow: none;
     font-size: 11px;
-    letter-spacing: -.03em;
+    letter-spacing: -0.01em;
 }
 
 .portfolio-page .brand-credit {
@@ -378,7 +378,7 @@
     max-width: 720px;
     font-size: clamp(48px, 5.3vw, 70px);
     line-height: .98;
-    letter-spacing: -.05em;
+    letter-spacing: -0.015em;
 }
 
 .portfolio-page .profile-hero h1 span {
@@ -389,7 +389,7 @@
     font-size: .56em;
     font-weight: 760;
     line-height: 1.08;
-    letter-spacing: -.035em;
+    letter-spacing: -0.01em;
 }
 
 .portfolio-page .profile-intro {
@@ -452,7 +452,7 @@
     font-family: Georgia, serif;
     font-size: clamp(40px, 5vw, 64px);
     line-height: 1.02;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.015em;
     margin: 12px 0 20px;
 }
 
@@ -524,7 +524,7 @@
     color: var(--orange);
     font-size: 12px;
     font-weight: 900;
-    letter-spacing: 0.1em;
+    letter-spacing: normal;
 }
 
 .service-tag {
@@ -532,8 +532,8 @@
     color: var(--orange);
     font-size: 11px;
     font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    text-transform: none;
+    letter-spacing: normal;
     padding: 4px 10px;
     border-radius: 20px;
 }
@@ -554,8 +554,8 @@
 .service-block strong {
     display: block;
     font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    text-transform: none;
+    letter-spacing: normal;
     color: var(--ink);
     margin-bottom: 3px;
 }
