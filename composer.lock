@@ -710,16 +710,16 @@
         },
         {
             "name": "bahdan/symfony-privacy-analytics-bundle",
-            "version": "v1.3.0",
+            "version": "v1.3.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:bahdanhal/symfony-privacy-analytics-bundle.git",
-                "reference": "acc1aab3d038b80bd17df5a6e2cbef713600cdea"
+                "url": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle.git",
+                "reference": "019a4072de045d61c98c1ce02c5e6b91f4bc284b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bahdanhal/symfony-privacy-analytics-bundle/zipball/acc1aab3d038b80bd17df5a6e2cbef713600cdea",
-                "reference": "acc1aab3d038b80bd17df5a6e2cbef713600cdea",
+                "url": "https://api.github.com/repos/bahdanhal/symfony-privacy-analytics-bundle/zipball/019a4072de045d61c98c1ce02c5e6b91f4bc284b",
+                "reference": "019a4072de045d61c98c1ce02c5e6b91f4bc284b",
                 "shasum": ""
             },
             "require": {
@@ -734,7 +734,7 @@
             "require-dev": {
                 "doctrine/dbal": "^3.8 || ^4.0",
                 "doctrine/orm": "^3.0",
-                "phpunit/phpunit": "^11.0 || ^12.0",
+                "phpunit/phpunit": "^11.0 || ^12.0 || ^13.0",
                 "symfony/cache": "^7.0 || ^8.0"
             },
             "suggest": {
@@ -763,7 +763,11 @@
                 }
             ],
             "description": "Zero-cookie, GDPR-compliant server-side privacy analytics bundle for Symfony",
-            "time": "2026-09-06T10:58:33+00:00"
+            "support": {
+                "source": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/tree/v1.3.1",
+                "issues": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/issues"
+            },
+            "time": "2026-09-07T20:33:10+00:00"
         },
         {
             "name": "bahdan/symfony-safe-http-client",

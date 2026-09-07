@@ -104,7 +104,75 @@ final class PageViewSubscriberTest extends TestCase
             ['Go-http-client/1.1'],
             ['PostmanRuntime/7.26.8'],
             ['Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4896.60 Safari/537.36'],
+            ['cl0q-favicon-grabber/1.0 (+https://cl0q.com)'],
+            ['Hello from Palo Alto Networks, find out more about our scans'],
+            ['WordPress/6.4.3'],
+            ['Dalvik/2.1.0 (Linux; U; Android 9.0; ZTE BA520 Build/MRA58K)'],
         ];
+    }
+
+    public function testExcludesFirefoxWithSignedExchangeHeader(): void
+    {
+        $repository = $this->createMock(PageViewRepository::class);
+        $repository->expects(self::never())->method('save');
+        $request = Request::create('https://bahdanhal.pl/', 'GET', server: [
+            'REMOTE_ADDR' => '198.51.100.8',
+            'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:135.0) Gecko/20100101 Firefox/135.0',
+            'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,'
+                . 'image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+            'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9',
+        ]);
+        $response = new Response('<html></html>', 200, ['Content-Type' => 'text/html']);
+        $event = new ResponseEvent(
+            $this->createStub(HttpKernelInterface::class),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $response,
+        );
+
+        (new PageViewSubscriber($repository, 'analytics-secret'))->onResponse($event);
+    }
+
+    public function testExcludesSafariWithSignedExchangeHeader(): void
+    {
+        $repository = $this->createMock(PageViewRepository::class);
+        $repository->expects(self::never())->method('save');
+        $request = Request::create('https://bahdanhal.pl/', 'GET', server: [
+            'REMOTE_ADDR' => '198.51.100.8',
+            'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15',
+            'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/signed-exchange;v=b3;q=0.7',
+            'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9',
+        ]);
+        $response = new Response('<html></html>', 200, ['Content-Type' => 'text/html']);
+        $event = new ResponseEvent(
+            $this->createStub(HttpKernelInterface::class),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $response,
+        );
+
+        (new PageViewSubscriber($repository, 'analytics-secret'))->onResponse($event);
+    }
+
+    public function testExcludesModernChromiumWithoutSecFetchHeaders(): void
+    {
+        $repository = $this->createMock(PageViewRepository::class);
+        $repository->expects(self::never())->method('save');
+        $request = Request::create('https://bahdanhal.pl/', 'GET', server: [
+            'REMOTE_ADDR' => '198.51.100.8',
+            'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9',
+        ]);
+        $response = new Response('<html></html>', 200, ['Content-Type' => 'text/html']);
+        $event = new ResponseEvent(
+            $this->createStub(HttpKernelInterface::class),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $response,
+        );
+
+        (new PageViewSubscriber($repository, 'analytics-secret'))->onResponse($event);
     }
 
     #[DataProvider('provideProbePaths')]
