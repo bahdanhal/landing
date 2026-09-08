@@ -108,6 +108,7 @@ final class PageViewSubscriberTest extends TestCase
             ['Hello from Palo Alto Networks, find out more about our scans'],
             ['WordPress/6.4.3'],
             ['Dalvik/2.1.0 (Linux; U; Android 9.0; ZTE BA520 Build/MRA58K)'],
+            ['PublicWWWBot/1.0'],
         ];
     }
 
@@ -163,6 +164,53 @@ final class PageViewSubscriberTest extends TestCase
             'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9',
+        ]);
+        $response = new Response('<html></html>', 200, ['Content-Type' => 'text/html']);
+        $event = new ResponseEvent(
+            $this->createStub(HttpKernelInterface::class),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $response,
+        );
+
+        (new PageViewSubscriber($repository, 'analytics-secret'))->onResponse($event);
+    }
+
+    public function testExcludesImpossibleSafariVersion(): void
+    {
+        $repository = $this->createMock(PageViewRepository::class);
+        $repository->expects(self::never())->method('save');
+        $request = Request::create('https://bahdanhal.pl/', 'GET', server: [
+            'REMOTE_ADDR' => '198.51.100.8',
+            'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 '
+                . '(KHTML, like Gecko) Version/26.0 Safari/605.1.15',
+            'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9',
+        ]);
+        $response = new Response('<html></html>', 200, ['Content-Type' => 'text/html']);
+        $event = new ResponseEvent(
+            $this->createStub(HttpKernelInterface::class),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $response,
+        );
+
+        (new PageViewSubscriber($repository, 'analytics-secret'))->onResponse($event);
+    }
+
+    public function testExcludesCurlImpersonateIllegalGreaseBrand(): void
+    {
+        $repository = $this->createMock(PageViewRepository::class);
+        $repository->expects(self::never())->method('save');
+        $request = Request::create('https://bahdanhal.pl/', 'GET', server: [
+            'REMOTE_ADDR' => '198.51.100.8',
+            'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '
+                . '(KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+            'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9',
+            'HTTP_SEC_FETCH_MODE' => 'navigate',
+            'HTTP_SEC_FETCH_SITE' => 'none',
+            'HTTP_SEC_CH_UA' => '"Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
         ]);
         $response = new Response('<html></html>', 200, ['Content-Type' => 'text/html']);
         $event = new ResponseEvent(
