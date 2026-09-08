@@ -176,14 +176,14 @@ final class PageViewSubscriberTest extends TestCase
         (new PageViewSubscriber($repository, 'analytics-secret'))->onResponse($event);
     }
 
-    public function testExcludesImpossibleSafariVersion(): void
+    public function testAllowsModernIosAndSafariUserAgent(): void
     {
         $repository = $this->createMock(PageViewRepository::class);
-        $repository->expects(self::never())->method('save');
+        $repository->expects(self::once())->method('save');
         $request = Request::create('https://bahdanhal.pl/', 'GET', server: [
             'REMOTE_ADDR' => '198.51.100.8',
-            'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 '
-                . '(KHTML, like Gecko) Version/26.0 Safari/605.1.15',
+            'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_3 like Mac OS X) AppleWebKit/605.1.15 '
+                . '(KHTML, like Gecko) Version/26.3 Mobile/15E148 Safari/604.1',
             'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9',
         ]);
