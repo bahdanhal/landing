@@ -2,12 +2,14 @@ parameters:
   env(CONTACT_LEAD_DIRECTORY): '/app/var/contact-leads'
   env(ANALYTICS_DATA_DIRECTORY): '/app/var/analytics-data'
   env(ANALYTICS_RETENTION_DAYS): '90'
+  env(ANALYTICS_BEACON_MODE): 'true'
   env(MARKET_ADMIN_TOKEN): ''
   env(AI_PROVIDER): 'anthropic'
   env(AI_SUMMARY_MODEL): 'claude-haiku-4-5-20251001'
   contact.lead_directory: '%env(CONTACT_LEAD_DIRECTORY)%'
   analytics.data_directory: '%env(ANALYTICS_DATA_DIRECTORY)%'
   analytics.retention_days: '%env(int:ANALYTICS_RETENTION_DAYS)%'
+  analytics.beacon_mode: '%env(bool:ANALYTICS_BEACON_MODE)%'
 
 services:
   _defaults:
@@ -72,6 +74,11 @@ services:
       $retentionDays: '%analytics.retention_days%'
 
   App\Analytics\Infrastructure\PageViewSubscriber:
+    arguments:
+      $secret: '%env(APP_SECRET)%'
+      $beaconMode: '%analytics.beacon_mode%'
+
+  App\Analytics\Presentation\Http\BeaconController:
     arguments:
       $secret: '%env(APP_SECRET)%'
 

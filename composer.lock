@@ -710,16 +710,16 @@
         },
         {
             "name": "bahdan/symfony-privacy-analytics-bundle",
-            "version": "v1.3.3",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle.git",
-                "reference": "aa570836ae2a9464fe49674e07b275416f72412b"
+                "reference": "5b64dd736b298e48548c29926bb35732f80d8608"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bahdanhal/symfony-privacy-analytics-bundle/zipball/aa570836ae2a9464fe49674e07b275416f72412b",
-                "reference": "aa570836ae2a9464fe49674e07b275416f72412b",
+                "url": "https://api.github.com/repos/bahdanhal/symfony-privacy-analytics-bundle/zipball/5b64dd736b298e48548c29926bb35732f80d8608",
+                "reference": "5b64dd736b298e48548c29926bb35732f80d8608",
                 "shasum": ""
             },
             "require": {
@@ -764,10 +764,10 @@
             ],
             "description": "Zero-cookie, GDPR-compliant server-side privacy analytics bundle for Symfony",
             "support": {
-                "source": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/tree/v1.3.3",
+                "source": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/tree/v1.4.0",
                 "issues": "https://github.com/bahdanhal/symfony-privacy-analytics-bundle/issues"
             },
-            "time": "2026-09-08T08:26:59+00:00"
+            "time": "2026-09-11T08:18:01+00:00"
         },
         {
             "name": "bahdan/symfony-safe-http-client",

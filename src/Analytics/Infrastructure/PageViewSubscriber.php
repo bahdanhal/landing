@@ -24,8 +24,9 @@ final readonly class PageViewSubscriber implements EventSubscriberInterface
     public function __construct(
         PageViewRepository $pageViews,
         string $secret,
+        private bool $beaconMode = false,
     ) {
-        $this->inner = new BasePageViewSubscriber($pageViews, $secret);
+        $this->inner = new BasePageViewSubscriber($pageViews, $secret, beaconMode: $beaconMode);
     }
 
     public static function getSubscribedEvents(): array
@@ -35,6 +36,10 @@ final readonly class PageViewSubscriber implements EventSubscriberInterface
 
     public function onResponse(ResponseEvent $event): void
     {
+        if ($this->beaconMode) {
+            return;
+        }
+
         $request = $event->getRequest();
         $userAgent = strtolower(trim((string) $request->headers->get('User-Agent')));
         $requestUriPath = (string) parse_url($request->getRequestUri(), PHP_URL_PATH);

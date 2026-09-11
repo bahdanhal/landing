@@ -223,6 +223,56 @@ final class PageViewSubscriberTest extends TestCase
         (new PageViewSubscriber($repository, 'analytics-secret'))->onResponse($event);
     }
 
+    public function testExcludesAlibabaScraperNotABrandGreaseHeader(): void
+    {
+        $repository = $this->createMock(PageViewRepository::class);
+        $repository->expects(self::never())->method('save');
+        $request = Request::create('https://bahdanhal.pl/services', 'GET', server: [
+            'REMOTE_ADDR' => '47.79.39.102',
+            'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '
+                . '(KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36',
+            'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9',
+            'HTTP_SEC_FETCH_MODE' => 'navigate',
+            'HTTP_SEC_FETCH_SITE' => 'none',
+            'HTTP_SEC_CH_UA' => '"Not-A.Brand";v="99", "Chromium";v="144", "Google Chrome";v="144"',
+        ]);
+        $response = new Response('<html></html>', 200, ['Content-Type' => 'text/html']);
+        $event = new ResponseEvent(
+            $this->createStub(HttpKernelInterface::class),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $response,
+        );
+
+        (new PageViewSubscriber($repository, 'analytics-secret'))->onResponse($event);
+    }
+
+    public function testDoesNotRecordWhenBeaconModeIsTrue(): void
+    {
+        $repository = $this->createMock(PageViewRepository::class);
+        $repository->expects(self::never())->method('save');
+        $request = Request::create('https://bahdanhal.pl/', 'GET', server: [
+            'REMOTE_ADDR' => '198.51.100.8',
+            'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+                . '(KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+            'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9',
+            'HTTP_SEC_FETCH_MODE' => 'navigate',
+            'HTTP_SEC_FETCH_SITE' => 'none',
+            'HTTP_SEC_CH_UA' => '"Google Chrome";v="123", "Not A(Brand";v="24", "Chromium";v="123"',
+        ]);
+        $response = new Response('<html></html>', 200, ['Content-Type' => 'text/html']);
+        $event = new ResponseEvent(
+            $this->createStub(HttpKernelInterface::class),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $response,
+        );
+
+        (new PageViewSubscriber($repository, 'analytics-secret', beaconMode: true))->onResponse($event);
+    }
+
     #[DataProvider('provideProbePaths')]
     public function testExcludesSecurityProbePaths(string $path): void
     {

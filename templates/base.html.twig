@@ -78,5 +78,13 @@
     <div class="copyright">© {{ "now"|date("Y") }} · {{ 'base.footer_note'|trans }}</div>
   </footer>
   {% block scripts %}{% endblock %}
+  <script>
+    (function(){
+      if(location.pathname.startsWith('/admin')||navigator.doNotTrack==='1'||window.doNotTrack==='1'||navigator.globalPrivacyControl)return;
+      var d=JSON.stringify({p:location.pathname,r:document.referrer||null});
+      if(navigator.sendBeacon){navigator.sendBeacon('/api/pa/hit',new Blob([d],{type:'application/json'}));}
+      else{fetch('/api/pa/hit',{method:'POST',body:d,headers:{'Content-Type':'application/json'},keepalive:true});}
+    })();
+  </script>
 </body>
 </html>
