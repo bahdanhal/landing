@@ -15,6 +15,7 @@ final readonly class PageViewSubscriber implements EventSubscriberInterface
 {
     private const string AUTOMATION_PATTERN = '/googleother|google-inspectiontool|bahdantoolbox|cms-checker|crt-indexer'
         . '|domainintelcollector|sparixemailscraper|wp-safe-scanner|internetmeasurement'
+        . '|dataprovider'
         . '|iphone os 13_2_3 like mac os x|android 7\.0; sm-g892a/';
     private const string PROBE_PATH_PATTERN = '#(?:^|/)(?:wp-admin|wp-content|wp-includes)(?:/|$)'
         . '|(?:^|/)(?:\.env|\.git)(?:/|$)|\.php(?:/|$)#i';

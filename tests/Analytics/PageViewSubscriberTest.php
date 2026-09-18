@@ -109,6 +109,7 @@ final class PageViewSubscriberTest extends TestCase
             ['WordPress/6.4.3'],
             ['Dalvik/2.1.0 (Linux; U; Android 9.0; ZTE BA520 Build/MRA58K)'],
             ['PublicWWWBot/1.0'],
+            ['Mozilla/5.0 (compatible; Dataprovider.com)'],
         ];
     }
 
