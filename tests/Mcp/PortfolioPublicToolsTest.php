@@ -24,9 +24,8 @@ final class PortfolioPublicToolsTest extends TestCase
         self::assertSame('Bahdan Hal', $data['engineer']);
         self::assertArrayHasKey('ecosystem_projects', $data);
         self::assertArrayHasKey('pricing', $data);
-        self::assertSame('$35/hour', $data['pricing']['standard_contract_rate']);
-        self::assertSame('$30/hour', $data['pricing']['promotional_discount_rate']);
-        self::assertSame('$25/hour', $data['pricing']['long_term_cooperation_rate']);
+        self::assertSame('€35/hour', $data['pricing']['standard_contract_rate']);
+        self::assertSame('EUR', $data['pricing']['currency']);
     }
 
     public function testServicesAndPricingReturnsCatalogWithRates(): void
@@ -40,9 +39,8 @@ final class PortfolioPublicToolsTest extends TestCase
 
         self::assertIsArray($data);
         self::assertSame('Bahdan Hal', $data['engineer']);
-        self::assertSame('$35/hour', $data['rates']['standard_contract_rate']);
-        self::assertSame('$30/hour', $data['rates']['promotional_discount_rate']);
-        self::assertSame('$25/hour', $data['rates']['long_term_cooperation_rate']);
+        self::assertSame('€35/hour', $data['rates']['standard_contract_rate']);
+        self::assertSame('EUR', $data['rates']['currency']);
         self::assertNotEmpty($data['services']);
         self::assertSame('turnkey_websites', $data['services'][0]['id']);
     }

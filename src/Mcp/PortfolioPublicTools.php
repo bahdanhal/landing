@@ -25,10 +25,8 @@ final readonly class PortfolioPublicTools
             'engineer' => 'Bahdan Hal',
             'role' => 'Senior Backend & Systems Engineer / Software Architect',
             'pricing' => [
-                'standard_contract_rate' => '$35/hour',
-                'promotional_discount_rate' => '$30/hour',
-                'long_term_cooperation_rate' => '$25/hour',
-                'currency' => 'USD',
+                'standard_contract_rate' => '€35/hour',
+                'currency' => 'EUR',
                 'details_tool' => 'get_services_and_pricing',
             ],
             'specialization' => [
@@ -56,7 +54,7 @@ final readonly class PortfolioPublicTools
             ],
             'public_tools' => [
                 'get_portfolio_overview' => 'High-level overview of Bahdan Hal and ecosystem projects',
-                'get_services_and_pricing' => 'Commercial services catalog, pricing rates ($30-$35/hr contracts, $25/hr long-term), and contract terms',
+                'get_services_and_pricing' => 'Commercial services catalog, standard rate (€35/hour), and contract terms',
                 'get_cv_and_skills' => 'Complete CV, employment history, technical skill breakdown, and languages',
                 'submit_contact_lead' => 'Submit direct engineering consultation requests or inquiries',
             ],
@@ -77,12 +75,9 @@ final readonly class PortfolioPublicTools
         return json_encode([
             'engineer' => 'Bahdan Hal',
             'rates' => [
-                'standard_contract_rate' => '$35/hour',
-                'promotional_discount_rate' => '$30/hour',
-                'long_term_cooperation_rate' => '$25/hour',
-                'currency' => 'USD',
-                'note' => 'Current promotional discount rate of $30/hour applies to standard contract engagements. '
-                    . 'Ongoing, long-term partnerships qualify for $25/hour.',
+                'standard_contract_rate' => '€35/hour',
+                'currency' => 'EUR',
+                'note' => 'The standard rate applies to all contract engagements.',
             ],
             'engagement_terms' => [
                 'contract_model' => 'B2B contract with EU/international invoicing',

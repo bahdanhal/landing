@@ -13,10 +13,8 @@
 
 ## Pricing & Engagement Terms
 
-- **Standard Contract Rate**: $35/hour
-- **Promotional Discount Rate**: $30/hour (active for current contract engagements)
-- **Long-Term Cooperation Rate**: $25/hour (for dedicated ongoing partnerships)
-- **Currency**: USD (or EUR / PLN equivalent)
+- **Standard Contract Rate**: €35/hour
+- **Currency**: EUR
 - **Contract Model**: B2B contract with EU/international invoicing
 - **Billing Formats**: Transparent hourly tracking or milestone-based fixed scope
 
@@ -47,11 +45,10 @@
 - **Public Endpoint**: `https://bahdanhal.pl/mcp` (HTTP POST / SSE)
 - **No authentication required for public tools**:
   - `get_portfolio_overview`: Overview of services, projects, rates, and tools.
-  - `get_services_and_pricing`: Detailed catalog of all 6 services with deliverables and hourly rates ($30-$35/hr contracts, $25/hr long-term).
+  - `get_services_and_pricing`: Detailed catalog of all 6 services with deliverables and the standard hourly rate (€35/hour).
   - `get_cv_and_skills`: Complete CV, employment history (Freedom Mobile, GWO, Consulting), skills taxonomy, and languages.
   - `submit_contact_lead`: Direct consultation inquiry and contact lead submission.
 
 ## Full Documentation
 
 - Complete CV, full service descriptions, and detailed background: [llms-full.txt](https://bahdanhal.pl/llms-full.txt)
-

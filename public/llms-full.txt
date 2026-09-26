@@ -18,10 +18,8 @@ Senior Backend and Systems Engineer with 5+ years of production experience desig
 
 ## 2. Transparent Pricing & Engagement Terms
 
-- **Standard Contract Rate**: $35 / hour
-- **Promotional Discount Rate**: $30 / hour (active promotional discount for standard contracts)
-- **Long-Term Cooperation Rate**: $25 / hour (for ongoing partnerships and dedicated team extensions)
-- **Currency**: USD, EUR, or PLN equivalent
+- **Standard Contract Rate**: €35 / hour
+- **Currency**: EUR
 - **Contract Type**: B2B contract with EU/international invoicing
 - **Engagement Models**:
   - Hourly engagement with transparent activity tracking
@@ -150,7 +148,7 @@ Bahdan Hal's portfolio provides a public, unauthenticated Model Context Protocol
 - **Transport**: HTTP POST / Server-Sent Events (SSE)
 - **Available Public Tools**:
   1. `get_portfolio_overview`: Returns a high-level summary of skills, projects, and pricing.
-  2. `get_services_and_pricing`: Returns complete commercial service catalog, rates ($30-$35/hr contracts, $25/hr long-term), and terms.
+  2. `get_services_and_pricing`: Returns complete commercial service catalog, standard rate (€35/hour), and terms.
   3. `get_cv_and_skills`: Returns complete structured CV, employment history, skills breakdown, and languages.
   4. `submit_contact_lead`: Ingests an inquiry or consultation request directly into Bahdan's lead inbox.
 
