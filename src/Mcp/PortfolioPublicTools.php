@@ -194,9 +194,16 @@ final readonly class PortfolioPublicTools
                 . 'infrastructure. Strong advocate for clean architecture, pragmatic engineering, and test-driven reliability.',
             'experience' => [
                 [
+                    'company' => 'Web24 sp. z o.o.',
+                    'role' => 'Full-stack Developer',
+                    'period' => 'Sep 2026 - Present',
+                    'location' => 'Gdynia, Poland',
+                    'highlights' => [],
+                ],
+                [
                     'company' => 'Freedom Mobile',
                     'role' => 'Backend & Systems Engineer',
-                    'period' => '2026 - Present',
+                    'period' => '2026 - Sep 2026',
                     'location' => 'Remote',
                     'highlights' => [
                         'Designed and implemented backend services and internal AI-assisted agent tooling for a telecommunications platform.',

@@ -98,8 +98,11 @@ Senior Backend and Systems Engineer with 5+ years of production experience desig
 
 ## 4. Professional Experience
 
+### Full-stack Developer · Web24 sp. z o.o.
+*Sep 2026 - Present | Gdynia, Poland*
+
 ### Backend & Systems Engineer · Freedom Mobile
-*2026 - Present | Remote*
+*2026 - Sep 2026 | Remote*
 - Architected and implemented backend services and internal AI-assisted agent tooling for a telecommunications platform.
 - Developed robust third-party API integration layers with resilient webhook processing and retry policies.
 - Investigated and resolved complex production defects, reducing incident recovery time and improving overall platform stability.

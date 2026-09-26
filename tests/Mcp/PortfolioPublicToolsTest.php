@@ -57,6 +57,10 @@ final class PortfolioPublicToolsTest extends TestCase
         self::assertIsArray($data);
         self::assertSame('Bahdan Hal', $data['engineer']);
         self::assertNotEmpty($data['experience']);
+        self::assertSame('Web24 sp. z o.o.', $data['experience'][0]['company']);
+        self::assertSame('Sep 2026 - Present', $data['experience'][0]['period']);
+        self::assertSame([], $data['experience'][0]['highlights']);
+        self::assertSame('2026 - Sep 2026', $data['experience'][1]['period']);
         self::assertNotEmpty($data['skills']['backend_and_languages']);
         self::assertNotEmpty($data['languages']);
 

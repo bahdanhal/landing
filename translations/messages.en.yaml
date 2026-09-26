@@ -124,8 +124,13 @@ resume_page:
     summary_title: "Executive Summary"
     summary_text: "Senior Backend and Systems Engineer with 5+ years of production experience designing high-throughput web systems, distributed microservices, and practical AI integrations. Proven track record of modernizing legacy PHP platforms serving millions of users, architecting robust database schemas, and building hardened Linux/Docker infrastructure. Strong advocate for clean architecture, pragmatic engineering, and test-driven reliability."
     experience_title: "Professional Experience"
+    web24:
+        period: "Sep 2026 - Present"
+        company: "Web24 sp. z o.o."
+        role: "Full-stack Developer"
+        location: "Gdynia, Poland"
     freedom:
-        period: "2026 - Present"
+        period: "2026 - Sep 2026"
         company: "Freedom Mobile"
         role: "Backend & Systems Engineer"
         location: "Remote"

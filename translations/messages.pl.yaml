@@ -124,8 +124,13 @@ resume_page:
     summary_title: "Podsumowanie zawodowe"
     summary_text: "Senior Backend i Systems Engineer z ponad 5-letnim doświadczeniem. Projektuję skalowalne systemy webowe, mikroserwisy i integracje AI. Modernizowałem platformy PHP dla milionów użytkowników, wydajne bazy danych oraz bezpieczną infrastrukturę Linux/Docker. Stawiam na czystą architekturę, pragmatyzm i testy automatyczne."
     experience_title: "Doświadczenie zawodowe"
+    web24:
+        period: "wrz 2026 - obecnie"
+        company: "Web24 sp. z o.o."
+        role: "Full-stack Developer"
+        location: "Gdynia, Polska"
     freedom:
-        period: "2026 - obecnie"
+        period: "2026 - wrz 2026"
         company: "Freedom Mobile"
         role: "Backend & Systems Engineer"
         location: "Zdalnie"
