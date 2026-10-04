@@ -7,16 +7,16 @@ The same HTTPS MCP endpoint at `https://bahdanhal.pl/mcp` exposes public tools a
 Generate a dedicated, high-entropy token and set it only in `production.env`:
 
 ```dotenv
-MARKET_ADMIN_TOKEN=replace-with-at-least-32-random-bytes
+MCP_ADMIN_TOKEN=replace-with-at-least-32-random-bytes
 ```
 
 Configure the MCP client to send the token as an HTTP header:
 
 ```text
-Authorization: Bearer <MARKET_ADMIN_TOKEN>
+Authorization: Bearer <MCP_ADMIN_TOKEN>
 ```
 
-Never pass the token as a tool argument, place it in a prompt, commit it to the repository, or include it in logs. Use the endpoint only over HTTPS. Rotating `MARKET_ADMIN_TOKEN` immediately invalidates the previous credential after the application container is restarted.
+Never pass the token as a tool argument, place it in a prompt, commit it to the repository, or include it in logs. Use the endpoint only over HTTPS. Rotating `MCP_ADMIN_TOKEN` immediately invalidates the previous credential after the application container is restarted.
 
 ## Read-only administrative tools
 

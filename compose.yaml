@@ -36,7 +36,7 @@ services:
       MARKET_DATA_DIRECTORY: ${MARKET_DATA_DIRECTORY:-/app/var/market-data}
       ANALYTICS_DATA_DIRECTORY: ${ANALYTICS_DATA_DIRECTORY:-/app/var/analytics-data}
       ANALYTICS_RETENTION_DAYS: ${ANALYTICS_RETENTION_DAYS:-90}
-      MARKET_ADMIN_TOKEN: ${MARKET_ADMIN_TOKEN:-}
+      MCP_ADMIN_TOKEN: ${MCP_ADMIN_TOKEN:-}
       DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER:-bahdan}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env.local or the environment}@db:5432/${POSTGRES_DB:-bahdan_toolbox}?serverVersion=17&charset=utf8}
     depends_on:
       migrate:

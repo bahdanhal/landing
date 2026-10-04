@@ -3,7 +3,7 @@ parameters:
   env(ANALYTICS_DATA_DIRECTORY): '/app/var/analytics-data'
   env(ANALYTICS_RETENTION_DAYS): '90'
   env(ANALYTICS_BEACON_MODE): 'true'
-  env(MARKET_ADMIN_TOKEN): ''
+  env(MCP_ADMIN_TOKEN): ''
   contact.lead_directory: '%env(CONTACT_LEAD_DIRECTORY)%'
   analytics.data_directory: '%env(ANALYTICS_DATA_DIRECTORY)%'
   analytics.retention_days: '%env(int:ANALYTICS_RETENTION_DAYS)%'
@@ -86,7 +86,7 @@ services:
 
   App\Mcp\AdminAccess:
     arguments:
-      $token: '%env(MARKET_ADMIN_TOKEN)%'
+      $token: '%env(MCP_ADMIN_TOKEN)%'
 
   App\Portfolio\Presentation\Http\PortfolioController:
     arguments:

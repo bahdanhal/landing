@@ -19,7 +19,7 @@ Copy `.env.example` to a private environment file and replace at least:
 
 - `APP_SECRET`
 - `POSTGRES_PASSWORD`
-- `MARKET_ADMIN_TOKEN` when administrative MCP tools are enabled
+- `MCP_ADMIN_TOKEN` when administrative MCP tools are enabled
 - optional AI provider credentials
 
 Compose derives `DATABASE_URL` from the PostgreSQL settings. Set `DATABASE_URL` explicitly only when using a separately managed database; URL-encode credentials when necessary.
