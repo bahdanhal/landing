@@ -37,7 +37,7 @@
 ## Ecosystem Projects
 
 - [Bahdan Hal Portfolio & Consulting](https://bahdanhal.pl/): Engineering portfolio, CV, commercial services, and contact intake.
-- [IleZa.pl](https://ileza.pl/): Polish second-hand electronics price radar and tax/net salary calculator.
+- [IleZa.pl](https://ileza.pl/): Manual editorial fair prices for products in any category in Poland, plus a net salary/tax calculator.
 - [StackHal](https://stackhal.com/): Online developer utilities (Caddyfile transpiler, Apple PKPass inspector, CIDR overlap matrix, SEO/GEO audit).
 
 ## Model Context Protocol (MCP) Access

@@ -28,7 +28,7 @@ error404:
     services: "Usługi inżynieryjne"
     work: "Realizacje i projekty"
     tools_stackhal: "Narzędzia StackHal"
-    tools_ileza: "Radar cenowy IleZa"
+    tools_ileza: "Uczciwe ceny IleZa"
 
 contact:
     email: "Twój e-mail"
@@ -87,10 +87,10 @@ about:
         intro: "Działające serwisy, w których odpowiadam za wizję produktu, architekturę, kod, infrastrukturę i codzienny rozwój."
         visit: "Odwiedź projekt"
         ileza:
-            label: "Analiza cen"
-            title: "Spokojniejszy sposób na zrozumienie cen używanej elektroniki"
-            text: "Polski radar cen elektroniki z rynku wtórnego: weryfikowane obserwacje, trendy historyczne i kalkulator porównania dochodów."
-            image_alt: "Zrzut ekranu radaru cen IleZa.pl"
+            label: "Redakcyjne uczciwe ceny"
+            title: "Spokojniejszy sposób na zrozumienie, ile rzeczy są naprawdę warte"
+            text: "Ręczne, redakcyjne oceny uczciwych cen produktów z dowolnej kategorii w Polsce, z historią cen i kalkulatorem wynagrodzeń jako dodatkową funkcją."
+            image_alt: "Zrzut ekranu katalogu uczciwych cen IleZa.pl"
         stackhal:
             label: "Narzędzia dla programistów"
             title: "Lekkie narzędzia do poważnej pracy technicznej"

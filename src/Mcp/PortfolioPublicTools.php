@@ -44,7 +44,7 @@ final readonly class PortfolioPublicTools
                 [
                     'name' => 'IleZa.pl',
                     'domain' => 'https://ileza.pl',
-                    'description' => 'Polish used electronics price radar and net income/tax calculator.',
+                    'description' => 'Manual editorial fair prices for products in any category in Poland, plus a net income/tax calculator.',
                 ],
                 [
                     'name' => 'StackHal',

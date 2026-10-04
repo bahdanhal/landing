@@ -28,7 +28,7 @@ error404:
     services: "Engineering Services"
     work: "Case Studies & Work"
     tools_stackhal: "StackHal Developer Tools"
-    tools_ileza: "IleZa Price Radar"
+    tools_ileza: "IleZa Fair Prices"
 
 contact:
     email: "Your email"
@@ -87,10 +87,10 @@ about:
         intro: "Live production platforms where I own the product vision, software architecture, infrastructure, and day-to-day operations."
         visit: "Visit project"
         ileza:
-            label: "Price Intelligence"
-            title: "A calmer way to understand used tech prices"
-            text: "A Polish market price radar for used electronics, featuring curated observations, historical trends, and income comparison tools."
-            image_alt: "IleZa.pl price radar screenshot"
+            label: "Editorial Fair Prices"
+            title: "A calmer way to understand what things are really worth"
+            text: "Manual editorial fair prices for products in any category in Poland, with dated price histories and a salary comparison calculator as an additional feature."
+            image_alt: "IleZa.pl fair-price catalog screenshot"
         stackhal:
             label: "Developer Toolbox"
             title: "Lightweight tools for serious technical work"
