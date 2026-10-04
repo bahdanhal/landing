@@ -29,7 +29,7 @@
 
 ## Key Technical Stack
 
-- **Backend & Languages**: PHP 8.2-8.5, Symfony 6/7/8, Laravel 10/11, Go, Python, TypeScript, Node.js, REST APIs, GraphQL, Model Context Protocol (MCP)
+- **Backend & Languages**: PHP 8.2-8.5, Symfony 6/7/8, Laravel 10/11, Python, TypeScript, Node.js, REST APIs, GraphQL, Model Context Protocol (MCP)
 - **Databases & Caching**: PostgreSQL 14-17, MySQL / MariaDB, Redis, SQLite, Doctrine ORM, Eloquent, Index Tuning
 - **Infrastructure & DevOps**: Docker, Docker Compose, Linux (Debian, Ubuntu), Caddy 2, Nginx, GitHub Actions CI/CD, Bash, SSH
 - **Architecture**: Clean Architecture, Domain-Driven Design (DDD), Event-Driven Architecture, Microservices, PHPUnit, PHPStan Level 8

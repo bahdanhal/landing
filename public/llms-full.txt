@@ -8,7 +8,7 @@
 
 Senior Backend and Systems Engineer with 5+ years of production experience designing high-throughput web systems, distributed microservices, and practical AI integrations. Proven track record of modernizing legacy PHP platforms serving millions of users, architecting robust database schemas, and building hardened Linux/Docker infrastructure. Strong advocate for clean architecture, pragmatic engineering, and test-driven reliability.
 
-- **Primary Stack**: PHP 8.5, Symfony 7/8, Laravel 10/11, Go, Python, PostgreSQL 17, Docker, Caddy 2, Linux.
+- **Primary Stack**: PHP 8.5, Symfony 7/8, Laravel 10/11, Python, PostgreSQL 17, Docker, Caddy 2, Linux.
 - **Specializations**: Model Context Protocol (MCP), distributed microservices, REST/GraphQL APIs, high-performance database indexing, zero-downtime migrations.
 - **Location**: Gdańsk, Poland (Open to Remote / Hybrid worldwide).
 - **Languages**: English (Professional proficiency), Polish (Fluent), Belarusian (Native), Russian (Native).
@@ -107,12 +107,17 @@ Senior Backend and Systems Engineer with 5+ years of production experience desig
 - Developed robust third-party API integration layers with resilient webhook processing and retry policies.
 - Investigated and resolved complex production defects, reducing incident recovery time and improving overall platform stability.
 
-### Full-Stack & Backend Developer · Gdańskie Wydawnictwo Oświatowe (GWO)
+### Backend Developer · Gdańskie Wydawnictwo Oświatowe (GWO)
 *2022 - 2026 | Gdańsk, Poland*
 - Maintained and modernized high-traffic educational web platforms (Symfony, Laravel) serving over 2 million active students and teachers.
 - Refactored legacy monolithic subsystems into modular architectures, optimizing complex SQL queries and caching to cut response times by up to 70%.
 - Designed editorial content tools and integrated generative and computer vision AI models into automated publishing pipelines.
 - Established automated CI/CD quality gates, static analysis pipelines (PHPStan Level 8), and unit/functional test suites.
+
+### PHP Developer · Manao-dev
+*Jan 2021 - Mar 2022 | Remote*
+- Delivered backend development for telecommunication, e-commerce and automotive industry leaders.
+- Implemented SMS/CRM integrations and handled high-volume data migrations.
 
 ### Software Architect & Consultant · Independent Software Consulting
 *2022 - Present | Global / Remote*
@@ -124,7 +129,7 @@ Senior Backend and Systems Engineer with 5+ years of production experience desig
 
 ## 5. Technical Skills Taxonomy
 
-- **Backend Development**: PHP 8.2, 8.3, 8.4, 8.5, Symfony (6/7/8), Laravel (10/11), Go, Python, TypeScript, Node.js, REST APIs, GraphQL, SSE, WebSockets.
+- **Backend Development**: PHP 8.2, 8.3, 8.4, 8.5, Symfony (6/7/8), Laravel (10/11), Python, TypeScript, Node.js, REST APIs, GraphQL, SSE, WebSockets.
 - **Model Context Protocol (MCP)**: Custom MCP server architecture, tools, resources, session management, FastCGI, JSON-RPC 2.0.
 - **Databases & Caching**: PostgreSQL (14-17), MySQL / MariaDB, Redis, SQLite, Doctrine ORM, Eloquent, Index Tuning, Query Optimization.
 - **DevOps & Infrastructure**: Docker, Docker Compose, Linux (Debian, Ubuntu), Caddy 2, Nginx, CI/CD (GitHub Actions), Bash, SSH Hardening.

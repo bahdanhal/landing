@@ -34,7 +34,7 @@ final readonly class PortfolioPublicTools
             ],
             'specialization' => [
                 'Distributed backend systems and high-throughput microservices',
-                'PHP 8.5+ / Symfony 7 & 8 architecture, Go microservices, Python tools',
+                'PHP 8.5+ / Symfony 7 & 8 architecture, Python tools',
                 'Modern infrastructure with Caddy 2.10, Docker, and PostgreSQL 17',
                 'Protocol engineering (Model Context Protocol / MCP, FastCGI, SSE, HTTP/3)',
             ],
@@ -220,7 +220,7 @@ final readonly class PortfolioPublicTools
                 ],
                 [
                     'company' => 'Gdańskie Wydawnictwo Oświatowe (GWO)',
-                    'role' => 'Full-Stack & Backend Developer',
+                    'role' => 'Backend Developer',
                     'period' => '2022 - 2026',
                     'location' => 'Gdańsk, Poland',
                     'highlights' => [
@@ -229,6 +229,16 @@ final readonly class PortfolioPublicTools
                             . 'optimizing complex SQL queries and caching to cut response times by up to 70%.',
                         'Designed editorial content tools and integrated generative and computer vision AI models into automated publishing workflows.',
                         'Established automated CI/CD quality gates, static analysis pipelines (PHPStan Level 8), and unit/functional test suites.',
+                    ],
+                ],
+                [
+                    'company' => 'Manao-dev',
+                    'role' => 'PHP Developer',
+                    'period' => 'Jan 2021 - Mar 2022',
+                    'location' => 'Remote',
+                    'highlights' => [
+                        'Delivered backend development for telecommunication, e-commerce and automotive industry leaders.',
+                        'Implemented SMS/CRM integrations and handled high-volume data migrations.',
                     ],
                 ],
                 [
@@ -248,7 +258,6 @@ final readonly class PortfolioPublicTools
                     'PHP 8.2-8.5',
                     'Symfony 6/7/8',
                     'Laravel 10/11',
-                    'Go',
                     'Python',
                     'TypeScript',
                     'Node.js',

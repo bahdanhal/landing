@@ -56,7 +56,7 @@ about:
     cta_contact: "Skontaktuj się"
     facts_label: "Specjalizacja i lokalizacja"
     location: "Gdańsk, Polska"
-    stack_facts: "PHP · Symfony · Laravel · Go"
+    stack_facts: "PHP · Symfony · Laravel"
     infra_facts: "Docker · Linux · Caddy · AI/MCP"
     experience_years: "5+ lat w inżynierii"
     story:
@@ -132,12 +132,19 @@ resume_page:
     gwo:
         period: "2022 - 2026"
         company: "Gdańskie Wydawnictwo Oświatowe (GWO)"
-        role: "Full-Stack & Backend Developer"
+        role: "Backend Developer"
         location: "Gdańsk, Polska"
         bullet1: "Utrzymanie i modernizacja systemów edukacyjnych (Symfony, Laravel) obsługujących ponad 2 miliony aktywnych uczniów i nauczycieli."
         bullet2: "Refaktoryzacja monolitu na modułową architekturę, optymalizacja zapytań SQL i cache, co skróciło czas odpowiedzi nawet o 70%."
         bullet3: "Projektowanie narzędzi redakcyjnych i wdrażanie modeli generatywnych oraz wizyjnych AI do automatyzacji procesów wydawniczych."
         bullet4: "Wdrożenie bramek jakości CI/CD, analizy statycznej (PHPStan poziom 8) oraz testów jednostkowych i funkcjonalnych."
+    manao:
+        period: "Sty 2021 - Mar 2022"
+        company: "Manao-dev"
+        role: "PHP Developer"
+        location: "Zdalnie"
+        bullet1: "Tworzyłem backend dla klientów z branży telekomunikacyjnej, e-commerce i motoryzacyjnej."
+        bullet2: "Wdrażałem integracje SMS/CRM i przeprowadzałem migracje dużych wolumenów danych."
     consulting:
         period: "2022 - obecnie"
         company: "Niezależny doradca i software engineer"
@@ -149,7 +156,7 @@ resume_page:
     skills_title: "Umiejętności techniczne"
     skills:
         backend: "Backend i języki"
-        backend_list: "PHP 8.2-8.4, Symfony 6/7, Laravel 10/11, Go, Python, TypeScript, Node.js, REST API, GraphQL, MCP"
+        backend_list: "PHP 8.2-8.4, Symfony 6/7, Laravel 10/11, Python, TypeScript, Node.js, REST API, GraphQL, MCP"
         databases: "Bazy danych i pamięć podręczna"
         databases_list: "PostgreSQL 14-17, MySQL / MariaDB, Redis, SQLite, Doctrine ORM, Eloquent, optymalizacja indeksów"
         infrastructure: "Infrastruktura i DevOps"
@@ -267,3 +274,14 @@ services_page:
     consultation_point2: "Bezpłatna wstępna analiza i doradztwo architektoniczne."
     consultation_point3: "Przejrzysta, stała wycena etapów."
     consultation_point4: "Uczciwa opinia, jeśli prostsze rozwiązanie będzie lepsze."
+
+showcase:
+    enlarge: "Powiększ zdjęcie"
+    close: "Zamknij zdjęcie"
+    back_top: "Wróć na górę"
+    obd:
+        description: "OBD Vault to lokalny magazyn danych OBD-II z aplikacją mobilną Flutter i backendem PHP/Symfony."
+        details: "Dane pojazdu i diagnostyki są przechowywane przede wszystkim lokalnie; API Symfony udostępnia pojazdy, skany, eksport, synchronizację i endpointy MCP tylko do odczytu."
+        screenshots: "Zrzuty ekranu OBD Vault"
+        telemetry: "Telemetria na żywo i wskaźniki"
+        diagnostics: "Diagnostyka DTC"

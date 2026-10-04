@@ -1,0 +1,19 @@
+{% for company, bullet_count in {web24: 0, freedom: 3, gwo: 4, manao: 2} %}
+    <article class="timeline-item">
+        <div class="timeline-meta">
+            <time class="timeline-period">{{ ('resume_page.' ~ company ~ '.period')|trans }}</time>
+            <span class="timeline-location">{{ ('resume_page.' ~ company ~ '.location')|trans }}</span>
+        </div>
+        <div class="timeline-content">
+            <div class="timeline-heading">
+                <h3>{{ ('resume_page.' ~ company ~ '.role')|trans }}</h3>
+                <span class="timeline-company">{{ ('resume_page.' ~ company ~ '.company')|trans }}</span>
+            </div>
+            {% if bullet_count > 0 %}
+                <ul class="timeline-bullets">
+                    {% for bullet in 1..bullet_count %}<li>{{ ('resume_page.' ~ company ~ '.bullet' ~ bullet)|trans }}</li>{% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </article>
+{% endfor %}

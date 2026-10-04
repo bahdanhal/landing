@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
-{% block body_class %}portfolio-page about-page{% endblock %}
+{% block body_class %}portfolio-page about-page showcase-page{% endblock %}
+{% block body_attributes %}data-concept="showcase"{% endblock %}
+{% block final_stylesheets %}<link rel="stylesheet" href="/showcase.css?v=1"><script src="/showcase.js?v=1" defer></script>{% endblock %}
 {% block title %}{{ 'about.meta.title'|trans }}{% endblock %}
 {% block robots %}<meta name="robots" content="index,follow">{% endblock %}
 {% block description %}<meta name="description" content="{{ 'about.meta.description'|trans }}">{% endblock %}
@@ -9,15 +11,19 @@
     <link rel="alternate" hreflang="pl" href="https://bahdanhal.pl/pl/">
     <link rel="alternate" hreflang="x-default" href="https://bahdanhal.pl/">
 {% endblock %}
-{% block stylesheets %}<link rel="stylesheet" href="/portfolio.css"><link rel="stylesheet" href="/portfolio-services.css">{% endblock %}
+{% block shared_stylesheets %}{% endblock %}
+{% block stylesheets %}{% endblock %}
+{% block brand_stylesheet %}{% endblock %}
 {% block head_scripts %}
   <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'Person','@id':'https://bahdanhal.pl/#bahdan','name':'Bahdan Hal','url':'https://bahdanhal.pl/','jobTitle':'Senior Backend & Systems Engineer','sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.instagram.com/bahdan.hal/','https://www.facebook.com/profile.php?id=100008404566585','https://www.upwork.com/freelancers/~014111a2d384da6af9']},{'@type':'WebApplication','@id':'https://stackhal.com/#app','name':'StackHal Developer Utilities Suite','url':'https://stackhal.com/','applicationCategory':'DeveloperApplication','operatingSystem':'All','author':{'@id':'https://bahdanhal.pl/#bahdan'}},{'@type':'WebApplication','@id':'https://ileza.pl/#app','name':'IleZa.pl Editorial Fair Prices','url':'https://ileza.pl/','applicationCategory':'FinanceApplication','operatingSystem':'All','author':{'@id':'https://bahdanhal.pl/#bahdan'}}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
 {% endblock %}
 
 {% block body %}
-    <article class="profile-shell">
+    <div class="workspace"><article class="profile-shell" id="overview" data-enlarge-label="{{ 'showcase.enlarge'|trans }}" data-close-label="{{ 'showcase.close'|trans }}" data-top-label="{{ 'showcase.back_top'|trans }}">
         <section class="profile-hero">
-            <div class="profile-hero-content">
+            <div class="profile-hero-media">
+                <img src="/images/profile/bahdan-portrait.jpg" alt="Bahdan Hal" width="480" height="560" class="profile-avatar">
+            </div><div class="profile-hero-content">
                 <div class="eyebrow">{{ 'about.eyebrow'|trans }}</div>
                 <h1>{{ 'about.heading'|trans }} <span>{{ 'about.heading_emphasis'|trans }}</span></h1>
                 <div class="profile-intro">
@@ -29,9 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class="profile-hero-media">
-                <img src="/images/profile/bahdan-portrait.jpg" alt="Bahdan Hal" width="480" height="560" class="profile-avatar">
-            </div>
+
         </section>
 
         <section class="profile-facts" aria-label="{{ 'about.facts_label'|trans }}">
@@ -41,7 +45,26 @@
             <span>{{ 'about.experience_years'|trans }}</span>
         </section>
 
-        <section class="about-story-section" id="story">
+        <section class="obd-feature" id="obd">
+            <div class="obd-copy">
+                <span class="eyebrow">OBD Vault</span>
+                <h2>{{ 'showcase.obd.description'|trans }}</h2>
+                <p>{{ 'showcase.obd.details'|trans }}</p>
+                <div class="obd-switch" role="group" aria-label="{{ 'showcase.obd.screenshots'|trans }}">
+                    <button type="button" aria-pressed="true" data-obd="/images/projects/obd-telemetry.jpg">{{ 'showcase.obd.telemetry'|trans }}</button>
+                    <button type="button" aria-pressed="false" data-obd="/images/projects/obd-diagnostics.jpg">{{ 'showcase.obd.diagnostics'|trans }}</button>
+                </div>
+            </div>
+            <div class="obd-screen">
+                <img src="/images/projects/obd-telemetry.jpg" alt="{{ 'showcase.obd.telemetry'|trans }}" width="1290" height="2796" loading="lazy">
+                <img class="obd-secondary-screen" src="/images/projects/obd-diagnostics.jpg" alt="{{ 'showcase.obd.diagnostics'|trans }}" width="1290" height="2796" loading="lazy">
+            </div>
+        </section>
+        <section class="professional-experience" id="experience">
+            <div class="profile-section-title"><h2>{{ 'resume_page.experience_title'|trans }}</h2></div>
+            <div class="experience-list">{% include 'portfolio/_professional_experience.html.twig' %}</div>
+        </section>
+<section class="about-story-section" id="story">
             <div class="profile-section-title">
                 <span>{{ 'about.story.eyebrow'|trans }}</span>
                 <h2>{{ 'about.story.title'|trans }}</h2>
@@ -82,7 +105,7 @@
             <div class="profile-project-grid">
                 <article class="profile-project-card">
                     <a href="https://ileza.pl/" target="_blank" rel="noopener" class="profile-project-image-link">
-                        <img src="/images/projects/ileza-home.jpg" alt="{{ 'about.ecosystem.ileza.image_alt'|trans }}" loading="lazy" width="1280" height="720">
+                        <img src="/images/projects/ileza-current.png" alt="{{ 'about.ecosystem.ileza.image_alt'|trans }}" loading="lazy" width="1280" height="720">
                     </a>
                     <div class="profile-project-content">
                         <div class="profile-project-meta"><span>IleZa.pl</span><span>{{ 'about.ecosystem.ileza.label'|trans }}</span></div>
@@ -93,7 +116,7 @@
                 </article>
                 <article class="profile-project-card">
                     <a href="https://stackhal.com/" target="_blank" rel="noopener" class="profile-project-image-link">
-                        <img src="/images/projects/stackhal-home.jpg" alt="{{ 'about.ecosystem.stackhal.image_alt'|trans }}" loading="lazy" width="1280" height="720">
+                        <img src="/images/projects/stackhal-current.png" alt="{{ 'about.ecosystem.stackhal.image_alt'|trans }}" loading="lazy" width="1280" height="720">
                     </a>
                     <div class="profile-project-content">
                         <div class="profile-project-meta"><span>StackHal</span><span>{{ 'about.ecosystem.stackhal.label'|trans }}</span></div>
@@ -156,5 +179,5 @@
                 <a href="https://www.upwork.com/freelancers/~014111a2d384da6af9" rel="me">Upwork</a>
             </nav>
         </section>
-    </article>
+    </article></div>
 {% endblock %}
