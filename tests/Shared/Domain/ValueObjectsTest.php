@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Shared\Domain;
 
 use App\Shared\Domain\Grosz;
-use App\Shared\Domain\HashedIp;
-use App\Shared\Domain\SafeUrl;
 use PHPUnit\Framework\TestCase;
 
 final class ValueObjectsTest extends TestCase
@@ -35,37 +33,5 @@ final class ValueObjectsTest extends TestCase
         self::assertFalse($g1->isZero());
         self::assertTrue(Grosz::fromGrosz(0)->isZero());
         self::assertTrue($g1->equals(Grosz::fromZloty(1500.00)));
-    }
-
-    public function testHashedIpDeterminismAndSecurity(): void
-    {
-        $secret = 'test-secret-key-123';
-        $ip1 = new HashedIp('192.168.1.1', $secret);
-        $ip2 = new HashedIp('192.168.1.1', $secret);
-        $ip3 = new HashedIp('10.0.0.1', $secret);
-
-        self::assertSame($ip1->toString(), $ip2->toString());
-        self::assertNotSame($ip1->toString(), $ip3->toString());
-        self::assertTrue($ip1->equals($ip2));
-        self::assertFalse($ip1->equals($ip3));
-        self::assertStringNotContainsString('192.168.1.1', $ip1->toString());
-    }
-
-    public function testSafeUrlNormalizationAndStripping(): void
-    {
-        $url1 = new SafeUrl('example.com/page?query=secret#fragment');
-        self::assertSame('https://example.com/page', $url1->toString());
-        self::assertSame('example.com', $url1->getHost());
-        self::assertSame('https', $url1->getScheme());
-
-        $url2 = new SafeUrl('http://sub.domain.org:8080/path/to/resource?ref=track');
-        self::assertSame('http://sub.domain.org:8080/path/to/resource', $url2->toString());
-        self::assertSame('sub.domain.org', $url2->getHost());
-    }
-
-    public function testSafeUrlRejectsEmptyString(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        new SafeUrl('   ');
     }
 }

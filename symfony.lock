@@ -74,42 +74,6 @@
     "squizlabs/php_codesniffer": {
         "version": "3.13.6"
     },
-    "symfony/ai-anthropic-platform": {
-        "version": "0.12",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "0.1",
-            "ref": "169d966953a6b9aeca111cb7f0ac2da72e050159"
-        },
-        "files": [
-            "config/packages/ai_anthropic_platform.yaml"
-        ]
-    },
-    "symfony/ai-bundle": {
-        "version": "0.12",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "0.1",
-            "ref": "2be6ccd77335c2631fdf12d1680649b072efb8ad"
-        },
-        "files": [
-            "config/packages/ai.yaml"
-        ]
-    },
-    "symfony/ai-gemini-platform": {
-        "version": "0.12",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "0.1",
-            "ref": "a6953d134a46a78354003b4dddf682f03ef886b2"
-        },
-        "files": [
-            "config/packages/ai_gemini_platform.yaml"
-        ]
-    },
     "symfony/console": {
         "version": "8.1",
         "recipe": {
@@ -166,18 +130,6 @@
             "version": "7.3",
             "ref": "56f87409c45ff6654b0bf07c5cc359aebf6016ab"
         }
-    },
-    "symfony/property-info": {
-        "version": "8.1",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "7.3",
-            "ref": "dae70df71978ae9226ae915ffd5fad817f5ca1f7"
-        },
-        "files": [
-            "config/packages/property_info.yaml"
-        ]
     },
     "symfony/routing": {
         "version": "8.1",

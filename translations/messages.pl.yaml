@@ -3,7 +3,6 @@ base:
     home_label: "Strona główna Bahdana Hala"
     brand: "Bahdan Hal"
     brand_short: "Bahdan Hal"
-    by: "Bahdan Hal"
     navigation: "Nawigacja i język"
     footer_role: "Senior Backend & Systems Engineer · Systemy produkcyjne"
     footer_navigation: "Linki zawodowe"
@@ -14,8 +13,6 @@ base:
         about: "O mnie"
         resume: "CV"
         services: "Usługi"
-        projects: "Projekty"
-        contact: "Kontakt"
 
 error404:
     title: "404 - Nie znaleziono strony · Bahdan Hal"
@@ -31,7 +28,6 @@ error404:
     tools_ileza: "Uczciwe ceny IleZa"
 
 contact:
-    email: "Twój e-mail"
     email_optional: "E-mail (opcjonalny, jeśli podasz telefon)"
     phone_optional: "Telefon (opcjonalny, jeśli podasz e-mail)"
     message_optional: "W czym mogę pomóc? (opcjonalnie)"
@@ -42,7 +38,6 @@ contact:
     invalid_origin: "Nieprawidłowe źródło formularza."
     saved: "Dziękuję - wiadomość została zapisana. Wkrótce się odezwę."
     too_many: "Zbyt wiele zapytań z tego połączenia dzisiaj. Skorzystaj z bezpośrednich linków do kontaktu."
-    invalid_email: "Wpisz poprawny adres e-mail."
     invalid_contact: "Wpisz poprawny e-mail albo numer telefonu."
     failed: "Nie udało się teraz zapisać wiadomości. Skorzystaj z bezpośrednich linków do kontaktu."
     saving: "Zapisywanie..."
@@ -72,13 +67,10 @@ about:
     philosophy:
         eyebrow: "Zasady inżynierskie"
         title: "Podejście do tworzenia oprogramowania"
-        item1_number: "01"
         item1_title: "Bez teatru frameworków"
         item1_text: "Technologia ma służyć biznesowi i użytkownikom. Wybieram sprawdzone, wydajne narzędzia na podstawie niezawodności i łatwości utrzymania, unikając niepotrzebnych zależności."
-        item2_number: "02"
         item2_title: "Pełna odpowiedzialność od początku do końca"
         item2_text: "Od schematu bazy danych i logiki domenowej po kontenery Dockera, konfigurację Caddy i nocną diagnostykę produkcji - biorę pełną odpowiedzialność za wdrożenie."
-        item3_number: "03"
         item3_title: "Pragmatyczne wdrożenia AI"
         item3_text: "Sztuczna inteligencja to potężne narzędzie, gdy jest dobrze zintegrowana z procesami firmy (API LLM, serwery MCP, ekstrakcja danych), a nie tylko doklejonym dodatkiem."
     ecosystem:

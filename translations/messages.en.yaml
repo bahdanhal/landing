@@ -3,7 +3,6 @@ base:
     home_label: "Bahdan Hal home"
     brand: "Bahdan Hal"
     brand_short: "Bahdan Hal"
-    by: "by Bahdan Hal"
     navigation: "Navigation and language"
     footer_role: "Senior Backend & Systems Engineer · Production Systems"
     footer_navigation: "Professional links"
@@ -14,8 +13,6 @@ base:
         about: "About"
         resume: "Résumé"
         services: "Services"
-        projects: "Projects"
-        contact: "Contact"
 
 error404:
     title: "404 - Page Not Found · Bahdan Hal"
@@ -31,7 +28,6 @@ error404:
     tools_ileza: "IleZa Fair Prices"
 
 contact:
-    email: "Your email"
     email_optional: "Email (optional if you leave a phone number)"
     phone_optional: "Phone (optional if you leave an email)"
     message_optional: "What can I help with? (optional)"
@@ -42,7 +38,6 @@ contact:
     invalid_origin: "Invalid form origin."
     saved: "Thanks - your contact request is saved. Bahdan will follow up."
     too_many: "Too many contact requests today. Please use a direct contact link instead."
-    invalid_email: "Please enter a valid email address."
     invalid_contact: "Please enter a valid email address or phone number."
     failed: "Could not save your contact request right now. Please use a direct contact link."
     saving: "Saving..."
@@ -72,13 +67,10 @@ about:
     philosophy:
         eyebrow: "Engineering philosophy"
         title: "Engineering philosophy"
-        item1_number: "01"
         item1_title: "No framework theater"
         item1_text: "Technology serves the business and the end user. I choose proven, high-performance tools based on reliability and maintainability, avoiding unnecessary dependencies and trend cycles."
-        item2_number: "02"
         item2_title: "End-to-end ownership"
         item2_text: "From database schema design and business domain models to Docker containerization, reverse proxies, and production monitoring - I take full responsibility for delivery."
-        item3_number: "03"
         item3_title: "Pragmatic AI adoption"
         item3_text: "AI is a powerful accelerator when integrated deeply into business workflows (LLM APIs, MCP servers, smart extraction), not just a cosmetic feature."
     ecosystem:
