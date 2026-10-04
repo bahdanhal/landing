@@ -393,7 +393,7 @@ final class McpControllerDecoratorTest extends TestCase
             'jsonrpc' => '2.0',
             'id' => 7,
             'result' => ['tools' => [
-                ['name' => 'trace_dns_delegation'],
+                ['name' => 'trace_dns_delegation', 'inputSchema' => ['type' => 'object', 'properties' => new \stdClass()]],
                 ['name' => 'delete_admin_blog_article'],
                 ['name' => 'record_price_observation', 'description' => 'Admin-only tool: Record a price.'],
             ]],
@@ -421,6 +421,9 @@ final class McpControllerDecoratorTest extends TestCase
 
         $decorator = new McpControllerDecorator($inner, null, null, '', new AdminAccess($requestStack, 'admin-test-token'));
         $response = $decorator->handle($request);
+
+        // Empty JSON objects must survive the decorator; strict MCP clients reject "properties":[].
+        self::assertStringContainsString('"properties":{}', (string) $response->getContent());
 
         /** @var array{result: array{tools: list<array{name: string}>}} $payload */
         $payload = json_decode((string) $response->getContent(), true, 512, \JSON_THROW_ON_ERROR);

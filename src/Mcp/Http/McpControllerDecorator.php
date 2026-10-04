@@ -113,7 +113,7 @@ final class McpControllerDecorator
 
         try {
             /** @var mixed $items */
-            $items = json_decode($trimmedContent, true, 512, \JSON_THROW_ON_ERROR);
+            $items = json_decode($trimmedContent, false, 512, \JSON_THROW_ON_ERROR);
             if (!is_array($items)) {
                 return $response;
             }
@@ -143,15 +143,21 @@ final class McpControllerDecorator
         }
 
         try {
+            // Decode to objects so empty JSON objects are not re-encoded as arrays.
             /** @var mixed $payload */
-            $payload = json_decode($content, true, 512, \JSON_THROW_ON_ERROR);
-            if (!is_array($payload)) {
+            $payload = json_decode($content, false, 512, \JSON_THROW_ON_ERROR);
+            if ($payload instanceof \stdClass) {
+                $this->removeAdminTools($payload);
+            } elseif (is_array($payload)) {
+                foreach ($payload as $item) {
+                    if ($item instanceof \stdClass) {
+                        $this->removeAdminTools($item);
+                    }
+                }
+            } else {
                 return $response;
             }
 
-            $payload = array_is_list($payload)
-                ? array_map(fn (mixed $item): mixed => is_array($item) ? $this->withoutAdminTools($item) : $item, $payload)
-                : $this->withoutAdminTools($payload);
             $response->setContent(json_encode($payload, \JSON_THROW_ON_ERROR));
         } catch (\JsonException) {
             // Keep original response if JSON parsing fails
@@ -160,30 +166,20 @@ final class McpControllerDecorator
         return $response;
     }
 
-    /**
-     * @param array<mixed> $message
-     * @return array<mixed>
-     */
-    private function withoutAdminTools(array $message): array
+    private function removeAdminTools(\stdClass $message): void
     {
-        if (!isset($message['result']) || !is_array($message['result'])) {
-            return $message;
+        $result = $message->result ?? null;
+        if (!$result instanceof \stdClass || !is_array($result->tools ?? null)) {
+            return;
         }
 
-        $tools = $message['result']['tools'] ?? null;
-        if (!is_array($tools)) {
-            return $message;
-        }
-
-        $message['result']['tools'] = array_values(array_filter(
-            $tools,
-            static fn (mixed $tool): bool => !is_array($tool)
-                || !is_string($tool['name'] ?? null)
-                || !(str_contains($tool['name'], '_admin_')
-                    || str_starts_with((string) ($tool['description'] ?? ''), 'Admin-only')),
+        $result->tools = array_values(array_filter(
+            $result->tools,
+            static fn (mixed $tool): bool => !$tool instanceof \stdClass
+                || !is_string($tool->name ?? null)
+                || !(str_contains($tool->name, '_admin_')
+                    || str_starts_with(is_string($tool->description ?? null) ? $tool->description : '', 'Admin-only')),
         ));
-
-        return $message;
     }
 
     private function isValidJson(string $payload): bool
@@ -272,34 +268,26 @@ final class McpControllerDecorator
 
     /**
      * @param array<mixed> $items
-     * @return array<string, mixed>|null
      */
-    private function extractSingleResponse(array $items, string|int|null $expectedId): ?array
+    private function extractSingleResponse(array $items, string|int|null $expectedId): ?\stdClass
     {
-        if (count($items) === 0) {
-            return null;
-        }
-
         if ($expectedId !== null) {
             foreach ($items as $item) {
-                if (is_array($item) && isset($item['id']) && $item['id'] === $expectedId) {
-                    /** @var array<string, mixed> $item */
+                if ($item instanceof \stdClass && isset($item->id) && $item->id === $expectedId) {
                     return $item;
                 }
             }
         }
 
         foreach ($items as $item) {
-            if (is_array($item) && (isset($item['result']) || isset($item['error']) || isset($item['jsonrpc']))) {
-                /** @var array<string, mixed> $item */
+            if ($item instanceof \stdClass && (isset($item->result) || isset($item->error) || isset($item->jsonrpc))) {
                 return $item;
             }
         }
 
-        $first = reset($items);
+        $first = $items[0] ?? null;
 
-        /** @var array<string, mixed>|null */
-        return is_array($first) ? $first : null;
+        return $first instanceof \stdClass ? $first : null;
     }
 
     private function createFallbackResponse(string|int $id, string $method): Response
