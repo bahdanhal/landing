@@ -2,11 +2,11 @@ mcp:
   servers:
     default:
       name: 'Bahdan Hal Portfolio MCP'
-      version: '1.1.0'
-      description: 'Bahdan Hal consulting portfolio and contact lead submissions, plus Bearer-protected admin analytics.'
+      version: '1.2.0'
+      description: 'Bahdan Hal software engineering consulting: services and pricing, CV and skills, project overview, and contact requests.'
       website_url: 'https://bahdanhal.pl/'
       instructions: |
-        Public tools provide information on Bahdan's engineering expertise and allow submitting consultation requests. Administrative tools require an Authorization: Bearer header and provide lead management and traffic analytics.
+        Public tools need no authentication. They provide information on Bahdan's engineering expertise, services and pricing; submit_contact_lead sends a consultation request and should only be called when the user asks to get in touch.
       transports:
         http: true
         stdio: true

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.bahdanhal/portfolio",
+  "title": "Bahdan Hal",
+  "description": "Bahdan Hal software consulting: services, pricing, CV and skills, and contact requests.",
+  "version": "1.2.0",
+  "websiteUrl": "https://bahdanhal.pl/",
+  "repository": {
+    "url": "https://github.com/bahdanhal/landing",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://bahdanhal.pl/mcp"
+    }
+  ]
+}

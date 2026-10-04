@@ -6,6 +6,7 @@ namespace App\Mcp\Http;
 
 use App\Analytics\Domain\AiInteraction;
 use App\Analytics\Domain\AiInteractionRepository;
+use App\Mcp\AdminAccess;
 use Mcp\Server\Session\SessionStoreInterface;
 use Symfony\AI\McpBundle\Controller\McpController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +17,7 @@ use Symfony\Component\Uid\Uuid;
  * Decorates the Symfony MCP controller to ensure single JSON-RPC requests
  * return a single JSON-RPC response object instead of a JSON array batch response wrapper,
  * while maintaining active MCP session resilience across server restarts.
+ * Administrative tools are listed only to requests carrying the admin bearer token.
  */
 final class McpControllerDecorator
 {
@@ -29,6 +31,7 @@ final class McpControllerDecorator
         private readonly ?SessionStoreInterface $sessionStore = null,
         private readonly ?AiInteractionRepository $aiTelemetry = null,
         private readonly string $secret = '',
+        private readonly ?AdminAccess $adminAccess = null,
     ) {
     }
 
@@ -42,7 +45,7 @@ final class McpControllerDecorator
 
         $sessionLock = $this->acquireSessionLock($sessionIdHeader);
         try {
-            return $this->handleLocked($request, $sessionIdHeader);
+            return $this->hideAdminTools($this->handleLocked($request, $sessionIdHeader));
         } finally {
             $this->releaseSessionLock($sessionLock);
         }
@@ -126,6 +129,61 @@ final class McpControllerDecorator
         }
 
         return $response;
+    }
+
+    private function hideAdminTools(Response $response): Response
+    {
+        if ($this->adminAccess === null || $this->adminAccess->isGranted() || !$this->isJsonResponse($response)) {
+            return $response;
+        }
+
+        $content = $response->getContent();
+        if ($content === false || !str_contains($content, '"tools"')) {
+            return $response;
+        }
+
+        try {
+            /** @var mixed $payload */
+            $payload = json_decode($content, true, 512, \JSON_THROW_ON_ERROR);
+            if (!is_array($payload)) {
+                return $response;
+            }
+
+            $payload = array_is_list($payload)
+                ? array_map(fn (mixed $item): mixed => is_array($item) ? $this->withoutAdminTools($item) : $item, $payload)
+                : $this->withoutAdminTools($payload);
+            $response->setContent(json_encode($payload, \JSON_THROW_ON_ERROR));
+        } catch (\JsonException) {
+            // Keep original response if JSON parsing fails
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param array<mixed> $message
+     * @return array<mixed>
+     */
+    private function withoutAdminTools(array $message): array
+    {
+        if (!isset($message['result']) || !is_array($message['result'])) {
+            return $message;
+        }
+
+        $tools = $message['result']['tools'] ?? null;
+        if (!is_array($tools)) {
+            return $message;
+        }
+
+        $message['result']['tools'] = array_values(array_filter(
+            $tools,
+            static fn (mixed $tool): bool => !is_array($tool)
+                || !is_string($tool['name'] ?? null)
+                || !(str_contains($tool['name'], '_admin_')
+                    || str_starts_with((string) ($tool['description'] ?? ''), 'Admin-only')),
+        ));
+
+        return $message;
     }
 
     private function isValidJson(string $payload): bool

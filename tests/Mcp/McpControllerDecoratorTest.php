@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Mcp;
 
+use App\Mcp\AdminAccess;
 use App\Mcp\Http\McpControllerDecorator;
 use Mcp\Server;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -14,6 +15,7 @@ use Symfony\AI\McpBundle\Http\MiddlewareFactory;
 use Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface;
 use Symfony\Bridge\PsrHttpMessage\HttpMessageFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 
 final class McpControllerDecoratorTest extends TestCase
@@ -348,5 +350,81 @@ final class McpControllerDecoratorTest extends TestCase
             'params' => ['name' => 'list_admin_contact_leads'],
         ]);
         $decorator->handle(Request::create('/mcp', 'POST', [], [], [], [], $payload2));
+    }
+
+    public function testHidesAdminToolsFromAnonymousToolsList(): void
+    {
+        $names = $this->listedToolNames(null);
+
+        self::assertSame(['trace_dns_delegation'], $names);
+    }
+
+    public function testHidesAdminToolsWhenBearerTokenIsWrong(): void
+    {
+        $names = $this->listedToolNames('Bearer wrong-token');
+
+        self::assertSame(['trace_dns_delegation'], $names);
+    }
+
+    public function testListsAdminToolsForAdminBearerToken(): void
+    {
+        $names = $this->listedToolNames('Bearer admin-test-token');
+
+        self::assertSame(['trace_dns_delegation', 'delete_admin_blog_article', 'record_price_observation'], $names);
+    }
+
+    /** @return list<string> */
+    private function listedToolNames(?string $authorization): array
+    {
+        $server = Server::builder()->setServerInfo('test', '1.0.0')->build();
+        $psr17Factory = new Psr17Factory();
+        $httpMessageFactory = $this->createStub(HttpMessageFactoryInterface::class);
+        $httpFoundationFactory = $this->createStub(HttpFoundationFactoryInterface::class);
+
+        $psrRequest = $this->createStub(ServerRequestInterface::class);
+        $psrRequest->method('getHeader')->willReturnCallback(
+            static fn (string $name): array => $name === 'Host' ? ['localhost'] : []
+        );
+        $psrRequest->method('getMethod')->willReturn('POST');
+        $psrRequest->method('getBody')->willReturn($psr17Factory->createStream(''));
+        $httpMessageFactory->method('createRequest')->willReturn($psrRequest);
+
+        $httpFoundationFactory->method('createResponse')->willReturn(new Response((string) json_encode([
+            'jsonrpc' => '2.0',
+            'id' => 7,
+            'result' => ['tools' => [
+                ['name' => 'trace_dns_delegation'],
+                ['name' => 'delete_admin_blog_article'],
+                ['name' => 'record_price_observation', 'description' => 'Admin-only tool: Record a price.'],
+            ]],
+        ]), 200, ['Content-Type' => 'application/json']));
+
+        $inner = new McpController(
+            $server,
+            $httpMessageFactory,
+            $httpFoundationFactory,
+            $psr17Factory,
+            $psr17Factory,
+            new MiddlewareFactory([])
+        );
+
+        $request = Request::create('/mcp', 'POST', [], [], [], [], (string) json_encode([
+            'jsonrpc' => '2.0',
+            'id' => 7,
+            'method' => 'tools/list',
+        ]));
+        if ($authorization !== null) {
+            $request->headers->set('Authorization', $authorization);
+        }
+        $requestStack = new RequestStack();
+        $requestStack->push($request);
+
+        $decorator = new McpControllerDecorator($inner, null, null, '', new AdminAccess($requestStack, 'admin-test-token'));
+        $response = $decorator->handle($request);
+
+        /** @var array{result: array{tools: list<array{name: string}>}} $payload */
+        $payload = json_decode((string) $response->getContent(), true, 512, \JSON_THROW_ON_ERROR);
+
+        return array_column($payload['result']['tools'], 'name');
     }
 }

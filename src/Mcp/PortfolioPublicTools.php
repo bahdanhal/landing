@@ -6,6 +6,7 @@ namespace App\Mcp;
 
 use App\Lead\Application\CaptureLead;
 use Mcp\Capability\Attribute\McpTool;
+use Mcp\Schema\ToolAnnotations;
 use Mcp\Capability\Attribute\Schema;
 
 final readonly class PortfolioPublicTools
@@ -17,7 +18,9 @@ final readonly class PortfolioPublicTools
 
     #[McpTool(
         name: 'get_portfolio_overview',
-        description: "Get an overview of Bahdan Hal's software engineering consulting services, technical stack, and ecosystem projects."
+        title: 'Portfolio Overview',
+        description: "Get an overview of Bahdan Hal's software engineering consulting services, technical stack, and ecosystem projects.",
+        annotations: new ToolAnnotations(readOnlyHint: true, openWorldHint: false),
     )]
     public function overview(): string
     {
@@ -67,8 +70,10 @@ final readonly class PortfolioPublicTools
 
     #[McpTool(
         name: 'get_services_and_pricing',
+        title: 'Services and Pricing',
         // phpcs:ignore Generic.Files.LineLength
-        description: "Get Bahdan Hal's commercial engineering services catalog with transparent hourly pricing and engagement terms."
+        description: "Get Bahdan Hal's commercial engineering services catalog with transparent hourly pricing and engagement terms.",
+        annotations: new ToolAnnotations(readOnlyHint: true, openWorldHint: false),
     )]
     public function servicesAndPricing(): string
     {
@@ -179,8 +184,10 @@ final readonly class PortfolioPublicTools
 
     #[McpTool(
         name: 'get_cv_and_skills',
+        title: 'CV and Skills',
         // phpcs:ignore Generic.Files.LineLength
-        description: "Get Bahdan Hal's full curriculum vitae (CV), including professional experience, technical skill stack, education, and language proficiencies."
+        description: "Get Bahdan Hal's full curriculum vitae (CV), including professional experience, technical skill stack, education, and language proficiencies.",
+        annotations: new ToolAnnotations(readOnlyHint: true, openWorldHint: false),
     )]
     public function cvAndSkills(): string
     {
@@ -310,7 +317,9 @@ final readonly class PortfolioPublicTools
 
     #[McpTool(
         name: 'submit_contact_lead',
-        description: 'Submit an engineering consultation request or business inquiry directly to Bahdan.'
+        title: 'Submit Contact Request',
+        description: 'Submit an engineering consultation request or business inquiry directly to Bahdan.',
+        annotations: new ToolAnnotations(readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false),
     )]
     public function submitLead(
         #[Schema(description: 'Your email address for receiving a reply.')] string $email = '',

@@ -115,6 +115,7 @@ services:
       $sessionStore: '@mcp.server.default.session.store'
       $aiTelemetry: '@App\Analytics\Domain\AiInteractionRepository'
       $secret: '%env(APP_SECRET)%'
+      $adminAccess: '@App\Mcp\AdminAccess'
     public: true
     tags:
       - { name: controller.service_arguments }

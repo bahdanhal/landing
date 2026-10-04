@@ -9,6 +9,7 @@ use App\Analytics\Domain\AiInteractionRepository;
 use App\Lead\Domain\LeadRepository;
 use Bahdan\LeadCaptureBundle\Domain\Lead;
 use Mcp\Capability\Attribute\McpTool;
+use Mcp\Schema\ToolAnnotations;
 use Mcp\Capability\Attribute\Schema;
 
 final readonly class AdminTools
@@ -23,8 +24,10 @@ final readonly class AdminTools
 
     #[McpTool(
         name: 'get_admin_dashboard_statistics',
+        title: 'Admin: Dashboard Statistics',
         // phpcs:ignore Generic.Files.LineLength
-        description: 'Admin-only: Get privacy-preserving traffic and submission statistics. Requires an Authorization: Bearer header.'
+        description: 'Admin-only: Get privacy-preserving traffic and submission statistics. Requires an Authorization: Bearer header.',
+        annotations: new ToolAnnotations(readOnlyHint: true, openWorldHint: false),
     )]
     public function statistics(): string
     {
@@ -60,8 +63,10 @@ final readonly class AdminTools
 
     #[McpTool(
         name: 'list_admin_contact_leads',
+        title: 'Admin: Contact Leads',
         // phpcs:ignore Generic.Files.LineLength
-        description: 'Admin-only: List recent private consultation requests, including contact details and messages. Requires an Authorization: Bearer header.'
+        description: 'Admin-only: List recent private consultation requests, including contact details and messages. Requires an Authorization: Bearer header.',
+        annotations: new ToolAnnotations(readOnlyHint: true, openWorldHint: false),
     )]
     public function contactLeads(
         #[Schema(description: 'Maximum records to return, from 1 to 100.')] int $limit = 50,
