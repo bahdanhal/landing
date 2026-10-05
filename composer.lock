@@ -771,16 +771,16 @@
         },
         {
             "name": "bahdan/symfony-safe-http-client",
-            "version": "v1.1.1",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bahdanhal/symfony-safe-http-client.git",
-                "reference": "9a740be25d78cd2d2340adfb434a1115e0f747e8"
+                "reference": "9ff470f7fbd932515ed09c682a619e7e7e992ae3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bahdanhal/symfony-safe-http-client/zipball/9a740be25d78cd2d2340adfb434a1115e0f747e8",
-                "reference": "9a740be25d78cd2d2340adfb434a1115e0f747e8",
+                "url": "https://api.github.com/repos/bahdanhal/symfony-safe-http-client/zipball/9ff470f7fbd932515ed09c682a619e7e7e992ae3",
+                "reference": "9ff470f7fbd932515ed09c682a619e7e7e992ae3",
                 "shasum": ""
             },
             "require": {
@@ -810,9 +810,9 @@
             "description": "SSRF-protected HTTP Client wrapper for Symfony HttpClient with DNS resolution pinning and subnet validation",
             "support": {
                 "issues": "https://github.com/bahdanhal/symfony-safe-http-client/issues",
-                "source": "https://github.com/bahdanhal/symfony-safe-http-client/tree/v1.1.1"
+                "source": "https://github.com/bahdanhal/symfony-safe-http-client/tree/v1.1.2"
             },
-            "time": "2026-08-25T21:25:13+00:00"
+            "time": "2026-10-05T07:21:13+00:00"
         },
         {
             "name": "daverandom/libdns",
