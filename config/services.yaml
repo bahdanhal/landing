@@ -18,12 +18,6 @@ services:
     resource: '../src/'
     exclude: '../src/{DependencyInjection,Entity,Kernel.php}'
 
-  Bahdan\SafeHttpClient\UrlGuard:
-    alias: App\Shared\Infrastructure\Http\UrlGuard
-
-  Bahdan\SafeHttpClient\SafeHttpFetcher:
-    alias: App\Shared\Infrastructure\Http\SafeHttpFetcher
-
   App\Lead\Domain\LeadRepository:
     alias: App\Lead\Infrastructure\DoctrineLeadRepository
 
