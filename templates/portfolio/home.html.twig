@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body_class %}portfolio-page about-page showcase-page{% endblock %}
 {% block body_attributes %}data-concept="showcase"{% endblock %}
-{% block final_stylesheets %}<link rel="stylesheet" href="/showcase.css?v=2"><script src="/showcase.js?v=1" defer></script>{% endblock %}
+{% block final_stylesheets %}<link rel="stylesheet" href="/showcase.css?v=3"><script src="/showcase.js?v=1" defer></script>{% endblock %}
 {% block title %}{{ 'about.meta.title'|trans }}{% endblock %}
 {% block robots %}<meta name="robots" content="index,follow">{% endblock %}
 {% block description %}<meta name="description" content="{{ 'about.meta.description'|trans }}">{% endblock %}
@@ -45,6 +45,32 @@
             <span>{{ 'about.experience_years'|trans }}</span>
         </section>
 
+        <section class="ai-dump" id="ai-notes">
+            <details>
+                <summary>
+                    <span class="ai-dump-heading"><span class="eyebrow">{{ 'about.ai_dump.label'|trans }}</span><strong>{{ 'about.ai_dump.title'|trans }}</strong></span>
+                </summary>
+                <div class="ai-dump-body">
+                    <p class="ai-dump-intro">{{ 'about.ai_dump.intro'|trans }}</p>
+                    <h3>{{ 'about.ai_dump.activity_title'|trans }}</h3>
+                    <dl>
+                        {% for i in 1..3 %}
+                            <dt>{{ ('about.ai_dump.activity.' ~ i ~ '_title')|trans }}</dt>
+                            <dd>{{ ('about.ai_dump.activity.' ~ i ~ '_text')|trans }}</dd>
+                        {% endfor %}
+                    </dl>
+                    {% for group, item_count in {ideas: 5, approach: 7} %}
+                        <h3>{{ ('about.ai_dump.' ~ group ~ '_title')|trans }}</h3>
+                        <ul>
+                            {% for i in 1..item_count %}
+                                <li><strong>{{ ('about.ai_dump.' ~ group ~ '.' ~ i ~ '_title')|trans }}</strong> {{ ('about.ai_dump.' ~ group ~ '.' ~ i ~ '_text')|trans }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </div>
+            </details>
+        </section>
+
         <section class="obd-feature" id="obd">
             <div class="obd-copy">
                 <span class="eyebrow">OBD Vault</span>
@@ -72,27 +98,6 @@
             <div class="about-story-content">
                 <p class="story-lead">{{ 'about.story.p1'|trans }}</p>
                 <p>{{ 'about.story.p2'|trans }}</p>
-            </div>
-        </section>
-
-        <section class="about-principles-section" id="principles">
-            <div class="profile-section-title">
-                <span>{{ 'about.philosophy.eyebrow'|trans }}</span>
-                <h2>{{ 'about.philosophy.title'|trans }}</h2>
-            </div>
-            <div class="profile-grid">
-                <div>
-                    <h3>{{ 'about.philosophy.item1_title'|trans }}</h3>
-                    <p>{{ 'about.philosophy.item1_text'|trans }}</p>
-                </div>
-                <div>
-                    <h3>{{ 'about.philosophy.item2_title'|trans }}</h3>
-                    <p>{{ 'about.philosophy.item2_text'|trans }}</p>
-                </div>
-                <div>
-                    <h3>{{ 'about.philosophy.item3_title'|trans }}</h3>
-                    <p>{{ 'about.philosophy.item3_text'|trans }}</p>
-                </div>
             </div>
         </section>
 
