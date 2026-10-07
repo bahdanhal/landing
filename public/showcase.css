@@ -19,3 +19,53 @@ body[data-concept=showcase] .profile-hero{grid-template-columns:290px 1fr;gap:30
 /* Distinct silhouettes and circular details, with readable content boundaries. */
 body[data-concept=showcase] .profile-hero{border-radius:44px 44px 44px 10px;position:relative;overflow:hidden;padding:30px}body[data-concept=showcase] .profile-hero:after{content:'';position:absolute;width:130px;height:130px;border:1px solid #ffffff12;border-radius:50%;right:-65px;top:-65px;box-shadow:0 0 0 22px #ffffff03,0 0 0 44px #ffffff02;pointer-events:none}body[data-concept=showcase] .profile-facts{border-radius:50px;padding:19px 28px;background:linear-gradient(100deg,#ffffff07,#ffffff02);border-color:#ffffff1b}body[data-concept=showcase] .obd-feature{border-radius:14px 55px 14px 55px;overflow:hidden;padding:28px 36px;border-color:#ffffff20;background:linear-gradient(115deg,#ffffff07,#ffffff02)}body[data-concept=showcase] .obd-feature:before{content:'';position:absolute;right:105px;top:-38px;width:160px;height:160px;border-radius:50%;border:1px dashed #ff795c42;pointer-events:none}body[data-concept=showcase] .obd-feature:after{content:'';position:absolute;right:-30px;bottom:-50px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle at center,#ff795c0c 0 34%,transparent 35% 49%,#ff795c15 50% 51%,transparent 52%);pointer-events:none}body[data-concept=showcase] .experience-list{position:relative;padding-left:25px}body[data-concept=showcase] .experience-list:before{content:'';position:absolute;left:5px;top:23px;bottom:25px;width:1px;background:linear-gradient(#ff795c,#8153d6,#ffffff12)}body[data-concept=showcase] .timeline-item{border-radius:4px 28px 28px 28px;position:relative;margin-bottom:18px}body[data-concept=showcase] .timeline-item:before{content:'';position:absolute;left:-26px;top:25px;width:11px;height:11px;background:#0b0b0c;border:2px solid #ff795c;border-radius:50%;box-shadow:0 0 0 5px #0b0b0c}body[data-concept=showcase] .timeline-item:nth-child(even){border-radius:28px 28px 4px 28px}body[data-concept=showcase] .profile-project-card{border-radius:35px 35px 8px 35px}body[data-concept=showcase] .profile-project-card:nth-child(2){border-radius:35px 35px 35px 8px}body[data-concept=showcase] .profile-project-image-link{padding:18px;border-radius:0 0 35px 35px;position:relative}body[data-concept=showcase] .profile-project-image-link:after{content:'↗';position:absolute;bottom:8px;right:16px;width:42px;height:42px;display:grid;place-items:center;background:#ff5a36;color:white;border:5px solid #19191c;border-radius:50%;font-size:18px}body[data-concept=showcase] .profile-grid>div{background:#ffffff03;border:1px solid #ffffff12;border-radius:25px;padding:18px 22px;margin-bottom:12px}body[data-concept=showcase] .profile-grid summary:after{width:28px;height:28px;display:grid;place-items:center;border:1px solid #ffffff25;border-radius:50%;flex-shrink:0}body[data-concept=showcase] .gateway-card{border:1px solid #ffffff20;border-radius:35px 6px 35px 35px;padding:26px;background:#ffffff03}body[data-concept=showcase] .gateway-card-highlight{border-radius:6px 35px 35px 35px;border-color:#ff795c45;background:#ff795c05}body[data-concept=showcase] .lead-form{border-radius:30px 30px 6px 30px;padding:28px}body[data-concept=showcase] .profile-summit-feature{border-radius:70px 10px 70px 10px}body[data-concept=showcase] .profile-actions .profile-primary{position:relative;padding-right:33px}body[data-concept=showcase] .profile-actions .profile-primary:after{content:'↗';position:absolute;right:6px;top:50%;transform:translateY(-50%);width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#151518;color:white;font-size:12px}body[data-concept=showcase] .timeline-item:hover{border-color:#ff795c60;background:#ffffff05;transition:background .25s,border-color .25s}@media(max-width:700px){body[data-concept=showcase] .profile-hero{border-radius:30px 30px 30px 6px;padding:22px}body[data-concept=showcase] .profile-facts{border-radius:25px;padding:18px}body[data-concept=showcase] .obd-feature{border-radius:10px 38px 10px 38px;padding:24px}body[data-concept=showcase] .experience-list{padding-left:20px}body[data-concept=showcase] .experience-list:before{left:0}body[data-concept=showcase] .timeline-item:before{left:-26px}body[data-concept=showcase] .profile-summit-feature{border-radius:40px 8px 40px 8px}}
 body[data-concept=showcase] .profile-shell{padding:0}body[data-concept=showcase] .profile-hero-content h1 span{display:inline}body[data-concept=showcase] .profile-hero-media:before{content:none}body[data-concept=showcase] .profile-facts span{border:0;padding:0}
+
+/* Legibility floor and touch targets, all widths */
+body[data-concept=showcase] .primary-nav a,body[data-concept=showcase] .language-switch{display:inline-flex;align-items:center;justify-content:center;min-height:44px}
+body[data-concept=showcase] .language-switch{min-width:44px}
+body[data-concept=showcase] .obd-switch button{min-height:44px;font-size:13px}
+body[data-concept=showcase] .profile-project-link,body[data-concept=showcase] .gateway-cta{display:inline-flex;align-items:center;min-height:44px}
+body[data-concept=showcase] .profile-actions a{display:inline-flex;align-items:center;min-height:44px;font-size:13px}
+body[data-concept=showcase] .eyebrow,body[data-concept=showcase] .profile-hero .eyebrow,body[data-concept=showcase] .profile-section-title>span,body[data-concept=showcase] .brand-credit{font-size:12px}
+body[data-concept=showcase] .obd-copy .eyebrow{font-size:14px}
+body[data-concept=showcase] .lead-row-submit{align-items:center;justify-content:space-between;gap:16px;margin:14px 0 0}
+body[data-concept=showcase] .lead-row-submit small{flex:1 1 240px;font-size:12px;line-height:1.5}
+body[data-concept=showcase] .lead-row-submit button{min-height:44px;padding:0 24px;font-size:14px}
+body[data-concept=showcase] .lead-row-contact input{flex:1 1 200px;min-height:44px}
+body[data-concept=showcase] .site-footer a{font-size:13px}
+body[data-concept=showcase] .site-footer .copyright{font-size:12px}
+/* Desktop type scale */
+@media(min-width:1001px){
+body[data-concept=showcase]{font-size:16px}
+body[data-concept=showcase] .workspace{max-width:1280px}
+body[data-concept=showcase] .primary-nav a{font-size:14px}
+body[data-concept=showcase] .language-switch{font-size:13px}
+body[data-concept=showcase] .profile-hero{gap:48px;padding:40px}
+body[data-concept=showcase] .profile-hero h1{max-width:760px;font-size:44px;line-height:1.12}
+body[data-concept=showcase] .profile-intro p{font-size:17px;line-height:1.65}
+body[data-concept=showcase] .profile-actions a{font-size:14px}
+body[data-concept=showcase] .eyebrow,body[data-concept=showcase] .profile-hero .eyebrow,body[data-concept=showcase] .profile-section-title>span{font-size:13px}
+body[data-concept=showcase] .obd-copy .eyebrow{font-size:16px}
+body[data-concept=showcase] .timeline-item{grid-template-columns:200px minmax(0,1fr)}
+body[data-concept=showcase] .profile-facts span{font-size:14px}
+body[data-concept=showcase] .obd-copy h2{max-width:680px;font-size:22px;line-height:1.4}
+body[data-concept=showcase] .obd-copy p{max-width:640px;font-size:16px;line-height:1.65}
+body[data-concept=showcase] .profile-section-title h2{font-size:32px}
+body[data-concept=showcase] .profile-section-title p{max-width:700px;font-size:16px;line-height:1.6}
+body[data-concept=showcase] .timeline-period,body[data-concept=showcase] .timeline-location{font-size:14px}
+body[data-concept=showcase] .timeline-heading h3{font-size:15px}
+body[data-concept=showcase] .timeline-company{font-size:22px}
+body[data-concept=showcase] .timeline-bullets li{font-size:16px;line-height:1.65}
+body[data-concept=showcase] .about-story-content p,body[data-concept=showcase] .profile-grid p,body[data-concept=showcase] .gateway-card p,body[data-concept=showcase] .profile-project-card p{font-size:16px;line-height:1.65}
+body[data-concept=showcase] .about-story-content p.story-lead{font-size:17px}
+body[data-concept=showcase] .profile-grid h3,body[data-concept=showcase] .gateway-card h3{font-size:19px}
+body[data-concept=showcase] .profile-project-meta{font-size:13px}
+body[data-concept=showcase] .profile-project-card h3{font-size:22px}
+body[data-concept=showcase] .profile-project-link,body[data-concept=showcase] .gateway-cta{font-size:15px}
+body[data-concept=showcase] .profile-summit-feature h3{max-width:340px;font-size:28px}
+body[data-concept=showcase] .profile-consultation h2{font-size:30px;line-height:1.2}
+body[data-concept=showcase] .profile-contact h2{font-size:26px}
+body[data-concept=showcase] .lead-form label{font-size:14px}
+body[data-concept=showcase] .lead-form input,body[data-concept=showcase] .lead-form textarea{font-size:16px}
+body[data-concept=showcase] .profile-contact nav a{display:inline-flex;align-items:center;min-height:44px;font-size:14px}
+}

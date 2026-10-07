@@ -75,6 +75,51 @@ body.portfolio-site {
   color: var(--orange);
 }
 
+.portfolio-site .topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.portfolio-site .primary-nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.portfolio-site .primary-nav a,
+.portfolio-site .language-switch {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.portfolio-site .primary-nav a.active {
+  color: var(--ink);
+}
+
+.portfolio-site .services-actions .profile-primary {
+  background: #20231f;
+  color: #f8f5ed;
+}
+
+.portfolio-site .services-actions .profile-primary:hover {
+  background: #326052;
+}
+
+.portfolio-site .services-actions .profile-secondary {
+  border: 1px solid #20231f;
+  color: #20231f;
+}
+
+.portfolio-site .services-actions .profile-secondary:hover {
+  background: #20231f;
+  color: #f8f5ed;
+}
+
 .portfolio-site .profile-shell {
   max-width: 1180px;
   padding-top: 34px;
@@ -451,6 +496,7 @@ body.portfolio-site {
 
   .portfolio-site .primary-nav a,
   .portfolio-site .language-switch {
+    font-size: 12px;
     white-space: nowrap;
   }
 

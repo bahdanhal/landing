@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body_class %}portfolio-page about-page showcase-page{% endblock %}
 {% block body_attributes %}data-concept="showcase"{% endblock %}
-{% block final_stylesheets %}<link rel="stylesheet" href="/showcase.css?v=1"><script src="/showcase.js?v=1" defer></script>{% endblock %}
+{% block final_stylesheets %}<link rel="stylesheet" href="/showcase.css?v=2"><script src="/showcase.js?v=1" defer></script>{% endblock %}
 {% block title %}{{ 'about.meta.title'|trans }}{% endblock %}
 {% block robots %}<meta name="robots" content="index,follow">{% endblock %}
 {% block description %}<meta name="description" content="{{ 'about.meta.description'|trans }}">{% endblock %}
@@ -64,7 +64,7 @@
             <div class="profile-section-title"><h2>{{ 'resume_page.experience_title'|trans }}</h2></div>
             <div class="experience-list">{% include 'portfolio/_professional_experience.html.twig' %}</div>
         </section>
-<section class="about-story-section" id="story">
+        <section class="about-story-section" id="story">
             <div class="profile-section-title">
                 <span>{{ 'about.story.eyebrow'|trans }}</span>
                 <h2>{{ 'about.story.title'|trans }}</h2>
@@ -160,7 +160,6 @@
             <div>
                 <span class="eyebrow">{{ 'about.contact_eyebrow'|trans }}</span>
                 <h2>{{ 'about.contact_heading'|trans }}</h2>
-                <p>{{ 'contact.note'|trans }}</p>
             </div>
             {% include 'portfolio/_contact_form.html.twig' with {source: 'landing_about'} %}
         </section>
