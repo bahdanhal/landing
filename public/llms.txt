@@ -47,7 +47,7 @@
   - `get_portfolio_overview`: Overview of services, projects, rates, and tools.
   - `get_services_and_pricing`: Detailed catalog of all 6 services with deliverables and the standard hourly rate (€35/hour).
   - `get_cv_and_skills`: Complete CV, employment history (Web24, Freedom Mobile, GWO, Consulting), skills taxonomy, and languages.
-  - `submit_contact_lead`: Direct consultation inquiry and contact lead submission.
+  - `send_message`: Direct consultation inquiry, project proposal, or message submission.
 
 ## Full Documentation
 

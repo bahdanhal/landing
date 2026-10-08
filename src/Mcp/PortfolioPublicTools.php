@@ -59,7 +59,7 @@ final readonly class PortfolioPublicTools
                 'get_portfolio_overview' => 'High-level overview of Bahdan Hal and ecosystem projects',
                 'get_services_and_pricing' => 'Commercial services catalog, standard rate (€35/hour), and contract terms',
                 'get_cv_and_skills' => 'Complete CV, employment history, technical skill breakdown, and languages',
-                'submit_contact_lead' => 'Submit direct engineering consultation requests or inquiries',
+                'send_message' => 'Send direct engineering consultation requests, project inquiries, or messages to Bahdan',
             ],
             'contact' => [
                 'website' => 'https://bahdanhal.pl',
@@ -176,7 +176,7 @@ final readonly class PortfolioPublicTools
             ],
             'contact' => [
                 'website_contact_form' => 'https://bahdanhal.pl/#contact',
-                'submit_lead_mcp_tool' => 'submit_contact_lead',
+                'send_message_mcp_tool' => 'send_message',
                 'email' => 'bahdan.hal@hotmail.com',
             ],
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
@@ -319,18 +319,18 @@ final readonly class PortfolioPublicTools
             'contact' => [
                 'website' => 'https://bahdanhal.pl/resume',
                 'pdf_resume' => 'https://bahdanhal.pl/resume.pdf',
-                'submit_lead_tool' => 'submit_contact_lead',
+                'send_message_tool' => 'send_message',
             ],
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
     }
 
     #[McpTool(
-        name: 'submit_contact_lead',
-        title: 'Submit Contact Request',
-        description: 'Submit an engineering consultation request or business inquiry directly to Bahdan.',
+        name: 'send_message',
+        title: 'Send Message',
+        description: 'Send an engineering consultation request, project inquiry, or direct message to Bahdan.',
         annotations: new ToolAnnotations(readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false),
     )]
-    public function submitLead(
+    public function sendMessage(
         #[Schema(description: 'Your email address for receiving a reply.')] string $email = '',
         #[Schema(description: 'Optional phone number (international format).')] string $phone = '',
         #[Schema(description: 'Detailed inquiry message describing your project or requirements.')] string $message = '',

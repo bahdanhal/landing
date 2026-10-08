@@ -158,7 +158,7 @@ Bahdan Hal's portfolio provides a public, unauthenticated Model Context Protocol
   1. `get_portfolio_overview`: Returns a high-level summary of skills, projects, and pricing.
   2. `get_services_and_pricing`: Returns complete commercial service catalog, standard rate (€35/hour), and terms.
   3. `get_cv_and_skills`: Returns complete structured CV, employment history, skills breakdown, and languages.
-  4. `submit_contact_lead`: Ingests an inquiry or consultation request directly into Bahdan's lead inbox.
+  4. `send_message`: Ingests an inquiry, project proposal, or consultation request directly into Bahdan's lead inbox.
 
 ---
 

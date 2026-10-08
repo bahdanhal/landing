@@ -26,6 +26,9 @@ final class PortfolioPublicToolsTest extends TestCase
         self::assertArrayHasKey('pricing', $data);
         self::assertSame('€35/hour', $data['pricing']['standard_contract_rate']);
         self::assertSame('EUR', $data['pricing']['currency']);
+        self::assertArrayHasKey('public_tools', $data);
+        self::assertArrayHasKey('send_message', $data['public_tools']);
+        self::assertArrayNotHasKey('submit_contact_lead', $data['public_tools']);
     }
 
     public function testServicesAndPricingReturnsCatalogWithRates(): void
@@ -43,6 +46,7 @@ final class PortfolioPublicToolsTest extends TestCase
         self::assertSame('EUR', $data['rates']['currency']);
         self::assertNotEmpty($data['services']);
         self::assertSame('turnkey_websites', $data['services'][0]['id']);
+        self::assertSame('send_message', $data['contact']['send_message_mcp_tool']);
     }
 
     public function testCvAndSkillsReturnsStructuredCv(): void
@@ -69,9 +73,10 @@ final class PortfolioPublicToolsTest extends TestCase
         self::assertContains('Polish', $languageNames);
         self::assertContains('Belarusian', $languageNames);
         self::assertContains('Russian', $languageNames);
+        self::assertSame('send_message', $data['contact']['send_message_tool']);
     }
 
-    public function testSubmitLeadSavesValidInquiry(): void
+    public function testSendMessageSavesValidInquiry(): void
     {
         $repo = $this->createMock(LeadRepository::class);
         $repo->expects(self::once())->method('save');
@@ -79,20 +84,20 @@ final class PortfolioPublicToolsTest extends TestCase
         $captureLead = new CaptureLead($repo, 'test-secret');
         $tools = new PortfolioPublicTools($captureLead);
 
-        $json = $tools->submitLead('client@example.com', '+48123456789', 'Looking for backend consulting');
+        $json = $tools->sendMessage('client@example.com', '+48123456789', 'Looking for backend consulting');
         $data = json_decode($json, true);
 
         self::assertIsArray($data);
         self::assertTrue($data['success']);
     }
 
-    public function testSubmitLeadRejectsEmptyContact(): void
+    public function testSendMessageRejectsEmptyContact(): void
     {
         $repo = $this->createStub(LeadRepository::class);
         $captureLead = new CaptureLead($repo, 'test-secret');
         $tools = new PortfolioPublicTools($captureLead);
 
-        $json = $tools->submitLead('', '', 'Hello');
+        $json = $tools->sendMessage('', '', 'Hello');
         $data = json_decode($json, true);
 
         self::assertIsArray($data);
