@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+{% block title %}Website content · Bahdan Hal{% endblock %}
+{% block body_class %}cms-page{% endblock %}
+{% block final_stylesheets %}<link rel="stylesheet" href="/content-editor.css?v=1"><script src="/content-editor.js?v=1" defer></script>{% endblock %}
+{% block body %}
+<div class="cms-shell">
+    <header class="cms-heading">
+        <div><a class="cms-back" href="{{ path('portfolio_admin_dashboard') }}">← Dashboard</a><h1>Website content</h1><p>Edit the words on your website. Save a draft, check the page, then publish when it is ready.</p></div>
+        <nav class="cms-languages" aria-label="Content language">
+            <a href="{{ path('portfolio_admin_content', {locale: 'en', section: section}) }}" {% if locale == 'en' %}aria-current="page"{% endif %}>English</a>
+            <a href="{{ path('portfolio_admin_content', {locale: 'pl', section: section}) }}" {% if locale == 'pl' %}aria-current="page"{% endif %}>Polski</a>
+        </nav>
+    </header>
+    <div class="cms-layout">
+        <nav class="cms-sections" aria-label="Website sections">
+            <h2>Sections</h2>
+            {% for id, settings in sections %}
+                <a href="{{ path('portfolio_admin_content', {locale: locale, section: id}) }}" {% if id == section %}aria-current="page"{% endif %}>{{ settings.title }}</a>
+            {% endfor %}
+        </nav>
+        <section class="cms-panel" aria-labelledby="section-title">
+            <div class="cms-section-heading"><div><span class="cms-language-label">{{ locale == 'pl' ? 'POLISH CONTENT' : 'ENGLISH CONTENT' }}</span><h2 id="section-title">{{ sections[section].title }}</h2></div><a href="{{ preview }}" target="_blank" rel="noopener" class="cms-preview">Preview saved draft ↗</a></div>
+            {% if saved in ['draft', 'publish', 'discard'] %}
+                <p class="cms-notice" role="status">{{ saved == 'publish' ? 'This section is published. Visitors now see your changes.' : (saved == 'discard' ? 'Draft changes for this section were discarded. The published text is shown below.' : 'Draft saved. Your visitors still see the published version. Open the preview to check your changes.') }}</p>
+            {% endif %}
+            {% if error %}<div class="cms-error" role="alert"><p>{{ error }}</p>{% if conflict %}<p>Your text is still below. Copy anything you want to keep, then <a href="{{ path('portfolio_admin_content', {locale: locale, section: section}) }}">reload the latest version</a>.</p>{% endif %}</div>{% endif %}
+            {% if sections[section].page == 'resume' %}<p class="cms-hint">Experience text is shared with the home page. The downloadable PDF is a separate file.</p>{% endif %}
+            <label class="cms-search-label" for="cms-search">Find text in this section</label><input type="search" id="cms-search" placeholder="Search labels or text…" autocomplete="off">
+            <form method="post" action="{{ path('portfolio_admin_content', {locale: locale, section: section}) }}" id="cms-form" data-has-error="{{ error ? '1' : '0' }}">
+                <input type="hidden" name="_token" value="{{ admin_csrf_token('content_' ~ locale) }}">
+                <input type="hidden" name="revision" value="{{ revision }}">
+                <div class="cms-fields">
+                    {% for field in fields %}
+                        <div class="cms-field" data-search="{{ (field.label ~ ' ' ~ field.value)|lower }}">
+                            <div class="cms-field-heading"><label for="field-{{ loop.index }}">{{ field.label }}</label>{% if field.pending %}<span class="cms-pending">Unpublished</span>{% endif %}</div>
+                            {% if field.link %}
+                                <input id="field-{{ loop.index }}" type="url" name="fields[{{ field.key }}]" value="{{ field.value }}" required maxlength="10000" data-default="{{ field.default }}">
+                            {% else %}
+                                <textarea id="field-{{ loop.index }}" name="fields[{{ field.key }}]" rows="{{ field.value|length > 160 ? 4 : 2 }}" maxlength="10000" data-default="{{ field.default }}">{{ field.value }}</textarea>
+                            {% endif %}
+                            <div class="cms-field-footer"><span>{{ field.link ? 'Full HTTPS address' : 'Plain text · up to 10,000 characters' }}</span><button type="button" class="cms-original" data-field="field-{{ loop.index }}">Use original text</button></div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <p id="cms-no-results" hidden>No matching fields. Try another word.</p>
+                <div class="cms-savebar"><span id="cms-save-status" role="status">{{ error ? 'Changes have not been saved' : 'No unsaved changes' }}</span><div class="cms-save-actions"><button type="submit" name="action" value="discard" class="cms-discard" {% if conflict %}disabled{% endif %}>Discard draft</button><button type="submit" name="action" value="draft" class="cms-draft" {% if conflict %}disabled{% endif %}>Save draft</button><button type="submit" name="action" value="publish" class="cms-publish" {% if conflict %}disabled{% endif %}>Publish section</button></div></div>
+            </form>
+            <p class="cms-hint">Saving and publishing affect only this section in {{ locale == 'pl' ? 'Polish' : 'English' }}. Your edits survive website updates.</p>
+        </section>
+    </div>
+</div>
+{% endblock %}

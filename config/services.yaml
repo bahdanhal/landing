@@ -118,3 +118,16 @@ services:
     arguments:
       $secret: '%env(APP_SECRET)%'
     tags: ['twig.extension']
+
+  App\Content\Application\ContentCatalogue:
+    arguments:
+      $projectDir: '%kernel.project_dir%'
+
+  App\Content\Infrastructure\ContentAdminAccess:
+    arguments:
+      $secret: '%env(APP_SECRET)%'
+
+  App\Content\Infrastructure\ContentTranslator:
+    decorates: translator
+    arguments:
+      $inner: '@.inner'

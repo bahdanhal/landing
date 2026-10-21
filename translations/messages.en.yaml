@@ -320,3 +320,10 @@ showcase:
         download: "Download on"
         app_store: "Download OBD Vault on the App Store"
         google_play: "Download OBD Vault on Google Play"
+
+links:
+    obd_website: "https://obd-vault.com/"
+    obd_app_store: "https://apps.apple.com/app/obd-vault/id6808813416"
+    obd_google_play: "https://play.google.com/store/apps/details?id=com.obdvault.app"
+    ileza: "https://ileza.pl/"
+    stackhal: "https://stackhal.com/"
