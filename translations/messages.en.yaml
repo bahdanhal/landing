@@ -311,8 +311,8 @@ showcase:
     close: "Close portrait"
     back_top: "Back to top"
     obd:
-        description: "OBD Vault is a local-first OBD-II data vault with a Flutter mobile client and a PHP/Symfony backend."
-        details: "The app keeps vehicle and diagnostic data local-first; the Symfony API provides vehicle, scan, export, sync, and read-only MCP endpoints."
+        description: "Car diagnostics, live readings and trip history on your phone."
+        details: "Read and understand fault codes, watch your car’s sensor readings and review past scans and trips. Connect your AI assistant to discuss your saved car data."
         screenshots: "OBD Vault screenshots"
         telemetry: "Live Telemetry & Gauges"
         diagnostics: "DTC Diagnostics"
