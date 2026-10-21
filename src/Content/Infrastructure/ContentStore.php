@@ -5,73 +5,102 @@ declare(strict_types=1);
 namespace App\Content\Infrastructure;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception as DbalException;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Doctrine\DBAL\Types\Types;
+use Psr\Log\LoggerInterface;
 
 final readonly class ContentStore
 {
-    public function __construct(private Connection $connection)
+    private const DOCUMENT_ID = 'site';
+
+    public function __construct(private Connection $connection, private LoggerInterface $logger)
     {
     }
 
-    /** @return array{draft: array<string, string>, published: array<string, string>, revision: int} */
-    public function read(string $locale): array
+    /**
+     * Same as read(), but public pages keep working with the shipped content if the database is unavailable.
+     *
+     * @return array{draft: array<string, mixed>|null, published: array<string, mixed>|null, revision: int}
+     */
+    public function readForVisitors(): array
     {
         try {
-            $row = $this->connection->fetchAssociative('SELECT draft, published, revision FROM site_content WHERE locale = ?', [$locale]);
+            return $this->read();
+        } catch (DbalException | \JsonException | \UnexpectedValueException $exception) {
+            $this->logger->error('Website content unavailable, showing shipped defaults.', ['exception' => $exception]);
+
+            return ['draft' => null, 'published' => null, 'revision' => 0];
+        }
+    }
+
+    /** @return array{draft: array<string, mixed>|null, published: array<string, mixed>|null, revision: int} */
+    public function read(): array
+    {
+        try {
+            $row = $this->connection->fetchAssociative(
+                'SELECT draft, published, revision FROM site_document WHERE id = ?',
+                [self::DOCUMENT_ID],
+            );
         } catch (TableNotFoundException) {
-            // Keep public pages available while the initial CMS migration is being applied.
+            // Keep public pages available while the migration is being applied.
             $row = false;
         }
         if ($row === false) {
-            return ['draft' => [], 'published' => [], 'revision' => 0];
+            return ['draft' => null, 'published' => null, 'revision' => 0];
         }
 
         return [
-            'draft' => $this->decode((string) $row['draft']),
-            'published' => $this->decode((string) $row['published']),
+            'draft' => $this->decode($row['draft']),
+            'published' => $this->decode($row['published']),
             'revision' => (int) $row['revision'],
         ];
     }
 
-    /** @param array<string, string> $draft
-     *  @param array<string, string> $published
+    /**
+     * Saves both versions if nobody else saved since $revision was read.
+     *
+     * @param array<string, mixed>|null $draft
+     * @param array<string, mixed>|null $published
      */
-    public function write(string $locale, array $draft, array $published, int $revision): void
+    public function write(?array $draft, ?array $published, int $revision): int
     {
-        $this->connection->transactional(function () use ($locale, $draft, $published, $revision): void {
+        return $this->connection->transactional(function () use ($draft, $published, $revision): int {
             $this->connection->executeStatement(
-                'INSERT INTO site_content (locale, draft, published, revision, updated_at) '
-                . 'VALUES (?, ?, ?, 0, ?) ON CONFLICT (locale) DO NOTHING',
-                [$locale, '{}', '{}', new \DateTimeImmutable()],
-                [Types::STRING, Types::STRING, Types::STRING, Types::DATETIMETZ_IMMUTABLE],
+                'INSERT INTO site_document (id, draft, published, revision, updated_at) VALUES (?, NULL, NULL, 0, ?) '
+                . 'ON CONFLICT (id) DO NOTHING',
+                [self::DOCUMENT_ID, new \DateTimeImmutable()],
+                [Types::STRING, Types::DATETIMETZ_IMMUTABLE],
             );
             $changed = $this->connection->executeStatement(
-                'UPDATE site_content SET draft = ?, published = ?, revision = revision + 1, updated_at = ? '
-                . 'WHERE locale = ? AND revision = ?',
-                [$draft, $published, new \DateTimeImmutable(), $locale, $revision],
+                'UPDATE site_document SET draft = ?, published = ?, revision = revision + 1, updated_at = ? '
+                . 'WHERE id = ? AND revision = ?',
+                [$draft, $published, new \DateTimeImmutable(), self::DOCUMENT_ID, $revision],
                 [Types::JSON, Types::JSON, Types::DATETIMETZ_IMMUTABLE, Types::STRING, Types::INTEGER],
             );
             if ($changed !== 1) {
-                throw new \DomainException('This content changed in another tab. Reload the editor before saving again.');
+                throw new ContentConflictException();
             }
+
+            return $revision + 1;
         });
     }
 
-    /** @return array<string, string> */
-    private function decode(string $json): array
+    /** @return array<string, mixed>|null */
+    private function decode(mixed $json): ?array
     {
-        $values = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
-        if (!is_array($values)) {
+        if ($json === null) {
+            return null;
+        }
+        $value = json_decode((string) $json, true, flags: JSON_THROW_ON_ERROR);
+        if ($value === null) {
+            return null;
+        }
+        if (!is_array($value)) {
             throw new \UnexpectedValueException('Invalid stored website content.');
         }
-        $result = [];
-        foreach ($values as $key => $value) {
-            if (is_string($key) && is_string($value)) {
-                $result[$key] = $value;
-            }
-        }
 
-        return $result;
+        /** @var array<string, mixed> $value */
+        return $value;
     }
 }

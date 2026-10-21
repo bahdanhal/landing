@@ -39,8 +39,13 @@ final readonly class ContentAdminAccess
         return false;
     }
 
+    public function csrfToken(string $id): string
+    {
+        return hash_hmac('sha256', 'csrf:' . $id, $this->secret);
+    }
+
     public function validCsrf(string $id, string $token): bool
     {
-        return trim($this->secret) !== '' && hash_equals(hash_hmac('sha256', 'csrf:' . $id, $this->secret), $token);
+        return trim($this->secret) !== '' && hash_equals($this->csrfToken($id), $token);
     }
 }

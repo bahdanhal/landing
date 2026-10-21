@@ -119,7 +119,7 @@ services:
       $secret: '%env(APP_SECRET)%'
     tags: ['twig.extension']
 
-  App\Content\Application\ContentCatalogue:
+  App\Content\Infrastructure\ContentDefaults:
     arguments:
       $projectDir: '%kernel.project_dir%'
 

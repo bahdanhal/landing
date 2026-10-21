@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace App\Content\Infrastructure;
 
+use App\Content\Application\SiteContent;
+use App\Content\Domain\ContentSchema;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Translation\Formatter\MessageFormatter;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/** Applies page texts edited in the admin on top of the translation files. */
 final readonly class ContentTranslator implements TranslatorInterface, LocaleAwareInterface
 {
     public function __construct(
         private TranslatorInterface $inner,
-        private ContentStore $store,
+        private SiteContent $content,
         private RequestStack $requests,
-        private ContentAdminAccess $access,
     ) {
     }
 
@@ -24,19 +26,13 @@ final readonly class ContentTranslator implements TranslatorInterface, LocaleAwa
     {
         $request = $this->requests->getCurrentRequest();
         $locale ??= $this->getLocale();
-        if ($request === null || !in_array($locale, ['en', 'pl'], true) || ($domain !== null && $domain !== 'messages')) {
+        if ($request === null || !in_array($locale, ContentSchema::LOCALES, true) || ($domain !== null && $domain !== 'messages')) {
             return $this->inner->trans($id, $parameters, $domain, $locale);
         }
-        $attribute = '_site_content_' . $locale;
-        if (!$request->attributes->has($attribute)) {
-            $state = $this->store->read($locale);
-            $preview = $request->query->get('_content_preview') === '1' && $this->access->isAuthenticated($request);
-            $request->attributes->set($attribute, $state[$preview ? 'draft' : 'published']);
-            $request->attributes->set('_site_content_preview', $preview);
-        }
-        $overrides = $request->attributes->get($attribute);
-        if (is_array($overrides) && isset($overrides[$id]) && is_string($overrides[$id])) {
-            return (new MessageFormatter())->format($overrides[$id], $locale, $parameters);
+        $texts = $this->content->forRequest($request)['texts'] ?? null;
+        $override = is_array($texts) && is_array($texts[$id] ?? null) ? ($texts[$id][$locale] ?? null) : null;
+        if (is_string($override) && $override !== '') {
+            return (new MessageFormatter())->format($override, $locale, $parameters);
         }
 
         return $this->inner->trans($id, $parameters, $domain, $locale);

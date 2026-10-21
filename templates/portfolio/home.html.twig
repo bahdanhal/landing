@@ -39,10 +39,7 @@
         </section>
 
         <section class="profile-facts" aria-label="{{ 'about.facts_label'|trans }}">
-            <span>{{ 'about.location'|trans }}</span>
-            <span>{{ 'about.stack_facts'|trans }}</span>
-            <span>{{ 'about.infra_facts'|trans }}</span>
-            <span>{{ 'about.experience_years'|trans }}</span>
+            {% for fact in site_content().facts %}<span>{{ fact.text }}</span>{% endfor %}
         </section>
 
         <section class="ai-dump" id="ai-notes">
@@ -54,16 +51,16 @@
                     <p class="ai-dump-intro">{{ 'about.ai_dump.intro'|trans }}</p>
                     <h3>{{ 'about.ai_dump.activity_title'|trans }}</h3>
                     <dl>
-                        {% for i in 1..3 %}
-                            <dt>{{ ('about.ai_dump.activity.' ~ i ~ '_title')|trans }}</dt>
-                            <dd>{{ ('about.ai_dump.activity.' ~ i ~ '_text')|trans }}</dd>
+                        {% for tool in site_content().ai_activity %}
+                            <dt>{{ tool.title }}</dt>
+                            <dd>{{ tool.text }}</dd>
                         {% endfor %}
                     </dl>
-                    {% for group, item_count in {ideas: 5, approach: 7} %}
+                    {% for group in ['ideas', 'approach'] %}
                         <h3>{{ ('about.ai_dump.' ~ group ~ '_title')|trans }}</h3>
                         <ul>
-                            {% for i in 1..item_count %}
-                                <li><strong>{{ ('about.ai_dump.' ~ group ~ '.' ~ i ~ '_title')|trans }}</strong> {{ ('about.ai_dump.' ~ group ~ '.' ~ i ~ '_text')|trans }}</li>
+                            {% for note in attribute(site_content(), 'ai_' ~ group) %}
+                                <li><strong>{{ note.title }}</strong> {{ note.text }}</li>
                             {% endfor %}
                         </ul>
                     {% endfor %}
@@ -119,28 +116,19 @@
                 <p>{{ 'about.ecosystem.intro'|trans }}</p>
             </div>
             <div class="profile-project-grid">
-                <article class="profile-project-card">
-                    <a href="{{ 'links.ileza'|trans }}" target="_blank" rel="noopener" class="profile-project-image-link">
-                        <img src="/images/projects/ileza-current.png" alt="{{ 'about.ecosystem.ileza.image_alt'|trans }}" loading="lazy" width="1280" height="720">
-                    </a>
-                    <div class="profile-project-content">
-                        <div class="profile-project-meta"><span>IleZa.pl</span><span>{{ 'about.ecosystem.ileza.label'|trans }}</span></div>
-                        <h3>{{ 'about.ecosystem.ileza.title'|trans }}</h3>
-                        <p>{{ 'about.ecosystem.ileza.text'|trans }}</p>
-                        <a href="{{ 'links.ileza'|trans }}" target="_blank" rel="noopener" class="profile-project-link">{{ 'about.ecosystem.visit'|trans }} →</a>
-                    </div>
-                </article>
-                <article class="profile-project-card">
-                    <a href="{{ 'links.stackhal'|trans }}" target="_blank" rel="noopener" class="profile-project-image-link">
-                        <img src="/images/projects/stackhal-current.png" alt="{{ 'about.ecosystem.stackhal.image_alt'|trans }}" loading="lazy" width="1280" height="720">
-                    </a>
-                    <div class="profile-project-content">
-                        <div class="profile-project-meta"><span>StackHal</span><span>{{ 'about.ecosystem.stackhal.label'|trans }}</span></div>
-                        <h3>{{ 'about.ecosystem.stackhal.title'|trans }}</h3>
-                        <p>{{ 'about.ecosystem.stackhal.text'|trans }}</p>
-                        <a href="{{ 'links.stackhal'|trans }}" target="_blank" rel="noopener" class="profile-project-link">{{ 'about.ecosystem.visit'|trans }} →</a>
-                    </div>
-                </article>
+                {% for project in site_content().projects %}
+                    <article class="profile-project-card">
+                        <a href="{{ project.url }}" target="_blank" rel="noopener" class="profile-project-image-link">
+                            <img src="{{ project.image }}" alt="{{ project.image_alt }}" loading="lazy" width="1280" height="720">
+                        </a>
+                        <div class="profile-project-content">
+                            <div class="profile-project-meta"><span>{{ project.name }}</span><span>{{ project.label }}</span></div>
+                            <h3>{{ project.title }}</h3>
+                            <p>{{ project.text }}</p>
+                            <a href="{{ project.url }}" target="_blank" rel="noopener" class="profile-project-link">{{ 'about.ecosystem.visit'|trans }} →</a>
+                        </div>
+                    </article>
+                {% endfor %}
             </div>
         </section>
 

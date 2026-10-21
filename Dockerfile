@@ -17,6 +17,7 @@ COPY public ./public
 COPY src ./src
 COPY templates ./templates
 COPY translations ./translations
+COPY content ./content
 COPY specs ./specs
 COPY migrations ./migrations
 RUN composer dump-autoload --classmap-authoritative --no-dev \
@@ -37,6 +38,7 @@ COPY public ./public
 COPY src ./src
 COPY templates ./templates
 COPY translations ./translations
+COPY content ./content
 COPY specs ./specs
 COPY migrations ./migrations
 COPY tests ./tests

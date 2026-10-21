@@ -1,0 +1,17 @@
+<article class="timeline-item">
+    <div class="timeline-meta">
+        <time class="timeline-period">{{ job.period }}</time>
+        <span class="timeline-location">{{ job.location }}</span>
+    </div>
+    <div class="timeline-content">
+        <div class="timeline-heading">
+            <h3>{{ job.role }}</h3>
+            <span class="timeline-company">{{ job.company }}</span>
+        </div>
+        {% if job.highlights is not empty %}
+            <ul class="timeline-bullets">
+                {% for highlight in job.highlights %}<li>{{ highlight }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</article>

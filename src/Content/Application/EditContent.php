@@ -4,57 +4,52 @@ declare(strict_types=1);
 
 namespace App\Content\Application;
 
+use App\Content\Domain\ContentDocument;
+use App\Content\Infrastructure\ContentDefaults;
 use App\Content\Infrastructure\ContentStore;
 
 final readonly class EditContent
 {
-    public function __construct(private ContentCatalogue $catalogue, private ContentStore $store)
+    public function __construct(private ContentStore $store, private ContentDefaults $defaults)
     {
     }
 
-    /** @param array<array-key, mixed> $values */
-    public function save(string $locale, string $section, array $values, int $revision, string $action): void
+    /**
+     * Everything the editor needs to start.
+     *
+     * @return array{draft: array<string, mixed>, published: array<string, mixed>, revision: int}
+     */
+    public function state(): array
     {
-        $defaults = $this->catalogue->fields($locale, $section);
-        if (!in_array($action, ['draft', 'publish', 'discard'], true)) {
+        $state = $this->store->read();
+        $published = $state['published'] ?? $this->defaults->document();
+
+        return ['draft' => $state['draft'] ?? $published, 'published' => $published, 'revision' => $state['revision']];
+    }
+
+    /**
+     * @param array<array-key, mixed> $document
+     *
+     * @return array{draft: array<string, mixed>, published: array<string, mixed>, revision: int}
+     */
+    public function apply(string $action, array $document, int $revision): array
+    {
+        $state = $this->store->read();
+        if ($action === 'discard') {
+            $this->store->write(null, $state['published'], $revision);
+
+            return $this->state();
+        }
+        if (!in_array($action, ['draft', 'publish'], true)) {
             throw new \InvalidArgumentException('Unknown editor action.');
         }
-        $state = $this->store->read($locale);
-        if ($revision !== $state['revision']) {
-            throw new \DomainException('This content changed in another tab. Reload the editor before saving again.');
+        $normalized = ContentDocument::normalize($document, $this->defaults->texts());
+        if ($action === 'publish') {
+            $this->store->write(null, $normalized, $revision);
+        } else {
+            $this->store->write($normalized, $state['published'], $revision);
         }
-        foreach ($defaults as $key => $default) {
-            if ($action === 'discard') {
-                if (array_key_exists($key, $state['published'])) {
-                    $state['draft'][$key] = $state['published'][$key];
-                } else {
-                    unset($state['draft'][$key]);
-                }
-                continue;
-            }
-            $value = $values[$key] ?? null;
-            if (!is_string($value) || !mb_check_encoding($value, 'UTF-8') || mb_strlen($value) > 10000 || str_contains($value, "\0")) {
-                throw new \InvalidArgumentException('Every field must contain text of no more than 10,000 characters.');
-            }
-            if (str_starts_with($key, 'links.') && (filter_var($value, FILTER_VALIDATE_URL) === false || parse_url($value, PHP_URL_SCHEME) !== 'https')) {
-                throw new \InvalidArgumentException('Project links must be complete HTTPS addresses.');
-            }
-            if ($value === $default) {
-                unset($state['draft'][$key]);
-            } else {
-                $state['draft'][$key] = $value;
-            }
-            if ($action === 'publish') {
-                if ($value === $default) {
-                    unset($state['published'][$key]);
-                } else {
-                    $state['published'][$key] = $value;
-                }
-            }
-        }
-        if (array_diff_key($values, $defaults) !== []) {
-            throw new \InvalidArgumentException('The submitted form contains unknown fields.');
-        }
-        $this->store->write($locale, $state['draft'], $state['published'], $revision);
+
+        return $this->state();
     }
 }

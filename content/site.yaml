@@ -1,0 +1,664 @@
+# Default website content. The admin editor stores changes in the database on top of this file.
+experience:
+    -
+        id: web24
+        company:
+            en: 'Web24 sp. z o.o.'
+            pl: 'Web24 sp. z o.o.'
+        role:
+            en: 'Full-stack Developer'
+            pl: 'Full-stack Developer'
+        period:
+            en: 'Sep 2026 - Present'
+            pl: 'wrz 2026 - obecnie'
+        location:
+            en: 'Gdynia, Poland'
+            pl: 'Gdynia, Polska'
+        highlights: []
+        on_home: true
+    -
+        id: freedom
+        company:
+            en: 'Freedom Mobile'
+            pl: 'Freedom Mobile'
+        role:
+            en: 'Backend & Systems Engineer'
+            pl: 'Backend & Systems Engineer'
+        period:
+            en: '2026 - Sep 2026'
+            pl: '2026 - wrz 2026'
+        location:
+            en: Remote
+            pl: Zdalnie
+        highlights:
+            -
+                en: 'Designed and implemented backend services and internal AI-assisted agent tooling for a telecommunications platform.'
+                pl: 'Projektowanie i rozwój usług backendowych oraz wewnętrznych narzędzi agentowych AI dla platformy telekomunikacyjnej.'
+            -
+                en: 'Built robust third-party API integration layers with resilient webhook processing and retry mechanisms.'
+                pl: 'Budowa warstwy integracji z zewnętrznymi API z odporną obsługą webhooków i mechanizmami ponawiania zapytań.'
+            -
+                en: 'Investigated and resolved complex production defects, reducing incident recovery time and improving platform stability.'
+                pl: 'Diagnoza i usuwanie trudnych incydentów produkcyjnych, skracając czas przywracania usług i podnosząc stabilność.'
+        on_home: true
+    -
+        id: gwo
+        company:
+            en: 'Gdańskie Wydawnictwo Oświatowe (GWO)'
+            pl: 'Gdańskie Wydawnictwo Oświatowe (GWO)'
+        role:
+            en: 'Backend Developer'
+            pl: 'Backend Developer'
+        period:
+            en: '2022 - 2026'
+            pl: '2022 - 2026'
+        location:
+            en: 'Gdańsk, Poland'
+            pl: 'Gdańsk, Polska'
+        highlights:
+            -
+                en: 'Maintained and modernized high-traffic educational platforms (Symfony, Laravel) serving over 2 million active students and teachers.'
+                pl: 'Utrzymanie i modernizacja systemów edukacyjnych (Symfony, Laravel) obsługujących ponad 2 miliony aktywnych uczniów i nauczycieli.'
+            -
+                en: 'Refactored legacy monolith subsystems into modular architectures, optimizing complex SQL queries and caching to cut response times by up to 70%.'
+                pl: 'Refaktoryzacja monolitu na modułową architekturę, optymalizacja zapytań SQL i cache, co skróciło czas odpowiedzi nawet o 70%.'
+            -
+                en: 'Designed editorial content tools and integrated generative and computer vision AI models into automated publishing workflows.'
+                pl: 'Projektowanie narzędzi redakcyjnych i wdrażanie modeli generatywnych oraz wizyjnych AI do automatyzacji procesów wydawniczych.'
+            -
+                en: 'Established automated CI/CD quality gates, static analysis pipelines (PHPStan Level 8), and unit/functional test suites.'
+                pl: 'Wdrożenie bramek jakości CI/CD, analizy statycznej (PHPStan poziom 8) oraz testów jednostkowych i funkcjonalnych.'
+        on_home: true
+    -
+        id: manao
+        company:
+            en: Manao-dev
+            pl: Manao-dev
+        role:
+            en: 'PHP Developer'
+            pl: 'PHP Developer'
+        period:
+            en: 'Jan 2021 - Mar 2022'
+            pl: 'Sty 2021 - Mar 2022'
+        location:
+            en: Remote
+            pl: Zdalnie
+        highlights:
+            -
+                en: 'Delivered backend development for telecommunication, e-commerce and automotive industry leaders.'
+                pl: 'Tworzyłem backend dla klientów z branży telekomunikacyjnej, e-commerce i motoryzacyjnej.'
+            -
+                en: 'Implemented SMS/CRM integrations and handled high-volume data migrations.'
+                pl: 'Wdrażałem integracje SMS/CRM i przeprowadzałem migracje dużych wolumenów danych.'
+        on_home: true
+    -
+        id: consulting
+        company:
+            en: 'Independent Software Consulting'
+            pl: 'Niezależny doradca i software engineer'
+        role:
+            en: 'Software Architect & Consultant'
+            pl: 'Architekt oprogramowania i konsultant'
+        period:
+            en: '2022 - Present'
+            pl: '2022 - obecnie'
+        location:
+            en: 'Global / Remote'
+            pl: 'Globalnie / Zdalnie'
+        highlights:
+            -
+                en: 'Delivered 28+ international projects on Upwork with a 100% Job Success score and Top Rated status.'
+                pl: 'Realizacja ponad 28 projektów międzynarodowych na Upwork z wynikiem 100% Job Success i statusem Top Rated.'
+            -
+                en: 'Executed zero-downtime server migrations, Linux security hardening, database index tuning, and SMTP deliverability fixes.'
+                pl: 'Migracje serwerów zero-downtime, hardening Linuksa, optymalizacja indeksów baz danych i konfiguracja dostarczalności SMTP.'
+            -
+                en: 'Developed custom web applications, e-commerce integrations, and Model Context Protocol (MCP) server endpoints.'
+                pl: 'Dedykowane aplikacje internetowe, integracje płatności e-commerce oraz tworzenie endpointów Model Context Protocol (MCP).'
+        on_home: false
+skills:
+    -
+        id: backend
+        name:
+            en: 'Backend & Languages'
+            pl: 'Backend i języki'
+        items:
+            -
+                en: 'PHP 8.2-8.4'
+                pl: 'PHP 8.2-8.4'
+            -
+                en: 'Symfony 6/7'
+                pl: 'Symfony 6/7'
+            -
+                en: 'Laravel 10/11'
+                pl: 'Laravel 10/11'
+            -
+                en: Python
+                pl: Python
+            -
+                en: TypeScript
+                pl: TypeScript
+            -
+                en: Node.js
+                pl: Node.js
+            -
+                en: 'REST APIs'
+                pl: 'REST API'
+            -
+                en: GraphQL
+                pl: GraphQL
+            -
+                en: MCP
+                pl: MCP
+    -
+        id: databases
+        name:
+            en: 'Databases & Caching'
+            pl: 'Bazy danych i pamięć podręczna'
+        items:
+            -
+                en: 'PostgreSQL 14-17'
+                pl: 'PostgreSQL 14-17'
+            -
+                en: 'MySQL / MariaDB'
+                pl: 'MySQL / MariaDB'
+            -
+                en: Redis
+                pl: Redis
+            -
+                en: SQLite
+                pl: SQLite
+            -
+                en: 'Doctrine ORM'
+                pl: 'Doctrine ORM'
+            -
+                en: Eloquent
+                pl: Eloquent
+            -
+                en: 'Index Optimization'
+                pl: 'optymalizacja indeksów'
+    -
+        id: infrastructure
+        name:
+            en: 'Infrastructure & DevOps'
+            pl: 'Infrastruktura i DevOps'
+        items:
+            -
+                en: Docker
+                pl: Docker
+            -
+                en: 'Docker Compose'
+                pl: 'Docker Compose'
+            -
+                en: 'Linux (Debian, Ubuntu)'
+                pl: 'Linux (Debian, Ubuntu)'
+            -
+                en: 'Caddy 2'
+                pl: 'Caddy 2'
+            -
+                en: Nginx
+                pl: Nginx
+            -
+                en: 'CI/CD (GitHub Actions)'
+                pl: 'CI/CD (GitHub Actions)'
+            -
+                en: Bash
+                pl: Bash
+            -
+                en: SSH
+                pl: SSH
+    -
+        id: architecture
+        name:
+            en: 'Architecture & Quality'
+            pl: 'Architektura i jakość kodu'
+        items:
+            -
+                en: 'Clean Architecture'
+                pl: 'Clean Architecture'
+            -
+                en: DDD
+                pl: DDD
+            -
+                en: 'Event-Driven Design'
+                pl: Event-Driven
+            -
+                en: PHPUnit
+                pl: PHPUnit
+            -
+                en: PHPStan
+                pl: PHPStan
+            -
+                en: PHP-CS-Fixer
+                pl: PHP-CS-Fixer
+            -
+                en: Microservices
+                pl: mikroserwisy
+    -
+        id: ai-tools
+        name:
+            en: 'AI & Modern Tooling'
+            pl: 'AI i nowoczesne narzędzia'
+        items:
+            -
+                en: 'OpenAI API'
+                pl: 'OpenAI API'
+            -
+                en: 'Anthropic Claude'
+                pl: 'Anthropic Claude'
+            -
+                en: 'Model Context Protocol (MCP)'
+                pl: 'Model Context Protocol (MCP)'
+            -
+                en: 'Vector Embeddings'
+                pl: 'Vector Embeddings'
+            -
+                en: 'Web Scraping'
+                pl: 'Web Scraping'
+            -
+                en: Git
+                pl: Git
+reviews:
+    -
+        id: review-1
+        quote:
+            en: '„Easy to work with. Great communication. Excellent ability."'
+            pl: '„Easy to work with. Great communication. Excellent ability."'
+        context:
+            en: 'Rollup build repair & system optimization'
+            pl: 'Rollup build repair & system optimization'
+    -
+        id: review-2
+        quote:
+            en: '„Perfect freelancer! Was a pleasure to work with him."'
+            pl: '„Perfect freelancer! Was a pleasure to work with him."'
+        context:
+            en: 'Overnight Shopware server transfer & payment setup'
+            pl: 'Overnight Shopware server transfer & payment setup'
+services:
+    -
+        id: service-1
+        tag:
+            en: 'Speed & Conversions'
+            pl: 'Szybkość i konwersja'
+        title:
+            en: 'Turnkey Websites & High-Performance Landing Pages'
+            pl: 'Strony internetowe i landing page pod klucz'
+        problem:
+            en: 'Slow, fragile WordPress themes with dozens of plugins that break on updates, load in 4+ seconds, and suffer from poor Google SEO ranking.'
+            pl: 'Wolne, przestarzałe szablony WordPress z dziesiątkami wtyczek, które psują się przy aktualizacjach, ładują ponad 4 sekundy i tracą pozycje w Google.'
+        solution:
+            en: 'Custom-crafted, lightning-fast bilingual websites built with semantic HTML/CSS, robust backend, automated SSL, and perfect 95-100 Google Lighthouse scores.'
+            pl: 'Szybkie, responsywne strony dwujęzyczne tworzone w czystym HTML/CSS i nowoczesnym backendzie, z automatycznym SSL i wynikami 95-100 w Google Lighthouse.'
+        deliverables:
+            en: 'Mobile-first responsive design, SEO meta & structured data, fast contact forms, Caddy/Nginx hosting setup, Google Search Console integration.'
+            pl: 'Projekt mobile-first, metadane i schema SEO, bezpieczne formularze, hosting Caddy/Nginx, podpięcie Google Search Console.'
+        ideal_for:
+            en: 'B2B companies, consulting firms, agencies, and service businesses needing a trustworthy online presence.'
+            pl: 'Firm B2B, biur doradczych, agencji i przedsiębiorców potrzebujących profesjonalnej wizytówki budującej zaufanie.'
+    -
+        id: service-2
+        tag:
+            en: 'Sales & Payments'
+            pl: 'Sprzedaż i płatności'
+        title:
+            en: 'E-Commerce & Online Stores'
+            pl: 'Sklepy internetowe i e-Commerce'
+        problem:
+            en: 'Losing customers due to complicated checkout flows, slow loading carts, or difficulty integrating Polish and international payment methods.'
+            pl: 'Utrata klientów przez skomplikowany koszyk, powolne działanie sklepu lub trudności z podpięciem polskich płatności i kurierów.'
+        solution:
+            en: 'High-converting online shops and product portals with seamless integrations for Polish and global payment gateways, shipping couriers, and automatic invoicing.'
+            pl: 'Nowoczesne sklepy internetowe z pełną integracją płatności BLIK, PayU, Przelewy24, Stripe oraz automatyczną wysyłką do paczkomatów InPost.'
+        deliverables:
+            en: 'Product catalogs, cart & checkout, PayU, BLIK, Przelewy24, Stripe, InPost Paczkomaty integration, automated email receipts, admin sales dashboard.'
+            pl: 'Katalog produktów, koszyk i checkout, bramki płatności (BLIK/PayU/Stripe), integracja InPost, automatyczne faktury i powiadomienia e-mail, panel sprzedaży.'
+        ideal_for:
+            en: 'Brands and retailers launching or migrating direct-to-consumer (D2C) or B2B sales channels.'
+            pl: 'Dla marek i sklepów uruchamiających bezpośrednią sprzedaż online (D2C) lub platform zamówień B2B.'
+    -
+        id: service-3
+        tag:
+            en: 'Internal Tools & Portals'
+            pl: 'Narzędzia i panele'
+        title:
+            en: 'Client Portals, Dashboards & Custom Web Apps'
+            pl: 'Panele klienta, systemy CRM i aplikacje dedykowane'
+        problem:
+            en: 'Managing business operations in messy Excel spreadsheets, lacking a central customer portal, or paying hefty monthly fees for rigid SaaS tools.'
+            pl: 'Prowadzenie firmy w chaotycznych arkuszach Excel, brak wygodnego panelu dla klientów lub drogie abonamenty za sztywne systemy SaaS.'
+        solution:
+            en: 'Bespoke web applications, customer self-service portals, and secure role-based admin panels tailored precisely to your company workflows.'
+            pl: 'Dedykowane aplikacje webowe, portale samoobsługowe dla klientów i bezpieczne panele administracyjne dopasowane dokładnie do specyfiki Twojej firmy.'
+        deliverables:
+            en: 'User accounts & permission roles, interactive charts, PDF report generation, data import/export, background queue processing.'
+            pl: 'Konta użytkowników i uprawnienia (RBAC), wykresy analityczne, generowanie raportów PDF, import/eksport danych, zadania w tle.'
+        ideal_for:
+            en: 'Growing companies looking to digitize proprietary business processes and save hundreds of employee hours.'
+            pl: 'Rozwijających się firm chcących zautomatyzować unikalne procesy i zaoszczędzić setki godzin pracy zespołu.'
+    -
+        id: service-4
+        tag:
+            en: 'AI & Intelligence'
+            pl: 'AI i inteligencja'
+        title:
+            en: 'AI Integrations & Custom MCP Tools'
+            pl: 'Integracje AI i dedykowane narzędzia MCP'
+        problem:
+            en: 'Employees spending hours manually classifying documents, answering repetitive support queries, or summarizing data.'
+            pl: 'Pracownicy marnujący czas na ręczne kategoryzowanie dokumentów, odpisywanie na powtarzalne pytania czy analizę długich tekstów.'
+        solution:
+            en: 'Embedding modern LLMs (OpenAI, Claude, Gemini) and Model Context Protocol (MCP) servers directly into your software for intelligent automation.'
+            pl: 'Wdrożenie modeli LLM (OpenAI, Claude, Gemini) oraz serwerów Model Context Protocol (MCP) bezpośrednio do Twojego systemu w celu inteligentnej automatyzacji.'
+        deliverables:
+            en: 'Custom AI assistants, automated invoice & PDF parsing, intelligent search over company knowledge bases, MCP endpoints connecting AI to internal databases.'
+            pl: 'Asystenci AI, automatyczne przetwarzanie faktur i PDF-ów, inteligentne przeszukiwanie bazy wiedzy firmy, serwery MCP łączące AI z bazą danych.'
+        ideal_for:
+            en: 'Businesses wanting to harness AI productively without bloated generic subscriptions.'
+            pl: 'Przedsiębiorstw chcących realnie wykorzystać AI w operacjach bez przepłacania za generyczne subskrypcje.'
+    -
+        id: service-5
+        tag:
+            en: 'Efficiency & Synchronization'
+            pl: 'Automatyzacja i integracja'
+        title:
+            en: 'Process Automation & API Integrations'
+            pl: 'Automatyzacja procesów i integracje API'
+        problem:
+            en: 'Disjointed tools requiring manual double-entry between CRM, email newsletters, accounting software, and warehouse systems.'
+            pl: 'Niespójne systemy wymagające ręcznego przepisywania danych między CRM-em, newsletterem, programem magazynowym i księgowością.'
+        solution:
+            en: 'Robust background data synchronization pipelines, webhook handlers, and automated workflows that keep all your tools in sync 24/7.'
+            pl: 'Stabilne potoki synchronizacji danych, obsługa webhooków i automatyczne przepływy zadań, które łączą wszystkie Twoje narzędzia w jeden ekosystem 24/7.'
+        deliverables:
+            en: 'REST/GraphQL API bridges, CRM synchronization (HubSpot, Pipedrive, etc.), automated email/SMS alerts, custom data scraping pipelines.'
+            pl: 'Mosty API REST/GraphQL, synchronizacja z CRM (HubSpot, Pipedrive itp.), automatyczne powiadomienia e-mail/SMS, automatyczny parsing danych.'
+        ideal_for:
+            en: 'Companies wanting seamless data flow between third-party systems with zero manual copying.'
+            pl: 'Firm szukających płynnego przepływu informacji między narzędziami bez ręcznej pracy.'
+    -
+        id: service-6
+        tag:
+            en: 'Stability & Security'
+            pl: 'Stabilność i bezpieczeństwo'
+        title:
+            en: 'Technical Audits, Speed Optimization & Production Rescue'
+            pl: 'Audyty techniczne, przyspieszanie stron i wsparcie produkcji'
+        problem:
+            en: 'Frequent server downtime, slow database queries, security vulnerabilities, or an abandoned codebase nobody dares to touch.'
+            pl: 'Częste awarie serwera, wolne zapytania w bazie, luki bezpieczeństwa lub stary kod, którego nikt w firmie nie potrafi zaktualizować.'
+        solution:
+            en: 'Comprehensive technical audit, database index tuning, Linux/Docker security hardening, PHP version upgrades, and emergency production fixes.'
+            pl: 'Kompleksowy audyt techniczny, optymalizacja indeksów bazy danych, zabezpieczenie serwera Linux/Docker, aktualizacja wersji PHP i usuwanie awarii.'
+        deliverables:
+            en: 'Actionable audit report with priority checklist, query speed improvements, PHP 8.x upgrades, automated daily backups, DMARC/SPF email fixes.'
+            pl: 'Raport audytu z listą priorytetów, optymalizacja zapytań SQL, bezpieczna aktualizacja PHP 8.x, automatyczne kopie zapasowe, konfiguracja DMARC/SPF.'
+        ideal_for:
+            en: 'Existing web applications needing stability, speed improvements, or a safe modernization plan.'
+            pl: 'Istniejących serwisów i aplikacji wymagających poprawy stabilności, szybkości lub bezpiecznej modernizacji.'
+process:
+    -
+        id: step-1
+        title:
+            en: 'Discovery & Clear Scope'
+            pl: 'Rozpoznanie i precyzyjny zakres'
+        text:
+            en: 'We discuss your exact business goals and requirements directly (no sales middlemen). We identify potential edge cases and agree on deliverables.'
+            pl: 'Rozmawiamy bezpośrednio o celach biznesowych i wymaganiach technicznych (bez pośredników). Określamy kluczowe funkcje i wykluczamy niespodzianki.'
+    -
+        id: step-2
+        title:
+            en: 'Architecture & Fixed Estimate'
+            pl: 'Architektura i stała wycena'
+        text:
+            en: 'You receive a clear technical plan, transparent price estimate, and milestone deadlines. You know exactly what will be delivered and when.'
+            pl: 'Otrzymujesz przejrzysty plan techniczny, stałą wycenę i harmonogram etapów. Wiesz dokładnie, co i kiedy zostanie dostarczone.'
+    -
+        id: step-3
+        title:
+            en: 'Milestone Delivery & Demos'
+            pl: 'Etapowa realizacja i demo'
+        text:
+            en: 'Development proceeds in clear milestones with interactive staging previews. You see real working software and can provide feedback early.'
+            pl: 'Prace przebiegają w przejrzystych etapach z podglądem na środowisku testowym (staging). Widzisz działające oprogramowanie i masz bieżący wpływ.'
+    -
+        id: step-4
+        title:
+            en: 'Production Launch & Warranty'
+            pl: 'Wdrożenie i gwarancja'
+        text:
+            en: 'Zero-downtime deployment, DNS/SSL setup, analytics, and a 30-day post-launch warranty with ongoing support options.'
+            pl: 'Publikacja na serwerze produkcyjnym bez przerw w działaniu, konfiguracja domeny/SSL oraz 30-dniowa gwarancja z opcją stałego wsparcia.'
+faq:
+    -
+        id: faq-1
+        question:
+            en: 'How long does a typical project take to complete?'
+            pl: 'Ile trwa realizacja projektu?'
+        answer:
+            en: 'A custom high-performance website or landing page typically takes 1 to 2 weeks. Custom web applications, e-commerce platforms, or AI integrations take 3 to 6 weeks depending on scope. Clear milestone dates are established before work begins.'
+            pl: 'Strona internetowa lub szybki landing page zwykle zajmuje od 1 do 2 tygodni. Dedykowana aplikacja, sklep internetowy lub integracja AI zajmuje od 3 do 6 tygodni, zależnie od zakresu. Harmonogram ustalamy przed rozpoczęciem prac.'
+    -
+        id: faq-2
+        question:
+            en: 'What are your payment terms and invoicing?'
+            pl: 'Jak wyglądają rozliczenia i umowa?'
+        answer:
+            en: 'Projects are structured around milestones (typically 30-50% upfront, remainder upon final demo and deployment approval). Official B2B invoices (Faktura VAT / EU Reverse Charge) are issued with transparent payment terms.'
+            pl: 'Pracujemy w oparciu o etapy (zazwyczaj 30-50% zaliczki, reszta po prezentacji i akceptacji wdrożenia). Wystawiam faktury VAT (B2B) z przejrzystymi warunkami płatności.'
+    -
+        id: faq-3
+        question:
+            en: 'Do you provide post-launch maintenance and technical support?'
+            pl: 'Czy oferujesz wsparcie po wdrożeniu projektu?'
+        answer:
+            en: 'Yes. Every completed project includes a 30-day warranty for any bugs or adjustments. For ongoing server monitoring, security updates, and incremental feature development, flexible monthly retainer packages are available.'
+            pl: 'Tak. Każdy projekt objęty jest 30-dniową bezpłatną gwarancją na poprawki. Dostępne są również elastyczne pakiety stałej opieki technicznej, monitoringu serwera i rozwoju nowych funkcji.'
+    -
+        id: faq-4
+        question:
+            en: 'Can you take over or modernize an existing project?'
+            pl: 'Czy możesz przejąć lub zmodernizować istniejący projekt?'
+        answer:
+            en: 'Yes. I frequently audit, optimize, and modernize existing PHP (Symfony, Laravel, WordPress) codebases and legacy applications, fixing performance bottlenecks without risky full rewrites.'
+            pl: 'Tak. Regularnie audytuję, przyspieszam i modernizuję istniejące aplikacje PHP (Symfony, Laravel, WordPress), usuwając wąskie gardła wydajnościowe bez konieczności ryzykownego pisania wszystkiego od nowa.'
+consultation_points:
+    -
+        id: point-1
+        text:
+            en: 'Direct technical evaluation - no sales push.'
+            pl: 'Bezpośrednia rozmowa z inżynierem bez handlowego narzutu.'
+    -
+        id: point-2
+        text:
+            en: 'Free initial scoping and architecture advice.'
+            pl: 'Bezpłatna wstępna analiza i doradztwo architektoniczne.'
+    -
+        id: point-3
+        text:
+            en: 'Transparent, fixed-price or milestone quotes.'
+            pl: 'Przejrzysta, stała wycena etapów.'
+    -
+        id: point-4
+        text:
+            en: 'Honest feedback if another solution is a better fit.'
+            pl: 'Uczciwa opinia, jeśli prostsze rozwiązanie będzie lepsze.'
+projects:
+    -
+        id: ileza
+        name: IleZa.pl
+        url: 'https://ileza.pl/'
+        image: /images/projects/ileza-current.png
+        image_alt:
+            en: 'IleZa.pl fair-price catalog screenshot'
+            pl: 'Zrzut ekranu katalogu uczciwych cen IleZa.pl'
+        label:
+            en: 'Editorial Fair Prices'
+            pl: 'Redakcyjne uczciwe ceny'
+        title:
+            en: 'A calmer way to understand what things are really worth'
+            pl: 'Spokojniejszy sposób na zrozumienie, ile rzeczy są naprawdę warte'
+        text:
+            en: 'Manual editorial fair prices for products in any category in Poland, with dated price histories and a salary comparison calculator as an additional feature.'
+            pl: 'Ręczne, redakcyjne oceny uczciwych cen produktów z dowolnej kategorii w Polsce, z historią cen i kalkulatorem wynagrodzeń jako dodatkową funkcją.'
+    -
+        id: stackhal
+        name: StackHal
+        url: 'https://stackhal.com/'
+        image: /images/projects/stackhal-current.png
+        image_alt:
+            en: 'StackHal developer suite screenshot'
+            pl: 'Zrzut ekranu zestawu narzędzi StackHal'
+        label:
+            en: 'Developer Toolbox'
+            pl: 'Narzędzia dla programistów'
+        title:
+            en: 'Lightweight tools for serious technical work'
+            pl: 'Lekkie narzędzia do poważnej pracy technicznej'
+        text:
+            en: 'A fast suite of online developer, SEO, and infrastructure utilities - from Caddyfile transpiling to PKPass inspection and CIDR calculations.'
+            pl: 'Zestaw szybkich narzędzi online dla programistów, DevOps i SEO - od transpilacji Caddyfile po analizę pakietów PKPass i kalkulator CIDR.'
+facts:
+    -
+        id: fact-1
+        text:
+            en: 'Gdańsk, Poland'
+            pl: 'Gdańsk, Polska'
+    -
+        id: fact-2
+        text:
+            en: 'PHP · Symfony · Laravel'
+            pl: 'PHP · Symfony · Laravel'
+    -
+        id: fact-3
+        text:
+            en: 'Docker · Linux · Caddy · AI/MCP'
+            pl: 'Docker · Linux · Caddy · AI/MCP'
+    -
+        id: fact-4
+        text:
+            en: '5+ years engineering'
+            pl: '5+ lat w inżynierii'
+ai_activity:
+    -
+        id: activity-1
+        title:
+            en: Codex
+            pl: Codex
+        text:
+            en: '225 sessions you started yourself and 1,519 of your messages over 50 active days (25 July - 6 October). About 800 more files are subagents and automatic reviews that the agents launched themselves.'
+            pl: '225 sesji, które zacząłeś sam, i 1519 Twoich wiadomości w ciągu 50 aktywnych dni (25 lipca - 6 października). Około 800 kolejnych plików to subagenci i automatyczne przeglądy uruchamiane przez samych agentów.'
+    -
+        id: activity-2
+        title:
+            en: Antigravity
+            pl: Antigravity
+        text:
+            en: '156 of your conversations over 33 active days (22 August - 7 October) and almost 500 subagents.'
+            pl: '156 Twoich rozmów w ciągu 33 aktywnych dni (22 sierpnia - 7 października) i prawie 500 subagentów.'
+    -
+        id: activity-3
+        title:
+            en: Claude
+            pl: Claude
+        text:
+            en: '13 sessions in four days (4-7 October), not counting this one.'
+            pl: '13 sesji w cztery dni (4-7 października), nie licząc tej.'
+ai_ideas:
+    -
+        id: ideas-1
+        title:
+            en: 'From your own pain.'
+            pl: 'Z własnego bólu.'
+        text:
+            en: "'How can there be no completed audits if I ran them myself on my own pages?' - that question ended in fixes to your own analytics bundle. OBD Vault grew next to the diagnosis of a fault in your own Citroen."
+            pl: "'Jak to nie ma ukończonych audytów, skoro sam je uruchamiałem na swoich stronach?' - to pytanie skończyło się poprawkami w Twoim własnym pakiecie analityki. OBD Vault wyrósł obok diagnozy usterki w Twoim Citroenie."
+    -
+        id: ideas-2
+        title:
+            en: 'From gaps in the ecosystem.'
+            pl: 'Z dziur w ekosystemie.'
+        text:
+            en: "'Check which PHP CMSs still have no MCP plugins' led to bolt-mcp. A question about the PHP SDK for Azure that Microsoft dropped led to a post and an idea for a contribution."
+            pl: "'Sprawdź, które CMS-y w PHP nie mają jeszcze wtyczek MCP' doprowadziło do bolt-mcp. Pytanie o porzucony przez Microsoft PHP SDK dla Azure - do wpisu i pomysłu na kontrybucję."
+    -
+        id: ideas-3
+        title:
+            en: 'From your own incidents.'
+            pl: 'Z własnych incydentów.'
+        text:
+            en: "The question 'so BIMI is basically an avatar for email?' became an article on the StackHal blog."
+            pl: "Pytanie 'czyli BIMI to w zasadzie awatar dla poczty?' stało się artykułem na blogu StackHal."
+    -
+        id: ideas-4
+        title:
+            en: 'With a check before starting.'
+            pl: 'Ze sprawdzeniem przed startem.'
+        text:
+            en: "'Search the internet to see if I reinvented the wheel' and 'can you verify the idea?' come before the browser extension and before OBD."
+            pl: "'Poszukaj w internecie, czy nie wynalazłem koła na nowo' i 'możesz zweryfikować pomysł?' padają przed rozszerzeniem do przeglądarki i przed OBD."
+    -
+        id: ideas-5
+        title:
+            en: 'Through experiment.'
+            pl: 'Przez eksperyment.'
+        text:
+            en: 'You had the Polish copy scored for readability the way English text is scored, with one more test on top: it has to make sense to a Polish teacher in a Polish school.'
+            pl: 'Kazałeś zmierzyć czytelność polskich tekstów tak, jak mierzy się angielskie, i dodałeś jeszcze jeden test: mają mieć sens dla nauczyciela polskiego w polskiej szkole.'
+ai_approach:
+    -
+        id: approach-1
+        title:
+            en: 'Short command, long autonomy, control by numbers.'
+            pl: 'Krótkie polecenie, długa autonomia, kontrola po liczbach.'
+        text:
+            en: "After 'continue' comes 'check the stats over MCP' - you have 37 messages about statistics, analytics and logs."
+            pl: "Po 'kontynuuj' przychodzi 'sprawdź statystyki przez MCP' - masz 37 wiadomości o statystykach, analityce i logach."
+    -
+        id: approach-2
+        title:
+            en: 'You ask to be roasted.'
+            pl: 'Prosisz, żeby Cię skrytykować bez litości.'
+        text:
+            en: "'Roast my sites', 'find the slop', 'was it really right and useful that we dropped the Google pixel?'"
+            pl: "'Zjedź moje strony', 'znajdź slop', 'czy to naprawdę słuszne i pożyteczne, że zrezygnowaliśmy z piksela Google?'"
+    -
+        id: approach-3
+        title:
+            en: 'You check models against each other.'
+            pl: 'Sprawdzasz modele nawzajem.'
+        text:
+            en: "You paste one agent's review into another agent's chat."
+            pl: 'Wklejasz przegląd jednego agenta do rozmowy z drugim.'
+    -
+        id: approach-4
+        title:
+            en: 'You delete.'
+            pl: Usuwasz.
+        text:
+            en: 'The confidence field from the code and the database, giant headings from every project, Headroom two weeks after installing it.'
+            pl: 'Pole confidence z kodu i bazy, gigantyczne nagłówki ze wszystkich projektów, Headroom dwa tygodnie po instalacji.'
+    -
+        id: approach-5
+        title:
+            en: 'You do not let an agent stop for nothing.'
+            pl: 'Nie pozwalasz agentowi zatrzymywać się bez powodu.'
+        text:
+            en: "'Automatic run paused' - 'why on earth?'"
+            pl: "'Automatyczne uruchomienie wstrzymane' - 'a niby czemu?'"
+    -
+        id: approach-6
+        title:
+            en: 'Taste against the template.'
+            pl: 'Gust przeciwko szablonowi.'
+        text:
+            en: "'Not another AI startup slop', a Polish visual code for IleZa, and the cat and the explosion on StackHal are 'not to be thrown away under any circumstances' - that is post-irony."
+            pl: "'Nie kolejny slop startupu AI', polski kod wizualny dla IleZa, a kota i wybuchu na StackHal 'nie wyrzucać pod żadnym pozorem' - to postironia."
+    -
+        id: approach-7
+        title:
+            en: 'In your own words:'
+            pl: 'Twoimi słowami:'
+        text:
+            en: "you like tasks of the 'what on earth is this' kind and quests like 'get to place X and reach person Y'."
+            pl: "lubisz zadania typu 'co to w ogóle jest' i questy w stylu 'dotrzeć do miejsca X i skontaktować się z Y'."

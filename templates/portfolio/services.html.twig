@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/portfolio-services.css">
 {% endblock %}
 {% block head_scripts %}
-  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'ProfessionalService','@id':'https://bahdanhal.pl/#services','name':'Bahdan Hal - Engineering Consulting & Web Development','url':'https://bahdanhal.pl/services','areaServed':['Poland','European Union','Remote'],'provider':{'@id':'https://bahdanhal.pl/#bahdan'},'serviceType':['Turnkey Websites','E-Commerce Stores','Client Portals','AI & MCP Integrations','Process Automation','Technical Audits'],'hasOfferCatalog':{'@type':'OfferCatalog','name':'Engineering Services & Rates','itemListElement':[{'@type':'Offer','name':'Standard Contract Engagement','price':'35.00','priceCurrency':'EUR','unitText':'HOUR','description':'Standard engineering contract rate of €35/hour'}]}},{'@type':'FAQPage','@id':'https://bahdanhal.pl/services#faq','mainEntity':[{'@type':'Question','name':('services_page.faq.q1'|trans),'acceptedAnswer':{'@type':'Answer','text':('services_page.faq.a1'|trans)}},{'@type':'Question','name':('services_page.faq.q2'|trans),'acceptedAnswer':{'@type':'Answer','text':('services_page.faq.a2'|trans)}},{'@type':'Question','name':('services_page.faq.q3'|trans),'acceptedAnswer':{'@type':'Answer','text':('services_page.faq.a3'|trans)}},{'@type':'Question','name':('services_page.faq.q4'|trans),'acceptedAnswer':{'@type':'Answer','text':('services_page.faq.a4'|trans)}}]}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'ProfessionalService','@id':'https://bahdanhal.pl/#services','name':'Bahdan Hal - Engineering Consulting & Web Development','url':'https://bahdanhal.pl/services','areaServed':['Poland','European Union','Remote'],'provider':{'@id':'https://bahdanhal.pl/#bahdan'},'serviceType':['Turnkey Websites','E-Commerce Stores','Client Portals','AI & MCP Integrations','Process Automation','Technical Audits'],'hasOfferCatalog':{'@type':'OfferCatalog','name':'Engineering Services & Rates','itemListElement':[{'@type':'Offer','name':'Standard Contract Engagement','price':'35.00','priceCurrency':'EUR','unitText':'HOUR','description':'Standard engineering contract rate of €35/hour'}]}},{'@type':'FAQPage','@id':'https://bahdanhal.pl/services#faq','mainEntity':site_content().faq|map(item => {'@type':'Question','name':item.question,'acceptedAnswer':{'@type':'Answer','text':item.answer}})}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
 {% endblock %}
 
 {% block body %}
@@ -41,32 +41,32 @@
             </div>
 
             <div class="detailed-services-grid">
-                {% for i in ['s1', 's2', 's3', 's4', 's5', 's6'] %}
+                {% for service in site_content().services %}
                     <article class="service-card">
                         <div class="service-card-header">
-                            <span class="service-number">{{ ('services_page.' ~ i ~ '.number')|trans }}</span>
-                            <span class="service-tag">{{ ('services_page.' ~ i ~ '.tag')|trans }}</span>
+                            <span class="service-number">{{ '%02d'|format(loop.index) }}</span>
+                            <span class="service-tag">{{ service.tag }}</span>
                         </div>
-                        <h3>{{ ('services_page.' ~ i ~ '.title')|trans }}</h3>
+                        <h3>{{ service.title }}</h3>
                         
                         <div class="service-block service-problem">
                             <strong>Problem:</strong>
-                            <p>{{ ('services_page.' ~ i ~ '.problem')|trans }}</p>
+                            <p>{{ service.problem }}</p>
                         </div>
 
                         <div class="service-block service-solution">
                             <strong>Solution:</strong>
-                            <p>{{ ('services_page.' ~ i ~ '.solution')|trans }}</p>
+                            <p>{{ service.solution }}</p>
                         </div>
 
                         <div class="service-block service-deliverables">
                             <strong>Deliverables:</strong>
-                            <p>{{ ('services_page.' ~ i ~ '.deliverables')|trans }}</p>
+                            <p>{{ service.deliverables }}</p>
                         </div>
 
                         <div class="service-block service-ideal">
                             <strong>Ideal for:</strong>
-                            <p>{{ ('services_page.' ~ i ~ '.ideal_for')|trans }}</p>
+                            <p>{{ service.ideal_for }}</p>
                         </div>
                     </article>
                 {% endfor %}
@@ -81,26 +81,13 @@
             </div>
 
             <div class="process-grid">
-                <article class="process-card">
-                    <span class="process-step">{{ 'services_page.p1_step'|trans }}</span>
-                    <h3>{{ 'services_page.p1_title'|trans }}</h3>
-                    <p>{{ 'services_page.p1_text'|trans }}</p>
-                </article>
-                <article class="process-card">
-                    <span class="process-step">{{ 'services_page.p2_step'|trans }}</span>
-                    <h3>{{ 'services_page.p2_title'|trans }}</h3>
-                    <p>{{ 'services_page.p2_text'|trans }}</p>
-                </article>
-                <article class="process-card">
-                    <span class="process-step">{{ 'services_page.p3_step'|trans }}</span>
-                    <h3>{{ 'services_page.p3_title'|trans }}</h3>
-                    <p>{{ 'services_page.p3_text'|trans }}</p>
-                </article>
-                <article class="process-card">
-                    <span class="process-step">{{ 'services_page.p4_step'|trans }}</span>
-                    <h3>{{ 'services_page.p4_title'|trans }}</h3>
-                    <p>{{ 'services_page.p4_text'|trans }}</p>
-                </article>
+                {% for step in site_content().process %}
+                    <article class="process-card">
+                        <span class="process-step">{{ '%02d'|format(loop.index) }}</span>
+                        <h3>{{ step.title }}</h3>
+                        <p>{{ step.text }}</p>
+                    </article>
+                {% endfor %}
             </div>
         </section>
 
@@ -111,16 +98,13 @@
                 <a href="https://www.upwork.com/freelancers/~014111a2d384da6af9" target="_blank" rel="noopener me">{{ 'services_page.testimonials_link'|trans }} →</a>
             </div>
             <div class="profile-testimonial-grid">
-                <figure>
-                    <div role="img" aria-label="5 stars">★★★★★</div>
-                    <blockquote>„Easy to work with. Great communication. Excellent ability."</blockquote>
-                    <figcaption>Rollup build repair & system optimization</figcaption>
-                </figure>
-                <figure>
-                    <div role="img" aria-label="5 stars">★★★★★</div>
-                    <blockquote>„Perfect freelancer! Was a pleasure to work with him."</blockquote>
-                    <figcaption>Overnight Shopware server transfer & payment setup</figcaption>
-                </figure>
+                {% for review in site_content().reviews %}
+                    <figure>
+                        <div role="img" aria-label="5 stars">★★★★★</div>
+                        <blockquote>{{ review.quote }}</blockquote>
+                        {% if review.context %}<figcaption>{{ review.context }}</figcaption>{% endif %}
+                    </figure>
+                {% endfor %}
                 <aside>
                     <strong>100%</strong>
                     <span>Job Success on Upwork</span>
@@ -135,22 +119,12 @@
                 <h2>{{ 'services_page.faq_title'|trans }}</h2>
             </div>
             <div class="services-faq-list">
-                <article class="faq-item">
-                    <h3>{{ 'services_page.faq.q1'|trans }}</h3>
-                    <p>{{ 'services_page.faq.a1'|trans }}</p>
-                </article>
-                <article class="faq-item">
-                    <h3>{{ 'services_page.faq.q2'|trans }}</h3>
-                    <p>{{ 'services_page.faq.a2'|trans }}</p>
-                </article>
-                <article class="faq-item">
-                    <h3>{{ 'services_page.faq.q3'|trans }}</h3>
-                    <p>{{ 'services_page.faq.a3'|trans }}</p>
-                </article>
-                <article class="faq-item">
-                    <h3>{{ 'services_page.faq.q4'|trans }}</h3>
-                    <p>{{ 'services_page.faq.a4'|trans }}</p>
-                </article>
+                {% for item in site_content().faq %}
+                    <article class="faq-item">
+                        <h3>{{ item.question }}</h3>
+                        <p>{{ item.answer }}</p>
+                    </article>
+                {% endfor %}
             </div>
         </section>
 
@@ -160,10 +134,7 @@
                 <h2>{{ 'services_page.consultation_title'|trans }}</h2>
                 <p>{{ 'services_page.consultation_text'|trans }}</p>
                 <ul>
-                    <li>{{ 'services_page.consultation_point1'|trans }}</li>
-                    <li>{{ 'services_page.consultation_point2'|trans }}</li>
-                    <li>{{ 'services_page.consultation_point3'|trans }}</li>
-                    <li>{{ 'services_page.consultation_point4'|trans }}</li>
+                    {% for point in site_content().consultation_points %}<li>{{ point.text }}</li>{% endfor %}
                 </ul>
             </div>
             {% include 'portfolio/_contact_form.html.twig' with {source: 'landing_services'} %}

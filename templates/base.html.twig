@@ -63,10 +63,10 @@
       </div>
     </div>
   </header>
-  {% if app.request and app.request.attributes.get('_site_content_preview') %}
+  {% if site_content_preview() %}
     <aside style="position:sticky;top:0;z-index:100;background:#fff1bf;color:#322a13;padding:12px 20px;text-align:center;font:14px/1.5 Arial,sans-serif;">
       <strong>Draft preview</strong> · Visitors still see the published version.
-      <a href="{{ path('portfolio_admin_content', {locale: app.request.locale}) }}" style="text-decoration:underline;color:inherit;">Back to editor</a>
+      <a href="{{ path('portfolio_admin_content') }}" style="text-decoration:underline;color:inherit;">Back to editor</a>
     </aside>
   {% endif %}
   <main>{% block body %}{% endblock %}</main>
@@ -80,8 +80,7 @@
         <a href="mailto:bahdan.hal@hotmail.com">{{ 'base.contact'|trans }}</a>
         <a href="https://www.linkedin.com/in/bahdan-hal/" rel="me">LinkedIn</a>
         <a href="https://github.com/bahdanhal" rel="me">GitHub</a>
-        <a href="{{ 'links.stackhal'|trans }}" rel="me">StackHal</a>
-        <a href="{{ 'links.ileza'|trans }}" rel="me">IleZa</a>
+        {% for project in site_content().projects %}<a href="{{ project.url }}" rel="me">{{ project.name }}</a>{% endfor %}
       </nav>
     </div>
     <div class="copyright">© {{ "now"|date("Y") }} · {{ 'base.footer_note'|trans }}</div>
