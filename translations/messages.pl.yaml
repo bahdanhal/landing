@@ -316,3 +316,7 @@ showcase:
         screenshots: "Zrzuty ekranu OBD Vault"
         telemetry: "Telemetria na żywo i wskaźniki"
         diagnostics: "Diagnostyka DTC"
+        links: "Pobierz OBD Vault"
+        download: "Pobierz z"
+        app_store: "Pobierz OBD Vault z App Store"
+        google_play: "Pobierz OBD Vault z Google Play"

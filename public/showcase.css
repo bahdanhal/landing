@@ -87,3 +87,14 @@ body[data-concept=showcase] .ai-dump-body dd{margin:0}
 body[data-concept=showcase] .ai-dump-body ul{display:grid;gap:10px;margin:0;padding-left:18px}
 @media(max-width:620px){body[data-concept=showcase] .ai-dump summary{padding:14px 18px}body[data-concept=showcase] .ai-dump-body{padding:0 18px 22px}body[data-concept=showcase] .ai-dump-body dl{grid-template-columns:1fr;gap:2px}body[data-concept=showcase] .ai-dump-body dd{margin-bottom:10px}}
 @media(min-width:1001px){body[data-concept=showcase] .ai-dump-heading strong{font-size:19px}body[data-concept=showcase] .ai-dump-body{font-size:16px}body[data-concept=showcase] .ai-dump-body h3{font-size:19px}}
+
+/* Download links in the OBD Vault showcase */
+body[data-concept=showcase] .obd-links{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:24px}
+body[data-concept=showcase] .obd-store-link{display:inline-flex;align-items:center;gap:12px;min-height:58px;padding:10px 16px;border:1px solid #ffffff45;border-radius:10px;background:#ffffff08;color:#fff;transition:background .2s,border-color .2s}
+body[data-concept=showcase] .obd-store-link:hover{background:#ffffff14;border-color:var(--accent)}
+body[data-concept=showcase] .obd-store-link svg{flex-shrink:0}
+body[data-concept=showcase] .obd-store-link span{display:flex;flex-direction:column;gap:2px}
+body[data-concept=showcase] .obd-store-link small{font-size:12px;line-height:1.2;color:var(--muted)}
+body[data-concept=showcase] .obd-store-link strong{font-size:17px;line-height:1.25;font-weight:600}
+body[data-concept=showcase] .obd-website-link{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 0;color:var(--accent);font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:4px}
+body[data-concept=showcase] .obd-website-link:hover{color:#fff}
