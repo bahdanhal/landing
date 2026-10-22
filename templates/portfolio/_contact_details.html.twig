@@ -1,0 +1,21 @@
+<div class="contact-details">
+    <dl class="contact-channels">
+        <div class="contact-email">
+            <dt>{{ 'contact.email_label'|trans }}</dt>
+            <dd><a href="mailto:{{ portfolio_email }}">{{ portfolio_email }} <span aria-hidden="true">↗</span></a></dd>
+            <dd class="contact-hint">{{ 'contact.email_hint'|trans }}</dd>
+        </div>
+        <div>
+            <dt>{{ 'contact.phone_label'|trans }}</dt>
+            <dd><a href="tel:+48721667204">+48 721 667 204</a></dd>
+        </div>
+        <div>
+            <dt>{{ 'contact.location_label'|trans }}</dt>
+            <dd>{{ 'contact.location'|trans }}</dd>
+        </div>
+    </dl>
+    <nav class="contact-professional" aria-label="{{ 'contact.professional_profiles'|trans }}">
+        <a href="https://www.linkedin.com/in/bahdan-hal/" rel="me"><strong>LinkedIn <span aria-hidden="true">↗</span></strong><span>{{ 'contact.linkedin_hint'|trans }}</span></a>
+        <a href="https://www.upwork.com/freelancers/~014111a2d384da6af9" rel="me"><strong>Upwork <span aria-hidden="true">↗</span></strong><span>{{ 'contact.upwork_hint'|trans }}</span></a>
+    </nav>
+</div>

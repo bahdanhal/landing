@@ -32,8 +32,9 @@
   {% block stylesheets %}{% endblock %}
   {% block brand_stylesheet %}<link rel="stylesheet" href="/brand-refresh.css">{% endblock %}
   {% block final_stylesheets %}{% endblock %}
+  <link rel="stylesheet" href="/contact-details.css?v=1">
   <script src="/contact.js" defer></script>
-  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'WebSite','@id':'https://bahdanhal.pl/#website','url':'https://bahdanhal.pl/','name':'Bahdan Hal','inLanguage':['en','pl'],'publisher':{'@id':'https://bahdanhal.pl/#bahdan'},'author':{'@id':'https://bahdanhal.pl/#bahdan'},'dateModified':'2026-08-22'},{'@type':'Person','@id':'https://bahdanhal.pl/#bahdan','name':'Bahdan Hal','url':'https://bahdanhal.pl/','jobTitle':'Backend Engineer','sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.instagram.com/bahdan.hal/','https://www.facebook.com/profile.php?id=100008404566585','https://www.upwork.com/freelancers/~014111a2d384da6af9']}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'WebSite','@id':'https://bahdanhal.pl/#website','url':'https://bahdanhal.pl/','name':'Bahdan Hal','inLanguage':['en','pl'],'publisher':{'@id':'https://bahdanhal.pl/#bahdan'},'author':{'@id':'https://bahdanhal.pl/#bahdan'},'dateModified':'2026-08-22'},{'@type':'Person','@id':'https://bahdanhal.pl/#bahdan','name':'Bahdan Hal','url':'https://bahdanhal.pl/','jobTitle':'Backend Engineer','email':portfolio_email,'sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.instagram.com/bahdan.hal/','https://www.facebook.com/profile.php?id=100008404566585','https://www.upwork.com/freelancers/~014111a2d384da6af9']}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
   {% block head_scripts %}{% endblock %}
 </head>
 {% set current_route = app.request ? (app.request.attributes.get('_route') ?: 'landing') : 'landing' %}
@@ -56,6 +57,7 @@
           <a href="{{ path('landing', {_locale: app.request ? app.request.locale : 'en'}) }}" class="{{ current_route == 'landing' ? 'active' : '' }}">{{ 'base.nav.about'|trans }}</a>
           <a href="{{ path('resume', {_locale: app.request ? app.request.locale : 'en'}) }}" class="{{ current_route == 'resume' ? 'active' : '' }}">{{ 'base.nav.resume'|trans }}</a>
           <a href="{{ path('services', {_locale: app.request ? app.request.locale : 'en'}) }}" class="{{ current_route == 'services' ? 'active' : '' }}">{{ 'base.nav.services'|trans }}</a>
+          <a href="{{ path(target_route, {_locale: app.request ? app.request.locale : 'en'}) }}#contact">{{ 'base.contact'|trans }}</a>
         </nav>
         {% block language_switch %}
           <a class="language-switch" href="{{ path(target_route, {_locale: target_locale}) }}" hreflang="{{ target_locale }}">{{ app.request and app.request.locale == 'pl' ? 'EN' : 'PL' }}</a>
@@ -77,7 +79,7 @@
         <a href="{{ path('resume', {_locale: app.request ? app.request.locale : 'en'}) }}">{{ 'base.resume'|trans }}</a>
         <a href="{{ path('services', {_locale: app.request ? app.request.locale : 'en'}) }}">{{ 'base.nav.services'|trans }}</a>
         <a href="/resume.pdf" download>{{ 'resume_page.download_pdf'|trans }}</a>
-        <a href="mailto:bahdan.hal@hotmail.com">{{ 'base.contact'|trans }}</a>
+        <a href="mailto:{{ portfolio_email }}">{{ 'base.contact'|trans }}</a>
         <a href="https://www.linkedin.com/in/bahdan-hal/" rel="me">LinkedIn</a>
         <a href="https://github.com/bahdanhal" rel="me">GitHub</a>
         {% for project in site_content().projects %}<a href="{{ project.url }}" rel="me">{{ project.name }}</a>{% endfor %}

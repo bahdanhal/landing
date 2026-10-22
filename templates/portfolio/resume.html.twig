@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/portfolio-resume.css">
 {% endblock %}
 {% block head_scripts %}
-  <script type="application/ld+json">{{ {'@context':'https://schema.org','@type':'ProfilePage','mainEntity':{'@type':'Person','@id':'https://bahdanhal.pl/#bahdan','name':'Bahdan Hal','jobTitle':'Senior Backend & Systems Engineer','url':'https://bahdanhal.pl/resume','address':{'@type':'PostalAddress','addressLocality':'Gdańsk','addressCountry':'PL'},'sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.upwork.com/freelancers/~014111a2d384da6af9'],'knowsAbout':['PHP','Symfony','Laravel','PostgreSQL','Docker','Linux','Caddy','MCP','System Architecture']}}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+  <script type="application/ld+json">{{ {'@context':'https://schema.org','@type':'ProfilePage','mainEntity':{'@type':'Person','@id':'https://bahdanhal.pl/#bahdan','name':'Bahdan Hal','jobTitle':'Senior Backend & Systems Engineer','email':portfolio_email,'url':'https://bahdanhal.pl/resume','address':{'@type':'PostalAddress','addressLocality':'Gdańsk','addressCountry':'PL'},'sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.upwork.com/freelancers/~014111a2d384da6af9'],'knowsAbout':['PHP','Symfony','Laravel','PostgreSQL','Docker','Linux','Caddy','MCP','System Architecture']}}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
 {% endblock %}
 
 {% block body %}
@@ -36,7 +36,7 @@
                 <div class="resume-social-links">
                     <a href="https://www.linkedin.com/in/bahdan-hal/" target="_blank" rel="me">LinkedIn ↗</a>
                     <a href="https://github.com/bahdanhal" target="_blank" rel="me">GitHub ↗</a>
-                    <a href="mailto:bahdan.hal@hotmail.com">Email ↗</a>
+                    <a href="mailto:{{ portfolio_email }}">Email ↗</a>
                 </div>
             </div>
         </header>
@@ -118,6 +118,7 @@
                 <span class="eyebrow">{{ 'resume_page.eyebrow'|trans }}</span>
                 <h2>{{ 'resume_page.contact_box_title'|trans }}</h2>
                 <p>{{ 'resume_page.contact_box_text'|trans }}</p>
+                {% include 'portfolio/_contact_details.html.twig' %}
             </div>
             {% include 'portfolio/_contact_form.html.twig' with {source: 'landing_resume'} %}
         </section>

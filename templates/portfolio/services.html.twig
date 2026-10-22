@@ -133,6 +133,7 @@
                 <span class="eyebrow">{{ 'services_page.consultation_eyebrow'|trans }}</span>
                 <h2>{{ 'services_page.consultation_title'|trans }}</h2>
                 <p>{{ 'services_page.consultation_text'|trans }}</p>
+                {% include 'portfolio/_contact_details.html.twig' %}
                 <ul>
                     {% for point in site_content().consultation_points %}<li>{{ point.text }}</li>{% endfor %}
                 </ul>

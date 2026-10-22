@@ -15,7 +15,7 @@
 {% block stylesheets %}{% endblock %}
 {% block brand_stylesheet %}{% endblock %}
 {% block head_scripts %}
-  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'Person','@id':'https://bahdanhal.pl/#bahdan','name':'Bahdan Hal','url':'https://bahdanhal.pl/','jobTitle':'Senior Backend & Systems Engineer','sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.instagram.com/bahdan.hal/','https://www.facebook.com/profile.php?id=100008404566585','https://www.upwork.com/freelancers/~014111a2d384da6af9']},{'@type':'WebApplication','@id':'https://stackhal.com/#app','name':'StackHal Developer Utilities Suite','url':'https://stackhal.com/','applicationCategory':'DeveloperApplication','operatingSystem':'All','author':{'@id':'https://bahdanhal.pl/#bahdan'}},{'@type':'WebApplication','@id':'https://ileza.pl/#app','name':'IleZa.pl Editorial Fair Prices','url':'https://ileza.pl/','applicationCategory':'FinanceApplication','operatingSystem':'All','author':{'@id':'https://bahdanhal.pl/#bahdan'}}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+  <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'Person','@id':'https://bahdanhal.pl/#bahdan','name':'Bahdan Hal','url':'https://bahdanhal.pl/','jobTitle':'Senior Backend & Systems Engineer','email':portfolio_email,'sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.instagram.com/bahdan.hal/','https://www.facebook.com/profile.php?id=100008404566585','https://www.upwork.com/freelancers/~014111a2d384da6af9']},{'@type':'WebApplication','@id':'https://stackhal.com/#app','name':'StackHal Developer Utilities Suite','url':'https://stackhal.com/','applicationCategory':'DeveloperApplication','operatingSystem':'All','author':{'@id':'https://bahdanhal.pl/#bahdan'}},{'@type':'WebApplication','@id':'https://ileza.pl/#app','name':'IleZa.pl Editorial Fair Prices','url':'https://ileza.pl/','applicationCategory':'FinanceApplication','operatingSystem':'All','author':{'@id':'https://bahdanhal.pl/#bahdan'}}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
 {% endblock %}
 
 {% block body %}
@@ -160,26 +160,27 @@
             </div>
         </section>
 
-        <section class="profile-consultation" id="contact">
-            <div>
+        <section class="contact-section" id="contact" aria-labelledby="contact-heading">
+            <div class="contact-section-heading">
                 <span class="eyebrow">{{ 'about.contact_eyebrow'|trans }}</span>
-                <h2>{{ 'about.contact_heading'|trans }}</h2>
+                <h2 id="contact-heading">{{ 'contact.heading'|trans }}</h2>
+                <p>{{ 'contact.intro'|trans }}</p>
             </div>
-            {% include 'portfolio/_contact_form.html.twig' with {source: 'landing_about'} %}
-        </section>
-
-        <section class="profile-contact">
-            <div>
-                <span class="eyebrow">{{ 'about.contact_eyebrow'|trans }}</span>
-                <h2>{{ 'about.socials'|trans }}</h2>
+            <div class="contact-section-grid">
+                <div>
+                    {% include 'portfolio/_contact_details.html.twig' %}
+                </div>
+                <div class="contact-form-panel">
+                    <h3>{{ 'contact.form_heading'|trans }}</h3>
+                    <p>{{ 'contact.form_intro'|trans }}</p>
+                    {% include 'portfolio/_contact_form.html.twig' with {source: 'landing_about'} %}
+                </div>
             </div>
-            <nav aria-label="{{ 'about.socials'|trans }}">
-                <a href="mailto:bahdan.hal@hotmail.com">Email</a>
-                <a href="https://www.linkedin.com/in/bahdan-hal/" rel="me">LinkedIn</a>
-                <a href="https://github.com/bahdanhal" rel="me">GitHub</a>
-                <a href="https://www.instagram.com/bahdan.hal/" rel="me">Instagram</a>
-                <a href="https://www.facebook.com/profile.php?id=100008404566585" rel="me">Facebook</a>
-                <a href="https://www.upwork.com/freelancers/~014111a2d384da6af9" rel="me">Upwork</a>
+            <nav class="contact-socials" aria-label="{{ 'contact.social_profiles'|trans }}">
+                <span>{{ 'contact.social_profiles'|trans }}</span>
+                <a href="https://github.com/bahdanhal" rel="me">GitHub ↗</a>
+                <a href="https://www.instagram.com/bahdan.hal/" rel="me">Instagram ↗</a>
+                <a href="https://www.facebook.com/profile.php?id=100008404566585" rel="me">Facebook ↗</a>
             </nav>
         </section>
     </article></div>

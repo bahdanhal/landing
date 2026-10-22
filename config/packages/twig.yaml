@@ -2,3 +2,5 @@ twig:
   file_name_pattern: '*.twig'
   paths:
     '%kernel.project_dir%/templates': ~
+  globals:
+    portfolio_email: contact@bahdanhal.pl
