@@ -496,8 +496,8 @@ projects:
             en: 'Editorial Fair Prices'
             pl: 'Redakcyjne uczciwe ceny'
         title:
-            en: 'A calmer way to understand what things are really worth'
-            pl: 'Spokojniejszy sposób na zrozumienie, ile rzeczy są naprawdę warte'
+            en: 'Product price estimates in Poland'
+            pl: 'Oceny cen produktów w Polsce'
         text:
             en: 'Manual editorial fair prices for products in any category in Poland, with dated price histories and a salary comparison calculator as an additional feature.'
             pl: 'Ręczne, redakcyjne oceny uczciwych cen produktów z dowolnej kategorii w Polsce, z historią cen i kalkulatorem wynagrodzeń jako dodatkową funkcją.'
@@ -513,8 +513,8 @@ projects:
             en: 'Developer Toolbox'
             pl: 'Narzędzia dla programistów'
         title:
-            en: 'Lightweight tools for serious technical work'
-            pl: 'Lekkie narzędzia do poważnej pracy technicznej'
+            en: 'Developer, SEO, and infrastructure tools'
+            pl: 'Narzędzia dla programistów, SEO i infrastruktury'
         text:
             en: 'A fast suite of online developer, SEO, and infrastructure utilities - from Caddyfile transpiling to PKPass inspection and CIDR calculations.'
             pl: 'Zestaw szybkich narzędzi online dla programistów, DevOps i SEO - od transpilacji Caddyfile po analizę pakietów PKPass i kalkulator CIDR.'
