@@ -11,11 +11,25 @@
   {% block canonical %}{% endblock %}
   <title>{% block title %}{{ 'base.default_title'|trans }}{% endblock %}</title>
   {% block opengraph %}
-    <meta property="og:title" content="{{ block('title')|striptags|trim }}">
+    <meta property="og:title" content="{{ block('title')|striptags|trim|raw }}">
     <meta property="og:locale" content="{{ app.request ? (app.request.locale == 'pl' ? 'pl_PL' : 'en_US') : 'en_US' }}">
     <meta property="og:locale:alternate" content="{{ app.request ? (app.request.locale == 'pl' ? 'en_US' : 'pl_PL') : 'pl_PL' }}">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ block('title')|striptags|trim }}">
+    <meta name="twitter:title" content="{{ block('title')|striptags|trim|raw }}">
+    {% set og_description = block('description') is defined and block('description')|trim is not empty ? block('description')|split('content="')|last|split('"')|first : '' %}
+    {% if og_description %}
+    <meta property="og:description" content="{{ og_description|raw }}">
+    <meta name="twitter:description" content="{{ og_description|raw }}">
+    {% endif %}
+    {% if app.request %}<meta property="og:url" content="https://bahdanhal.pl{{ app.request.pathInfo }}">{% endif %}
+    {% block og_image %}
+    <meta property="og:image" content="https://bahdanhal.pl/og-image.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Bahdan Hal, backend and systems engineer, bahdanhal.pl">
+    <meta name="twitter:image" content="https://bahdanhal.pl/og-image.jpg">
+    {% endblock %}
   {% endblock %}
   <meta name="theme-color" content="#fafafa">
   <link rel="icon" href="/favicon.svg?v=3" sizes="any" type="image/svg+xml">
