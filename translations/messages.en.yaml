@@ -29,9 +29,9 @@ error404:
 
 contact:
     heading: "Let’s talk."
-    intro: "Have a project, a role, or a technical problem in mind? Contact me directly or leave a message here."
+    intro: "Contact me directly or leave a message here."
     email_label: "Email"
-    email_hint: "Projects, consulting & recruitment"
+    email_hint: "Projects & consulting"
     phone_label: "Phone"
     location_label: "Based in"
     location: "Gdańsk, Poland · Europe/Warsaw"
@@ -89,14 +89,14 @@ about:
     gateways:
         eyebrow: "Next steps"
         title: "Résumé & services"
-        resume_title: "Looking for an engineer for your team?"
+        resume_title: "Professional experience"
         resume_text: "Review my full commercial experience, technical skills matrix, achievements at Freedom Mobile and GWO, and download my CV."
         resume_cta: "Open Technical Résumé →"
         services_title: "Need a project built or system fixed?"
         services_text: "Discover commercial services: custom websites, online stores, client portals, AI/MCP integrations, process automations, and audits."
         services_cta: "Browse Services & Packages →"
     contact_eyebrow: "Get in touch"
-    contact_heading: "Have a challenge or an interesting project?"
+    contact_heading: "Have a challenge?"
     socials: "Social & Professional Profiles"
 
 resume_page:
@@ -106,7 +106,7 @@ resume_page:
     eyebrow: "Curriculum vitae"
     heading: "Bahdan Hal"
     role: "Senior Backend & Systems Engineer"
-    location: "Gdańsk, Poland (Open to Remote / Hybrid)"
+    location: "Gdańsk, Poland"
     download_pdf: "Download Résumé (PDF)"
     summary_title: "Executive Summary"
     summary_text: "Senior Backend and Systems Engineer with 5+ years of production experience designing high-throughput web systems, distributed microservices, and practical AI integrations. Proven track record of modernizing legacy PHP platforms serving millions of users, architecting robust database schemas, and building hardened Linux/Docker infrastructure. Strong advocate for clean architecture, pragmatic engineering, and test-driven reliability."
@@ -119,10 +119,8 @@ resume_page:
     testimonials_title: "Client Feedback & Reputation"
     upwork_success: "100% Job Success on Upwork"
     upwork_status: "Top Rated · 28 completed contracts · 5.0 ★ rating"
-    consent_title: "GDPR / RODO Consent"
-    consent_text: "I hereby give consent for my personal data included in my application to be processed for the purposes of the recruitment process under the Personal Data Protection Act and Regulation (EU) 2016/679 (GDPR)."
-    contact_box_title: "Interested in working together?"
-    contact_box_text: "Send me a direct inquiry or recruitment message. I am always open to discussing senior engineering roles and high-impact contract opportunities."
+    contact_box_title: "Contact"
+    contact_box_text: "Contact me directly or leave a message here."
 
 services_page:
     meta:

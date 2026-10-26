@@ -1,6 +1,6 @@
 # Bahdan Hal — Complete Curriculum Vitae, Commercial Services & Technical Profile
 
-> Senior Backend & Systems Engineer and Software Architect based in Gdańsk, Poland (UTC+1 / UTC+2). Available for contract work and long-term remote cooperation worldwide.
+> Senior Backend & Systems Engineer and Software Architect based in Gdańsk, Poland (UTC+1 / UTC+2).
 
 ---
 
@@ -10,7 +10,7 @@ Senior Backend and Systems Engineer with 5+ years of production experience desig
 
 - **Primary Stack**: PHP 8.5, Symfony 7/8, Laravel 10/11, Python, PostgreSQL 17, Docker, Caddy 2, Linux.
 - **Specializations**: Model Context Protocol (MCP), distributed microservices, REST/GraphQL APIs, high-performance database indexing, zero-downtime migrations.
-- **Location**: Gdańsk, Poland (Open to Remote / Hybrid worldwide).
+- **Location**: Gdańsk, Poland.
 - **Languages**: English (Professional proficiency), Polish (Fluent), Belarusian (Native), Russian (Native).
 - **Reputation**: Top Rated Freelancer on Upwork with 100% Job Success score and 28+ completed international contracts (5.0 ★).
 

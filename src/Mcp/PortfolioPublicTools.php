@@ -87,7 +87,7 @@ final readonly class PortfolioPublicTools
             'engagement_terms' => [
                 'contract_model' => 'B2B contract with EU/international invoicing',
                 'billing_options' => 'Hourly tracking or milestone-based fixed scope',
-                'location_and_availability' => 'Gdańsk, Poland (UTC+1 / UTC+2) · Remote / Hybrid',
+                'location_and_availability' => 'Gdańsk, Poland (UTC+1 / UTC+2)',
                 'minimum_commitment' => 'Flexible: single audit/sprint to multi-month engagements',
             ],
             'services' => [
@@ -194,7 +194,7 @@ final readonly class PortfolioPublicTools
         return json_encode([
             'engineer' => 'Bahdan Hal',
             'role' => 'Senior Backend & Systems Engineer / Software Architect',
-            'location' => 'Gdańsk, Poland (Open to Remote / Hybrid)',
+            'location' => 'Gdańsk, Poland',
             'summary' => 'Senior Backend and Systems Engineer with 5+ years of production experience '
                 . 'designing high-throughput web systems, distributed microservices, and practical AI integrations. '
                 . 'Modernizes legacy platforms, architects robust database schemas, and builds hardened Linux/Docker '

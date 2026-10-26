@@ -1,13 +1,13 @@
 # Bahdan Hal — Consulting & Engineering Portfolio
 
-> Senior Backend & Systems Engineer and Software Architect based in Gdańsk, Poland (UTC+1 / UTC+2), available for Remote and Hybrid engagements worldwide.
+> Senior Backend & Systems Engineer and Software Architect based in Gdańsk, Poland (UTC+1 / UTC+2).
 
 ## Profile Summary
 
 - **Engineer**: Bahdan Hal
 - **Role**: Senior Backend & Systems Engineer / Software Architect
 - **Experience**: 5+ years building high-throughput distributed systems, modernizing large platforms, and architecting AI-assisted workflows.
-- **Location**: Gdańsk, Poland (open to Remote & Hybrid)
+- **Location**: Gdańsk, Poland
 - **Languages**: English (Professional proficiency), Polish (Fluent), Belarusian (Native), Russian (Native)
 - **Reputation**: Top Rated on Upwork · 100% Job Success · 28+ completed international contracts · 5.0 ★ rating
 

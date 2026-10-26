@@ -29,9 +29,9 @@ error404:
 
 contact:
     heading: "Porozmawiajmy."
-    intro: "Masz projekt, ofertę współpracy lub problem techniczny? Napisz bezpośrednio albo zostaw wiadomość tutaj."
+    intro: "Napisz bezpośrednio albo zostaw wiadomość tutaj."
     email_label: "E-mail"
-    email_hint: "Projekty, konsultacje i rekrutacja"
+    email_hint: "Projekty i konsultacje"
     phone_label: "Telefon"
     location_label: "Lokalizacja"
     location: "Gdańsk, Polska · Europe/Warsaw"
@@ -89,14 +89,14 @@ about:
     gateways:
         eyebrow: "Dalsze kroki"
         title: "CV i usługi"
-        resume_title: "Szukasz doświadczonego inżyniera do zespołu?"
+        resume_title: "Doświadczenie zawodowe"
         resume_text: "Sprawdź pełne doświadczenie komercyjne, matrycę umiejętności, osiągnięcia w Freedom Mobile i GWO oraz pobierz moje CV w PDF."
         resume_cta: "Zobacz techniczne CV →"
         services_title: "Chcesz stworzyć stronę, sklep lub wdrożyć AI?"
         services_text: "Poznaj ofertę usług: szybkie strony, sklepy e-commerce, panele i portale, integracje AI/MCP, automatyzację i audyty."
         services_cta: "Przejdź do oferty usług →"
     contact_eyebrow: "Kontakt"
-    contact_heading: "Masz wyzwanie technologiczne lub ciekawy projekt?"
+    contact_heading: "Masz wyzwanie?"
     socials: "Profile zawodowe i społecznościowe"
 
 resume_page:
@@ -106,7 +106,7 @@ resume_page:
     eyebrow: "Curriculum vitae"
     heading: "Bahdan Hal"
     role: "Senior Backend & Systems Engineer"
-    location: "Gdańsk, Polska (Praca zdalna / hybrydowa)"
+    location: "Gdańsk, Polska"
     download_pdf: "Pobierz CV (PDF)"
     summary_title: "Podsumowanie zawodowe"
     summary_text: "Senior Backend i Systems Engineer z ponad 5-letnim doświadczeniem. Projektuję skalowalne systemy webowe, mikroserwisy i integracje AI. Modernizowałem platformy PHP dla milionów użytkowników, wydajne bazy danych oraz bezpieczną infrastrukturę Linux/Docker. Stawiam na czystą architekturę, pragmatyzm i testy automatyczne."
@@ -119,10 +119,8 @@ resume_page:
     testimonials_title: "Opinie klientów i reputacja"
     upwork_success: "100% Job Success na Upwork"
     upwork_status: "Top Rated · 28 ukończonych zleceń · ocena 5.0 ★"
-    consent_title: "Klauzula RODO"
-    consent_text: "Wyrażam zgodę na przetwarzanie moich danych osobowych dla potrzeb niezbędnych do realizacji procesu rekrutacji (zgodnie z ustawą z dnia 10 maja 2018 roku o ochronie danych osobowych (Dz. Ustaw z 2018, poz. 1000) oraz zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. w sprawie ochrony osób fizycznych w związku z przetwarzaniem danych osobowych i w sprawie swobodnego przepływu takich danych oraz uchylenia dyrektywy 95/46/WE (RODO))."
-    contact_box_title: "Szukasz inżyniera do zespołu?"
-    contact_box_text: "Napisz bezpośrednio lub wyślij zapytanie rekrutacyjne. Chętnie porozmawiam o rolach Senior Backend / Architect oraz wymagających kontraktach."
+    contact_box_title: "Kontakt"
+    contact_box_text: "Napisz bezpośrednio albo zostaw wiadomość tutaj."
 
 services_page:
     meta:
