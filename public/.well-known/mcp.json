@@ -1,0 +1,16 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/mcp-server.json",
+  "name": "bahdan-portfolio",
+  "title": "Bahdan Hal — Portfolio & Consulting MCP Server",
+  "description": "Access engineering consulting details, CV, verified skills, and contact lead messaging for Bahdan Hal.",
+  "version": "1.0.0",
+  "transport": {
+    "type": "http",
+    "url": "https://bahdanhal.pl/mcp"
+  },
+  "capabilities": {
+    "tools": true,
+    "resources": false
+  },
+  "documentation": "https://bahdanhal.pl/llms.txt"
+}
