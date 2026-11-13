@@ -1,3 +1,7 @@
 controllers:
   resource: ../src/
   type: attribute
+
+privacy_analytics_script:
+  resource: '../vendor/bahdan/symfony-privacy-analytics-bundle/src/Presentation/Http/BeaconScriptController.php'
+  type: attribute
