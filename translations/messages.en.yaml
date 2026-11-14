@@ -1,4 +1,5 @@
 base:
+    skip_content: "Skip to main content"
     default_title: "Bahdan Hal · Web & Backend Engineer"
     home_label: "Bahdan Hal home"
     brand: "Bahdan Hal"

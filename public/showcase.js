@@ -31,6 +31,7 @@ expand.setAttribute('aria-label', document.querySelector('.profile-shell').datas
 media.append(expand);
 const dialog = document.createElement('dialog');
 dialog.className = 'portrait-dialog';
+dialog.setAttribute('aria-label', document.querySelector('.profile-shell').dataset.enlargeLabel);
 const portrait = document.querySelector('.profile-avatar').cloneNode();
 portrait.removeAttribute('class');
 const close = document.createElement('button');

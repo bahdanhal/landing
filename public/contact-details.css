@@ -45,3 +45,20 @@
 @media (max-width: 380px) {
     .portfolio-site .contact-professional { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Keep keyboard navigation visible on every public page, including the showcase. */
+.portfolio-site .skip-link { position: fixed; top: 8px; left: 12px; z-index: 1000; padding: 12px 18px; background: #fff; color: #181c19; transform: translateY(-180%); }
+.portfolio-site .skip-link:focus { transform: none; }
+.portfolio-site .language-switch { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
+.portfolio-site .lead-row button { background: #ad3219; color: #fff; }
+body[data-concept=showcase] .brand-mark { background: #ad3219; }
+.portfolio-site :where(a, button, summary, input, select, textarea, [tabindex]):focus-visible { outline: 3px solid #ff795c; outline-offset: 3px; }
+.portfolio-site main { scroll-margin-top: 100px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body[data-concept=showcase] .lead-row button { background: #ad3219; color: #fff; }
+@media (max-width: 600px) {
+  .portfolio-site:not(.showcase-page) .topbar { flex-wrap: wrap; height: auto; gap: 8px; }
+  .portfolio-site:not(.showcase-page) .topbar-actions { width: 100%; gap: 12px; justify-content: space-between; }
+  .portfolio-site:not(.showcase-page) .primary-nav { flex-wrap: wrap; gap: 12px; }
+}

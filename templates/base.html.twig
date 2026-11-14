@@ -46,7 +46,7 @@
   {% block stylesheets %}{% endblock %}
   {% block brand_stylesheet %}<link rel="stylesheet" href="/brand-refresh.css">{% endblock %}
   {% block final_stylesheets %}{% endblock %}
-  <link rel="stylesheet" href="/contact-details.css?v=1">
+  <link rel="stylesheet" href="/contact-details.css?v=20261114-a11y">
   <script src="/contact.js" defer></script>
   <script type="application/ld+json">{{ {'@context':'https://schema.org','@graph':[{'@type':'WebSite','@id':'https://bahdanhal.pl/#website','url':'https://bahdanhal.pl/','name':'Bahdan Hal','inLanguage':['en','pl'],'publisher':{'@id':'https://bahdanhal.pl/#bahdan'},'author':{'@id':'https://bahdanhal.pl/#bahdan'},'dateModified':'2026-08-22'},{'@type':'Person','@id':'https://bahdanhal.pl/#bahdan','name':'Bahdan Hal','url':'https://bahdanhal.pl/','jobTitle':'Backend Engineer','email':portfolio_email,'sameAs':['https://www.linkedin.com/in/bahdan-hal/','https://github.com/bahdanhal','https://www.instagram.com/bahdan.hal/','https://www.facebook.com/profile.php?id=100008404566585','https://www.upwork.com/freelancers/~014111a2d384da6af9']}]}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
   {% block head_scripts %}{% endblock %}
@@ -55,12 +55,13 @@
 {% set target_route = current_route in ['landing', 'resume', 'services'] ? current_route : 'landing' %}
 {% set target_locale = app.request and app.request.locale == 'pl' ? 'en' : 'pl' %}
 <body class="portfolio-site {% block body_class %}{% endblock %}" {% block body_attributes %}{% endblock %}>
+  <a class="skip-link" href="#main">{{ 'base.skip_content'|trans }}</a>
   <header class="site-header">
     <div class="topbar">
       <div class="brand-lockup">
         {% block brand_lockup %}
-        <a class="brand" href="{{ path('landing', {_locale: app.request ? app.request.locale : 'en'}) }}" aria-label="{{ 'base.home_label'|trans }}">
-          <span class="brand-mark">BH</span>
+        <a class="brand" aria-label="BH {{ 'base.brand'|trans }} — {{ 'base.home_label'|trans }}" href="{{ path('landing', {_locale: app.request ? app.request.locale : 'en'}) }}">
+          <span class="brand-mark" aria-hidden="true">BH</span>
           <span class="brand-name"><span class="brand-name-full">{{ 'base.brand'|trans }}</span><span class="brand-name-short">{{ 'base.brand_short'|trans }}</span></span>
         </a>
         <span class="brand-credit">{{ 'about.role_short'|trans }}</span>
@@ -85,7 +86,7 @@
       <a href="{{ path('portfolio_admin_content') }}" style="text-decoration:underline;color:inherit;">Back to editor</a>
     </aside>
   {% endif %}
-  <main>{% block body %}{% endblock %}</main>
+  <main id="main" tabindex="-1">{% block body %}{% endblock %}</main>
   <footer class="site-footer">
     <div class="site-footer-inner">
       <div class="site-footer-identity"><strong>Bahdan Hal</strong><span>{{ 'base.footer_role'|trans }}</span></div>
