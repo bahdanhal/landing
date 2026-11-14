@@ -7,7 +7,6 @@ base:
     navigation: "Nawigacja i język"
     footer_role: "Senior Backend & Systems Engineer · Systemy produkcyjne"
     footer_navigation: "Linki zawodowe"
-    footer_note: "Bez pikseli śledzących."
     contact: "Kontakt"
     resume: "CV"
     nav:
@@ -167,3 +166,19 @@ links:
     obd_website: "https://obd-vault.com/"
     obd_app_store: "https://apps.apple.com/app/obd-vault/id6808813416"
     obd_google_play: "https://play.google.com/store/apps/details?id=com.obdvault.app"
+
+redesign:
+    skip: "Przejdź do projektów"
+    independent: "Niezależny inżynier / Wybrane projekty"
+    explore: "Zobacz moje projekty"
+    scroll: "Odkryj więcej"
+
+studio:
+    projects: "Wybrane projekty"
+    contact: "Kontakt"
+    project_navigation: "Nawigacja po projektach"
+    view_portrait: "Powiększ zdjęcie"
+    location: "Lokalizacja"
+    next_project: "OBD Vault"
+    services: "Usługi"
+    skip_content: "Przejdź do treści"

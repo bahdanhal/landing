@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body_class %}portfolio-page about-page showcase-page{% endblock %}
 {% block body_attributes %}data-concept="showcase"{% endblock %}
-{% block final_stylesheets %}<link rel="stylesheet" href="/showcase.css?v=6"><script src="/showcase.js?v=20261114-a11y" defer></script>{% endblock %}
+{% block final_stylesheets %}<link rel="preload" href="/fonts/space-grotesk/SpaceGrotesk-variable.ttf" as="font" type="font/ttf" crossorigin><link rel="stylesheet" href="/showcase.css?v=11"><script src="/showcase.js?v=5" defer></script>{% endblock %}
 {% block title %}{{ 'about.meta.title'|trans }}{% endblock %}
 {% block robots %}<meta name="robots" content="index,follow">{% endblock %}
 {% block description %}<meta name="description" content="{{ 'about.meta.description'|trans }}">{% endblock %}
@@ -20,26 +20,133 @@
 
 {% block body %}
     <div class="workspace"><article class="profile-shell" id="overview" data-enlarge-label="{{ 'showcase.enlarge'|trans }}" data-close-label="{{ 'showcase.close'|trans }}" data-top-label="{{ 'showcase.back_top'|trans }}">
-        <section class="profile-hero">
-            <div class="profile-hero-media">
-                <img src="/images/profile/bahdan-portrait.jpg" alt="Bahdan Hal" width="480" height="560" class="profile-avatar">
-            </div><div class="profile-hero-content">
-                <div class="eyebrow">{{ 'about.eyebrow'|trans }}</div>
-                <h1>{{ 'about.heading'|trans }}</h1>
-                <div class="profile-intro">
-                    <p>{{ 'about.intro'|trans }}</p>
+        <section class="scene-hero" aria-labelledby="hero-title">
+            <img class="scene-background hero-background" src="/images/scenes/coastal-landscape.webp" alt="" width="1672" height="941" fetchpriority="high">
+            <div class="hero-composition">
+                <div class="hero-scene-content">
+                    <span class="eyebrow"><span class="direction-marker" aria-hidden="true"></span>{{ 'about.role_short'|trans }}</span>
+                    <h1 id="hero-title" tabindex="-1">{{ 'about.heading'|trans }}</h1>
+                <figure class="portrait-feature">
+                    <svg class="portrait-triangle" viewBox="0 0 500 550" fill="none" aria-hidden="true"><path d="M250 15L485 530H15L250 15Z" stroke="currentColor" stroke-width="1"/><path d="M250 60L450 510H50L250 60Z" stroke="currentColor" stroke-width="1" opacity=".3"/></svg>
+                    <button class="portrait-open" type="button" data-portrait-open aria-label="{{ 'showcase.enlarge'|trans }}">
+                        <span class="portrait-frame"><img src="/images/profile/bahdan-portrait.jpg" alt="Bahdan Hal" width="2048" height="1536" class="portrait-image"></span>
+                        <span class="portrait-open-label">{{ 'studio.view_portrait'|trans }} <span aria-hidden="true">↗</span></span>
+                    </button>
+                    <figcaption><span>{{ 'studio.location'|trans }}</span><span>Gdańsk, Poland</span></figcaption>
+                </figure>
+                    <p class="hero-summary">{{ 'about.intro'|trans }}</p>
                     <div class="profile-actions">
-                        <a class="profile-primary" href="{{ path('resume', {_locale: app.request.locale}) }}">{{ 'about.cta_resume'|trans }}</a>
-                        <a class="profile-secondary" href="{{ path('services', {_locale: app.request.locale}) }}">{{ 'about.cta_services'|trans }}</a>
-                        <a class="profile-tertiary" href="#contact">{{ 'about.cta_contact'|trans }} →</a>
+                        <a class="profile-primary" href="#projects">{{ 'studio.projects'|trans }} <span aria-hidden="true">↘</span></a>
+                        <a class="profile-tertiary" href="#contact">{{ 'studio.contact'|trans }} <span aria-hidden="true">↗</span></a>
                     </div>
+                    <nav class="hero-project-index" aria-label="{{ 'studio.project_navigation'|trans }}">
+                        <a href="#obd"><span>01</span>OBD Vault <span aria-hidden="true">↗</span></a>
+                        {% for project in site_content().projects %}<a href="#project-{{ loop.index }}"><span>0{{ loop.index + 1 }}</span>{{ project.name }} <span aria-hidden="true">↗</span></a>{% endfor %}
+                    </nav>
                 </div>
-            </div>
 
+            </div>
+            <div class="scene-footer"><span>PHP / Symfony / Laravel / Linux / AI</span><a href="#obd">{{ 'studio.next_project'|trans }} <span aria-hidden="true">↓</span></a></div>
         </section>
+        <dialog class="portrait-dialog" aria-labelledby="portrait-dialog-title">
+            <div class="portrait-dialog-bar"><h2 id="portrait-dialog-title">Bahdan Hal</h2><button type="button" data-portrait-close autofocus>{{ 'showcase.close'|trans }} <span aria-hidden="true">×</span></button></div>
+            <img src="/images/profile/bahdan-portrait.jpg" alt="Bahdan Hal" width="2048" height="1536" loading="lazy">
+        </dialog>
 
         <section class="profile-facts" aria-label="{{ 'about.facts_label'|trans }}">
             {% for fact in site_content().facts %}<span>{{ fact.text }}</span>{% endfor %}
+        </section>
+
+        <section class="obd-feature" id="obd">
+            <img class="scene-background obd-background" src="/images/scenes/obd-workshop.webp" alt="" width="1672" height="941" loading="lazy">
+            <div class="obd-copy">
+                <span class="eyebrow"><span class="direction-marker" aria-hidden="true"></span>01 / OBD Vault</span>
+                <h2>{{ 'showcase.obd.description'|trans }}</h2>
+                <p>{{ 'showcase.obd.details'|trans }}</p>
+                <nav class="obd-links" aria-label="{{ 'showcase.obd.links'|trans }}">
+                    <a class="obd-store-link" href="{{ 'links.obd_app_store'|trans }}" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.54c.03 3.19 2.8 4.25 2.83 4.27-.02.07-.44 1.52-1.46 3.02-.89 1.3-1.81 2.59-3.26 2.62-1.42.03-1.88-.85-3.51-.85-1.62 0-2.13.82-3.48.88-1.4.05-2.46-1.4-3.36-2.69-1.83-2.65-3.23-7.49-1.35-10.75.94-1.62 2.61-2.65 4.42-2.68 1.38-.03 2.68.93 3.51.93.84 0 2.4-1.15 4.05-.98.69.03 2.63.28 3.87 2.1-.1.06-2.31 1.34-2.26 4.13ZM14.38 4.55c.75-.91 1.26-2.18 1.12-3.44-1.08.04-2.39.72-3.17 1.63-.69.8-1.3 2.08-1.14 3.3 1.21.09 2.44-.61 3.19-1.49Z"/></svg>
+                        <span><small>{{ 'showcase.obd.download'|trans }}</small><strong>App Store</strong></span>
+                    </a>
+                    <a class="obd-store-link" href="{{ 'links.obd_google_play'|trans }}" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="m3 2 11 10L3 22V2Zm12.5 8.6L5.3 1.3l13 7.5-2.8 1.8Zm0 2.8 2.8 1.8-13 7.5 10.2-9.3Zm1.5-1.4 3.3-2c1-.6 1.7-.2 1.7 1v2c0 1.2-.7 1.6-1.7 1L17 12Z"/></svg>
+                        <span><small>{{ 'showcase.obd.download'|trans }}</small><strong>Google Play</strong></span>
+                    </a>
+                    <a class="obd-website-link" href="{{ 'links.obd_website'|trans }}" target="_blank" rel="noopener">obd-vault.com <span aria-hidden="true">↗</span></a>
+                </nav>
+                <div class="obd-switch" role="group" aria-label="{{ 'showcase.obd.screenshots'|trans }}">
+                    <button type="button" aria-pressed="true" data-obd="/images/projects/obd-telemetry.jpg">{{ 'showcase.obd.telemetry'|trans }}</button>
+                    <button type="button" aria-pressed="false" data-obd="/images/projects/obd-diagnostics.jpg">{{ 'showcase.obd.diagnostics'|trans }}</button>
+                </div>
+            </div>
+            <div class="obd-screen">
+                <img src="/images/projects/obd-telemetry.jpg" alt="{{ 'showcase.obd.telemetry'|trans }}" width="1290" height="2796" loading="lazy">
+                <img class="obd-secondary-screen" src="/images/projects/obd-diagnostics.jpg" alt="{{ 'showcase.obd.diagnostics'|trans }}" width="1290" height="2796" loading="lazy">
+            </div>
+        </section>
+        <section class="profile-projects" id="projects" aria-labelledby="projects-title">
+            <div class="profile-section-title">
+                <span>{{ 'about.ecosystem.eyebrow'|trans }}</span>
+                <h2 id="projects-title">{{ 'about.ecosystem.title'|trans }}</h2>
+                <p>{{ 'about.ecosystem.intro'|trans }}</p>
+            </div>
+            <div class="profile-project-grid">
+                {% for project in site_content().projects %}
+                    <article class="profile-project-card" id="project-{{ loop.index }}">
+                        <div class="profile-project-image-link" aria-hidden="true">
+                            <img src="/images/scenes/{{ loop.first ? 'market-scene' : 'tools-scene' }}.webp" alt="" loading="lazy" width="1672" height="941">
+                        </div>
+                        <div class="profile-project-content">
+                            <div class="profile-project-meta"><span>0{{ loop.index + 1 }} / {{ project.name }}</span><span>{{ project.label }}</span></div>
+                            <h3>{{ project.title }}</h3>
+                            <p>{{ project.text }}</p>
+                            <a href="{{ project.url }}" target="_blank" rel="noopener" class="profile-project-link">{{ 'about.ecosystem.visit'|trans }} →</a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="professional-experience" id="experience">
+            <div class="profile-section-title"><h2>{{ 'resume_page.experience_title'|trans }}</h2></div>
+            <div class="experience-list">{% include 'portfolio/_professional_experience.html.twig' %}</div>
+        </section>
+        <section class="about-story-section" id="story">
+            <div class="profile-section-title">
+                <span>{{ 'about.story.eyebrow'|trans }}</span>
+                <h2>{{ 'about.story.title'|trans }}</h2>
+            </div>
+            <div class="about-story-content">
+                <p class="story-lead">{{ 'about.story.p1'|trans }}</p>
+            </div>
+        </section>
+
+        <figure class="profile-summit-feature">
+            <div class="summit-image-wrap">
+                <img src="/images/profile/bahdan-summit.jpg" alt="{{ 'about.summit.alt'|trans }}" loading="lazy">
+            </div>
+            <figcaption>
+                <h3>{{ 'about.summit.caption'|trans }}</h3>
+            </figcaption>
+        </figure>
+
+        <section class="about-gateways">
+            <div class="profile-section-title">
+                <span>{{ 'about.gateways.eyebrow'|trans }}</span>
+                <h2>{{ 'about.gateways.title'|trans }}</h2>
+            </div>
+            <div class="gateway-grid">
+                <article class="gateway-card">
+                    <h3>{{ 'about.gateways.resume_title'|trans }}</h3>
+                    <p>{{ 'about.gateways.resume_text'|trans }}</p>
+                    <a href="{{ path('resume', {_locale: app.request.locale}) }}" class="gateway-cta">{{ 'about.gateways.resume_cta'|trans }}</a>
+                </article>
+                <article class="gateway-card gateway-card-highlight">
+                    <h3>{{ 'studio.services'|trans }}</h3>
+                    <p>{{ 'about.gateways.services_text'|trans }}</p>
+                    <a href="{{ path('services', {_locale: app.request.locale}) }}" class="gateway-cta">{{ 'about.gateways.services_cta'|trans }}</a>
+                </article>
+            </div>
         </section>
 
         <section class="ai-dump" id="ai-notes">
@@ -68,101 +175,10 @@
             </details>
         </section>
 
-        <section class="obd-feature" id="obd">
-            <div class="obd-copy">
-                <span class="eyebrow">OBD Vault</span>
-                <h2>{{ 'showcase.obd.description'|trans }}</h2>
-                <p>{{ 'showcase.obd.details'|trans }}</p>
-                <nav class="obd-links" aria-label="{{ 'showcase.obd.links'|trans }}">
-                    <a class="obd-store-link" href="{{ 'links.obd_app_store'|trans }}" target="_blank" rel="noopener">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.54c.03 3.19 2.8 4.25 2.83 4.27-.02.07-.44 1.52-1.46 3.02-.89 1.3-1.81 2.59-3.26 2.62-1.42.03-1.88-.85-3.51-.85-1.62 0-2.13.82-3.48.88-1.4.05-2.46-1.4-3.36-2.69-1.83-2.65-3.23-7.49-1.35-10.75.94-1.62 2.61-2.65 4.42-2.68 1.38-.03 2.68.93 3.51.93.84 0 2.4-1.15 4.05-.98.69.03 2.63.28 3.87 2.1-.1.06-2.31 1.34-2.26 4.13ZM14.38 4.55c.75-.91 1.26-2.18 1.12-3.44-1.08.04-2.39.72-3.17 1.63-.69.8-1.3 2.08-1.14 3.3 1.21.09 2.44-.61 3.19-1.49Z"/></svg>
-                        <span><small>{{ 'showcase.obd.download'|trans }}</small><strong>App Store</strong></span>
-                    </a>
-                    <a class="obd-store-link" href="{{ 'links.obd_google_play'|trans }}" target="_blank" rel="noopener">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="m3 2 11 10L3 22V2Zm12.5 8.6L5.3 1.3l13 7.5-2.8 1.8Zm0 2.8 2.8 1.8-13 7.5 10.2-9.3Zm1.5-1.4 3.3-2c1-.6 1.7-.2 1.7 1v2c0 1.2-.7 1.6-1.7 1L17 12Z"/></svg>
-                        <span><small>{{ 'showcase.obd.download'|trans }}</small><strong>Google Play</strong></span>
-                    </a>
-                    <a class="obd-website-link" href="{{ 'links.obd_website'|trans }}" target="_blank" rel="noopener">obd-vault.com <span aria-hidden="true">↗</span></a>
-                </nav>
-                <div class="obd-switch" role="group" aria-label="{{ 'showcase.obd.screenshots'|trans }}">
-                    <button type="button" aria-pressed="true" data-obd="/images/projects/obd-telemetry.jpg">{{ 'showcase.obd.telemetry'|trans }}</button>
-                    <button type="button" aria-pressed="false" data-obd="/images/projects/obd-diagnostics.jpg">{{ 'showcase.obd.diagnostics'|trans }}</button>
-                </div>
-            </div>
-            <div class="obd-screen">
-                <img src="/images/projects/obd-telemetry.jpg" alt="{{ 'showcase.obd.telemetry'|trans }}" width="1290" height="2796" loading="lazy">
-                <img class="obd-secondary-screen" src="/images/projects/obd-diagnostics.jpg" alt="{{ 'showcase.obd.diagnostics'|trans }}" width="1290" height="2796" loading="lazy">
-            </div>
-        </section>
-        <section class="professional-experience" id="experience">
-            <div class="profile-section-title"><h2>{{ 'resume_page.experience_title'|trans }}</h2></div>
-            <div class="experience-list">{% include 'portfolio/_professional_experience.html.twig' %}</div>
-        </section>
-        <section class="about-story-section" id="story">
-            <div class="profile-section-title">
-                <span>{{ 'about.story.eyebrow'|trans }}</span>
-                <h2>{{ 'about.story.title'|trans }}</h2>
-            </div>
-            <div class="about-story-content">
-                <p class="story-lead">{{ 'about.story.p1'|trans }}</p>
-            </div>
-        </section>
-
-        <section class="profile-projects" id="projects" aria-labelledby="projects-title">
-            <div class="profile-section-title">
-                <span>{{ 'about.ecosystem.eyebrow'|trans }}</span>
-                <h2 id="projects-title">{{ 'about.ecosystem.title'|trans }}</h2>
-                <p>{{ 'about.ecosystem.intro'|trans }}</p>
-            </div>
-            <div class="profile-project-grid">
-                {% for project in site_content().projects %}
-                    <article class="profile-project-card">
-                        <a href="{{ project.url }}" target="_blank" rel="noopener" class="profile-project-image-link">
-                            <img src="{{ project.image }}" alt="{{ project.image_alt }}" loading="lazy" width="1280" height="720">
-                        </a>
-                        <div class="profile-project-content">
-                            <div class="profile-project-meta"><span>{{ project.name }}</span><span>{{ project.label }}</span></div>
-                            <h3>{{ project.title }}</h3>
-                            <p>{{ project.text }}</p>
-                            <a href="{{ project.url }}" target="_blank" rel="noopener" class="profile-project-link">{{ 'about.ecosystem.visit'|trans }} →</a>
-                        </div>
-                    </article>
-                {% endfor %}
-            </div>
-        </section>
-
-        <figure class="profile-summit-feature">
-            <div class="summit-image-wrap">
-                <img src="/images/profile/bahdan-summit.jpg" alt="{{ 'about.summit.alt'|trans }}" loading="lazy">
-            </div>
-            <figcaption>
-                <h3>{{ 'about.summit.caption'|trans }}</h3>
-            </figcaption>
-        </figure>
-
-        <section class="about-gateways">
-            <div class="profile-section-title">
-                <span>{{ 'about.gateways.eyebrow'|trans }}</span>
-                <h2>{{ 'about.gateways.title'|trans }}</h2>
-            </div>
-            <div class="gateway-grid">
-                <article class="gateway-card">
-                    <h3>{{ 'about.gateways.resume_title'|trans }}</h3>
-                    <p>{{ 'about.gateways.resume_text'|trans }}</p>
-                    <a href="{{ path('resume', {_locale: app.request.locale}) }}" class="gateway-cta">{{ 'about.gateways.resume_cta'|trans }}</a>
-                </article>
-                <article class="gateway-card gateway-card-highlight">
-                    <h3>{{ 'about.gateways.services_title'|trans }}</h3>
-                    <p>{{ 'about.gateways.services_text'|trans }}</p>
-                    <a href="{{ path('services', {_locale: app.request.locale}) }}" class="gateway-cta">{{ 'about.gateways.services_cta'|trans }}</a>
-                </article>
-            </div>
-        </section>
-
         <section class="contact-section" id="contact" aria-labelledby="contact-heading">
             <div class="contact-section-heading">
                 <span class="eyebrow">{{ 'about.contact_eyebrow'|trans }}</span>
-                <h2 id="contact-heading">{{ 'about.contact_heading'|trans }}</h2>
+                <h2 id="contact-heading">{{ 'studio.contact'|trans }}</h2>
                 <p>{{ 'contact.intro'|trans }}</p>
             </div>
             <div class="contact-section-grid">

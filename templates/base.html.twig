@@ -100,7 +100,7 @@
         {% for project in site_content().projects %}<a href="{{ project.url }}" rel="me">{{ project.name }}</a>{% endfor %}
       </nav>
     </div>
-    <div class="copyright">© {{ "now"|date("Y") }} · {{ 'base.footer_note'|trans }}</div>
+    <div class="copyright">© {{ "now"|date("Y") }}</div>
   </footer>
   {% block scripts %}{% endblock %}
   <script src="/api/pa/beacon.js" defer></script>
