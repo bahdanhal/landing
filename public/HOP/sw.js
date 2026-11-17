@@ -1,5 +1,5 @@
-const CACHE = 'hop-scoped-v2';
-const PRECACHE = ["./","icon.svg","manifest.webmanifest","assets/index-C-qDf7zz.js","assets/index-He1VYcdH.css"];
+const CACHE = 'hop-scoped-v3';
+const PRECACHE = ["./","icon.svg","manifest.webmanifest","assets/index-CH4fNY0V.js","assets/index-He1VYcdH.css"];
 const scope = new URL(self.registration.scope);
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(PRECACHE.map(path => new URL(path, scope).href))));
