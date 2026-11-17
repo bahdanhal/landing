@@ -1,0 +1,1 @@
+{"name": "HOP · Кішэнная ракетка", "short_name": "HOP", "start_url": "./", "display": "standalone", "background_color": "#102f29", "theme_color": "#102f29", "icons": [{"src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}], "scope": "./", "id": "./"}

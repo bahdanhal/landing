@@ -27,6 +27,20 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect static-only release
+        id: scope
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          if git cat-file -e "$BEFORE_SHA^{commit}" 2>/dev/null && \
+             ! git diff --name-only "$BEFORE_SHA" HEAD | grep -qvE '^(public/HOP/|scripts/deploy-hop\.sh$|\.github/workflows/deploy\.yml$)'; then
+            echo 'static_only=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'static_only=false' >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Install SSH Key
         uses: webfactory/ssh-agent@v0.10.0
@@ -41,6 +55,9 @@ jobs:
       - name: Rsync Files to Production Server
         run: |
           rsync -az --delete \
+            --exclude='/public/HOP' \
+            --exclude='/public/.hop-releases/' \
+            --exclude='/public/.hop-next-*' \
             --exclude='.git*' \
             --exclude='.idea' \
             --exclude='.agents' \
@@ -50,12 +67,16 @@ jobs:
             --exclude='vendor/' \
             ./ "$SSH_USER@$SSH_HOST:/home/apps/portfolio/"
 
+      - name: Publish HOP atomically
+        run: bash scripts/deploy-hop.sh
+
       - name: Rebuild & Restart Portfolio Container
+        if: steps.scope.outputs.static_only != 'true'
         run: |
           ssh "$SSH_USER@$SSH_HOST" \
             'cd /home/apps/infra && docker compose -f docker-compose.prod.yml --env-file production.env up -d --build --no-deps portfolio-app && docker compose -f docker-compose.prod.yml --env-file production.env exec -T portfolio-app php bin/console doctrine:migrations:migrate --no-interaction'
 
       - name: Health Check Verification
         run: |
-          sleep 5
           curl -f -I --retry 3 --retry-delay 2 https://bahdanhal.pl/ || exit 1
+          curl -f -I --retry 3 --retry-delay 2 https://bahdanhal.pl/HOP/index.html || exit 1
